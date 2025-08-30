@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Krishna-Night Birthday</title>
+<title>Madamji ka Happy Birthday <3 </title>
 <meta name="description" content="A playful, soft Krishna-night birthday page with blessings, diya, balloons, temple card, fireworks—and an A5 printable QR postcard." />
 <style>
   :root{
@@ -208,9 +208,9 @@
       <div class="pc-border"></div>
       <div class="pc-title">Blessings & Love</div>
       <div class="pc-body">
-        <div class="pc-left">
-          May Kanha and Banjrangbali always protect you. May your path be light, your smile effortless, and your heart steady. <br/>— From <span id="fromPrint">Me</span>
-        </div>
+        <div style="font-size:clamp(16px, 3.5vw, 20px); line-height:1.7">
+          May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage. May your days be soft where you need softness and strong where you need strength. You are rare, and I’m grateful to walk even a small distance beside you.
+</div>
         <div class="pc-right">
           <div class="qrbox"><div id="qrPrint"></div></div>
           <div class="scan">Scan to open your birthday page</div>
@@ -247,7 +247,7 @@
           <div class="flame"></div>
           <div class="glow"></div>
         </div>
-        <div class="typewriter" id="typeTarget">The spark you lit in me is still glowing, guiding me every day.</div>
+        <div class="typewriter" id="typeTarget">You taught me to choose steadiness over noise, kindness over cleverness, and patience over pressure—the spark you lit still guides me.</div>
       </div>
     </section>
 
@@ -305,9 +305,10 @@
       <canvas id="fireCanvas" aria-hidden="true"></canvas>
       <div class="container final-inner" id="finalCapture">
         <div class="glowtext" id="finalText">
-          Happy Birthday, <span id="herNameDynamic">you</span>.<br/>
-          You are not just a day in my life, you are the reason my days feel alive.
-        </div>
+  Happy Birthday, <span id="herNameDynamic">you</span>.<br/>
+  You are not just a day in my life—you are why my days feel alive.<br/>
+  I promise to choose steadiness over spectacle, presence over performance, and to pray for your joy before mine.
+</div>
         <div class="center stack">
           <button class="btn endbtn" id="endBtn">Made with blessings & love 💜</button>
           <button class="btn endbtn" id="savePng">Save final message (PNG)</button>
@@ -325,7 +326,7 @@
           <div class="pc-title">Blessings & Love</div>
           <div class="pc-body">
             <div class="pc-left">
-              May Kanha and Banjrangbali always protect you. May your path be light, your smile effortless, and your heart steady. <br/>— From <span id="fromScreen">Me</span>
+              May Kanha and Bajrangbali always protect you. May your path be light, your smile effortless, and your heart steady. <br/>— From <span id="fromScreen">Me</span>
             </div>
             <div class="pc-right">
               <div class="qrbox"><div id="qrScreen"></div></div>
@@ -447,10 +448,22 @@ function typewriterStart(){
 
 /* ========= Balloons ========= */
 const blessings = [
-  { word:'Joy', color:'#ff9ccc', msg:'May joy find you in small, quiet moments today.' },
-  { word:'Strength', color:'#9bd3ff', msg:'May your courage stay gentle and steady.' },
-  { word:'Faith', color:'#c9a7ff', msg:'May your heart trust the timing of your path.' },
-  { word:'Love', color:'#7ee6c9', msg:'May you feel loved—more than you know.' },
+  {
+    word:'Joy', color:'#ff9ccc',
+    msg:'For the days you forget how bright you are: may ordinary moments turn into little festivals around you.'
+  },
+  {
+    word:'Strength', color:'#9bd3ff',
+    msg:'When the world feels heavy, remember—you never have to carry it alone. I’ll be the steady shoulder.'
+  },
+  {
+    word:'Faith', color:'#c9a7ff',
+    msg:'May your prayers meet their perfect timing; until then, may trust make the waiting light.'
+  },
+  {
+    word:'Love', color:'#7ee6c9',
+    msg:'You are loved in a quiet, consistent way—no drama, just warmth that keeps showing up.'
+  },
 ];
 (function balloons(){
   const area = $('#balloonArea');
@@ -571,3 +584,4 @@ document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') $('#modal').cla
 </script>
 </body>
 </html>
+
