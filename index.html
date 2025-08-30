@@ -203,22 +203,25 @@
   <div id="petals" aria-hidden="true"></div>
 
   <!-- Hidden print container (same postcard DOM duplicated for crisp print) -->
-  <div id="printOnly">
-    <div class="postcard">
-      <div class="pc-border"></div>
-      <div class="pc-title">Blessings & Love</div>
-      <div class="pc-body">
-        <div style="font-size:clamp(16px, 3.5vw, 20px); line-height:1.7">
-          May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage. May your days be soft where you need softness and strong where you need strength. You are rare, and I’m grateful to walk even a small distance beside you.
-</div>
-        <div class="pc-right">
-          <div class="qrbox"><div id="qrPrint"></div></div>
-          <div class="scan">Scan to open your birthday page</div>
-        </div>
+<div id="printOnly">
+  <div class="postcard">
+    <div class="pc-border"></div>
+    <div class="pc-title">Blessings & Love</div>
+    <div class="pc-body">
+      <div class="pc-left">
+        May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
+        May your days be soft where you need softness and strong where you need strength. You are rare, and I’m grateful to walk even a small distance beside you.
+        <br/>— From <span id="fromPrint">Me</span>
       </div>
-      <div class="pc-flowers"></div>
+      <div class="pc-right">
+        <div class="qrbox"><div id="qrPrint"></div></div>
+        <div class="scan">Scan to open your birthday page</div>
+      </div>
     </div>
+    <div class="pc-flowers"></div>
   </div>
+</div>
+
 
   <!-- Background Audio via Web Audio (royalty-free, generated) -->
   <button id="soundToggle" class="sr-only" aria-label="Toggle sound"></button>
@@ -341,9 +344,8 @@
   </main>
 
 <!-- deps for “Save as image” + QR -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNa5R5+2o7uZxZxq2OwjSc2iZrYqC5wNeb+zqS6m1W0wQ7Qk+G4l3mP0f3wX1l0x7UqQmCjL0f1f5n8fZ/9K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-1a7Vg3P4E4lqn1g4d6p4rX3G+o1v0kqBzB9kA3F8dQ0c3oUo7d8B1Z5yGJ3iZl2lXgk2eUu7l0+zZpE3mQ2ZkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
 /* ========= Utilities ========= */
 const $ = (sel, root=document) => root.querySelector(sel);
@@ -548,11 +550,12 @@ document.addEventListener('DOMContentLoaded', makeAmbience);
 $('#walkBtn').addEventListener('click', ()=> { makeAmbience(); });
 
 /* ========= Save final section as PNG ========= */
-$('#savePng').addEventListener('click', async () => {
-  const node = $('#finalCapture');
+document.querySelector('#savePng').addEventListener('click', async () => {
+  if (!window.html2canvas) { alert('Export temporarily unavailable. Try again.'); return; }
+  const node = document.querySelector('#finalCapture');
   const canvas = await html2canvas(node, { backgroundColor: null, scale: 2, useCORS: true });
   const dataUrl = canvas.toDataURL('image/png');
-  const nm = $('#herNameDynamic').textContent || 'you';
+  const nm = (document.querySelector('#herNameDynamic')?.textContent || 'you').replace(/\s+/g,'_');
   const a = document.createElement('a'); a.href = dataUrl; a.download = `Happy-Birthday-${nm}.png`; a.click();
 });
 
@@ -561,16 +564,12 @@ function ensureHttps(url){
   try{ const u = new URL(url); return u.href; }catch(e){ return location.href; }
 }
 function initQR(){
-  const link = ensureHttps(location.href);
-  // screen
-  const screen = $('#qrScreen'); screen.innerHTML='';
-  new QRCode(screen, { text: link, width: 140, height: 140, correctLevel: QRCode.CorrectLevel.M });
-  // print
-  const pr = $('#qrPrint'); pr.innerHTML='';
-  new QRCode(pr, { text: link, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.M });
+  if (!window.QRCode) return;
+  const link = location.href;
+  const screen = document.querySelector('#qrScreen'); if (screen){ screen.innerHTML=''; new QRCode(screen,{text:link,width:140,height:140,correctLevel:QRCode.CorrectLevel.M}); }
+  const pr = document.querySelector('#qrPrint'); if (pr){ pr.innerHTML=''; new QRCode(pr,{text:link,width:180,height:180,correctLevel:QRCode.CorrectLevel.M}); }
 }
 initQR();
-
 /* ========= Print postcard (A5) ========= */
 $('#printBtn').addEventListener('click', () => {
   // Ensure QR is fresh (e.g., after deployment URL change)
@@ -584,4 +583,5 @@ document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') $('#modal').cla
 </script>
 </body>
 </html>
+
 
