@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Krishna-Night Birthday</title>
+<meta name="description" content="A playful, soft Krishna-night birthday page with blessings, diya, balloons, temple card, fireworks—and an A5 printable QR postcard." />
+<style>
+  :root{
+    --night1:#0a0f26; --night2:#120f2e; --glow:#8ab4ff; --lav:#c9a7ff; --rose:#ff8fb1; --mint:#7ee6c9; --gold:#f6d06e;
+    --ink:#e9ecff; --muted:#bac3e0; --accent:#9bd3ff; --flower:#ffc8dd;
+  }
+  html,body{height:100%}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; color:var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    background:
+      radial-gradient(1100px 560px at 50% -10%, rgba(138,180,255,.18), transparent 70%),
+      linear-gradient(180deg, var(--night1), var(--night2));
+    overflow-x:hidden;
+  }
+  .container{max-width:1100px;margin:0 auto;padding:0 16px}
+  .section{min-height:100vh; display:grid; place-items:center; position:relative; padding:80px 0}
+  .stars{
+    position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.9;
+    background:
+      radial-gradient(2px 2px at 20% 30%, #fff, transparent 60%),
+      radial-gradient(2px 2px at 80% 20%, #fff, transparent 60%),
+      radial-gradient(1.5px 1.5px at 30% 80%, #fff, transparent 60%),
+      radial-gradient(1.5px 1.5px at 70% 70%, #fff, transparent 60%),
+      radial-gradient(1.5px 1.5px at 50% 50%, #fff, transparent 60%);
+    animation: twinkle 6s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle { from{opacity:.6} to{opacity:1} }
+
+  /* Vrindavan pastel flowers drifting */
+  .petal{ position:fixed; top:-40px; width:16px; height:16px; background:radial-gradient(circle at 30% 30%, #fff, transparent 60%), var(--flower);
+          border-radius:40% 60% 60% 40% / 60% 60% 40% 40%; opacity:.7; filter:drop-shadow(0 8px 10px rgba(255,200,221,.25)); pointer-events:none; z-index:0}
+  @media (prefers-reduced-motion: reduce){
+    .petal{display:none}
+    .float, .balloon, .sparkle, .fade-in, .typewriter{animation:none!important; transition:none!important}
+  }
+
+  /* Buttons */
+  .btn{
+    appearance:none; border:none; border-radius:999px; padding:14px 20px; font-weight:800; cursor:pointer;
+    background:linear-gradient(90deg, #6da9ff, #b794ff); color:#0c0e1a; box-shadow:0 14px 28px rgba(0,0,0,.25);
+  }
+  .btn:active{transform:translateY(1px) scale(.99)}
+
+  /* LANDING */
+  .landing-inner{ text-align:center; max-width:780px }
+  .title{ font-size:clamp(22px, 5vw, 36px); line-height:1.3; opacity:0; transform:translateY(12px); animation:fadeUp .9s ease .2s forwards }
+  @keyframes fadeUp{ to{opacity:1; transform:none} }
+  .walk{ margin-top:24px; }
+
+  /* THE SPARK (Diya) */
+  .spark-wrap{ display:grid; gap:22px; justify-items:center; text-align:center; max-width:760px }
+  .diya{
+    width:150px; height:150px; position:relative; filter: drop-shadow(0 30px 40px rgba(246,208,110,.22));
+    transform: translateY(8px) scale(.96); transition:.7s ease;
+  }
+  .diya .bowl{
+    position:absolute; bottom:10px; left:50%; transform:translateX(-50%);
+    width:140px; height:60px; background:
+      radial-gradient(150px 60px at 50% 0%, #6b3b1b, #341c0f 70%);
+    border-radius:80px 80px 30px 30px / 40px 40px 30px 30px;
+    box-shadow: inset 0 10px 26px rgba(255,255,255,.06);
+  }
+  .diya .oil{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+    width:120px; height:20px; background:radial-gradient(120px 20px at 50% 60%, #2c1409, #120803 70%);
+    border-radius:999px;
+  }
+  .flame{
+    position:absolute; left:50%; bottom:54px; transform:translateX(-50%) rotate(-2deg); width:22px; height:36px;
+    background: radial-gradient(ellipse at 50% 20%, #fff6b0, #ffd275 40%, rgba(255,120,64,.9) 70%, rgba(255,120,64,0) 75%);
+    border-radius:50% 50% 50% 50% / 70% 70% 30% 30%;
+    opacity:.0; filter:blur(.3px);
+  }
+  .glow{
+    position:absolute; left:50%; bottom:54px; transform:translateX(-50%); width:120px; height:120px; border-radius:50%;
+    background: radial-gradient(closest-side, rgba(255,214,110,.42), rgba(255,214,110,0));
+    opacity:0; pointer-events:none;
+  }
+  .diya.lit{ transform:translateY(0) scale(1) }
+  .diya.lit .flame{ animation:flicker .18s infinite alternate .2s; opacity:1 }
+  .diya.lit .glow{ animation:glow 1.2s ease-in-out infinite alternate .2s; opacity:1 }
+  @keyframes flicker{ from{ transform:translateX(-50%) rotate(-2deg) scaleY(1)} to{ transform:translateX(-50%) rotate(2deg) scaleY(1.07)} }
+  @keyframes glow{ from{ transform:translateX(-50%) scale(.9)} to{ transform:translateX(-50%) scale(1.05)} }
+
+  .typewriter{
+    font-size:clamp(16px, 3.6vw, 22px); color:var(--muted); display:inline-block; border-right:2px solid var(--muted);
+    white-space:nowrap; overflow:hidden; width:0; opacity:.9;
+    animation: typing 4.5s steps(48,end) forwards, caret 700ms steps(1) infinite;
+  }
+  @keyframes typing { to{ width:100% } }
+  @keyframes caret { 50%{ border-color: transparent } }
+
+  /* PLAYFUL BLESSINGS — balloons */
+  .balloon-area{ position:relative; height:70vh; max-height:700px; width:100%; overflow:hidden; border-radius:18px;
+    border:1px solid rgba(255,255,255,.08); background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  .balloon{
+    --c:#ff9ccc; --x:10; --delay:0;
+    position:absolute; bottom:-120px; left:calc(var(--x) * 1%); width:64px; height:80px; border-radius:50% 50% 45% 45% / 55% 55% 45% 45%;
+    background: radial-gradient(circle at 30% 30%, #fff8, transparent 60%), var(--c);
+    box-shadow: inset -10px -16px 24px rgba(0,0,0,.2);
+    animation: floatUp 16s linear infinite; animation-delay: calc(var(--delay) * 1s);
+    display:grid; place-items:center; color:#0c0e1a; font-weight:900; text-shadow:0 1px 0 #ffffff88; cursor:pointer;
+  }
+  .balloon::after{ content:""; position:absolute; width:2px; height:120px; background:rgba(255,255,255,.3); left:50%; bottom:-120px }
+  .balloon span{ background:#fff; padding:4px 8px; border-radius:999px; font-size:12px; }
+  @keyframes floatUp { from{ transform:translateY(0) } to{ transform:translateY(-105vh) } }
+
+  .modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.5); z-index:50 }
+  .modal.show{ display:flex }
+  .dialog{ max-width:560px; margin:16px; background:linear-gradient(180deg, #0e1628, #0c1323); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:18px; text-align:center; box-shadow:0 18px 40px rgba(0,0,0,.44) }
+  .dialog h4{ margin:.25rem 0 .5rem; font-size:20px }
+  .dialog p{ margin:0; color:#c8d2f0 }
+  .dialog .close{ margin-top:12px }
+
+  /* DIVINE BLESSINGS — temple + flip card */
+  .temple-bg{
+    position:absolute; inset:0; pointer-events:none; opacity:.25; background:
+      radial-gradient(1200px 600px at 50% 10%, rgba(155,211,255,.08), transparent 60%);
+  }
+  .flower-sway{ position:absolute; width:10px; height:10px; border-radius:50%; background:var(--flower); filter:blur(.2px);
+                animation: sway 9s ease-in-out infinite }
+  @keyframes sway{ from{ transform:translateX(-12px) translateY(0)} 50%{ transform:translateX(12px) translateY(12px)} to{ transform:translateX(-12px) translateY(0)} }
+
+  .card-3d{ perspective:1200px; width:min(680px, 92vw) }
+  .flip{
+    position:relative; transform-style:preserve-3d; transition: transform .8s ease; cursor:pointer;
+  }
+  .flip .face{
+    backface-visibility:hidden; border-radius:18px; padding:22px; border:1px solid rgba(255,255,255,.08);
+    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    box-shadow:0 18px 40px rgba(0,0,0,.2);
+  }
+  .flip .back{ position:absolute; inset:0; transform: rotateY(180deg) }
+  .flip.is-flipped{ transform: rotateY(180deg) }
+  .front-title{ font-weight:900; letter-spacing:.12em; color:var(--gold); text-transform:uppercase; font-size:12px }
+  .front-text{ font-size:clamp(16px, 3.4vw, 20px); color:var(--muted) }
+
+  /* FINAL — fireworks/confetti */
+  #fireCanvas{ position:absolute; inset:0; pointer-events:none }
+  .final-inner{ text-align:center; max-width:820px }
+  .glowtext{ font-size:clamp(22px, 5vw, 38px); line-height:1.35; text-shadow:0 0 18px rgba(155,211,255,.25) }
+  .endbtn{ margin-top:22px; background:linear-gradient(90deg,#ffd86e,#ff98c0); color:#15121d }
+  .stack{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px }
+
+  /* POSTCARD (A5 preview + print) */
+  .postcard-wrap{ width:min(580px, 94vw); margin-inline:auto }
+  .postcard{
+    aspect-ratio: 148 / 210; border-radius:20px; background:
+      radial-gradient(800px 300px at 50% 0%, rgba(155,211,255,.10), transparent 60%),
+      linear-gradient(180deg, #0e1626, #0b1120 70%);
+    border:1px solid rgba(255,255,255,.12); position:relative; overflow:hidden;
+    box-shadow:0 18px 40px rgba(0,0,0,.30);
+    padding:18px;
+  }
+  .pc-border{ position:absolute; inset:12px; border-radius:16px; border:1px dashed rgba(255,255,255,.18); pointer-events:none }
+  .pc-title{ text-transform:uppercase; letter-spacing:.12em; font-size:12px; color:#9bd3ff; text-align:center; margin-top:4px }
+  .pc-body{ display:grid; grid-template-columns:1.2fr .8fr; gap:12px; height:calc(100% - 36px); padding-top:8px }
+  .pc-left{ font-size:14px; color:#cfe2ff; line-height:1.7; display:flex; align-items:center; justify-content:center; text-align:center; padding:8px }
+  .pc-right{ display:grid; place-items:center }
+  .qrbox{ background:#fff; padding:10px; border-radius:12px; box-shadow:0 10px 20px rgba(0,0,0,.25) }
+  .scan{ font-size:12px; color:#bac3e0; margin-top:8px; text-align:center }
+  .pc-flowers{
+    position:absolute; inset:auto auto 6px 6px; width:70px; height:70px; opacity:.7; pointer-events:none;
+    background: conic-gradient(from 0deg, #ffc8dd, #ffd6a5, #bde0fe, #caffbf, #ffc8dd);
+    -webkit-mask: radial-gradient(circle at 50% 50%, #000 60%, transparent 61%),
+                  radial-gradient(closest-side, #000 96%, transparent) 6px 6px / 22px 22px repeat;
+            mask: radial-gradient(circle at 50% 50%, #000 60%, transparent 61%),
+                  radial-gradient(closest-side, #000 96%, transparent) 6px 6px / 22px 22px repeat;
+    filter: blur(.4px);
+    border-radius:50%;
+  }
+
+  @media print{
+    @page{ size: A5 portrait; margin: 10mm }
+    body{ background:white !important; color:#111827 }
+    .section, .stars, #petals, #fireCanvas, .edit-only{ display:none !important }
+    #printOnly{ display:block !important }
+    .postcard{ background:white; border:1px solid #d1d5db; box-shadow:none }
+    .pc-border{ border-color:#d1d5db }
+    .qrbox{ box-shadow:none }
+  }
+  #printOnly{ display:none } /* becomes visible in print */
+  .hint{ font-size:12px; color:var(--muted); text-align:center; margin-top:8px }
+  .center{ text-align:center }
+  .fade-in{ animation:fadeUp .9s ease .2s both }
+  .sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
+</style>
+</head>
+<body>
+  <!-- Star field -->
+  <div class="stars" aria-hidden="true"></div>
+
+  <!-- Drifting petals -->
+  <div id="petals" aria-hidden="true"></div>
+
+  <!-- Hidden print container (same postcard DOM duplicated for crisp print) -->
+  <div id="printOnly">
+    <div class="postcard">
+      <div class="pc-border"></div>
+      <div class="pc-title">Blessings & Love</div>
+      <div class="pc-body">
+        <div class="pc-left">
+          May Kanha and Banjrangbali always protect you. May your path be light, your smile effortless, and your heart steady. <br/>— From <span id="fromPrint">Me</span>
+        </div>
+        <div class="pc-right">
+          <div class="qrbox"><div id="qrPrint"></div></div>
+          <div class="scan">Scan to open your birthday page</div>
+        </div>
+      </div>
+      <div class="pc-flowers"></div>
+    </div>
+  </div>
+
+  <!-- Background Audio via Web Audio (royalty-free, generated) -->
+  <button id="soundToggle" class="sr-only" aria-label="Toggle sound"></button>
+
+  <main>
+    <!-- 1) LANDING -->
+    <section class="section" id="landing">
+      <div class="container landing-inner">
+        <h1 class="title">
+          On this special day, the universe plays its sweetest tune…<br/>
+          because it’s your day 🌸
+        </h1>
+        <div class="center">
+          <a href="#spark" id="walkBtn" class="btn walk">Walk with me 👉</a>
+          <div class="hint">Sound will softly fade in after you tap.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2) THE SPARK -->
+    <section class="section" id="spark">
+      <div class="container spark-wrap">
+        <div class="diya" id="diya" aria-label="Glowing diya">
+          <div class="bowl"></div>
+          <div class="oil"></div>
+          <div class="flame"></div>
+          <div class="glow"></div>
+        </div>
+        <div class="typewriter" id="typeTarget">The spark you lit in me is still glowing, guiding me every day.</div>
+      </div>
+    </section>
+
+    <!-- 3) PLAYFUL BLESSINGS -->
+    <section class="section" id="playful">
+      <div class="container" style="width:min(100%, 960px)">
+        <h2 class="center fade-in" style="margin-bottom:14px; font-weight:900; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; font-size:12px">Playful blessings</h2>
+        <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
+        <p class="hint">Tap a balloon to pop it and reveal a tiny blessing.</p>
+      </div>
+      <!-- Modal -->
+      <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="dialog">
+          <h4 id="modalTitle">A blessing</h4>
+          <p id="modalMsg">You are loved.</p>
+          <button class="btn close" id="modalClose">Close</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) DIVINE BLESSINGS -->
+    <section class="section" id="divine">
+      <div class="temple-bg" aria-hidden="true"></div>
+      <div class="container" style="display:grid; place-items:center">
+        <div class="card-3d">
+          <div class="flip" id="flipCard" aria-label="Digital birthday card. Tap to flip.">
+            <div class="face front">
+              <div class="front-title">Divine Blessings</div>
+              <div class="front-text" style="margin-top:6px">Tap to open your card</div>
+              <svg width="100%" height="120" viewBox="0 0 600 120" aria-hidden="true" style="opacity:.35; margin-top:8px">
+                <path d="M50,110 L120,110 L140,80 L160,110 L300,110 L320,70 L340,110 L460,110 L480,85 L500,110 L560,110" fill="none" stroke="url(#g)" stroke-width="2"/>
+                <defs>
+                  <linearGradient id="g" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#9bd3ff"/>
+                    <stop offset="100%" stop-color="#c9a7ff"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="face back">
+              <div style="font-size:clamp(16px, 3.5vw, 20px); line-height:1.7">
+                May Kanha and Banjrangbali always protect you.<br/>
+                And may life shower you with everything you deserve —<br/>
+                because you’re truly special to me.
+              </div>
+              <div style="margin-top:12px; color:var(--muted)">Tap again to close</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5) FINAL — THE PROMISE -->
+    <section class="section" id="final" style="overflow:hidden">
+      <canvas id="fireCanvas" aria-hidden="true"></canvas>
+      <div class="container final-inner" id="finalCapture">
+        <div class="glowtext" id="finalText">
+          Happy Birthday, <span id="herNameDynamic">you</span>.<br/>
+          You are not just a day in my life, you are the reason my days feel alive.
+        </div>
+        <div class="center stack">
+          <button class="btn endbtn" id="endBtn">Made with blessings & love 💜</button>
+          <button class="btn endbtn" id="savePng">Save final message (PNG)</button>
+          <button class="btn" id="printBtn">Print A5 QR Postcard</button>
+        </div>
+        <div class="hint">Tip: add <code>?name=Anya&from=Dev</code> to personalize name & postcard.</div>
+      </div>
+    </section>
+
+    <!-- POSTCARD PREVIEW (screen) -->
+    <section class="section" id="postcardSection">
+      <div class="container postcard-wrap">
+        <div class="postcard" id="cardA5">
+          <div class="pc-border"></div>
+          <div class="pc-title">Blessings & Love</div>
+          <div class="pc-body">
+            <div class="pc-left">
+              May Kanha and Banjrangbali always protect you. May your path be light, your smile effortless, and your heart steady. <br/>— From <span id="fromScreen">Me</span>
+            </div>
+            <div class="pc-right">
+              <div class="qrbox"><div id="qrScreen"></div></div>
+              <div class="scan">Scan to open your birthday page</div>
+            </div>
+          </div>
+          <div class="pc-flowers"></div>
+        </div>
+        <p class="hint edit-only">Use the Print button above for crisp A5. This is just the on-screen preview.</p>
+      </div>
+    </section>
+  </main>
+
+<!-- deps for “Save as image” + QR -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNa5R5+2o7uZxZxq2OwjSc2iZrYqC5wNeb+zqS6m1W0wQ7Qk+G4l3mP0f3wX1l0x7UqQmCjL0f1f5n8fZ/9K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-1a7Vg3P4E4lqn1g4d6p4rX3G+o1v0kqBzB9kA3F8dQ0c3oUo7d8B1Z5yGJ3iZl2lXgk2eUu7l0+zZpE3mQ2ZkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+/* ========= Utilities ========= */
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+/* ========= Petals ========= */
+(function petals(){
+  const wrap = $('#petals');
+  for(let i=0;i<24;i++){
+    const p = document.createElement('div'); p.className='petal';
+    p.style.left = (Math.random()*100) + 'vw';
+    const size = 10 + Math.random()*10; p.style.width= size+'px'; p.style.height=size+'px';
+    const dur = 9000 + Math.random()*7000; const delay = Math.random()*4000;
+    const horiz = (Math.random()<.5?-1:1) * (10 + Math.random()*14);
+    p.animate([
+      { transform:`translate(0,0) rotate(0deg)`, top: '-40px' },
+      { transform:`translate(${horiz}vw, 110vh) rotate(${Math.random()*360}deg)`, top: '110vh' }
+    ], { duration: dur, delay, iterations: Infinity, easing: 'ease-in' });
+    wrap.appendChild(p);
+  }
+})();
+
+/* ========= WebAudio: gentle flute + bell ambience (royalty-free, generated) ========= */
+let audioCtx, masterGain;
+function makeAmbience(){
+  if(audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = audioCtx.createGain(); masterGain.gain.value = 0.0; masterGain.connect(audioCtx.destination);
+
+  function fluteNote(freq, start, dur){
+    const o = audioCtx.createOscillator(); o.type = 'sine'; o.frequency.value = freq;
+    const g = audioCtx.createGain(); g.gain.value = 0.0001;
+    const vib = audioCtx.createOscillator(); vib.type='sine'; vib.frequency.value = 5;
+    const vibGain = audioCtx.createGain(); vibGain.gain.value = 2;
+    vib.connect(vibGain); vibGain.connect(o.frequency);
+    o.connect(g); g.connect(masterGain);
+    const a = start, d = start + 0.8, r = start + dur;
+    g.gain.setValueAtTime(0.0001, a);
+    g.gain.linearRampToValueAtTime(0.14, a + 0.4);
+    g.gain.linearRampToValueAtTime(0.06, d);
+    g.gain.exponentialRampToValueAtTime(0.0001, r);
+    o.start(a); vib.start(a); o.stop(r+0.05); vib.stop(r+0.05);
+  }
+
+  function bell(t){
+    const partials = [1, 2.01, 2.98, 4.2];
+    partials.forEach((m, i)=>{
+      const o = audioCtx.createOscillator(); o.type = 'sine'; o.frequency.value = 660 * m;
+      const g = audioCtx.createGain(); g.gain.value = 0.0001; o.connect(g); g.connect(masterGain);
+      const a = t;
+      g.gain.setValueAtTime(0.0001, a);
+      g.gain.exponentialRampToValueAtTime(0.08/(i+1), a+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, a + 1.2 + i*0.2);
+      o.start(a); o.stop(a + 1.6 + i*0.2);
+    });
+  }
+
+  const start = audioCtx.currentTime + 0.1;
+  function schedulePhrase(t0){
+    const seq = [440, 494, 523, 587, 523, 494, 440];
+    seq.forEach((f, i)=> fluteNote(f/2, t0 + i*0.9, 1.2));
+    bell(t0 + 2.7);
+  }
+  schedulePhrase(start);
+  const int = setInterval(()=> schedulePhrase(audioCtx.currentTime + 0.1), 5000);
+
+  const fade = () => {
+    if(!audioCtx) return;
+    audioCtx.resume && audioCtx.resume();
+    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+    masterGain.gain.linearRampToValueAtTime(0.10, audioCtx.currentTime + 1.2);
+  };
+  $('#walkBtn').addEventListener('click', fade, { once:true });
+}
+
+/* ========= Section triggers ========= */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      if(id==='spark'){ $('#diya').classList.add('lit'); typewriterStart(); }
+      if(id==='final'){ launchFireworks(); }
+    }
+  });
+}, { threshold:.35 });
+['spark','final'].forEach(id=> io.observe(document.getElementById(id)));
+
+/* ========= Typewriter ========= */
+let typed = false;
+function typewriterStart(){
+  if(typed) return; typed = true;
+  const el = $('#typeTarget');
+  const text = el.textContent.trim();
+  el.textContent = ''; el.style.width = '0';
+  let i=0;
+  const timer = setInterval(()=>{
+    el.textContent += text[i++];
+    el.style.width = 'auto';
+    if(i>=text.length) clearInterval(timer);
+  }, 35);
+}
+
+/* ========= Balloons ========= */
+const blessings = [
+  { word:'Joy', color:'#ff9ccc', msg:'May joy find you in small, quiet moments today.' },
+  { word:'Strength', color:'#9bd3ff', msg:'May your courage stay gentle and steady.' },
+  { word:'Faith', color:'#c9a7ff', msg:'May your heart trust the timing of your path.' },
+  { word:'Love', color:'#7ee6c9', msg:'May you feel loved—more than you know.' },
+];
+(function balloons(){
+  const area = $('#balloonArea');
+  blessings.forEach((b, idx)=>{
+    const d = document.createElement('button');
+    d.className = 'balloon'; d.style.setProperty('--c', b.color);
+    d.style.setProperty('--x', 10 + idx*20 + (Math.random()*10));
+    d.style.setProperty('--delay', Math.random()*6);
+    d.setAttribute('aria-label', b.word + ' balloon');
+    d.innerHTML = `<span>${b.word}</span>`;
+    d.addEventListener('click', ()=>{
+      d.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260, easing:'ease-in'});
+      setTimeout(()=>d.remove(), 240);
+      showModal(b.word, b.msg);
+    });
+    area.appendChild(d);
+  });
+})();
+function showModal(title, msg){
+  $('#modalTitle').textContent = title;
+  $('#modalMsg').textContent = msg;
+  $('#modal').classList.add('show');
+}
+$('#modal').addEventListener('click', (e)=>{ if(e.target.id==='modal' || e.target.id==='modalClose') $('#modal').classList.remove('show'); });
+
+/* ========= Flip card ========= */
+(function flip(){
+  const card = $('#flipCard');
+  card.addEventListener('click', ()=> card.classList.toggle('is-flipped'));
+})();
+
+/* ========= Fireworks (canvas) ========= */
+let fwStarted=false;
+function launchFireworks(){
+  if(fwStarted) return; fwStarted=true;
+  const canvas = $('#fireCanvas'), ctx = canvas.getContext('2d');
+  function fit(){ canvas.width = innerWidth; canvas.height = Math.max(300, innerHeight*0.9) }
+  fit(); addEventListener('resize', fit);
+
+  const particles = [];
+  function burst(x, y, color){
+    const n = 90;
+    for(let i=0;i<n;i++){
+      const a = (Math.PI*2)*i/n, sp = 2 + Math.random()*3;
+      particles.push({x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:60+Math.random()*20, color});
+    }
+  }
+  function tick(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i];
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--;
+      ctx.fillStyle = `rgba(${p.color}, ${Math.max(0, p.life/80)})`;
+      ctx.fillRect(p.x, p.y, 2, 2);
+      if(p.life<=0) particles.splice(i,1);
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+  function randomBurst(){
+    const x = Math.random()*canvas.width*0.9 + canvas.width*0.05;
+    const y = Math.random()*canvas.height*0.4 + canvas.height*0.1;
+    const colors = ['255,200,221','155,211,255','201,167,255','246,208,110'];
+    burst(x, y, colors[Math.floor(Math.random()*colors.length)]);
+  }
+  for(let i=0;i<4;i++) setTimeout(randomBurst, i*400);
+  const interval = setInterval(randomBurst, 1200);
+  setTimeout(()=> clearInterval(interval), 12000);
+}
+
+/* ========= Name & From (for postcard) ========= */
+(function setParams(){
+  const params = new URLSearchParams(location.search);
+  const nm = params.get('name'); if(nm){ $('#herNameDynamic').textContent = nm; }
+  const from = params.get('from') || 'Me';
+  $('#fromScreen').textContent = from;
+  $('#fromPrint').textContent = from;
+})();
+
+/* ========= Audio start on first gesture ========= */
+document.addEventListener('DOMContentLoaded', makeAmbience);
+$('#walkBtn').addEventListener('click', ()=> { makeAmbience(); });
+
+/* ========= Save final section as PNG ========= */
+$('#savePng').addEventListener('click', async () => {
+  const node = $('#finalCapture');
+  const canvas = await html2canvas(node, { backgroundColor: null, scale: 2, useCORS: true });
+  const dataUrl = canvas.toDataURL('image/png');
+  const nm = $('#herNameDynamic').textContent || 'you';
+  const a = document.createElement('a'); a.href = dataUrl; a.download = `Happy-Birthday-${nm}.png`; a.click();
+});
+
+/* ========= QR (screen + print) ========= */
+function ensureHttps(url){
+  try{ const u = new URL(url); return u.href; }catch(e){ return location.href; }
+}
+function initQR(){
+  const link = ensureHttps(location.href);
+  // screen
+  const screen = $('#qrScreen'); screen.innerHTML='';
+  new QRCode(screen, { text: link, width: 140, height: 140, correctLevel: QRCode.CorrectLevel.M });
+  // print
+  const pr = $('#qrPrint'); pr.innerHTML='';
+  new QRCode(pr, { text: link, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.M });
+}
+initQR();
+
+/* ========= Print postcard (A5) ========= */
+$('#printBtn').addEventListener('click', () => {
+  // Ensure QR is fresh (e.g., after deployment URL change)
+  initQR();
+  // Small delay for QR draw then print
+  setTimeout(()=> window.print(), 200);
+});
+
+/* ========= Accessibility: keyboard close for modal ========= */
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') $('#modal').classList.remove('show'); });
+</script>
+</body>
+</html>
