@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Madamji ka Happy Birthday &lt;3</title>
-<meta name="description" content="A playful Krishna-night birthday story with personal welcome, name constellation, diya, blessings, card, fireworks, PNG export, and vows." />
+<meta name="description" content="A playful Krishna-night birthday story with personal welcome, name constellation, diya, filmy interlude, blessings, card, fireworks, and vows." />
 <style>
   :root{
     --night1:#0a0f26; --night2:#120f2e; --glow:#8ab4ff; --lav:#c9a7ff; --rose:#ff8fb1; --mint:#7ee6c9; --gold:#f6d06e;
@@ -148,6 +148,34 @@
   .dialog p{ margin:0; color:#c8d2f0 }
   .dialog .close{ margin-top:12px }
 
+  /* FILMY INTERLUDE */
+  .filmy-wrap{width:min(960px,95vw);margin:0 auto;display:grid;gap:16px;justify-items:center;text-align:center}
+  .filmy-heading{font-weight:900;letter-spacing:.06em;color:var(--accent);text-transform:uppercase;font-size:12px}
+  .chat{display:grid;gap:10px;width:min(720px,95vw);margin:8px auto 2px}
+  .bubble{
+    justify-self:start; max-width:85%; padding:12px 14px; border-radius:16px;
+    background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    border:1px solid rgba(255,255,255,.10); color:#dfe6ff; line-height:1.6; opacity:0; transform:translateY(6px);
+    animation: bubbleIn .4s ease forwards;
+  }
+  .bubble.you{ justify-self:end; background:linear-gradient(180deg, rgba(155,211,255,.16), rgba(155,211,255,.06)); color:#0c1220 }
+  @keyframes bubbleIn{to{opacity:1; transform:none}}
+  .type-on{ display:inline-block; border-right:2px solid #cdd6ff; white-space:normal; overflow:visible }
+  .pose{display:grid;gap:10px;place-items:center;margin-top:6px}
+  .pose svg{opacity:.92;filter:drop-shadow(0 8px 22px rgba(0,0,0,.35))}
+  .pose .pulse{animation:posePulse 1.8s ease-in-out infinite}
+  @keyframes posePulse{50%{transform:scale(1.04)}}
+  .pose .pose-btn{background:linear-gradient(90deg,#ffd86e,#ff98c0);color:#15121d}
+  .shayari{width:min(720px,95vw);padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.10);
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));box-shadow:0 12px 28px rgba(0,0,0,.25)}
+  .shayari p{margin:0;color:#e9ecff;font-size:clamp(16px,3.4vw,20px);line-height:1.7}
+  .shayari .actions{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+  .toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:rgba(15,23,42,.9);
+    color:#e9ecff;border:1px solid rgba(255,255,255,.12);padding:8px 12px;border-radius:10px;display:none;z-index:60}
+  .toast.show{display:block;animation:fadeUp .35s ease, fadeOut .6s ease 1.6s forwards}
+  @keyframes fadeOut{to{opacity:0; transform:translate(-50%,20px)}}
+  .em{position:fixed; font-size:20px; pointer-events:none; z-index:40; will-change:transform,opacity}
+
   /* DIVINE BLESSINGS — temple + flip card */
   .temple-bg{
     position:absolute; inset:0; pointer-events:none; opacity:.25; background:
@@ -280,7 +308,6 @@
   body.her-day .flame{ animation: flicker .14s infinite alternate .1s }
   body.her-day .glow{ box-shadow:0 0 26px rgba(246,208,110,.55) }
 
-  /* print: hide overlays when printing page (not postcard) */
   @media print{
     .section, .stars, #petals, #constellation, .chapters, .mono, .mono-tip, .watermark, #welcome, #letter, #cert { display:none !important }
   }
@@ -301,11 +328,12 @@
   <!-- Drifting petals -->
   <div id="petals" aria-hidden="true"></div>
 
-  <!-- Fixed chapters progress -->
+  <!-- Fixed chapters progress (WITH Filmy) -->
   <nav class="chapters" aria-label="Story progress">
     <span class="dot active" data-target="#landing" title="First Light"></span>
     <span class="dot" data-target="#spark" title="The Spark"></span>
     <span class="dot" data-target="#playful" title="Blessings"></span>
+    <span class="dot" data-target="#filmy" title="Filmy"></span>
     <span class="dot" data-target="#divine" title="Divine"></span>
     <span class="dot" data-target="#final" title="Promise"></span>
   </nav>
@@ -361,473 +389,4 @@
     <section class="section" id="playful">
       <div class="container" style="width:min(100%, 960px)">
         <h2 class="center fade-in" style="margin-bottom:14px; font-weight:900; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; font-size:12px">Playful blessings</h2>
-        <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
-        <p class="hint">Tap a balloon to pop it and reveal a tiny blessing.</p>
-        <a href="#divine" class="btn next">Next →</a>
-        <div class="hint">Chapter 3 • Playful Blessings</div>
-      </div>
-      <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="dialog">
-          <h4 id="modalTitle">A blessing</h4>
-          <p id="modalMsg">You are loved.</p>
-          <button class="btn close" id="modalClose">Close</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4) DIVINE BLESSINGS -->
-    <section class="section" id="divine">
-      <div class="temple-bg" aria-hidden="true"></div>
-      <div class="container" style="display:grid; place-items:center">
-        <div class="card-3d">
-          <div class="flip" id="flipCard" aria-label="Digital birthday card. Tap to flip.">
-            <div class="face front">
-              <div class="front-title">Divine Blessings</div>
-              <div class="front-text" style="margin-top:6px">Tap to open your card</div>
-              <svg width="100%" height="120" viewBox="0 0 600 120" aria-hidden="true" style="opacity:.35; margin-top:8px">
-                <path d="M50,110 L120,110 L140,80 L160,110 L300,110 L320,70 L340,110 L460,110 L480,85 L500,110 L560,110" fill="none" stroke="url(#g)" stroke-width="2"/>
-                <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#9bd3ff"/><stop offset="100%" stop-color="#c9a7ff"/></linearGradient></defs>
-              </svg>
-            </div>
-            <div class="face back">
-              <div style="font-size:clamp(16px, 3.5vw, 20px); line-height:1.7">
-                May Kanha and <strong>Bajrangbali</strong> always protect you.<br/>
-                And may life shower you with everything you deserve —<br/>
-                because you’re truly special to me.
-              </div>
-              <div style="margin-top:12px; color:var(--muted)">Tap again to close</div>
-            </div>
-          </div>
-        </div>
-        <a href="#final" class="btn next" style="margin-top:14px">Next →</a>
-        <div class="hint">Chapter 4 • Divine Blessings</div>
-      </div>
-    </section>
-
-    <!-- 5) FINAL — THE PROMISE -->
-    <section class="section" id="final" style="overflow:hidden">
-      <canvas id="fireCanvas" aria-hidden="true"></canvas>
-      <div class="container final-inner" id="finalCapture">
-        <div class="glowtext" id="finalText">
-          Happy Birthday, <span id="herNameDynamic">you</span>.<br/>
-          You are not just a day in my life—you are why my days feel alive.<br/>
-          I promise to choose steadiness over spectacle, presence over performance, and to pray for your joy before mine.
-        </div>
-
-        <!-- Promise tokens -->
-        <div class="tokens" aria-label="Promise tokens">
-          <button class="token" data-msg="I will keep patience soft.">🪷</button>
-          <button class="token" data-msg="I will guard your quiet.">🌙</button>
-          <button class="token" data-msg="I will be your steady.">🛡️</button>
-          <button class="token" data-msg="I will say it and show it.">💌</button>
-        </div>
-
-        <div class="center stack">
-          <button class="btn endbtn" id="endBtn">Read a little letter 💜</button>
-          <button class="btn endbtn" id="savePng">Save final message (PNG)</button>
-        </div>
-      </div>
-      <div class="hint">Chapter 5 • The Promise</div>
-    </section>
-
-    <!-- LETTER OVERLAY -->
-    <div class="letter-overlay" id="letter" role="dialog" aria-modal="true" aria-labelledby="letterTitle">
-      <div class="letter-card">
-        <h3 id="letterTitle">For you</h3>
-        <p>Happy Teacher’s-Day birthday. You’ve taught me more without a single lecture than most books ever could.</p>
-        <p>Because of you I prefer patience over pressure, simplicity over noise, faith over fear, boundaries with grace, and consistency with warmth.</p>
-        <p>I admire the way you carry strength without hardness, clarity without cruelty, and kindness without performance. It makes me want to be gentler and braver at the same time.</p>
-        <p>On heavy days, I’ll be your calm; on light days, your loudest cheer. If a season asks for silence, I’ll stand beside you without demanding words.</p>
-        <p>I pray to Kanha and Bajrangbali for your protection and joy. And I promise this: my care will be quiet and consistent—seen more in presence than in speeches.</p>
-        <p>If this page did only one thing, may it whisper what I struggle to say out loud: you make life feel beautifully, unmistakably alive.</p>
-        <p style="color:#9bd3ff">— <span id="letterFrom">Me</span></p>
-        <div style="text-align:center; margin-top:10px">
-          <button class="btn" id="closeLetter">Close</button>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Watermark -->
-  <div class="watermark" id="wm">Exclusively for <span id="wmName">you</span></div>
-
-<!-- deps for “Save as image” -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
-<script>
-/* ===== PERSONAL DEFAULTS (used if URL has no ?name&from) ===== */
-const DEFAULTS = { name: 'Her Name', from: 'Devashish' };
-
-/* ===== Shortcuts ===== */
-const $ = (sel, root=document) => root.querySelector(sel);
-const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
-
-/* ===== Petals ===== */
-(function petals(){
-  const wrap = $('#petals');
-  for(let i=0;i<24;i++){
-    const p = document.createElement('div'); p.className='petal';
-    p.style.left = (Math.random()*100) + 'vw';
-    const size = 10 + Math.random()*10; p.style.width= size+'px'; p.style.height=size+'px';
-    const dur = 9000 + Math.random()*7000; const delay = Math.random()*4000;
-    const horiz = (Math.random()<.5?-1:1) * (10 + Math.random()*14);
-    p.animate([
-      { transform:`translate(0,0) rotate(0deg)`, top: '-40px' },
-      { transform:`translate(${horiz}vw, 110vh) rotate(${Math.random()*360}deg)`, top: '110vh' }
-    ], { duration: dur, delay, iterations: Infinity, easing: 'ease-in' });
-    wrap.appendChild(p);
-  }
-})();
-
-/* ===== Audio ambience + Name-Mantra ===== */
-let audioCtx, masterGain;
-function makeAmbience(){
-  if(audioCtx) return;
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  masterGain = audioCtx.createGain(); masterGain.gain.value = 0.0; masterGain.connect(audioCtx.destination);
-
-  function fluteNote(freq, start, dur, gain=0.14){
-    const o = audioCtx.createOscillator(); o.type = 'sine'; o.frequency.value = freq;
-    const g = audioCtx.createGain(); g.gain.value = 0.0001;
-    const vib = audioCtx.createOscillator(); vib.type='sine'; vib.frequency.value = 5;
-    const vibGain = audioCtx.createGain(); vibGain.gain.value = 2; vib.connect(vibGain); vibGain.connect(o.frequency);
-    o.connect(g); g.connect(masterGain);
-    const a = start, d = start + 0.8, r = start + dur;
-    g.gain.setValueAtTime(0.0001, a);
-    g.gain.linearRampToValueAtTime(gain, a + 0.4);
-    g.gain.linearRampToValueAtTime(gain*0.42, d);
-    g.gain.exponentialRampToValueAtTime(0.0001, r);
-    o.start(a); vib.start(a); o.stop(r+0.05); vib.stop(r+0.05);
-  }
-  function bell(t){
-    const partials = [1, 2.01, 2.98, 4.2];
-    partials.forEach((m, i)=>{
-      const o = audioCtx.createOscillator(); o.type = 'sine'; o.frequency.value = 660 * m;
-      const g = audioCtx.createGain(); g.gain.value = 0.0001; o.connect(g); g.connect(masterGain);
-      const a = t;
-      g.gain.setValueAtTime(0.0001, a);
-      g.gain.exponentialRampToValueAtTime(0.08/(i+1), a+0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, a + 1.2 + i*0.2);
-      o.start(a); o.stop(a + 1.6 + i*0.2);
-    });
-  }
-  function schedulePhrase(t0){
-    const seq = [440, 494, 523, 587, 523, 494, 440];
-    seq.forEach((f, i)=> fluteNote(f/2, t0 + i*0.9, 1.2));
-    bell(t0 + 2.7);
-  }
-  // Name-Mantra: map letters → pentatonic over A3
-  function scheduleNameMantra(name, when){
-    if(!name) return;
-    const scale = [220, 247, 262, 330, 392];
-    const letters = Array.from((name||'').toUpperCase()).filter(c=> /[A-Z]/.test(c));
-    let t = when;
-    letters.slice(0,10).forEach((ch, i)=>{
-      const idx = (ch.charCodeAt(0) - 65) % scale.length;
-      const f = scale[idx] * (i%2 ? 1 : 2/3);
-      fluteNote(f, t, 1.1, 0.12);
-      t += 0.6;
-    });
-  }
-
-  // Start loop + fade
-  const start = audioCtx.currentTime + 0.1;
-  schedulePhrase(start);
-  setInterval(()=> schedulePhrase(audioCtx.currentTime + 0.1), 5000);
-
-  const fade = () => {
-    if(!audioCtx) return;
-    audioCtx.resume && audioCtx.resume();
-    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
-    masterGain.gain.linearRampToValueAtTime(0.10, audioCtx.currentTime + 1.2);
-    const nm = $('#herNameDynamic')?.textContent || DEFAULTS.name;
-    scheduleNameMantra(nm, audioCtx.currentTime + 1.6);
-  };
-  $('#walkBtn').addEventListener('click', fade, { once:true });
-  $('#startJourney').addEventListener('click', fade, { once:true });
-}
-
-/* ===== Constellation (stars morph to initials) ===== */
-(function constellation(){
-  const cvs = $('#constellation'); const ctx = cvs.getContext('2d');
-  function fit(){ cvs.width = innerWidth; cvs.height = innerHeight }
-  fit(); addEventListener('resize', fit);
-
-  const N = 220;
-  const pts = Array.from({length:N}, ()=> ({
-    x: Math.random()*cvs.width, y: Math.random()*cvs.height*0.8 + cvs.height*0.1,
-    tx: 0, ty: 0
-  }));
-
-  function targetsFor(text){
-    const off = document.createElement('canvas'); const octx = off.getContext('2d');
-    off.width = cvs.width; off.height = cvs.height;
-    const fontSize = Math.min(180, Math.max(90, cvs.width*0.22));
-    octx.fillStyle='#fff'; octx.textAlign='center'; octx.textBaseline='middle';
-    octx.font = `bold ${fontSize}px ui-sans-serif, system-ui`;
-    octx.fillText(text, off.width/2, off.height*0.42);
-    const data = octx.getImageData(0,0,off.width,off.height).data;
-    const t = [];
-    const step = Math.floor(Math.max(1, fontSize/22));
-    for(let y=0;y<off.height;y+=step){
-      for(let x=0;x<off.width;x+=step){
-        const a = data[(y*off.width + x)*4 + 3];
-        if(a>128) t.push({x,y});
-      }
-    }
-    const sel = [];
-    for(let i=0;i<N;i++){ const p = t[Math.floor(i*(t.length/N))] || {x:Math.random()*off.width,y:Math.random()*off.height}; sel.push(p); }
-    return sel;
-  }
-
-  function moveTo(text, hold=2200){
-    const targets = targetsFor(text);
-    pts.forEach((p,i)=>{ const t=targets[i]; p.tx=t.x; p.ty=t.y; });
-    let phase = 'in', t0 = performance.now();
-    function frame(t){
-      ctx.clearRect(0,0,cvs.width,cvs.height);
-      for(const p of pts){
-        p.x += (p.tx - p.x)*0.08;
-        p.y += (p.ty - p.y)*0.08;
-        ctx.fillStyle = 'rgba(200,215,255,0.9)';
-        ctx.fillRect(p.x, p.y, 2, 2);
-      }
-      if(phase==='in' && t - t0 > hold){
-        phase='out';
-        pts.forEach(p=>{ p.tx = Math.random()*cvs.width; p.ty = Math.random()*cvs.height*0.8 + cvs.height*0.1; });
-      }
-      if(phase==='out'){
-        const moving = pts.some(p=> Math.hypot(p.tx-p.x,p.ty-p.y)>0.6 );
-        if(!moving) return;
-      }
-      requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-
-  function initialsFrom(name){
-    const ins = (name||'You').trim().split(/\s+/).map(s=>s[0]?.toUpperCase()).slice(0,2).join(' ');
-    return ins || 'YOU';
-  }
-  function startConstellation(){
-    const nm = $('#herNameDynamic')?.textContent || DEFAULTS.name;
-    moveTo(initialsFrom(nm), 2800);
-  }
-  $('#startJourney').addEventListener('click', startConstellation, { once:true });
-  $('#walkBtn').addEventListener('click', startConstellation, { once:true });
-})();
-
-/* ===== Chapters progress + feather trail ===== */
-(function chapters(){
-  const ids = ['landing','spark','playful','divine','final'];
-  const dots = $$('.dot');
-  dots.forEach(d => d.addEventListener('click', ()=> {
-    const t = d.getAttribute('data-target'); if(t) location.hash = t;
-  }));
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        const i = ids.indexOf(e.target.id);
-        dots.forEach((d,idx)=> d.classList.toggle('active', idx===i));
-        spawnFeather();
-      }
-    });
-  }, { threshold:.5 });
-  ids.forEach(id=> io.observe($('#'+id)));
-  // also on "Next" clicks
-  $$('.next').forEach(n => n.addEventListener('click', spawnFeather));
-})();
-
-/* ===== Peacock feather trail ===== */
-function spawnFeather(){
-  const div = document.createElement('div');
-  div.className = 'feather';
-  const top = 20 + Math.random()*50; div.style.top = top + 'vh';
-  div.innerHTML = `
-    <svg viewBox="0 0 300 90" width="140" height="42" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="eye" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#1e2a78"/>
-          <stop offset="50%" stop-color="#2dd4bf"/>
-          <stop offset="100%" stop-color="#8b5cf6"/>
-        </radialGradient>
-      </defs>
-      <path d="M10,45 C80,10 160,10 290,45 C160,80 80,80 10,45 Z" fill="url(#eye)" opacity="0.9"/>
-      <path d="M10,45 C80,10 160,10 290,45" stroke="#a7f3d0" stroke-width="2" fill="none" />
-      <path d="M10,45 C80,80 160,80 290,45" stroke="#c4b5fd" stroke-width="2" fill="none" />
-    </svg>`;
-  document.body.appendChild(div);
-  div.addEventListener('animationend', ()=> div.remove());
-}
-
-/* ===== Section triggers ===== */
-const ioSparkFinal = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      const id = entry.target.id;
-      if(id==='spark'){ $('#diya').classList.add('lit'); typewriterStart(); }
-      if(id==='final'){ launchFireworks(); }
-    }
-  });
-}, { threshold:.35 });
-['spark','final'].forEach(id=> ioSparkFinal.observe(document.getElementById(id)));
-
-/* ===== Typewriter (multi-line typing) ===== */
-let typed=false;
-function typewriterStart(){
-  if(typed) return; typed=true;
-  const el = $('#typeTarget'); if(!el) return;
-  el.style.whiteSpace='normal'; el.style.overflow='visible'; el.style.display='block'; el.style.width='auto';
-  const chars = Array.from(el.textContent.trim()); el.textContent='';
-  let i=0; const timer = setInterval(()=>{ el.textContent += (chars[i++]||''); if(i>=chars.length) clearInterval(timer); }, 30);
-}
-
-/* ===== Balloons ===== */
-const blessings = [
-  { word:'Joy', color:'#ff9ccc', msg:'For the days you forget how bright you are: may ordinary moments turn into little festivals around you.' },
-  { word:'Strength', color:'#9bd3ff', msg:'When the world feels heavy, remember—you never have to carry it alone. I’ll be the steady shoulder.' },
-  { word:'Faith', color:'#c9a7ff', msg:'May your prayers meet their perfect timing; until then, may trust make the waiting light.' },
-  { word:'Love', color:'#7ee6c9', msg:'You are loved in a quiet, consistent way—no drama, just warmth that keeps showing up.' },
-];
-(function balloons(){
-  const area = $('#balloonArea');
-  blessings.forEach((b, idx)=>{
-    const d = document.createElement('button');
-    d.className = 'balloon'; d.style.setProperty('--c', b.color);
-    d.style.setProperty('--x', 10 + idx*20 + (Math.random()*10));
-    d.style.setProperty('--delay', Math.random()*6);
-    d.setAttribute('aria-label', b.word + ' balloon');
-    d.innerHTML = `<span>${b.word}</span>`;
-    d.addEventListener('click', ()=>{
-      d.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260, easing:'ease-in'});
-      setTimeout(()=>d.remove(), 240);
-      showModal(b.word, b.msg);
-    });
-    area.appendChild(d);
-  });
-})();
-function showModal(title, msg){
-  $('#modalTitle').textContent = title;
-  $('#modalMsg').textContent = msg;
-  $('#modal').classList.add('show');
-}
-$('#modal').addEventListener('click', (e)=>{ if(e.target.id==='modal' || e.target.id==='modalClose') $('#modal').classList.remove('show'); });
-
-/* ===== Flip card ===== */
-(function flip(){ const card = $('#flipCard'); card.addEventListener('click', ()=> card.classList.toggle('is-flipped')); })();
-
-/* ===== Fireworks ===== */
-let fwStarted=false;
-function launchFireworks(){
-  if(fwStarted) return; fwStarted=true;
-  const canvas = $('#fireCanvas'), ctx = canvas.getContext('2d');
-  function fit(){ canvas.width = innerWidth; canvas.height = Math.max(300, innerHeight*0.9) }
-  fit(); addEventListener('resize', fit);
-  const particles = [];
-  function burst(x, y, color){
-    const n = 90;
-    for(let i=0;i<n;i++){
-      const a = (Math.PI*2)*i/n, sp = 2 + Math.random()*3;
-      particles.push({x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:60+Math.random()*20, color});
-    }
-  }
-  function tick(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    for(let i=particles.length-1;i>=0;i--){
-      const p=particles[i];
-      p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--;
-      ctx.fillStyle = `rgba(${p.color}, ${Math.max(0, p.life/80)})`;
-      ctx.fillRect(p.x, p.y, 2, 2);
-      if(p.life<=0) particles.splice(i,1);
-    }
-    requestAnimationFrame(tick);
-  }
-  tick();
-  function randomBurst(){
-    const x = Math.random()*canvas.width*0.9 + canvas.width*0.05;
-    const y = Math.random()*canvas.height*0.4 + canvas.height*0.1;
-    const colors = ['255,200,221','155,211,255','201,167,255','246,208,110'];
-    burst(x, y, colors[Math.floor(Math.random()*colors.length)]);
-  }
-  for(let i=0;i<4;i++) setTimeout(randomBurst, i*400);
-  const interval = setInterval(randomBurst, 1200);
-  setTimeout(()=> clearInterval(interval), 12000);
-}
-
-/* ===== Params (name/from), shimmer, monogram initials ===== */
-(function setParams(){
-  const params = new URLSearchParams(location.search);
-  const name = params.get('name') || DEFAULTS.name;
-  const from = params.get('from') || DEFAULTS.from;
-
-  const nmEl = $('#herNameDynamic'); if(nmEl) nmEl.textContent = name || 'you';
-  const fs = $('#letterFrom'); if(fs) fs.textContent = from;
-  const wn = $('#welcomeName'); if(wn) wn.textContent = name || 'you';
-  const wm = $('#wmName'); if(wm) wm.textContent = name || 'you';
-
-  // Her-day shimmer (Sept 5)
-  const d = new Date(); if(d.getMonth()===8 && d.getDate()===5) document.body.classList.add('her-day');
-
-  // Monogram initials
-  const initials = (name||'You').split(/\s+/).map(s=>s[0]?.toUpperCase()).slice(0,2).join('');
-  const mono = $('#monogram'); if(mono) mono.textContent = initials || '💛';
-
-  // Certificate fill
-  $('#certFor').textContent = name || 'You';
-  $('#certBy').textContent = from || 'Me';
-  $('#certDate').textContent = new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
-})();
-
-/* ===== Welcome overlay behavior + audio fade ===== */
-document.addEventListener('DOMContentLoaded', makeAmbience);
-const welcome = $('#welcome'); const startBtn = $('#startJourney');
-function startJourney(){
-  if(welcome) welcome.style.display='none';
-  makeAmbience();
-  $('#monogram')?.classList.add('bounce');
-}
-startBtn?.addEventListener('click', startJourney, { once:true });
-$('#walkBtn')?.addEventListener('click', ()=> { if(welcome?.style.display!=='none') startJourney(); }, { once:true });
-
-/* ===== Save final section as PNG ===== */
-$('#savePng').addEventListener('click', async () => {
-  if (!window.html2canvas) { alert('Export temporarily unavailable. Try again.'); return; }
-  const node = $('#finalCapture');
-  const canvas = await html2canvas(node, { backgroundColor: null, scale: 2, useCORS: true });
-  const dataUrl = canvas.toDataURL('image/png');
-  const nm = ($('#herNameDynamic')?.textContent || 'you').replace(/\s+/g,'_');
-  const a = document.createElement('a'); a.href = dataUrl; a.download = `Happy-Birthday-${nm}.png`; a.click();
-});
-
-/* ===== Letter overlay ===== */
-$('#endBtn').addEventListener('click', ()=> $('#letter').classList.add('show'));
-$('#closeLetter').addEventListener('click', ()=> $('#letter').classList.remove('show'));
-$('#letter').addEventListener('click', (e)=>{ if(e.target.id==='letter') e.currentTarget.classList.remove('show'); });
-
-/* ===== Monogram tooltip + LONG-PRESS certificate ===== */
-const tip = $('#monoTip'), mono = $('#monogram');
-mono?.addEventListener('click', ()=>{
-  if (!tip) return;
-  tip.textContent = `Made for ` + ($('#herNameDynamic')?.textContent || 'you') + ` by ` + ($('#letterFrom')?.textContent || DEFAULTS.from);
-  tip.classList.toggle('show'); mono.classList.add('bounce'); setTimeout(()=> mono.classList.remove('bounce'), 700);
-});
-(function longPress(){
-  let t=null;
-  const start=()=>{ t=setTimeout(()=> $('#cert').classList.add('show'), 650); };
-  const clear=()=>{ if(t){ clearTimeout(t); t=null; } };
-  mono?.addEventListener('mousedown', start); mono?.addEventListener('touchstart', start);
-  ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev=> mono?.addEventListener(ev, clear));
-})();
-$('#closeCert').addEventListener('click', ()=> $('#cert').classList.remove('show'));
-
-/* ===== Accessibility: ESC to close modals ===== */
-document.addEventListener('keydown', (e)=>{
-  if(e.key==='Escape'){
-    $('#modal')?.classList.remove('show');
-    $('#letter')?.classList.remove('show');
-    $('#cert')?.classList.remove('show');
-  }
-});
-</script>
-</body>
-</html>
+        <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons">
