@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Madamji ka Happy Birthday &lt;3</title>
-<meta name="description" content="A playful Krishna-night birthday story with personal welcome, name constellation, diya, blessings, card, fireworks, PNG export, and A5 QR postcard." />
+<meta name="description" content="A playful Krishna-night birthday story with personal welcome, name constellation, diya, blessings, card, fireworks, PNG export, and vows." />
 <style>
   :root{
     --night1:#0a0f26; --night2:#120f2e; --glow:#8ab4ff; --lav:#c9a7ff; --rose:#ff8fb1; --mint:#7ee6c9; --gold:#f6d06e;
@@ -178,34 +178,17 @@
   .endbtn{ margin-top:22px; background:linear-gradient(90deg,#ffd86e,#ff98c0); color:#15121d }
   .stack{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px }
 
-  /* POSTCARD (A5 preview + print) */
-  .postcard-wrap{ width:min(580px, 94vw); margin-inline:auto }
-  .postcard{
-    aspect-ratio: 148 / 210; border-radius:20px; background:
-      radial-gradient(800px 300px at 50% 0%, rgba(155,211,255,.10), transparent 60%),
-      linear-gradient(180deg, #0e1626, #0b1120 70%);
-    border:1px solid rgba(255,255,255,.12); position:relative; overflow:hidden;
-    box-shadow:0 18px 40px rgba(0,0,0,.30);
-    padding:18px;
+  /* Promise tokens */
+  .tokens{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:12px 0 0 }
+  .token{
+    width:60px; height:60px; border-radius:16px; display:grid; place-items:center; font-size:24px; cursor:pointer;
+    background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+    border:1px solid rgba(255,255,255,.10); box-shadow:0 10px 24px rgba(0,0,0,.25);
+    transition: transform .2s ease;
   }
-  .pc-border{ position:absolute; inset:12px; border-radius:16px; border:1px dashed rgba(255,255,255,.18); pointer-events:none }
-  .pc-title{ text-transform:uppercase; letter-spacing:.12em; font-size:12px; color:#9bd3ff; text-align:center; margin-top:4px }
-  .pc-body{ display:grid; grid-template-columns:1.2fr .8fr; gap:12px; height:calc(100% - 36px); padding-top:8px }
-  .pc-left{ font-size:14px; color:#cfe2ff; line-height:1.7; display:flex; align-items:center; justify-content:center; text-align:center; padding:8px }
-  .pc-right{ display:grid; place-items:center }
-  .qrbox{ background:#fff; padding:10px; border-radius:12px; box-shadow:0 10px 20px rgba(0,0,0,.25) }
-  .scan{ font-size:12px; color:#bac3e0; margin-top:8px; text-align:center }
-  .pc-flowers{
-    position:absolute; inset:auto auto 6px 6px; width:70px; height:70px; opacity:.7; pointer-events:none;
-    background: conic-gradient(from 0deg, #ffc8dd, #ffd6a5, #bde0fe, #caffbf, #ffc8dd);
-    -webkit-mask: radial-gradient(circle at 50% 50%, #000 60%, transparent 61%),
-                  radial-gradient(closest-side, #000 96%, transparent) 6px 6px / 22px 22px repeat;
-            mask: radial-gradient(closest-side, #000 96%, transparent) 6px 6px / 22px 22px repeat;
-    filter: blur(.4px);
-    border-radius:50%;
-  }
+  .token:active{ transform:scale(.97) }
 
-  /* Love letter overlay (kept) */
+  /* Love letter overlay */
   .letter-overlay{ position:fixed; inset:0; background:rgba(10,14,22,.68); backdrop-filter:blur(4px);
     display:none; align-items:center; justify-content:center; z-index:60; }
   .letter-overlay.show{ display:flex }
@@ -232,7 +215,7 @@
   .welcome p{ margin:.2rem 0 1rem; color:#cfe2ff }
   .welcome .btn{ font-weight:900 }
 
-  /* Monogram seal + tooltip (kept/improved) */
+  /* Monogram seal + tooltip */
   .mono{
     position:fixed; top:14px; left:14px; z-index:20;
     width:44px; height:44px; border-radius:50%;
@@ -250,7 +233,7 @@
   }
   .mono-tip.show{ display:block }
 
-  /* Long-press certificate */
+  /* Certificate overlay */
   .cert{ position:fixed; inset:0; z-index:65; display:none; align-items:center; justify-content:center;
     background:rgba(0,0,0,.55); backdrop-filter: blur(4px); }
   .cert.show{ display:flex }
@@ -281,21 +264,26 @@
   }
   @keyframes wmFade{ to{ opacity:0 } }
 
+  /* Peacock feather trail */
+  .feather{
+    position:fixed; top:30vh; left:-140px; width:140px; height:auto; z-index:8; opacity:.95;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,.35));
+    animation: fly 5s ease-in-out forwards;
+  }
+  @keyframes fly{
+    0%{ transform:translateX(-20px) rotate(-10deg) }
+    60%{ transform:translateX(calc(100vw + 40px)) rotate(5deg) }
+    100%{ transform:translateX(calc(120vw)) rotate(10deg); opacity:.8 }
+  }
+
   /* Her-day shimmer */
   body.her-day .flame{ animation: flicker .14s infinite alternate .1s }
   body.her-day .glow{ box-shadow:0 0 26px rgba(246,208,110,.55) }
 
+  /* print: hide overlays when printing page (not postcard) */
   @media print{
-    @page{ size: A5 portrait; margin: 10mm }
-    body{ background:white !important; color:#111827 }
-    .section, .stars, #petals, #fireCanvas, #constellation, .edit-only, .chapters, .mono, .mono-tip, .watermark, #welcome, #letter, #cert { display:none !important }
-    #printOnly{ display:block !important }
-    .postcard{ background:white; border:1px solid #d1d5db; box-shadow:none }
-    .pc-border{ border-color:#d1d5db }
-    .qrbox{ box-shadow:none }
+    .section, .stars, #petals, #constellation, .chapters, .mono, .mono-tip, .watermark, #welcome, #letter, #cert { display:none !important }
   }
-  #printOnly{ display:none }
-  .hint{ font-size:12px; color:var(--muted); text-align:center; margin-top:8px }
   .center{ text-align:center }
   .fade-in{ animation:fadeUp .9s ease .2s both }
   .sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
@@ -321,26 +309,6 @@
     <span class="dot" data-target="#divine" title="Divine"></span>
     <span class="dot" data-target="#final" title="Promise"></span>
   </nav>
-
-  <!-- Hidden print postcard -->
-  <div id="printOnly">
-    <div class="postcard">
-      <div class="pc-border"></div>
-      <div class="pc-title">Blessings & Love</div>
-      <div class="pc-body">
-        <div class="pc-left">
-          May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
-          May your days be soft where you need softness and strong where you need strength. You are rare, and I’m grateful to walk even a small distance beside you.
-          <br/>— From <span id="fromPrint">Me</span>
-        </div>
-        <div class="pc-right">
-          <div class="qrbox"><div id="qrPrint"></div></div>
-          <div class="scan">Scan to open your birthday page</div>
-        </div>
-      </div>
-      <div class="pc-flowers"></div>
-    </div>
-  </div>
 
   <!-- Background Audio via Web Audio (royalty-free, generated) -->
   <button id="soundToggle" class="sr-only" aria-label="Toggle sound"></button>
@@ -384,7 +352,7 @@
           <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
         </div>
         <div class="typewriter" id="typeTarget">You taught me to choose steadiness over noise, kindness over cleverness, and patience over pressure—the spark you lit still guides me.</div>
-        <a href="#playful" class="btn" id="next1">Next →</a>
+        <a href="#playful" class="btn next">Next →</a>
         <div class="hint">Chapter 2 • The Spark</div>
       </div>
     </section>
@@ -395,7 +363,7 @@
         <h2 class="center fade-in" style="margin-bottom:14px; font-weight:900; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; font-size:12px">Playful blessings</h2>
         <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
         <p class="hint">Tap a balloon to pop it and reveal a tiny blessing.</p>
-        <a href="#divine" class="btn">Next →</a>
+        <a href="#divine" class="btn next">Next →</a>
         <div class="hint">Chapter 3 • Playful Blessings</div>
       </div>
       <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -431,7 +399,7 @@
             </div>
           </div>
         </div>
-        <a href="#final" class="btn" style="margin-top:14px">Next →</a>
+        <a href="#final" class="btn next" style="margin-top:14px">Next →</a>
         <div class="hint">Chapter 4 • Divine Blessings</div>
       </div>
     </section>
@@ -445,35 +413,21 @@
           You are not just a day in my life—you are why my days feel alive.<br/>
           I promise to choose steadiness over spectacle, presence over performance, and to pray for your joy before mine.
         </div>
+
+        <!-- Promise tokens -->
+        <div class="tokens" aria-label="Promise tokens">
+          <button class="token" data-msg="I will keep patience soft.">🪷</button>
+          <button class="token" data-msg="I will guard your quiet.">🌙</button>
+          <button class="token" data-msg="I will be your steady.">🛡️</button>
+          <button class="token" data-msg="I will say it and show it.">💌</button>
+        </div>
+
         <div class="center stack">
           <button class="btn endbtn" id="endBtn">Read a little letter 💜</button>
           <button class="btn endbtn" id="savePng">Save final message (PNG)</button>
-          <button class="btn" id="printBtn">Print A5 QR Postcard</button>
         </div>
       </div>
       <div class="hint">Chapter 5 • The Promise</div>
-    </section>
-
-    <!-- POSTCARD PREVIEW (screen) -->
-    <section class="section" id="postcardSection">
-      <div class="container postcard-wrap">
-        <div class="postcard" id="cardA5">
-          <div class="pc-border"></div>
-          <div class="pc-title">Blessings & Love</div>
-          <div class="pc-body">
-            <div class="pc-left">
-              May Kanha and Bajrangbali always protect you. May your path be light, your smile effortless, and your heart steady.
-              <br/>— From <span id="fromScreen">Me</span>
-            </div>
-            <div class="pc-right">
-              <div class="qrbox"><div id="qrScreen"></div></div>
-              <div class="scan">Scan to open your birthday page</div>
-            </div>
-          </div>
-          <div class="pc-flowers"></div>
-        </div>
-        <p class="hint edit-only">Use the Print button above for crisp A5. This is just the on-screen preview.</p>
-      </div>
     </section>
 
     <!-- LETTER OVERLAY -->
@@ -497,9 +451,8 @@
   <!-- Watermark -->
   <div class="watermark" id="wm">Exclusively for <span id="wmName">you</span></div>
 
-<!-- deps for “Save as image” + QR -->
+<!-- deps for “Save as image” -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
 <script>
 /* ===== PERSONAL DEFAULTS (used if URL has no ?name&from) ===== */
@@ -563,15 +516,15 @@ function makeAmbience(){
     seq.forEach((f, i)=> fluteNote(f/2, t0 + i*0.9, 1.2));
     bell(t0 + 2.7);
   }
-  // Name-Mantra: map letters → pentatonic (Sa Re Ga Pa Ni) over A3
+  // Name-Mantra: map letters → pentatonic over A3
   function scheduleNameMantra(name, when){
     if(!name) return;
-    const scale = [220, 247, 262, 330, 392]; // A3 pentatonic-ish
-    const letters = Array.from(name.toUpperCase()).filter(c=> /[A-Z]/.test(c));
+    const scale = [220, 247, 262, 330, 392];
+    const letters = Array.from((name||'').toUpperCase()).filter(c=> /[A-Z]/.test(c));
     let t = when;
     letters.slice(0,10).forEach((ch, i)=>{
       const idx = (ch.charCodeAt(0) - 65) % scale.length;
-      const f = scale[idx] * (i%2 ? 1 : 2/3); // tiny contour
+      const f = scale[idx] * (i%2 ? 1 : 2/3);
       fluteNote(f, t, 1.1, 0.12);
       t += 0.6;
     });
@@ -587,7 +540,6 @@ function makeAmbience(){
     audioCtx.resume && audioCtx.resume();
     masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
     masterGain.gain.linearRampToValueAtTime(0.10, audioCtx.currentTime + 1.2);
-    // schedule the name phrase a moment later
     const nm = $('#herNameDynamic')?.textContent || DEFAULTS.name;
     scheduleNameMantra(nm, audioCtx.currentTime + 1.6);
   };
@@ -601,19 +553,17 @@ function makeAmbience(){
   function fit(){ cvs.width = innerWidth; cvs.height = innerHeight }
   fit(); addEventListener('resize', fit);
 
-  const N = 220; // particle count
+  const N = 220;
   const pts = Array.from({length:N}, ()=> ({
     x: Math.random()*cvs.width, y: Math.random()*cvs.height*0.8 + cvs.height*0.1,
     tx: 0, ty: 0
   }));
 
   function targetsFor(text){
-    // draw text to offscreen canvas, sample points
     const off = document.createElement('canvas'); const octx = off.getContext('2d');
     off.width = cvs.width; off.height = cvs.height;
     const fontSize = Math.min(180, Math.max(90, cvs.width*0.22));
-    octx.fillStyle='#fff';
-    octx.textAlign='center'; octx.textBaseline='middle';
+    octx.fillStyle='#fff'; octx.textAlign='center'; octx.textBaseline='middle';
     octx.font = `bold ${fontSize}px ui-sans-serif, system-ui`;
     octx.fillText(text, off.width/2, off.height*0.42);
     const data = octx.getImageData(0,0,off.width,off.height).data;
@@ -625,7 +575,6 @@ function makeAmbience(){
         if(a>128) t.push({x,y});
       }
     }
-    // pick N targets evenly
     const sel = [];
     for(let i=0;i<N;i++){ const p = t[Math.floor(i*(t.length/N))] || {x:Math.random()*off.width,y:Math.random()*off.height}; sel.push(p); }
     return sel;
@@ -634,8 +583,7 @@ function makeAmbience(){
   function moveTo(text, hold=2200){
     const targets = targetsFor(text);
     pts.forEach((p,i)=>{ const t=targets[i]; p.tx=t.x; p.ty=t.y; });
-    const t0 = performance.now();
-    let phase = 'in';
+    let phase = 'in', t0 = performance.now();
     function frame(t){
       ctx.clearRect(0,0,cvs.width,cvs.height);
       for(const p of pts){
@@ -650,14 +598,13 @@ function makeAmbience(){
       }
       if(phase==='out'){
         const moving = pts.some(p=> Math.hypot(p.tx-p.x,p.ty-p.y)>0.6 );
-        if(!moving) return; // stop after release
+        if(!moving) return;
       }
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   }
 
-  // Trigger after welcome starts journey
   function initialsFrom(name){
     const ins = (name||'You').trim().split(/\s+/).map(s=>s[0]?.toUpperCase()).slice(0,2).join(' ');
     return ins || 'YOU';
@@ -670,7 +617,7 @@ function makeAmbience(){
   $('#walkBtn').addEventListener('click', startConstellation, { once:true });
 })();
 
-/* ===== Chapters progress ===== */
+/* ===== Chapters progress + feather trail ===== */
 (function chapters(){
   const ids = ['landing','spark','playful','divine','final'];
   const dots = $$('.dot');
@@ -682,11 +629,36 @@ function makeAmbience(){
       if(e.isIntersecting){
         const i = ids.indexOf(e.target.id);
         dots.forEach((d,idx)=> d.classList.toggle('active', idx===i));
+        spawnFeather();
       }
     });
   }, { threshold:.5 });
   ids.forEach(id=> io.observe($('#'+id)));
+  // also on "Next" clicks
+  $$('.next').forEach(n => n.addEventListener('click', spawnFeather));
 })();
+
+/* ===== Peacock feather trail ===== */
+function spawnFeather(){
+  const div = document.createElement('div');
+  div.className = 'feather';
+  const top = 20 + Math.random()*50; div.style.top = top + 'vh';
+  div.innerHTML = `
+    <svg viewBox="0 0 300 90" width="140" height="42" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="eye" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1e2a78"/>
+          <stop offset="50%" stop-color="#2dd4bf"/>
+          <stop offset="100%" stop-color="#8b5cf6"/>
+        </radialGradient>
+      </defs>
+      <path d="M10,45 C80,10 160,10 290,45 C160,80 80,80 10,45 Z" fill="url(#eye)" opacity="0.9"/>
+      <path d="M10,45 C80,10 160,10 290,45" stroke="#a7f3d0" stroke-width="2" fill="none" />
+      <path d="M10,45 C80,80 160,80 290,45" stroke="#c4b5fd" stroke-width="2" fill="none" />
+    </svg>`;
+  document.body.appendChild(div);
+  div.addEventListener('animationend', ()=> div.remove());
+}
 
 /* ===== Section triggers ===== */
 const ioSparkFinal = new IntersectionObserver((entries)=>{
@@ -789,9 +761,7 @@ function launchFireworks(){
   const from = params.get('from') || DEFAULTS.from;
 
   const nmEl = $('#herNameDynamic'); if(nmEl) nmEl.textContent = name || 'you';
-  const fs = $('#fromScreen'); if(fs) fs.textContent = from;
-  const fp = $('#fromPrint');  if(fp) fp.textContent = from;
-  const lf = $('#letterFrom'); if(lf) lf.textContent = from;
+  const fs = $('#letterFrom'); if(fs) fs.textContent = from;
   const wn = $('#welcomeName'); if(wn) wn.textContent = name || 'you';
   const wm = $('#wmName'); if(wm) wm.textContent = name || 'you';
 
@@ -819,23 +789,6 @@ function startJourney(){
 startBtn?.addEventListener('click', startJourney, { once:true });
 $('#walkBtn')?.addEventListener('click', ()=> { if(welcome?.style.display!=='none') startJourney(); }, { once:true });
 
-/* ===== QR (screen + print) personalize to public URL ===== */
-function initQR(){
-  if (!window.QRCode) return;
-  const params = new URLSearchParams(location.search);
-  const name = params.get('name') || DEFAULTS.name;
-  const from = params.get('from') || DEFAULTS.from;
-  const base = location.origin + location.pathname; // your GitHub Pages URL path
-  const u = new URL(base); if(name) u.searchParams.set('name', name); if(from) u.searchParams.set('from', from); u.searchParams.set('v','qr');
-
-  const screen = $('#qrScreen'); if (screen){ screen.innerHTML=''; new QRCode(screen, { text: u.href, width: 140, height: 140, correctLevel: QRCode.CorrectLevel.M }); }
-  const pr = $('#qrPrint'); if (pr){ pr.innerHTML=''; new QRCode(pr, { text: u.href, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.M }); }
-}
-initQR();
-
-/* ===== Print postcard (A5) ===== */
-$('#printBtn').addEventListener('click', () => { initQR(); setTimeout(()=> window.print(), 200); });
-
 /* ===== Save final section as PNG ===== */
 $('#savePng').addEventListener('click', async () => {
   if (!window.html2canvas) { alert('Export temporarily unavailable. Try again.'); return; }
@@ -858,7 +811,6 @@ mono?.addEventListener('click', ()=>{
   tip.textContent = `Made for ` + ($('#herNameDynamic')?.textContent || 'you') + ` by ` + ($('#letterFrom')?.textContent || DEFAULTS.from);
   tip.classList.toggle('show'); mono.classList.add('bounce'); setTimeout(()=> mono.classList.remove('bounce'), 700);
 });
-
 (function longPress(){
   let t=null;
   const start=()=>{ t=setTimeout(()=> $('#cert').classList.add('show'), 650); };
@@ -879,6 +831,3 @@ document.addEventListener('keydown', (e)=>{
 </script>
 </body>
 </html>
-
-
-
