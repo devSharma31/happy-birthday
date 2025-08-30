@@ -90,10 +90,17 @@
   @keyframes glow{ from{ transform:translateX(-50%) scale(.9)} to{ transform:translateX(-50%) scale(1.05)} }
 
   .typewriter{
-    font-size:clamp(16px, 3.6vw, 22px); color:var(--muted); display:inline-block; border-right:2px solid var(--muted);
-    white-space:nowrap; overflow:hidden; width:0; opacity:.9;
-    animation: typing 4.5s steps(48,end) forwards, caret 700ms steps(1) infinite;
-  }
+  font-size:clamp(16px, 3.6vw, 22px);
+  color:var(--muted);
+  display:inline-block;
+  border-right:2px solid var(--muted);
+  white-space:normal;   /* allow wrapping */
+  overflow:visible;     /* don't clip text */
+  width:auto;           /* natural width */
+  opacity:.9;
+  animation: caret 700ms steps(1) infinite; /* keep blinking caret only */
+}
+
   @keyframes typing { to{ width:100% } }
   @keyframes caret { 50%{ border-color: transparent } }
 
@@ -437,15 +444,14 @@ const io = new IntersectionObserver((entries)=>{
 let typed = false;
 function typewriterStart(){
   if(typed) return; typed = true;
-  const el = $('#typeTarget');
+  const el = document.querySelector('#typeTarget');
   const text = el.textContent.trim();
-  el.textContent = ''; el.style.width = '0';
-  let i=0;
-  const timer = setInterval(()=>{
-    el.textContent += text[i++];
-    el.style.width = 'auto';
-    if(i>=text.length) clearInterval(timer);
-  }, 35);
+  el.textContent = '';
+  let i = 0;
+  const timer = setInterval(() => {
+    el.textContent += text[i++] || '';
+    if (i >= text.length) clearInterval(timer);
+  }, 30);
 }
 
 /* ========= Balloons ========= */
@@ -583,6 +589,7 @@ document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') $('#modal').cla
 </script>
 </body>
 </html>
+
 
 
 
