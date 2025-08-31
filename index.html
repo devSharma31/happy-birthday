@@ -1,360 +1,369 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Night for You — Happy Birthday ♥</title>
-<meta name="description" content="A playful, personal birthday story with petals, balloons, divine blessings, a dreamy photo spotlight, themes, and heart-shaped fireworks — crafted for Shruti.">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>for Shruti — a small night</title>
+<meta name="description" content="A small, hand-made birthday page for Shruti—diya, blessings, her photos, greeting cards, and heart fireworks. Trust-first, playful, spiritual.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;600;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
-/* ================== THEME ================== */
+/* ===== Palettes (Night / Gulabi / Denim) ===== */
 :root{
-  --night1:#0a0f26; --night2:#120f2e;
-  --pink:#ff9ccc; --denim:#4f6fa8; --beige:#f5e6cc; --black:#0b0b10;
-  --ink:#e9ecff; --muted:#c9d2f0; --flower:#ffc8dd; --gold:#f6d06e; --accent:#9bd3ff;
+  --bg1:#0c1022; --bg2:#14102e; --ink:#eef2ff; --muted:#cdd5f9; --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
+  --petal:#ffc8dd; --gold:#f6d06e; --card:#10182a; --card2:#0f1730;
 }
-.theme-girly{ --night1:#1a0b24; --night2:#2a1345; --accent:#ff8fb1; --ink:#fff4fa; --muted:#ffd9e8 }
-.theme-pink { --accent: var(--pink) }
-.theme-denim{ --accent: var(--denim) }
-.theme-beige{ --accent: #c79f6c; --ink:#fff8ef; --muted:#f1e1cf }
-.theme-black{ --accent: #d1d5db; --night1:#06070b; --night2:#0b0c12 }
+.gulabi{ --bg1:#1a0b24; --bg2:#2a1345; --accent:#ff96c8; --ink:#fff4fa; --muted:#ffd9e8; --petal:#ffd1e1; --card:#1a1430; --card2:#23193f }
+.denim { --bg1:#0b1322; --bg2:#0b1b33; --accent:#85a9ff; --ink:#eaf2ff; --muted:#cfe0ff; --petal:#c7d7ff; --card:#0c1629; --card2:#0e1d36 }
 
-html,body{height:100%}
-html{scroll-behavior:smooth}
+html,body{height:100%} html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:0.001ms!important;animation-iteration-count:1!important;transition-duration:0.001ms!important;scroll-behavior:auto!important}
+}
 body{
   margin:0; color:var(--ink);
-  font-family:'Poppins',ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
   background:
-    radial-gradient(1100px 560px at 50% -10%, rgba(138,180,255,.18), transparent 70%),
-    linear-gradient(180deg, var(--night1), var(--night2));
+   radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
+   linear-gradient(180deg,var(--bg1),var(--bg2));
   overflow-x:hidden;
 }
-h1,h2{font-family:'Playfair Display',serif}
-.container{max-width:1100px;margin:0 auto;padding:0 16px}
-.section{min-height:100vh; display:grid; place-items:center; position:relative; padding:84px 0}
+h1,h2{font-family:"Playfair Display",serif}
+.container{max-width:980px;margin:0 auto;padding:0 16px}
+.section{min-height:100vh;display:grid;place-items:center;padding:84px 0;position:relative}
 .center{text-align:center}
-.hint{font-size:12px;color:var(--muted)}
-.fade-up{opacity:0; transform:translateY(10px); animation:fadeUp .7s ease .2s forwards}
-@keyframes fadeUp{to{opacity:1; transform:none}}
-
-/* Stars + constellation */
-.stars{position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.9;
-  background:
-    radial-gradient(2px 2px at 20% 30%, #fff, transparent 60%),
-    radial-gradient(2px 2px at 80% 20%, #fff, transparent 60%),
-    radial-gradient(1.5px 1.5px at 30% 80%, #fff, transparent 60%),
-    radial-gradient(1.5px 1.5px at 70% 70%, #fff, transparent 60%),
-    radial-gradient(1.5px 1.5px at 50% 50%, #fff, transparent 60%);
-  animation:twinkle 6s ease-in-out infinite alternate }
-@keyframes twinkle{from{opacity:.6}to{opacity:1}}
-#constellation{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.9; mix-blend-mode:screen}
-
-/* Floating petals + hearts */
-.petal, .heartFloat{
-  position:fixed; top:-40px; width:16px; height:16px; pointer-events:none; z-index:0; opacity:.8;
-  filter:drop-shadow(0 8px 10px rgba(255,200,221,.25));
-}
-.petal{
-  background:radial-gradient(circle at 30% 30%, #fff, transparent 60%), var(--flower);
-  border-radius:40% 60% 60% 40% / 60% 60% 40% 40%;
-}
-.heartFloat{
-  background:none; font-size:18px; /* uses character ❤️ */
-}
-
-/* Buttons + chips */
-.btn{
-  appearance:none;border:none;border-radius:20px;padding:14px 20px;font-weight:800;cursor:pointer;
-  background:
-    radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,.5), transparent 60%),
-    linear-gradient(90deg,var(--accent),#b794ff);
-  color:#0c0e1a;box-shadow:0 14px 28px rgba(0,0,0,.25)
-}
+.muted{color:var(--muted)}
+a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;font-weight:800;cursor:pointer;color:#0c0f17;
+  background:linear-gradient(90deg,var(--accent),#c9a7ff);box-shadow:0 12px 24px rgba(0,0,0,.28)}
 .btn:active{transform:translateY(1px) scale(.99)}
-.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.soft{border:1px solid var(--edge);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:0 18px 44px rgba(0,0,0,.35)}
+.fade{opacity:0;transform:translateY(6px);animation:fade .7s ease .2s forwards}
+@keyframes fade{to{opacity:1;transform:none}}
+.hint{font-size:12px;color:var(--muted)}
+.sig{position:fixed;left:12px;top:12px;font-size:12px;color:var(--muted);z-index:10}
+.sig b{color:var(--accent)}
+.mood{position:fixed;right:12px;top:12px;display:flex;gap:8px;z-index:10}
+.mood button{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.mood .n{background:#1c1f2d}.mood .g{background:#ff8fb1}.mood .d{background:#85a9ff}
 
-/* Theme switcher */
-.themes{position:fixed; right:12px; top:12px; display:flex; gap:8px; z-index:12}
-.chip{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25)}
-.chip.girly{background:#ff8fb1} .chip.pink{background:var(--pink)} .chip.denim{background:var(--denim)} .chip.beige{background:var(--beige)} .chip.black{background:var(--black)} .chip.auto{background:linear-gradient(45deg,#ff9ccc,#c9a7ff,#9bd3ff)}
+/* Stars + sky layers */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.85;
+  background:
+    radial-gradient(2px 2px at 18% 28%,#fff,transparent 60%),
+    radial-gradient(2px 2px at 78% 22%,#fff,transparent 60%),
+    radial-gradient(1.5px 1.5px at 32% 72%,#fff,transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 64%,#fff,transparent 60%),
+    radial-gradient(1.5px 1.5px at 52% 48%,#fff,transparent 60%);
+  animation:twinkle 6s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.6}to{opacity:1}}
+#trail,#nameConstellation{position:fixed;inset:0;pointer-events:none;z-index:0;mix-blend-mode:screen;opacity:.95}
 
-/* Ribbon + progress */
-.nick-ribbon{position:fixed; left:50%; top:16px; transform:translateX(-50%); z-index:11; padding:6px 12px; border-radius:999px;
-  background:rgba(255,255,255,.08); color:var(--ink); border:1px solid rgba(255,255,255,.12); backdrop-filter:blur(6px); font-size:12px}
-.nick-ribbon b{color:var(--accent)}
-.chapters{position:fixed; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:10; background:rgba(12,14,26,.35); padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.08); backdrop-filter:blur(6px)}
-.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.28);box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
-.dot.active{background:linear-gradient(180deg,var(--accent),#c9a7ff)}
-
-/* Welcome overlay */
-.welcome{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(9,12,24,.65);backdrop-filter:blur(6px);z-index:70;padding:18px}
-.welcome .card{width:min(720px,92vw);border-radius:22px;padding:22px;text-align:center;border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,#0f1730,#0c1226);box-shadow:0 18px 44px rgba(0,0,0,.45)}
-.welcome h2{margin:.2rem 0 .6rem;font-size:clamp(20px,5vw,30px)}
-.welcome p{margin:.2rem 0 1rem;color:#cfe2ff}
-#welcome.fade-out{animation:fadeWelcome .28s ease forwards}
-@keyframes fadeWelcome{to{opacity:0;visibility:hidden}}
+/* Petals */
+#petals{position:fixed;inset:0;pointer-events:none;z-index:1}
+.petal{position:fixed;top:-40px;width:14px;height:14px;background:radial-gradient(circle at 30% 30%,#fff,transparent 60%),var(--petal);
+  border-radius:42% 58% 58% 42%/64% 62% 38% 36%;opacity:.75;filter:drop-shadow(0 8px 10px rgba(255,200,221,.25))}
 
 /* Landing */
-.landing-inner{text-align:center;max-width:820px}
-.title{font-size:clamp(24px,6vw,42px);line-height:1.25}
+.title{font-size:clamp(24px,6vw,40px);line-height:1.28;margin:0 0 12px}
+.lead{max-width:740px;margin:0 auto 16px}
+.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
-/* Diya spark */
-.spark-wrap{display:grid;gap:22px;justify-items:center;text-align:center;max-width:760px}
-.diya{width:150px;height:150px;position:relative;filter:drop-shadow(0 30px 40px rgba(246,208,110,.22)); transform:translateY(8px) scale(.96);transition:.7s ease}
-.diya .bowl{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:140px;height:60px;background:radial-gradient(150px 60px at 50% 0%,#6b3b1b,#341c0f 70%);border-radius:80px 80px 30px 30px/40px 40px 30px 30px;box-shadow:inset 0 10px 26px rgba(255,255,255,.06)}
-.diya .oil{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);width:120px;height:20px;background:radial-gradient(120px 20px at 50% 60%,#2c1409,#120803 70%);border-radius:999px}
-.flame{position:absolute;left:50%;bottom:54px;transform:translateX(-50%) rotate(-2deg);width:22px;height:36px;background:radial-gradient(ellipse at 50% 20%,#fff6b0,#ffd275 40%,rgba(255,120,64,.9) 70%,rgba(255,120,64,0) 75%); border-radius:50%/70% 70% 30% 30%;opacity:0;filter:blur(.3px)}
-.glow{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);width:120px;height:120px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,110,.42),rgba(255,214,110,0));opacity:0;pointer-events:none}
-.diya.lit{transform:translateY(0) scale(1)}
-.diya.lit .flame{animation:flicker .18s infinite alternate .2s;opacity:1}
-.diya.lit .glow{animation:glow 1.2s ease-in-out infinite alternate .2s;opacity:1}
+/* Diya */
+.diya{width:140px;height:140px;position:relative;filter:drop-shadow(0 28px 40px rgba(246,208,110,.22));transform:translateY(6px) scale(.96);transition:.7s ease}
+.bowl{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:130px;height:56px;background:radial-gradient(130px 56px at 50% 0%,#6b3b1b,#341c0f 70%);border-radius:80px 80px 30px 30px/40px 40px 30px 30px;box-shadow:inset 0 10px 24px rgba(255,255,255,.06)}
+.oil{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);width:110px;height:18px;background:radial-gradient(110px 18px at 50% 60%,#2c1409,#120803 70%);border-radius:999px}
+.flame{position:absolute;left:50%;bottom:52px;transform:translateX(-50%) rotate(-2deg);width:20px;height:34px;background:radial-gradient(ellipse at 50% 20%,#fff6b0,#ffd275 40%,rgba(255,120,64,.9) 70%,rgba(255,120,64,0) 75%);border-radius:50%/70% 70% 30% 30%;opacity:0}
+.glow{position:absolute;left:50%;bottom:52px;transform:translateX(-50%);width:110px;height:110px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,110,.42),rgba(255,214,110,0));opacity:0}
+.lit{transform:translateY(0) scale(1)}
+.lit .flame{animation:flicker .18s infinite alternate .1s;opacity:1}
+.lit .glow{animation:glow 1.2s ease-in-out infinite alternate .1s;opacity:1}
 @keyframes flicker{from{transform:translateX(-50%) rotate(-2deg) scaleY(1)}to{transform:translateX(-50%) rotate(2deg) scaleY(1.07)}}
 @keyframes glow{from{transform:translateX(-50%) scale(.9)}to{transform:translateX(-50%) scale(1.05)}}
 
-/* Typewriter look */
-.typeLine{font-size:clamp(16px,3.6vw,22px); color:var(--muted); max-width:min(92vw,760px); margin:0 auto}
-
-/* Balloons */
-.balloon-area{position:relative;height:68vh;max-height:680px;width:100%;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
-.balloon{--c:#ff9ccc;--x:10;--delay:0;position:absolute;bottom:-120px;left:calc(var(--x)*1%);width:64px;height:80px;border-radius:50% 50% 45% 45%/55% 55% 45% 45%;background:radial-gradient(circle at 30% 30%,#fff8,transparent 60%),var(--c);box-shadow:inset -10px -16px 24px rgba(0,0,0,.2);animation:floatUp 16s linear infinite;animation-delay:calc(var(--delay)*1s);display:grid;place-items:center;color:#0c0e1a;font-weight:900;text-shadow:0 1px 0 #ffffff88;cursor:pointer}
+/* Balloons + modal */
+.balloon-area{position:relative;height:64vh;max-height:640px;width:100%;overflow:hidden;border-radius:18px;border:1px solid var(--edge);
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.balloon{--c:#ff9ccc;--x:10;--delay:0;position:absolute;bottom:-120px;left:calc(var(--x)*1%);width:64px;height:80px;border-radius:50% 50% 45% 45%/55% 55% 45% 45%;
+  background:radial-gradient(circle at 30% 30%,#fff8,transparent 60%),var(--c);box-shadow:inset -10px -16px 24px rgba(0,0,0,.2);animation:floatUp 16s linear infinite;animation-delay:calc(var(--delay)*1s);
+  display:grid;place-items:center;color:#0c0e1a;font-weight:900;text-shadow:0 1px 0 #ffffff88;cursor:pointer}
 .balloon::after{content:"";position:absolute;width:2px;height:120px;background:rgba(255,255,255,.3);left:50%;bottom:-120px}
 .balloon span{background:#fff;padding:4px 8px;border-radius:999px;font-size:12px}
 @keyframes floatUp{from{transform:translateY(0)}to{transform:translateY(-105vh)}}
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:50}
 .modal.show{display:flex}
-.dialog{max-width:560px;margin:16px;background:linear-gradient(180deg,#0e1628,#0c1323);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:18px;text-align:center;box-shadow:0 18px 40px rgba(0,0,0,.44)}
+.dialog{max-width:560px;margin:16px;background:linear-gradient(180deg,#0e1628,#0c1323);border:1px solid var(--edge);border-radius:18px;padding:18px;text-align:center;box-shadow:0 18px 40px rgba(0,0,0,.44)}
 .dialog h4{margin:.25rem 0 .5rem;font-size:20px}
 .dialog p{margin:0;color:#c8d2f0}
 
-/* Spotlight gallery */
-.gallery{width:min(1000px,95vw); margin:0 auto; display:grid; gap:14px}
-.heroFrame{position:relative; border-radius:22px; overflow:hidden; height:min(62vh,560px); box-shadow:0 22px 60px rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.12)}
-.heroFrame img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.06); animation:kenburns 14s ease-in-out infinite}
-@keyframes kenburns{0%{transform:scale(1.06) translate(0,0)} 50%{transform:scale(1.12) translate(-2%, -2%)} 100%{transform:scale(1.06) translate(0,0)}}
-.thumbs{display:grid; grid-template-columns:repeat(5,1fr); gap:10px}
-.thumb{position:relative; border-radius:14px; overflow:hidden; height:80px; border:2px solid transparent; cursor:pointer}
-.thumb img{width:100%; height:100%; object-fit:cover; transition:transform .2s}
-.thumb:hover img{transform:scale(1.06)}
-.thumb.active{border-color:var(--accent)}
-.lb{display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:90; align-items:center; justify-content:center}
-.lb img{max-width:92vw; max-height:86vh; border-radius:14px; box-shadow:0 22px 60px rgba(0,0,0,.6); border:1px solid rgba(255,255,255,.15)}
-.lb .pill{position:absolute; right:14px; top:14px}
+/* Greeting cards section */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;width:min(100%,980px)}
+.card{position:relative;padding:16px;border-radius:16px;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--edge);box-shadow:0 16px 38px rgba(0,0,0,.35);transform:translateY(0);transition:.2s}
+.card:hover{transform:translateY(-2px)}
+.card h3{margin:.3rem 0 .4rem;font-family:"Caveat",cursive;font-size:24px;color:var(--accent)}
+.card p{margin:.2rem 0 .2rem;line-height:1.7}
+.card .charm{position:absolute;right:10px;top:10px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
+.card .spark{position:absolute;left:-8px;bottom:-8px;font-size:22px;opacity:.85}
 
-/* Divine */
-.temple-bg{position:absolute;inset:0;pointer-events:none;opacity:.25;background:radial-gradient(1200px 600px at 50% 10%,rgba(155,211,255,.08),transparent 60%)}
-.card-3d{perspective:1200px;width:min(680px,92vw)}
-.flip{position:relative;transform-style:preserve-3d;transition:transform .8s ease;cursor:pointer}
-.flip .face{backface-visibility:hidden;border-radius:18px;padding:22px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));box-shadow:0 18px 40px rgba(0,0,0,.2)}
-.flip .back{position:absolute;inset:0;transform:rotateY(180deg)}
-.flip.is-flipped{transform:rotateY(180deg)}
-.front-title{font-weight:900;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;font-size:12px}
-.front-text{font-size:clamp(16px,3.4vw,20px);color:var(--muted)}
+/* Spotlight (her photos only) */
+.gallery{display:grid;gap:12px}
+.hero{position:relative;border-radius:20px;overflow:hidden;height:min(60vh,520px)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:ken 14s ease-in-out infinite}
+@keyframes ken{0%{transform:scale(1.04)}50%{transform:scale(1.1) translate(-1%,-1%)}100%{transform:scale(1.04)}}
+.polaroids{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.pol{height:160px;border-radius:12px;overflow:hidden;border:2px solid transparent;background:#fff0;cursor:grab;transform:rotate(var(--r,0deg)) scale(1);transition:transform .2s}
+.pol img{width:100%;height:100%;object-fit:cover}
+.pol.active{border-color:var(--accent)}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:60;align-items:center;justify-content:center}
+.lightbox img{max-width:92vw;max-height:86vh;border-radius:14px;border:1px solid var(--edge);box-shadow:0 22px 60px rgba(0,0,0,.6)}
+.lightbox .x{position:absolute;top:12px;right:12px}
 
-/* Final */
-#fireCanvas{position:absolute;inset:0;pointer-events:none}
-.final-inner{text-align:center;max-width:820px}
-.glowtext{font-size:clamp(22px,5vw,38px);line-height:1.35;text-shadow:0 0 18px rgba(155,211,255,.25)}
-.stack{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+/* Inside lines mini-carousel */
+.carousel{display:grid;gap:10px;justify-items:center}
+.slide{max-width:760px;text-align:center;padding:16px;border-radius:16px;border:1px solid var(--edge);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03))}
+.nav{display:flex;gap:10px;justify-content:center}
 
-/* Watermark, tips, theme cycling */
-.watermark{position:fixed;right:12px;bottom:10px;z-index:15;font-size:12px;color:#bac3e0;opacity:.92;background:rgba(0,0,0,.2);padding:6px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
-
-/* print */
-@media print{ .section, .stars, #petals, #constellation, .chapters, .themes, .watermark, #welcome, #ytOverlay { display:none !important } }
+/* Divine + Final */
+#fire{position:absolute;inset:0;pointer-events:none}
+.final p{font-size:clamp(18px,3.6vw,22px);line-height:1.6}
+@media (max-width:560px){ .polaroids{grid-template-columns:repeat(2,1fr)} }
 </style>
 </head>
-<body class="theme-girly">
-  <!-- Theme chips -->
-  <div class="themes">
-    <button class="chip girly"  data-theme="girly"  title="Girly"></button>
-    <button class="chip pink"   data-theme="pink"   title="Pink"></button>
-    <button class="chip denim"  data-theme="denim"  title="Denim"></button>
-    <button class="chip beige"  data-theme="beige"  title="Beige"></button>
-    <button class="chip black"  data-theme="black"  title="Black"></button>
-    <button class="chip auto"   data-theme="auto"   title="Auto"></button>
+
+<!-- 1) Landing -->
+<section class="section" id="home">
+  <div class="container center">
+    <h1 class="title fade">On this small night, the universe plays its sweetest tune…</h1>
+    <p class="lead muted fade">…because it’s your day, <span id="nm1">Shruti</span>. (Madamji, Laadliji—haan, dono tum ho.)</p>
+    <div class="cta">
+      <a class="btn" href="#spark" id="walk">Walk with me →</a>
+      <button class="btn" id="playSongTop">Play that feeling 🎵</button>
+    </div>
+    <p class="hint" style="margin-top:8px">Tip: add <code>?yt=VIDEO_ID</code> to the URL to preload the song.</p>
   </div>
+</section>
 
-  <!-- Nickname ribbon -->
-  <div class="nick-ribbon">A page for <b>Shruti</b> — lovingly called <b>Madamji</b>, <b>Laadliji</b>, and sometimes <b>Panditayan</b>.</div>
+<!-- 2) Spark (diya) -->
+<section class="section" id="spark">
+  <div class="container center">
+    <div class="diya soft" id="diya" title="Long-press for a note">
+      <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
+    </div>
+    <p id="line" class="muted" style="max-width:760px;margin:16px auto 6px">
+      Jahan tum dheere ho, main aur dheere. Tum chup raho, main pehle sununga.
+    </p>
+    <a class="btn" href="#blessings">Next →</a>
+  </div>
+</section>
 
-  <!-- Constellation + stars -->
-  <canvas id="constellation" aria-hidden="true"></canvas>
-  <div class="stars" aria-hidden="true"></div>
-
-  <!-- Petals & hearts -->
-  <div id="petals" aria-hidden="true"></div>
-  <div id="hearts" aria-hidden="true"></div>
-
-  <!-- Progress dots -->
-  <nav class="chapters" aria-label="Story progress">
-    <span class="dot active" data-target="#landing"></span>
-    <span class="dot" data-target="#spark"></span>
-    <span class="dot" data-target="#playful"></span>
-    <span class="dot" data-target="#spotlight"></span>
-    <span class="dot" data-target="#divine"></span>
-    <span class="dot" data-target="#final"></span>
-  </nav>
-
-  <!-- YouTube overlay (optional) -->
-  <div id="ytOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:80; align-items:center; justify-content:center;">
-    <div style="width:min(860px,92vw); aspect-ratio:16/9; background:#000; border:1px solid rgba(255,255,255,.12); border-radius:12px; overflow:hidden; position:relative;">
-      <iframe id="ytFrame" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      <button id="ytClose" class="btn" style="position:absolute; right:10px; top:10px; border-radius:12px;">Close ✖</button>
+<!-- 3) Blessings (Haryanvi sprinkles) -->
+<section class="section" id="blessings">
+  <div class="container center" style="width:min(100%,960px)">
+    <h2 style="margin:0 0 12px;color:var(--accent)">Chhoti-chhoti aashirwad</h2>
+    <div class="bArea" id="bArea" aria-label="Blessing balloons"></div>
+    <p class="hint">Tap a balloon to pop it—Laadliji, ye sab tumhare liye.</p>
+    <a class="btn" href="#cards">Next →</a>
+  </div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="dialog">
+      <h4 id="modalTitle">A message</h4>
+      <p id="modalMsg">You are loved.</p>
+      <button class="btn" id="modalClose">Close</button>
     </div>
   </div>
+</section>
 
-  <!-- Welcome -->
-  <div class="welcome" id="welcome">
-    <div class="card">
-      <h2>Hi <span id="welcomeName">Shruti</span> 🌸</h2>
-      <p>I made this tiny night just for you. Chal, Madamji—walk with me and let the blessings unfold.</p>
-      <div class="btn-row">
-        <a class="btn" id="startJourney" href="#spark" onclick="window.__start && window.__start(); return false;">Start your tiny journey ✨</a>
-        <button class="btn" id="playSong" type="button">Play her song 🎵</button>
-      </div>
-      <p class="hint center" style="margin-top:8px">You can pre-load a track with <code>?yt=VIDEO_ID</code></p>
+<!-- 4) Greeting cards row (flip to read) -->
+<section class="section" id="cards">
+  <div class="container">
+    <h2 class="center" style="margin:0 0 12px">Some blessings, like little greeting cards</h2>
+    <div class="cards" id="cardsRow">
+      <!-- cards injected by JS -->
+    </div>
+    <div class="center" style="margin-top:12px">
+      <a class="btn" href="#her">Next →</a>
     </div>
   </div>
-
-  <main>
-    <!-- Landing -->
-    <section class="section" id="landing">
-      <div class="container landing-inner">
-        <h1 class="title fade-up">On this special day, the universe plays its sweetest tune… because it’s your day.</h1>
-        <p class="hint">P.S. Laadliji, tap the button above if the music is shy 🙂</p>
+</section>
+<!-- 5) Spotlight (only her photos) -->
+<section class="section" id="her">
+  <div class="container">
+    <div class="gallery">
+      <div class="hero soft"><img id="hero" alt="her photo" src=""></div>
+      <div id="thumbs" class="thumbs"></div>
+      <p class="hint center">Every picture repeats the truth: you’re sukoon… the rare kind, <span id="nm2">Shruti</span>.</p>
+      <div class="center" style="margin-top:10px">
+        <a class="btn" href="#final">Final page →</a>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- Spark -->
-    <section class="section" id="spark">
-      <div class="container spark-wrap">
-        <div class="diya" id="diya" aria-label="Glowing diya">
-          <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
-        </div>
-        <p class="typeLine" id="typeLine">
-          You keep mischief in my smile and peace in my steps. Panditayan, your steadiness is my favorite kind of magic.
-        </p>
-        <a href="#playful" class="btn">Next →</a>
-      </div>
-    </section>
+<!-- 6) Final promise + diyas heart + heart fireworks -->
+<section class="section final" id="final" style="overflow:hidden">
+  <canvas id="fire" aria-hidden="true"></canvas>
+  <div class="container center">
+    <h2 style="margin:0 0 8px">Happy Birthday, <span id="nm3">Shruti</span>!</h2>
+    <p>You are not a day in my life—you’re why my days feel alive. Madamji, I’ll choose steadiness, daily.</p>
+    <div class="cta">
+      <button class="btn" id="gift">cute shower 🎁</button>
+      <button class="btn" id="playSongBottom">Play song again 🎵</button>
+      <button class="btn" id="saveCard">Save this as PNG 💾</button>
+    </div>
+  </div>
+</section>
 
-    <!-- Playful Blessings -->
-    <section class="section" id="playful">
-      <div class="container" style="width:min(100%,960px)">
-        <h2 class="center" style="margin-bottom:14px; font-weight:900; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; font-size:12px">Playful blessings</h2>
-        <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
-        <p class="hint center">Tap a balloon to pop it and reveal a tiny blessing, Madamji.</p>
-        <a href="#spotlight" class="btn">Next →</a>
-      </div>
-      <!-- Modal -->
-      <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="dialog">
-          <h4 id="modalTitle">A message</h4>
-          <p id="modalMsg">You are loved.</p>
-          <button class="btn" id="modalClose">Close</button>
-        </div>
-      </div>
-    </section>
+<!-- lightbox -->
+<div class="lightbox" id="lb">
+  <img id="lbImg" alt="">
+  <button class="btn x" onclick="closeLB()">Close ✖</button>
+</div>
 
-    <!-- Spotlight: ONLY her photos -->
-    <section class="section" id="spotlight">
-      <div class="container gallery">
-        <div class="heroFrame">
-          <img id="heroImg" alt="her" src="" />
-        </div>
-        <div class="thumbs" id="thumbs"></div>
-        <p class="hint center">Every picture whispers the same thing: “you’re trouble… the good kind.”</p>
-        <a href="#divine" class="btn center" style="justify-self:center">Next →</a>
-      </div>
-    </section>
-
-    <!-- Divine -->
-    <section class="section" id="divine">
-      <div class="temple-bg" aria-hidden="true"></div>
-      <div class="container" style="display:grid; place-items:center">
-        <div class="card-3d">
-          <div class="flip" id="flipCard" aria-label="Digital birthday card. Tap to flip.">
-            <div class="face front">
-              <div class="front-title">Divine Blessings</div>
-              <div class="front-text" style="margin-top:6px">Tap to open your card</div>
-              <svg width="100%" height="120" viewBox="0 0 600 120" aria-hidden="true" style="opacity:.35; margin-top:8px">
-                <path d="M50,110 L120,110 L140,80 L160,110 L300,110 L320,70 L340,110 L460,110 L480,85 L500,110 L560,110" fill="none" stroke="url(#g)" stroke-width="2"/>
-                <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#9bd3ff"/><stop offset="100%" stop-color="#c9a7ff"/></linearGradient></defs>
-              </svg>
-            </div>
-            <div class="face back">
-              <div style="font-size:clamp(16px, 3.5vw, 20px); line-height:1.7">
-                May Kanha and <strong>Bajrangbali</strong> keep you safe. And may your days be soft where you need softness and strong where you need strength, Madamji.
-              </div>
-              <div style="margin-top:12px; color:var(--muted)">Tap again to close</div>
-            </div>
-          </div>
-        </div>
-        <a href="#final" class="btn" style="margin-top:14px">Next →</a>
-      </div>
-    </section>
-
-    <!-- Final -->
-    <section class="section" id="final" style="overflow:hidden">
-      <canvas id="fireCanvas" aria-hidden="true"></canvas>
-      <div class="container final-inner">
-        <div class="glowtext" id="finalText">
-          Happy Birthday, <span id="herNameDynamic">Shruti</span>.<br/>
-          You aren’t just a day in my life — you’re why my days feel alive. Laadliji, thank you for being you.
-        </div>
-        <div class="stack">
-          <button class="btn" id="giftBtn">Open cute surprise 🎁</button>
-          <button class="btn" id="playSongFinal">Play her song again 🎵</button>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <div class="watermark">Exclusively for <span id="wmName">Shruti</span> • Madamji • Laadliji • Panditayan</div>
+<!-- YouTube overlay -->
+<div id="ytOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:80;align-items:center;justify-content:center">
+  <div style="width:min(860px,92vw);aspect-ratio:16/9;background:#000;border:1px solid var(--edge);border-radius:12px;overflow:hidden;position:relative">
+    <iframe id="yt" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <button class="btn" style="position:absolute;right:10px;top:10px" onclick="closeYT()">Close ✖</button>
+  </div>
+</div>
 
 <script>
-/* ============== PERSONAL DEFAULTS ============== */
-const DEFAULTS = { name:'Shruti', from:'Pandit Ji', theme:'girly' };
+/* ===== helpers ===== */
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const QS=new URLSearchParams(location.search);
 
-/* ============== HELPERS ============== */
-const $ = (s,root=document)=>root.querySelector(s);
-const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
+/* ===== personalization ===== */
+const HER_NAME = QS.get('name') || 'Shruti';
+$('#nm1').textContent = HER_NAME; $('#nm2').textContent = HER_NAME; $('#nm3').textContent = HER_NAME;
 
-/* ============== PETALS + HEARTS FLOAT ============== */
-(function petals(){
-  const wrap = $('#petals'), hearts = $('#hearts');
-  for(let i=0;i<26;i++){
-    const p = document.createElement('div'); p.className='petal';
-    p.style.left = (Math.random()*100) + 'vw';
-    const sz = 10 + Math.random()*12; p.style.width=sz+'px'; p.style.height=sz+'px';
-    const dur = 9000 + Math.random()*7000, delay = Math.random()*4000;
-    const horiz = (Math.random()<.5?-1:1) * (10 + Math.random()*14);
-    p.animate([{transform:`translate(0,0) rotate(0deg)`,top:'-40px'},
-               {transform:`translate(${horiz}vw,110vh) rotate(${Math.random()*360}deg)`,top:'110vh'}],
-               {duration:dur,delay,iterations:Infinity,easing:'ease-in'});
-    wrap.appendChild(p);
+/* ===== mood toggle + memory ===== */
+function setMood(m){
+  localStorage.setItem('mood', m);
+  document.body.classList.remove('gulabi','denim');
+  if(m==='gulabi') document.body.classList.add('gulabi');
+  if(m==='denim')  document.body.classList.add('denim');
+}
+setMood(localStorage.getItem('mood') || 'night');
+
+/* ===== petals ===== */
+(function petals(){ const wrap=$('#petals'); for(let i=0;i<22;i++){const p=document.createElement('div'); p.className='petal';
+  p.style.left=(Math.random()*100)+'vw'; const dur=9000+Math.random()*7000, delay=Math.random()*4000, drift=(Math.random()<.5?-1:1)*(10+Math.random()*14);
+  p.animate([{transform:'translate(0,0) rotate(0deg)',top:'-40px'},{transform:`translate(${drift}vw,110vh) rotate(${Math.random()*360}deg)`,top:'110vh'}],
+            {duration:dur,delay,iterations:Infinity,easing:'ease-in'}); wrap.appendChild(p);} })();
+
+/* ===== constellation: full-name moment (on first walk tap) ===== */
+(function constellation(){
+  const cvs=$('#constellation'), ctx=cvs.getContext('2d'); function fit(){cvs.width=innerWidth;cvs.height=innerHeight} fit(); addEventListener('resize',fit);
+  let pts=[]; function ensure(n){ if(pts.length<n){ for(let i=pts.length;i<n;i++) pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1,tx:0,ty:0}) } }
+  function lines(name){ const t=(name||'You').trim().replace(/\s+/g,' '); if(t.length<=14) return [t]; const mid=Math.floor(t.length/2); let s=t.lastIndexOf(' ',mid); if(s<6||t.length-s<6) s=t.indexOf(' ',mid); return s>0?[t.slice(0,s),t.slice(s+1)]:[t]; }
+  function targets(lines,density=22){ const off=document.createElement('canvas'), o=off.getContext('2d'); off.width=cvs.width; off.height=cvs.height;
+    const fam='Poppins,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial'; let fs=Math.min(200,Math.max(70,off.width*0.16)); const maxW=off.width*.84;
+    function w(t){o.font=`800 ${fs}px ${fam}`;return o.measureText(t).width} while(Math.max(...lines.map(w))>maxW && fs>36) fs-=2;
+    o.textAlign='center';o.textBaseline='middle';o.fillStyle='#fff';const midY=off.height*.42,gap=fs*1.2;o.font=`800 ${fs}px ${fam}`;
+    lines.forEach((t,i)=>o.fillText(t,off.width/2,midY+(i-(lines.length-1)/2)*gap));
+    const data=o.getImageData(0,0,off.width,off.height).data, arr=[], step=Math.max(1,Math.floor(fs/density));
+    for(let y=0;y<off.height;y+=step) for(let x=0;x<off.width;x+=step) if(data[(y*off.width+x)*4+3]>128) arr.push({x,y});
+    return arr;
   }
-  for(let i=0;i<12;i++){
-    const h = document.createElement('div'); h.className='heartFloat'; h.textContent='❤️';
-    h.style.left = (Math.random()*100) + 'vw';
-    const dur = 8000 + Math.random()*6000, delay = Math.random()*4000, drift = (Math.random()*2-1)*20;
-    h.animate([{transform:`translate(0,0)`},{transform:`translate(${drift}vw,100vh)`}],{duration:dur,delay,iterations:Infinity,easing:'ease-in'});
-    hearts.appendChild(h);
+  function moveTo(name,hold=3600){ const cloud=targets(lines(name)); const N=Math.min(520,Math.max(200,Math.floor(cloud.length*.55)));
+    ensure(N); const sel=[]; for(let i=0;i<N;i++) sel.push(cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height});
+    pts.forEach((p,i)=>{p.tx=sel[i].x;p.ty=sel[i].y}); let phase='in', t0=performance.now();
+    function frame(t){ ctx.clearRect(0,0,cvs.width,cvs.height); for(const p of pts){ p.x+=(p.tx-p.x)*0.08; p.y+=(p.ty-p.y)*0.08; ctx.fillStyle='rgba(255,210,230,.95)'; ctx.fillRect(p.x,p.y,2,2) }
+      if(phase==='in' && t-t0>hold){ phase='out'; pts.forEach(p=>{p.tx=Math.random()*cvs.width;p.ty=Math.random()*cvs.height*.8+cvs.height*.1}) }
+      if(phase==='out'){ if(!pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)) return; } requestAnimationFrame(frame) }
+    requestAnimationFrame(frame);
   }
+  $('#walk').addEventListener('click', ()=> moveTo(HER_NAME), { once:true });
 })();
 
-/* ============== WEB AUDIO (soft flute/bell) ============== */
-let audioCtx, masterGain;
+/* ===== diya trigger + type line + long-press note ===== */
+const sparkIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeLine(); } }); },{threshold:.4});
+sparkIO.observe($('#spark'));
+function typeLine(){ const el=$('#line'); const t=el.textContent.trim(); el.textContent=''; let i=0; const id=setInterval(()=>{ el.textContent+=t.charAt(i++); if(i>=t.length) clearInterval(id); },26); }
+(function longPress(){ let t; const d=$('#diya'); d.addEventListener('pointerdown',()=>{ t=setTimeout(()=>alert('Panditayan,\nMain baat se pehle sunna seekh raha hoon.\nRoz thoda behtar.'),700); }); ['pointerup','pointerleave'].forEach(ev=>d.addEventListener(ev,()=>clearTimeout(t))); })();
+
+/* ===== blessings balloons ===== */
+const blessings = [
+  {word:'Sukoon', color:'#ff9ccc', msg:'Laadliji, tu tension na le — main yahin hoon.'},
+  {word:'Himmat', color:'#9bd3ff', msg:'Thak gaye ho? Mere kandhe pe rakh de.'},
+  {word:'Vishwas', color:'#c9a7ff', msg:'Main impress nahi — assure karna chahta hoon.'},
+  {word:'Prem', color:'#7ee6c9', msg:'Pyar shor nahi hota. Roz ka halka sa garam chai jaisa.'},
+  {word:'Hasi', color:'#ffd6a5', msg:'Muskurahat mehnat lage? Aaj meri mehnat double.'},
+  {word:'Barkat', color:'#bde0fe', msg:'Ramji ki kripa bani rahe.'},
+];
+let balloonsMade=false;
+function spawnBalloons(){
+  if(balloonsMade) return; balloonsMade=true;
+  const area=$('#bArea');
+  blessings.forEach((b,i)=>{
+    const d=document.createElement('button'); d.className='balloon';
+    d.style.setProperty('--c',b.color); d.style.setProperty('--x',10+i*14+(Math.random()*8)); d.style.setProperty('--delay',Math.random()*6);
+    d.innerHTML=`<span>${b.word}</span>`;
+    d.addEventListener('click',()=>{ popSound(); d.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260,easing:'ease-in'}); setTimeout(()=>d.remove(),240); showModal(b.word,b.msg); });
+    area.appendChild(d);
+  });
+}
+const blessIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) spawnBalloons(); }); },{threshold:.4});
+blessIO.observe($('#blessings'));
+function showModal(title,msg){ $('#modalTitle').textContent=title; $('#modalMsg').textContent=msg; $('#modal').classList.add('show'); navigator.vibrate?.(10); }
+$('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
+
+/* ===== greeting cards (flip) ===== */
+const CARD_DATA = [
+  { title:'Subah ka vardaan', front:'Peacock-feather kind of calm.', back:'May Kanha keep mischief in your smile and peace in your steps.' },
+  { title:'Himmat ka diya',   front:'Tiny light, steady flame.',     back:'Bajrangbali cover you with courage wherever you need it most.' },
+  { title:'Nazakat',           front:'Soft ≠ small.',                 back:'May life treat you gently—and may you treat yourself gentler.' },
+  { title:'Vishwas',           front:'Questions welcome.',            back:'Poochhna kuch bhi ho, poochh lena. Main bhaagunga nahi.' },
+];
+(function buildCards(){
+  const row = $('#cardsRow');
+  CARD_DATA.forEach(c=>{
+    const el = document.createElement('article'); el.className = 'gCard soft';
+    el.innerHTML = `
+      <div class="front">
+        <div class="gTitle">${c.title}</div>
+        <div class="gBody">${c.front}</div>
+      </div>
+      <div class="back">
+        <div class="gTitle">For ${HER_NAME}</div>
+        <div class="gBody">${c.back}</div>
+      </div>`;
+    el.addEventListener('click', ()=> el.classList.toggle('flip'));
+    row.appendChild(el);
+  });
+})();
+
+/* ===== gallery (YOU add photos here) ===== */
+const PHOTOS=[
+  // Replace these with HER photos (paths or URLs)
+  // {src:'images/shruti1.jpg'}, {src:'images/shruti2.jpg'}, {src:'images/shruti3.jpg'},
+];
+(function gallery(){
+  const hero=$('#hero'), thumbs=$('#thumbs');
+  if(PHOTOS.length===0){
+    hero.src='https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1600&q=80&auto=format&fit=crop';
+    thumbs.innerHTML='<div class="muted" style="grid-column:1/-1;text-align:center">Add her photos in <code>PHOTOS</code> (just URLs). Only her photos appear here.</div>';
+    return;
+  }
+  let cur=0; hero.src=PHOTOS[0].src;
+  PHOTOS.forEach((p,i)=>{ const t=document.createElement('div'); t.className='thumb'+(i===0?' active':''); t.innerHTML=`<img src="${p.src}" alt="her ${i+1}">`;
+    t.onclick=()=>{ cur=i; hero.src=p.src; $$('.thumb').forEach(x=>x.classList.remove('active')); t.classList.add('active') };
+    t.ondblclick=()=>openLB(p.src);
+    thumbs.appendChild(t);
+  });
+  hero.onclick=()=>openLB(PHOTOS[cur]?.src||hero.src);
+})();
+function openLB(src){ $('#lbImg').src=src; $('#lb').style.display='flex' }
+function closeLB(){ $('#lb').style.display='none' }
+
+/* ===== soft WebAudio bed (bansuri + bell) ===== */
+let audioCtx, masterGain, audioAllowed = (localStorage.getItem('audioAllowed')==='1');
 function makeAmbience(){
   if(audioCtx) return;
   audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   masterGain = audioCtx.createGain(); masterGain.gain.value=0.0; masterGain.connect(audioCtx.destination);
-
-  function flute(freq,start,dur,g=0.14){
+  function flute(freq,start,dur,g=0.12){
     const o=audioCtx.createOscillator(); o.type='sine'; o.frequency.value=freq;
     const gnode=audioCtx.createGain(); gnode.gain.value=0.0001;
-    const vib=audioCtx.createOscillator(); vib.type='sine'; vib.frequency.value=5;
-    const vg=audioCtx.createGain(); vg.gain.value=2; vib.connect(vg); vg.connect(o.frequency);
+    const vib=audioCtx.createOscillator(); vib.type='sine'; vib.frequency.value=5; const vg=audioCtx.createGain(); vg.gain.value=2; vib.connect(vg); vg.connect(o.frequency);
     o.connect(gnode); gnode.connect(masterGain);
     gnode.gain.setValueAtTime(0.0001,start);
     gnode.gain.linearRampToValueAtTime(g,start+0.4);
@@ -362,203 +371,85 @@ function makeAmbience(){
     gnode.gain.exponentialRampToValueAtTime(0.0001,start+dur);
     o.start(start); vib.start(start); o.stop(start+dur+0.05); vib.stop(start+dur+0.05);
   }
-  function bell(t){
-    [1,2.01,2.98,4.2].forEach((m,i)=>{
-      const o=audioCtx.createOscillator(); o.type='sine'; o.frequency.value=660*m;
-      const g=audioCtx.createGain(); g.gain.value=0.0001; o.connect(g); g.connect(masterGain);
-      g.gain.setValueAtTime(0.0001,t);
-      g.gain.exponentialRampToValueAtTime(0.08/(i+1),t+0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001,t+1.2+i*0.2);
-      o.start(t); o.stop(t+1.6+i*0.2);
-    });
-  }
+  function bell(t){ [1,2.01,2.98,4.2].forEach((m,i)=>{ const o=audioCtx.createOscillator(); o.type='sine'; o.frequency.value=660*m; const g=audioCtx.createGain(); g.gain.value=0.0001; o.connect(g); g.connect(masterGain);
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.08/(i+1),t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+1.2+i*0.2); o.start(t); o.stop(t+1.6+i*0.2); }); }
   function phrase(t0){ [440,494,523,587,523,494,440].forEach((f,i)=>flute(f/2,t0+i*0.9,1.2)); bell(t0+2.7) }
-  const start=(audioCtx.currentTime||0)+0.1; phrase(start);
-  setInterval(()=>phrase(audioCtx.currentTime+0.1),5000);
-
+  const start=(audioCtx.currentTime||0)+0.1; phrase(start); setInterval(()=>phrase(audioCtx.currentTime+0.1),5000);
   const fade=()=>{ audioCtx.resume&&audioCtx.resume(); masterGain.gain.cancelScheduledValues(audioCtx.currentTime); masterGain.gain.linearRampToValueAtTime(0.10,audioCtx.currentTime+1.0); };
-  $('#startJourney')?.addEventListener('click',fade,{once:true});
+  if(audioAllowed){ fade(); }
+  $('#walk').addEventListener('click', ()=>{ audioAllowed=true; localStorage.setItem('audioAllowed','1'); fade(); }, {once:true});
 }
 
-/* ============== YOUTUBE OVERLAY ============== */
-function openYT(){
-  const id=new URLSearchParams(location.search).get('yt');
-  if(!id){ alert('Add ?yt=VIDEO_ID in the URL to load a song.'); return; }
-  const ov=$('#ytOverlay'), fr=$('#ytFrame');
-  fr.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${id}`;
-  ov.style.display='flex';
-}
-$('#playSong').addEventListener('click',openYT);
-$('#playSongFinal').addEventListener('click',openYT);
-$('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none'; $('#ytFrame').src=''; });
+/* tiny pop sound (synth) */
+function popSound(){ try{
+  if(!audioCtx) return;
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='triangle'; o.frequency.value=600; g.gain.value=0.0001; o.connect(g); g.connect(masterGain);
+  const t=audioCtx.currentTime; g.gain.exponentialRampToValueAtTime(0.12,t+0.01); o.frequency.exponentialRampToValueAtTime(220,t+0.08); g.gain.exponentialRampToValueAtTime(0.0001,t+0.12); o.start(t); o.stop(t+0.14);
+} catch(e){} }
 
-/* ============== CONSTELLATION: FULL NAME ============== */
-(function constellation(){
-  const cvs = document.getElementById('constellation'); const ctx = cvs.getContext('2d');
-  function fit(){ cvs.width = innerWidth; cvs.height = innerHeight; }
-  fit(); addEventListener('resize', fit);
-  let pts = [];
-  function ensureParticles(n){ if(pts.length<n){ for(let i=pts.length;i<n;i++) pts.push({x:Math.random()*cvs.width, y:Math.random()*cvs.height*0.8+cvs.height*0.1, tx:0, ty:0}); } else if(pts.length>n){ pts=pts.slice(0,n); } }
-  function lines(name){ const t=(name||'You').trim().replace(/\s+/g,' '); if(t.length<=14) return [t]; const mid=Math.floor(t.length/2); let s=t.lastIndexOf(' ',mid); if(s<6||t.length-s<6) s=t.indexOf(' ',mid); return s>0?[t.slice(0,s),t.slice(s+1)]:[t]; }
-  function targets(lines,density=22){
-    const off=document.createElement('canvas'), o=off.getContext('2d'); off.width=cvs.width; off.height=cvs.height;
-    const fam='Poppins, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
-    const maxW=off.width*0.84; let fs=Math.min(200,Math.max(70,off.width*0.16));
-    function w(t){ o.font=`800 ${fs}px ${fam}`; return o.measureText(t).width; }
-    while(Math.max(...lines.map(w))>maxW && fs>36) fs-=2;
-    const midY=off.height*0.42, gap=fs*1.2; o.textAlign='center'; o.textBaseline='middle'; o.fillStyle='#fff'; o.font=`800 ${fs}px ${fam}`;
-    lines.forEach((t,i)=>o.fillText(t,off.width/2,midY+(i-(lines.length-1)/2)*gap));
-    const data=o.getImageData(0,0,off.width,off.height).data, arr=[], step=Math.max(1,Math.floor(fs/density));
-    for(let y=0;y<off.height;y+=step) for(let x=0;x<off.width;x+=step) if(data[(y*off.width+x)*4+3]>128) arr.push({x,y});
-    return arr;
-  }
-  function moveTo(name,hold=4000){
-    const ls=lines(name), cloud=targets(ls);
-    const N=Math.min(560,Math.max(220,Math.floor(cloud.length*0.55)));
-    ensureParticles(N);
-    const sel=[]; for(let i=0;i<N;i++) sel.push(cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height});
-    pts.forEach((p,i)=>{ p.tx=sel[i].x; p.ty=sel[i].y; });
-    let phase='in', t0=performance.now();
-    function frame(t){
-      ctx.clearRect(0,0,cvs.width,cvs.height);
-      for(const p of pts){ p.x+=(p.tx-p.x)*0.08; p.y+=(p.ty-p.y)*0.08; ctx.fillStyle='rgba(255,210,230,0.95)'; ctx.fillRect(p.x,p.y,2,2); }
-      if(phase==='in' && t-t0>hold){ phase='out'; pts.forEach(p=>{ p.tx=Math.random()*cvs.width; p.ty=Math.random()*cvs.height*0.8+cvs.height*0.1; }); }
-      if(phase==='out'){ const moving=pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6); if(!moving) return; }
-      requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-  function start(){ const nm=$('#herNameDynamic')?.textContent || DEFAULTS.name; moveTo(nm); }
-  document.getElementById('startJourney')?.addEventListener('click', start, { once:true });
-})();
+/* ===== YouTube overlay ===== */
+function openYT(){ const id=QS.get('yt'); if(!id){ alert('Add ?yt=VIDEO_ID in the URL'); return; }
+  const fr=$('#yt'); fr.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${id}`; $('#ytOverlay').style.display='flex'; }
+function closeYT(){ $('#ytOverlay').style.display='none'; $('#yt').src='' }
+$('#playSongTop').onclick=openYT; $('#playSongBottom').onclick=openYT;
 
-/* ============== CHAPTER PROGRESS + SECTION TRIGGERS ============== */
-(function chapters(){
-  const ids=['landing','spark','playful','spotlight','divine','final'], dots=$$('.dot');
-  dots.forEach(d=>d.addEventListener('click',()=>{ const t=d.getAttribute('data-target'); if(t) location.hash=t; }));
-  const io=new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting){ const i=ids.indexOf(e.target.id); dots.forEach((d,idx)=>d.classList.toggle('active',idx===i)); if(e.target.id==='spark') lightDiya(); if(e.target.id==='playful') spawnBalloons(); if(e.target.id==='final') fireworks(); } });},{threshold:.5});
-  ids.forEach(id=>io.observe($('#'+id)));
-})();
-
-/* ============== TYPELINE (fake typewriter) ============== */
-function runType(){ const el=$('#typeLine'); const text=el.textContent.trim(); el.textContent=''; let i=0; const t=setInterval(()=>{ el.textContent+=text.charAt(i++); if(i>=text.length) clearInterval(t); },26); }
-function lightDiya(){ $('#diya').classList.add('lit'); runType(); }
-
-/* ============== BALLOONS + MODAL ============== */
-const blessings = [
-  {word:'Joy',color:'#ff9ccc', msg:'For days you forget how bright you are: may ordinary moments turn into little festivals around you, Madamji.'},
-  {word:'Strength',color:'#9bd3ff', msg:'When the world feels heavy, remember—you never have to carry it alone. I’ll be the steady shoulder.'},
-  {word:'Faith',color:'#c9a7ff', msg:'May your prayers meet their perfect timing; until then, may trust make the waiting light.'},
-  {word:'Love',color:'#7ee6c9', msg:'You are loved in a quiet, consistent way—no drama, just warmth that keeps showing up, Laadliji.'},
-];
-let balloonsMade=false;
-function spawnBalloons(){
-  if(balloonsMade) return; balloonsMade=true;
-  const area=$('#balloonArea');
-  blessings.forEach((b,i)=>{
-    const d=document.createElement('button'); d.className='balloon';
-    d.style.setProperty('--c',b.color); d.style.setProperty('--x',10+i*20+(Math.random()*10)); d.style.setProperty('--delay',Math.random()*6);
-    d.innerHTML=`<span>${b.word}</span>`;
-    d.addEventListener('click',()=>{ d.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260,easing:'ease-in'}); setTimeout(()=>d.remove(),240); showModal(b.word,b.msg); });
-    area.appendChild(d);
-  });
-}
-function showModal(title,msg){ $('#modalTitle').textContent=title; $('#modalMsg').textContent=msg; $('#modal').classList.add('show'); }
-$('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
-
-/* ============== SPOTLIGHT GALLERY (ONLY HER PHOTOS) ============== */
-const PHOTO_LIST = [
-  // Put Shruti's photos here (host in /images on GitHub or absolute URLs):
-  // {src:'images/shruti1.jpg'}, {src:'images/shruti2.jpg'}, {src:'images/shruti3.jpg'},
-];
-function setupGallery(){
-  const hero=$('#heroImg'), root=$('#thumbs');
-  if(!hero || !root) return;
-  if(PHOTO_LIST.length===0){ hero.src='https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1600&q=80&auto=format&fit=crop'; root.innerHTML='<div class="hint" style="grid-column:1/-1;text-align:center">Add her photos in <code>PHOTO_LIST</code> to make this truly hers.</div>'; return; }
-  let cur=0; hero.src=PHOTO_LIST[0].src;
-  PHOTO_LIST.forEach((p,i)=>{
-    const t=document.createElement('div'); t.className='thumb'+(i===0?' active':''); t.innerHTML=`<img src="${p.src}" alt="her ${i+1}">`;
-    t.addEventListener('click',()=>{ cur=i; hero.src=p.src; $$('.thumb').forEach(x=>x.classList.remove('active')); t.classList.add('active'); });
-    t.addEventListener('dblclick',()=> openLightbox(i));
-    root.appendChild(t);
-  });
-  hero.addEventListener('click',()=> openLightbox(cur));
-}
-function openLightbox(i){
-  const lb=document.createElement('div'); lb.className='lb'; lb.innerHTML=`<img src="${PHOTO_LIST[i]?.src||$('#heroImg').src}" alt="her"><button class="btn pill">Close ✖</button>`;
-  document.body.appendChild(lb); lb.style.display='flex';
-  lb.querySelector('.pill').onclick=()=>lb.remove();
-  lb.onclick=(e)=>{ if(e.target===lb) lb.remove(); };
-}
-
-/* ============== DIVINE CARD ============== */
-$('#flipCard').addEventListener('click',()=> $('#flipCard').classList.toggle('is-flipped'));
-
-/* ============== HEART FIREWORKS ============== */
-let fw=false;
+/* ===== heart fireworks + diyas gather ===== */
+let fwStarted=false;
+const fwIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && !fwStarted){ fwStarted=true; fireworks(); diyasGather(); } }); },{threshold:.45});
+fwIO.observe($('#final'));
 function fireworks(){
-  if(fw) return; fw=true;
-  const c=document.getElementById('fireCanvas'), ctx=c.getContext('2d');
-  function fit(){ c.width=innerWidth; c.height=Math.max(300,innerHeight*0.9) } fit(); addEventListener('resize',fit);
-  const parts=[];
-  function add(x,y,vx,vy,color){ parts.push({x,y,vx,vy,life:70+Math.random()*30,color}); }
-  function heartVec(t){ const x=16*Math.sin(t)**3; const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); return {x, y:-y}; }
-  function burstCircle(x,y,color){ const n=90; for(let i=0;i<n;i++){ const a=(Math.PI*2)*i/n, sp=2+Math.random()*3; add(x,y,Math.cos(a)*sp,Math.sin(a)*sp,color);} }
-  function burstHeart(x,y,color){ const n=140; for(let i=0;i<n;i++){ const t=(i/n)*Math.PI*2; const v=heartVec(t), mag=Math.hypot(v.x,v.y)||1; const sp=2.2+Math.random()*2.4; add(x,y,(v.x/mag)*sp,(v.y/mag)*sp,color);} }
-  function tick(){ ctx.clearRect(0,0,c.width,c.height); for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--; ctx.fillStyle=`rgba(${p.color},${Math.max(0,p.life/100)})`; ctx.fillRect(p.x,p.y,2,2); if(p.life<=0) parts.splice(i,1);} requestAnimationFrame(tick); }
-  tick();
-  function boom(){ const x=Math.random()*c.width*0.9+c.width*0.05; const y=Math.random()*c.height*0.4+c.height*0.1; const colors=['255,200,221','255,168,194','201,167,255','246,208,110']; (Math.random()<0.65?burstHeart:burstCircle)(x,y,colors[Math.floor(Math.random()*colors.length)]); }
+  const c=$('#fire'), a=c.getContext('2d'); function fit(){ c.width=innerWidth; c.height=Math.max(300,innerHeight*.9) } fit(); addEventListener('resize',fit);
+  const ps=[]; function add(x,y,vx,vy,col){ ps.push({x,y,vx,vy,col,life:70+Math.random()*30}) }
+  function hv(t){ const x=16*Math.sin(t)**3, y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); return {x, y:-y}; }
+  function burst(x,y,col,heart=true){ const n= heart?140:90; for(let i=0;i<n;i++){ if(heart){ const t=i/n*Math.PI*2, v=hv(t), m=Math.hypot(v.x,v.y)||1, s=2.2+Math.random()*2.4; add(x,y,(v.x/m)*s,(v.y/m)*s,col); } else { const ang=Math.PI*2*i/n, s=2+Math.random()*3; add(x,y,Math.cos(ang)*s,Math.sin(ang)*s,col); } } }
+  function tick(){ a.clearRect(0,0,c.width,c.height); for(let i=ps.length-1;i>=0;i--){ const p=ps[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--; a.fillStyle=`rgba(${p.col},${Math.max(0,p.life/100)})`; a.fillRect(p.x,p.y,2,2); if(p.life<=0) ps.splice(i,1); } requestAnimationFrame(tick) } tick();
+  function boom(){ const x=Math.random()*c.width*.9+c.width*.05, y=Math.random()*c.height*.4+c.height*.1; const cols=['255,200,221','255,168,194','201,167,255','246,208,110']; burst(x,y,cols[Math.floor(Math.random()*cols.length)],Math.random()<.7); }
   for(let i=0;i<4;i++) setTimeout(boom,i*400); const iv=setInterval(boom,1200); setTimeout(()=>clearInterval(iv),12000);
 }
-
-/* ============== STICKER RAIN (gift) ============== */
-function stickerRain(arr=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔']){
-  const D=5200, start=performance.now();
-  (function spawn(){
-    if(performance.now()-start>D) return;
-    const s=document.createElement('span'); s.style.position='fixed'; s.style.top='-40px'; s.style.fontSize='32px'; s.style.zIndex='60'; s.textContent=arr[Math.floor(Math.random()*arr.length)];
-    s.style.left=(Math.random()*innerWidth)+'px'; document.body.appendChild(s);
+/* cute emoji rain */
+$('#gift').addEventListener('click',()=>{ const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔']; const D=5200, t0=performance.now(); navigator.vibrate?.(15);
+  (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
+    s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
     const drift=(Math.random()*2-1)*80, time=2400+Math.random()*1800;
-    s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:0.1}],{duration:time,easing:'ease-in'});
-    setTimeout(()=>s.remove(),time+50); requestAnimationFrame(spawn);
-  })();
+    s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'}); setTimeout(()=>s.remove(),time+60);
+    requestAnimationFrame(drop); })();
+});
+
+/* ===== diyas gather into a heart (subtle glow points) ===== */
+function diyasGather(){
+  const wrap = document.createElement('div'); wrap.style.position='absolute'; wrap.style.inset='0'; wrap.style.pointerEvents='none'; document.querySelector('#final').appendChild(wrap);
+  const pts = []; function hv(t){ const x=16*Math.sin(t)**3, y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); return {x,y:-y}; }
+  const n=48; for(let i=0;i<n;i++){ const d=document.createElement('div'); d.style.position='absolute'; d.style.width='10px'; d.style.height='10px'; d.style.borderRadius='50%'; d.style.background='radial-gradient(circle,#ffd86e,#ff9ccc33)'; d.style.boxShadow='0 0 18px #ffd86e88'; wrap.appendChild(d); pts.push(d); }
+  function layout(){ const r=Math.min(innerWidth,innerHeight)*0.22; const cx=innerWidth/2, cy=window.scrollY + document.querySelector('#final').getBoundingClientRect().top + (document.querySelector('#final').offsetHeight*.42);
+    for(let i=0;i<n;i++){ const t=i/n*Math.PI*2, v=hv(t); const x=cx + (v.x* r/18), y=cy + (v.y* r/18); const d=pts[i]; d.animate([{transform:`translate(${Math.random()*innerWidth}px,-20px)`},{transform:`translate(${x-5}px,${y-5}px)`}],{duration:1200+Math.random()*600, easing:'ease-out', fill:'forwards'}); } }
+  layout(); setTimeout(()=>wrap.remove(), 6000);
 }
-$('#giftBtn').addEventListener('click',()=>stickerRain());
 
-/* ============== THEMES & AUTO-CYCLE ============== */
-let autoCycle=null, cycleIdx=0, cycleList=['girly','pink','denim','beige','black'];
-function setTheme(t){
-  document.body.classList.remove('theme-girly','theme-pink','theme-denim','theme-beige','theme-black');
-  if(t==='auto'){ if(autoCycle) clearInterval(autoCycle); document.body.classList.add('theme-'+cycleList[cycleIdx%cycleList.length]); autoCycle=setInterval(()=>{ cycleIdx++; document.body.classList.remove('theme-girly','theme-pink','theme-denim','theme-beige','theme-black'); document.body.classList.add('theme-'+cycleList[cycleIdx%cycleList.length]); }, 6000); return; }
-  if(autoCycle) { clearInterval(autoCycle); autoCycle=null; }
-  document.body.classList.add('theme-'+t);
-}
-$$('.chip').forEach(c=>c.addEventListener('click',()=>setTheme(c.dataset.theme)));
+/* ===== save final section as PNG (no external libs; uses canvas drawImage) ===== */
+document.getElementById('saveCard').addEventListener('click', async ()=>{
+  const node = document.querySelector('#final .container');
+  const r = node.getBoundingClientRect();
+  const c = document.createElement('canvas'); c.width = Math.floor(r.width*2); c.height = Math.floor(r.height*2);
+  const ctx = c.getContext('2d'); ctx.scale(2,2); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg2'); ctx.fillRect(0,0,r.width,r.height);
+  // render simple snapshot (text only, not fireworks). Lightweight, but honest.
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '700 28px "Playfair Display", serif';
+  ctx.textAlign='center';
+  ctx.fillText(`Happy Birthday, ${HER_NAME}!`, r.width/2, 48);
+  ctx.font = '16px Poppins, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.fillText('You are why my days feel alive. I will choose steadiness, daily.', r.width/2, 78);
+  const url = c.toDataURL('image/png'); const a = document.createElement('a'); a.href = url; a.download = `for-${HER_NAME}.png`; a.click();
+});
 
-/* ============== PARAMS & INIT ============== */
-(function params(){
-  const q=new URLSearchParams(location.search);
-  const name=q.get('name')||DEFAULTS.name, from=q.get('from')||DEFAULTS.from, theme=(q.get('theme')||DEFAULTS.theme).toLowerCase();
-  $('#herNameDynamic').textContent=name||'you'; $('#welcomeName').textContent=name||'you'; $('#wmName').textContent=name||'you';
-  setTheme(theme);
-  // if Teacher's Day birthday (Sep 5), give a subtle extra glow
-  const d=new Date(); if(d.getMonth()===8 && d.getDate()===5) document.body.classList.add('her-day');
-})();
-
-/* ============== ROBUST START (works everywhere) ============== */
-window.__start = function () {
-  try {
-    var w = document.getElementById('welcome');
-    if (w) { w.classList.add('fade-out'); setTimeout(function(){ w.remove(); }, 300); }
-    try { makeAmbience(); } catch {}
-    if (location.hash !== '#spark') location.hash = '#spark';
-  } catch (e) {}
-};
-// bypass with ?skip=1
-if (new URLSearchParams(location.search).get('skip') === '1') window.__start();
-
-/* ============== BUILD GALLERY ============== */
-setupGallery();
+/* ===== minimal music init on first interaction ===== */
+document.addEventListener('DOMContentLoaded', ()=>{ makeAmbience(); });
+/* ===== theme buttons ===== */
+window.setMood = setMood;
+/* ===== greeting cards horizontal scroll hint ===== */
+$('#cardsRow').addEventListener('wheel', e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ e.preventDefault(); $('#cardsRow').scrollLeft += e.deltaY; } }, {passive:false});
+/* ===== close lightbox on bg click ===== */
+$('#lb').addEventListener('click', (e)=>{ if(e.target.id==='lb') closeLB(); });
 </script>
 </body>
 </html>
