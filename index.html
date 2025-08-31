@@ -3,14 +3,20 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Madamji ka Happy Birthday ♥</title>
-<meta name="description" content="A playful, personal Krishna-night birthday story with Bollywood romance, Haryanvi fun, memories, gifts & heart fireworks—crafted just for her." />
+<title>Shruti’s Night — Happy Birthday ♥</title>
+<meta name="description" content="A playful, personal Krishna-night birthday story with Bollywood romance, Haryanvi fun, memories, gifts & heart fireworks—crafted just for Shruti (Madamji • Laadliji • Panditayan)." />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
   /* ===== THEME ===== */
   :root{
     --night1:#0a0f26; --night2:#120f2e;
     --pink:#ff9ccc; --denim:#4f6fa8; --beige:#f5e6cc; --black:#0b0b10;
     --ink:#e9ecff; --muted:#c9d2f0; --flower:#ffc8dd; --gold:#f6d06e; --accent:#9bd3ff;
+  }
+  /* New girly theme */
+  .theme-girly{
+    --night1:#1a0b24; --night2:#2a1345;
+    --accent:#ff8fb1; --ink:#fff4fa; --muted:#ffd9e8;
   }
   .theme-pink { --accent: var(--pink) }
   .theme-denim{ --accent: var(--denim) }
@@ -21,12 +27,14 @@
   html{scroll-behavior:smooth}
   body{
     margin:0; color:var(--ink);
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     background:
       radial-gradient(1100px 560px at 50% -10%, rgba(138,180,255,.18), transparent 70%),
       linear-gradient(180deg, var(--night1), var(--night2));
     overflow-x:hidden;
   }
+  h1,h2,.front-title{font-family:'Playfair Display', serif}
+
   .container{max-width:1100px;margin:0 auto;padding:0 16px}
   .section{min-height:100vh; display:grid; place-items:center; position:relative; padding:80px 0}
   .center{text-align:center}
@@ -55,8 +63,11 @@
   }
 
   /* Buttons */
-  .btn{appearance:none;border:none;border-radius:999px;padding:14px 20px;font-weight:800;cursor:pointer;
-    background:linear-gradient(90deg,var(--accent),#b794ff);color:#0c0e1a;box-shadow:0 14px 28px rgba(0,0,0,.25)}
+  .btn{appearance:none;border:none;border-radius:18px;padding:14px 20px;font-weight:800;cursor:pointer;
+    background:
+      radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,.5), transparent 60%),
+      linear-gradient(90deg,var(--accent),#b794ff);
+    color:#0c0e1a;box-shadow:0 14px 28px rgba(0,0,0,.25)}
   .btn:active{transform:translateY(1px) scale(.99)}
   .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;font-size:12px;
     border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--ink)}
@@ -64,7 +75,14 @@
   /* Theme chips */
   .themes{position:fixed; right:12px; top:12px; display:flex; gap:8px; z-index:12}
   .chip{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25)}
-  .chip.pink{background:var(--pink)} .chip.denim{background:var(--denim)} .chip.beige{background:var(--beige)} .chip.black{background:var(--black)}
+  .chip.girly{background:#ff8fb1} .chip.pink{background:var(--pink)} .chip.denim{background:var(--denim)} .chip.beige{background:var(--beige)} .chip.black{background:var(--black)}
+
+  /* Nickname ribbon */
+  .nick-ribbon{position:fixed; left:50%; top:16px; transform:translateX(-50%);
+    z-index:11; padding:6px 12px; border-radius:999px;
+    background:rgba(255,255,255,.08); color:var(--ink); border:1px solid rgba(255,255,255,.12); backdrop-filter:blur(6px);
+    font-size:12px}
+  .nick-ribbon b{color:var(--accent)}
 
   /* Progress */
   .chapters{position:fixed; bottom:12px; left:50%; transform:translateX(-50%);
@@ -75,7 +93,7 @@
 
   /* Landing */
   .landing-inner{text-align:center;max-width:780px}
-  .title{font-size:clamp(22px,5vw,36px);line-height:1.3;opacity:0;transform:translateY(12px);animation:fadeUp .9s ease .2s forwards}
+  .title{font-size:clamp(24px,6vw,40px);line-height:1.25;opacity:0;transform:translateY(12px);animation:fadeUp .9s ease .2s forwards}
   @keyframes fadeUp{to{opacity:1;transform:none}}
   .walk{margin-top:24px}
 
@@ -125,7 +143,7 @@
   .chat{display:grid;gap:10px;width:min(720px,95vw);margin:8px auto 2px}
   .bubble{justify-self:start;max-width:85%;padding:12px 14px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
     border:1px solid rgba(255,255,255,.10);color:#dfe6ff;line-height:1.6;opacity:0;transform:translateY(6px);animation:bubbleIn .4s ease forwards}
-  .bubble.you{justify-self:end;background:linear-gradient(180deg,rgba(155,211,255,.16),rgba(155,211,255,.06));color:#0c1220}
+  .bubble.you{justify-self:end;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.06));color:#0c1220}
   @keyframes bubbleIn{to{opacity:1;transform:none}}
   .type-on{display:inline-block;border-right:2px solid #cdd6ff}
   .pose{display:grid;gap:10px;place-items:center;margin-top:6px}
@@ -149,16 +167,9 @@
   .hv-btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:var(--ink);cursor:pointer}
 
   /* Memories (polaroids) */
-  .polaroids{
-    display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
-    gap:14px; margin-top:14px;
-  }
-  .polaroid{
-    background:#fff; color:#111; border-radius:12px; padding:8px 8px 14px;
-    box-shadow:0 16px 36px rgba(0,0,0,.35);
-    transform:rotate(var(--r,0deg)); transition:transform .2s ease;
-    cursor:pointer; user-select:none;
-  }
+  .polaroids{display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:14px; margin-top:14px;}
+  .polaroid{background:#fff; color:#111; border-radius:12px; padding:8px 8px 14px;
+    box-shadow:0 16px 36px rgba(0,0,0,.35); transform:rotate(var(--r,0deg)); transition:transform .2s ease; cursor:pointer; user-select:none; border:3px solid #ffd1e1}
   .polaroid:hover{ transform:rotate(var(--r,0deg)) scale(1.03) }
   .polaroid img{ width:100%; height:170px; object-fit:cover; border-radius:8px }
   .polaroid .cap{ font-size:12px; text-align:center; margin-top:6px }
@@ -224,14 +235,18 @@
   @media print{.section,.stars,#petals,#constellation,.chapters,.mono,.mono-tip,.watermark,#welcome,#letter,#cert{display:none!important}}
 </style>
 </head>
-<body>
+<body class="theme-girly">
   <!-- Theme chips -->
   <div class="themes">
-    <button class="chip black"  data-theme="black"  title="Black"></button>
+    <button class="chip girly"  data-theme="girly"  title="Girly"></button>
     <button class="chip pink"   data-theme="pink"   title="Pink"></button>
     <button class="chip denim"  data-theme="denim"  title="Denim"></button>
     <button class="chip beige"  data-theme="beige"  title="Beige"></button>
+    <button class="chip black"  data-theme="black"  title="Black"></button>
   </div>
+
+  <!-- Nickname ribbon -->
+  <div class="nick-ribbon">For <b>Shruti</b> — a.k.a. <b>Madamji</b> • <b>Laadliji</b> • <b>Panditayan</b></div>
 
   <!-- Monogram -->
   <div class="mono" id="monogram" aria-label="Personal seal">💛</div>
@@ -266,33 +281,59 @@
   <!-- Welcome -->
   <div class="welcome" id="welcome">
     <div class="card">
-      <h2>Hi <span id="welcomeName">you</span> 🌸</h2>
+      <h2>Hi <span id="welcomeName">Shruti</span> (Madamji) 🌸</h2>
       <p>I made this little night sky just for you. Walk with me and let the blessings unfold.</p>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <button class="btn" id="startJourney" type="button" data-start="1">Start your tiny journey ✨</button>
-        <button class="btn" id="playSong" type="button">Play her song 🎵</button>
-      </div>
-      <p class="hint center" style="margin-top:8px">You can pre-load a track with <code>?yt=VIDEO_ID</code></p>
-    </div>
-  </div>
 
-  <!-- Certificate -->
-  <div class="cert" id="cert" aria-modal="true" role="dialog">
-    <div class="cert-card">
-      <div class="cert-title">Certificate of Devotion</div>
-      <p>Crafted for <strong id="certFor">You</strong> by <strong id="certBy">Me</strong></p>
-      <p><span id="certDate">Today</span></p>
-      <div class="wax" aria-hidden="true"></div>
-      <div style="margin-top:12px"><button class="btn" id="closeCert">Close</button></div>
-    </div>
-  </div>
+style="display:flex;gap:10px;justify-content:center;flex -wrap:wrap">
 
-  <main>
+<button class="btn" id="startJourney"
+
+type="button" data-start="1">Start your tiny journey
+
+</button>
+
+<button class="btn" id="playSong"
+
+type="button">Play her song </button>
+
+can
+
+</div>
+
+<p
+
+class="hint center" style="margin-top:8px">You
+
+pre-load a track with <code>?yt=VIDEO_ID</code></p> </div>
+
+</div>
+
+role="dialog">
+
+<!-- Certificate -->
+
+<div class="cert" id="cert" aria-modal="true"
+
+div>
+
+<div class="cert-card"> <div class="cert-title">Certificate of Devotion</
+
+<p>Crafted for <strong id="certFor">Shruti</ strong> by <strong id="certBy">Pandit Ji</strong></p> <p><span id="certDate">Today</span></p> <div class="wax" aria-hidden="true"></div>
+
+<div style="margin-top:12px"><button class="btn"
+
+id="closeCert">Close</button></div>
+
+</div>
+
+</div>
+
+<main>
 
 <!-- Landing -->
     <section class="section" id="landing">
       <div class="container landing-inner">
-        <h1 class="title">On this special day, the universe plays its sweetest tune…<br/>because it’s your day 🌸</h1>
+        <h1 class="title">On this special day, the universe plays its sweetest tune…<br/>because it’s your day, Shruti 🌸</h1>
         <div class="center"><a href="#spark" id="walkBtn" class="btn walk">Walk with me 👉</a></div>
         <div class="hint center">Chapter 1 • First Light</div>
       </div>
@@ -345,7 +386,7 @@
         </div>
 
         <div class="shayari">
-          <p id="shayariTxt">Tumhara naam lete hi raat thodi si aur mehfuz lagti hai.</p>
+          <p id="shayariTxt">Tumhara naam lete hi raat thodi si aur mehfuz lagti hai, Madamji.</p>
           <div class="actions">
             <button class="btn" id="newShayari">Another shayari 💗</button>
             <button class="btn" id="copyShayari">Copy line 📋</button>
@@ -357,8 +398,8 @@
           <div class="filmy-heading">Thoda sa Haryanvi 💬</div>
           <div class="hv-row">
             <div>
-              <div class="hv-phrase"><strong id="hvText">"Tu badi pyari se lag ri."</strong></div>
-              <div class="hv-meaning" id="hvMeaning">You look really lovely.</div>
+              <div class="hv-phrase"><strong id="hvText">"Laadliji, tu badi pyari se lag ri."</strong></div>
+              <div class="hv-meaning" id="hvMeaning">Laadliji, you look really lovely.</div>
             </div>
             <button class="hv-btn" id="hvToggle">Next phrase →</button>
           </div>
@@ -422,7 +463,7 @@
       <canvas id="fireCanvas" aria-hidden="true"></canvas>
       <div class="container final-inner" id="finalCapture">
         <div class="glowtext" id="finalText">
-          Happy Birthday, <span id="herNameDynamic">you</span>.<br/>
+          Happy Birthday, <span id="herNameDynamic">Shruti</span>.<br/>
           You are not just a day in my life—you are why my days feel alive.<br/>
           I promise to choose steadiness over spectacle, presence over performance, and to pray for your joy before mine.
         </div>
@@ -451,7 +492,7 @@
         <p>On heavy days, I’ll be your calm; on light days, your loudest cheer. If a season asks for silence, I’ll stand beside you without demanding words.</p>
         <p>I pray to Kanha and Bajrangbali for your protection and joy. And I promise this: my care will be quiet and consistent—seen more in presence than in speeches.</p>
         <p>If this page did only one thing, may it whisper what I struggle to say out loud: you make life feel beautifully, unmistakably alive.</p>
-        <p style="color:var(--accent)">— <span id="letterFrom">Me</span></p>
+        <p style="color:var(--accent)">— <span id="letterFrom">Pandit Ji</span></p>
         <div style="text-align:center; margin-top:10px">
           <button class="btn" id="closeLetter">Close</button>
         </div>
@@ -460,14 +501,14 @@
   </main>
 
   <!-- Watermark -->
-  <div class="watermark" id="wm">Exclusively for <span id="wmName">you</span></div>
+  <div class="watermark" id="wm">Exclusively for <span id="wmName">Shruti</span> • Madamji • Laadliji • Panditayan</div>
 
   <!-- Save image dep -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
 
 /* ===== PERSONAL DEFAULTS ===== */
-const DEFAULTS = { name: 'Her Name', from: 'Devashish', theme: 'pink' };
+const DEFAULTS = { name: 'Shruti', from: 'Pandit Ji', theme: 'girly' };
 
 /* ===== helpers ===== */
 const $ = (s,root=document)=>root.querySelector(s);
@@ -476,10 +517,10 @@ const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
 /* ===== petals ===== */
 (function petals(){
   const wrap = $('#petals');
-  for(let i=0;i<24;i++){
+  for(let i=0;i<26;i++){
     const p = document.createElement('div'); p.className='petal';
     p.style.left = (Math.random()*100) + 'vw';
-    const sz = 10 + Math.random()*10; p.style.width=sz+'px'; p.style.height=sz+'px';
+    const sz = 10 + Math.random()*12; p.style.width=sz+'px'; p.style.height=sz+'px';
     const dur = 9000 + Math.random()*7000, delay = Math.random()*4000;
     const horiz = (Math.random()<.5?-1:1) * (10 + Math.random()*14);
     p.animate([{transform:`translate(0,0) rotate(0deg)`,top:'-40px'},
@@ -489,7 +530,7 @@ const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
   }
 })();
 
-/* ===== WebAudio ambience (fallback, when not using YT) ===== */
+/* ===== WebAudio ambience (fallback) ===== */
 let audioCtx, masterGain;
 function makeAmbience(){
   if(audioCtx) return;
@@ -578,7 +619,7 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
     const octx = off.getContext('2d');
     off.width = cvs.width; off.height = cvs.height;
 
-    const family = 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
+    const family = 'Poppins, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
     const maxWidth = off.width * 0.84;
 
     let fs = Math.min(200, Math.max(70, off.width * 0.16));
@@ -586,13 +627,13 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
     octx.textBaseline = 'middle';
     octx.fillStyle = '#fff';
 
-    function lineWidth(t){ octx.font = `bold ${fs}px ${family}`; return octx.measureText(t).width; }
+    function lineWidth(t){ octx.font = `800 ${fs}px ${family}`; return octx.measureText(t).width; }
     while (Math.max(...lines.map(lineWidth)) > maxWidth && fs > 36) fs -= 2;
 
     const midY = off.height * 0.42;
     const lineGap = fs * 1.2;
 
-    octx.font = `bold ${fs}px ${family}`;
+    octx.font = `800 ${fs}px ${family}`;
     lines.forEach((t, i) => {
       octx.fillText(t, off.width/2, midY + (i - (lines.length-1)/2) * lineGap);
     });
@@ -609,11 +650,11 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
     return ptsAll;
   }
 
-  function moveToName(name, hold=3600){
+  function moveToName(name, hold=4000){
     const lines = nameToLines(name);
     const cloud = targetsFromLines(lines);
 
-    const N = Math.min(520, Math.max(200, Math.floor(cloud.length * 0.55)));
+    const N = Math.min(560, Math.max(220, Math.floor(cloud.length * 0.55)));
     ensureParticles(N);
 
     const sel = [];
@@ -629,7 +670,7 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
       for (const p of pts){
         p.x += (p.tx - p.x) * 0.08;
         p.y += (p.ty - p.y) * 0.08;
-        ctx.fillStyle = 'rgba(200,215,255,0.9)';
+        ctx.fillStyle = 'rgba(255,210,230,0.95)'; /* girly tint */
         ctx.fillRect(p.x, p.y, 2, 2);
       }
       if (phase === 'in' && t - t0 > hold){
@@ -666,10 +707,10 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
 function feather(){
   const div=document.createElement('div'); div.className='feather'; div.style.top=(20+Math.random()*50)+'vh';
   div.innerHTML=`<svg viewBox="0 0 300 90" width="140" height="42" xmlns="http://www.w3.org/2000/svg">
-    <defs><radialGradient id="eye" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1e2a78"/><stop offset="50%" stop-color="#2dd4bf"/><stop offset="100%" stop-color="#8b5cf6"/></radialGradient></defs>
+    <defs><radialGradient id="eye" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff8fb1"/><stop offset="50%" stop-color="#ffd9e8"/><stop offset="100%" stop-color="#c9a7ff"/></radialGradient></defs>
     <path d="M10,45 C80,10 160,10 290,45 C160,80 80,80 10,45 Z" fill="url(#eye)" opacity="0.9"/>
-    <path d="M10,45 C80,10 160,10 290,45" stroke="#a7f3d0" stroke-width="2" fill="none"/>
-    <path d="M10,45 C80,80 160,80 290,45" stroke="#c4b5fd" stroke-width="2" fill="none"/>
+    <path d="M10,45 C80,10 160,10 290,45" stroke="#ffd1e1" stroke-width="2" fill="none"/>
+    <path d="M10,45 C80,80 160,80 290,45" stroke="#ffe0f0" stroke-width="2" fill="none"/>
   </svg>`;
   document.body.appendChild(div); div.addEventListener('animationend',()=>div.remove());
 }
@@ -708,13 +749,13 @@ const blessings=[
 function modal(t,m){ $('#modalTitle').textContent=t; $('#modalMsg').textContent=m; $('#modal').classList.add('show'); }
 $('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
 
-/* ===== filmy chat + shayari ===== */
+/* ===== filmy chat + shayari (with nicknames) ===== */
 const chatLines=(name=($('#herNameDynamic')?.textContent||'you'))=>[
-  {who:'me',  text:`Okay ${name}, imagine slow-mo entry, violins…`},
-  {who:'her', text:`Aur phir?`},
+  {who:'me',  text:`Okay ${name} (Madamji), imagine slow-mo entry, violins…`},
+  {who:'her', text:`Aur phir, Pandit ji?`},
   {who:'me',  text:`Main shoelace pe atakta hoon, par eye-contact nahi todta. Comedy hero energy.`},
   {who:'her', text:`Respect. Timing hi sab kuch hai 😂`},
-  {who:'me',  text:`Since you, streetlights bhi fairy lights lagte.`}
+  {who:'me',  text:`Since you, streetlights bhi fairy lights lagte, Laadliji.`}
 ];
 let chatPlayed=false;
 function typeBubble({who,text},delay){
@@ -726,23 +767,23 @@ function playChat(){ if(chatPlayed) return; chatPlayed=true; const name=$('#herN
 
 const SHAYARI=(name=($('#herNameDynamic')?.textContent||'you'))=>[
   `Jab tu hansti, background score apne aap chalu ho jata—bina music ke bhi, ${name}.`,
-  `${name}, tu aayi toh raat ne sitare thode aur badha diye.`,
-  `Dil bolta rehta: ${name}, tu hai toh duniya thodi zyada film hai.`,
-  `Aaj ka plan simple: duaen, laddoo aur tu—bas.`,
+  `${name}, tu aayi toh raat ne sitare thode aur badha diye, Madamji.`,
+  `Dil bolta rehta: ${name}, tu hai toh duniya thodi zyada film hai, Laadliji.`,
+  `Aaj ka plan simple: duaen, laddoo aur tu—bas, Panditayan.`,
   `${name}, meri mehnat ka sabse pyaara proof—ye chhote chhote scenes, tere naam.`
 ];
-function newShayari(){ const line=SHAYARI($('#herNameDynamic')?.textContent||'you')[Math.floor(Math.random()*5)]; $('#shayariTxt').textContent=line; whoosh(); }
+function newShayari(){ const list=SHAYARI($('#herNameDynamic')?.textContent||'you'); const line=list[Math.floor(Math.random()*list.length)]; $('#shayariTxt').textContent=line; whoosh(); }
 $('#newShayari').addEventListener('click',newShayari);
 $('#copyShayari').addEventListener('click',async()=>{ const txt=$('#shayariTxt').textContent.trim(); try{ await navigator.clipboard.writeText(txt); toast('Copied!'); }catch{ toast('Select & copy manually'); }});
 function toast(msg){ const t=$('#toast')||document.body.appendChild(Object.assign(document.createElement('div'),{id:'toast',className:'toast'})); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
 
 /* ===== Haryanvi ===== */
 const HV=[
-  {h:'"Tu badi pyari se lag ri."', en:'You look really lovely.'},
-  {h:'"Thari hasi mhari taakat se."', en:'Your smile is my strength.'},
-  {h:'"Tanne chai pilaun? Mhari treat!"', en:'Tea for you? My treat!'},
+  {h:'"Laadliji, tu badi pyari se lag ri."', en:'Laadliji, you look really lovely.'},
+  {h:'"Madamji ki hasi mhari taakat se."', en:'Madamji’s smile is my strength.'},
+  {h:'"Tanne chai pilaun? Mhari treat!"', en:'Shall I get you tea? My treat!'},
   {h:'"Thare bina din bera kad kaatya."', en:'Without you, the day drags on.'},
-  {h:'"Tere liye mehnat mein bhi mazza aave."', en:'For you, even hard work feels fun.'}
+  {h:'"Panditayan ke liye mehnat mein bhi mazza aave."', en:'For my Panditayan, even hard work feels fun.'}
 ];
 let hvIdx=0; function showHv(){ $('#hvText').textContent=HV[hvIdx].h; $('#hvMeaning').textContent=HV[hvIdx].en; hvIdx=(hvIdx+1)%HV.length; }
 $('#hvToggle').addEventListener('click',showHv);
@@ -812,9 +853,9 @@ function fireworks(){
   function randomBurst(){
     const x = Math.random()*c.width*0.9 + c.width*0.05;
     const y = Math.random()*c.height*0.4 + c.height*0.1;
-    const colors = ['255,200,221','155,211,255','201,167,255','246,208,110'];
+    const colors = ['255,200,221','255,168,194','201,167,255','246,208,110'];
     const color = colors[Math.floor(Math.random()*colors.length)];
-    (Math.random()<0.5 ? burstHeart : burstCircle)(x,y,color);
+    (Math.random()<0.6 ? burstHeart : burstCircle)(x,y,color);
   }
 
   for(let i=0;i<4;i++) setTimeout(randomBurst, i*400);
@@ -823,19 +864,17 @@ function fireworks(){
 }
 
 /* ===== Memories gallery ===== */
-/* Put your photos in /images or use full URLs. Fill PHOTO_LIST below. */
 const PHOTO_LIST = [
-  // Example:
-  // {src:'images/01.jpg', cap:'Your smile, day One'},
-  // {src:'images/02.jpg', cap:'The chai run'},
-  // {src:'images/03.jpg', cap:'Pink & denim day'},
+  // Add your photos:
+  // {src:'images/01.jpg', cap:'First chai run'},
+  // {src:'images/02.jpg', cap:'Denim day, pink skies'},
+  // {src:'images/03.jpg', cap:'Temple bells & smiles'},
 ];
-
 (function renderGallery(){
   const root = document.getElementById('gallery');
   if(!root) return;
   if(PHOTO_LIST.length===0){
-    root.innerHTML = `<div class="hint">Add your photos to <code>/images</code> and list them in <code>PHOTO_LIST</code> in the code.</div>`;
+    root.innerHTML = `<div class="hint">Add your photos to <code>/images</code> and list them in <code>PHOTO_LIST</code>.</div>`;
     return;
   }
   PHOTO_LIST.forEach((p, i)=>{
@@ -847,7 +886,6 @@ const PHOTO_LIST = [
     root.appendChild(card);
   });
 })();
-
 let lbIndex=0;
 function openLightbox(i){
   lbIndex=i;
@@ -906,14 +944,15 @@ document.getElementById('giftBtn')?.addEventListener('click', ()=>{
   const q=new URLSearchParams(location.search);
   const name=q.get('name')||DEFAULTS.name, from=q.get('from')||DEFAULTS.from, theme=(q.get('theme')||DEFAULTS.theme).toLowerCase();
   $('#herNameDynamic').textContent=name||'you'; $('#letterFrom').textContent=from; $('#welcomeName').textContent=name||'you'; $('#wmName').textContent=name||'you';
-  if(['pink','denim','beige','black'].includes(theme)) document.body.classList.add('theme-'+theme);
+  document.body.classList.remove('theme-girly','theme-pink','theme-denim','theme-beige','theme-black');
+  if(['girly','pink','denim','beige','black'].includes(theme)) document.body.classList.add('theme-'+theme);
   const d=new Date(); if(d.getMonth()===8 && d.getDate()===5) document.body.classList.add('her-day');
   const initials=(name||'You').split(/\s+/).map(s=>s[0]?.toUpperCase()).slice(0,2).join('')||'💛'; $('#monogram').textContent=initials;
   $('#certFor').textContent=name||'You'; $('#certBy').textContent=from||'Me'; $('#certDate').textContent=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
 })();
 
 /* ===== theme chips ===== */
-$$('.chip').forEach(c=>c.addEventListener('click',()=>{ document.body.classList.remove('theme-pink','theme-denim','theme-beige','theme-black'); document.body.classList.add('theme-'+c.dataset.theme); }));
+$$('.chip').forEach(c=>c.addEventListener('click',()=>{ document.body.classList.remove('theme-girly','theme-pink','theme-denim','theme-beige','theme-black'); document.body.classList.add('theme-'+c.dataset.theme); }));
 
 /* ===== robust Start (mobile safe) ===== */
 function startJourney(){
