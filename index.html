@@ -294,19 +294,22 @@
     </div>
   </div>
 
-  <!-- Welcome -->
+<main>
+
+<!-- Welcome -->
 <div class="welcome" id="welcome">
   <div class="card">
     <h2>Hi <span id="welcomeName">Shruti</span> (Madamji) 🌸</h2>
     <p>I made this little night sky just for you. Walk with me and let the blessings unfold.</p>
 
     <div class="btn-row">
-      <button class="btn" id="startJourney" type="button" data-start="1">
+      <!-- NOTE: anchor + onclick fallback -->
+      <a class="btn" id="startJourney" href="#spark"
+         onclick="window.__start && window.__start(); return false;">
         Start your tiny journey ✨
-      </button>
-      <button class="btn" id="playSong" type="button">
-        Play her song 🎵
-      </button>
+      </a>
+
+      <button class="btn" id="playSong" type="button">Play her song 🎵</button>
     </div>
 
     <p class="hint center" style="margin-top:8px">
@@ -315,7 +318,27 @@
   </div>
 </div>
 
-<main>
+<!-- Tiny always-on starter (runs even if later JS breaks) -->
+<script>
+  window.__start = function () {
+    try {
+      // Hide the overlay immediately
+      var w = document.getElementById('welcome');
+      if (w) w.style.display = 'none';
+
+      // Kick the ambience if defined (won't throw if missing)
+      if (typeof makeAmbience === 'function') makeAmbience();
+
+      // Nudge to the Spark section
+      if (location.hash !== '#spark') location.hash = '#spark';
+
+      // Little visual ping if monogram exists
+      var m = document.getElementById('monogram');
+      if (m) { m.classList.add('bounce'); setTimeout(function(){ m.classList.remove('bounce'); }, 700); }
+    } catch (e) { /* silence */ }
+  };
+</script>
+
 
 <!-- Landing -->
     <section class="section" id="landing">
