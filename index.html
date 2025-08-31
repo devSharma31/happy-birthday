@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>for Shruti — a small night</title>
-<meta name="description" content="A trust-first birthday page for Shruti—diya, blessings, greeting cards, her photos, and heart fireworks—set to the mood of Zara Sa.">
+<meta name="description" content="A birthday page for Shruti—blessings, silly-boy-trying energy, her photos, greeting cards, and heart fireworks—with quiet spiritual vibes.">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;600;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -42,7 +42,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .mood button{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25)}
 .mood .n{background:#1c1f2d}.mood .g{background:#ff8fb1}.mood .d{background:#85a9ff}
 
-/* Stars + sky */
+/* Sky */
 .stars{position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.85;
   background:
     radial-gradient(2px 2px at 18% 28%,#fff,transparent 60%),
@@ -73,7 +73,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .lit{transform:translateY(0) scale(1)}
 .lit .flame{animation:flicker .18s infinite alternate .1s;opacity:1}
 .lit .glow{animation:glow 1.2s ease-in-out infinite alternate .1s;opacity:1}
-@keyframes flicker{from{transform:translateX(-50%) rotate(-2deg) scaleY(1)}to{transform:translateX(50%) rotate(2deg) scaleY(1.07)}}
+@keyframes flicker{from{transform:translateX(-50%) rotate(-2deg) scaleY(1)}to{transform:translateX(-50%) rotate(2deg) scaleY(1.07)}}
 @keyframes glow{from{transform:translateX(-50%) scale(.9)}to{transform:translateX(-50%) scale(1.05)}}
 
 /* Balloons + modal */
@@ -118,14 +118,40 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .slide{max-width:760px;text-align:center;padding:16px;border-radius:16px;border:1px solid var(--edge);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03))}
 .nav{display:flex;gap:10px;justify-content:center}
 
-/* Divine + final */
+/* Final */
 #fire{position:absolute;inset:0;pointer-events:none}
 .final p{font-size:clamp(18px,3.6vw,22px);line-height:1.6}
 @media (max-width:560px){ .polaroids{grid-template-columns:repeat(2,1fr)} }
+
+/* Welcome Gate */
+.gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:100;background:
+  radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.18), transparent 60%),
+  linear-gradient(180deg,var(--bg1),var(--bg2)); transition:opacity .45s ease}
+.gate.hide{opacity:0;pointer-events:none}
+.gate-card{width:min(560px,92vw);padding:18px;border-radius:18px;border:1px solid var(--edge);
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:0 22px 48px rgba(0,0,0,.45);text-align:center}
+.gate-card h1{margin:.2rem 0 .3rem;font-size:clamp(22px,5.2vw,32px)}
+.gate-card p{margin:.2rem 0;color:var(--muted)}
+.gate-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 </style>
 </head>
 
 <body>
+  <!-- Welcome Gate -->
+  <div class="gate" id="gate" aria-modal="true" role="dialog">
+    <div class="gate-card soft">
+      <h1>Happy Birthday, Shruti 🎂</h1>
+      <p>Bas aaj duaayein: kaam halkey, chai garam, din meetha.</p>
+      <p class="muted">I’ll stay in the background—no demands, just your quiet cheer squad.</p>
+      <div class="gate-actions">
+        <button class="btn" id="enterBtn">Enter the little night →</button>
+        <button class="btn" id="playSongGate">Play “Zara Sa” 🎵</button>
+      </div>
+      <p class="hint">Ignore mode on? Theek hai—main wahi silly ladka hoon jo phir se try kare.</p>
+    </div>
+  </div>
+
+  <!-- Chrome -->
   <div class="sig">made with <b>time</b> & <b>care</b></div>
   <div class="mood">
     <button class="n" title="Night"  onclick="setMood('night')"></button>
@@ -159,7 +185,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
         <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
       </div>
       <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px">
-        Jahan tum dheere ho, main aur dheere. Poochhna kuch bhi ho, poochh lena—jawab se pehle haath nahi chhodunga.
+        Aaj sirf duaayein: deadlines dayalu, playlist lambi, aur muskurahat asaan. Main yahin hoon—shanti se, bina demand ke—tumhari smile ka silly guard.
       </p>
       <div class="cta"><a class="btn" href="#blessings">Next →</a></div>
     </div>
@@ -208,7 +234,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
   <section class="section" id="lines">
     <div class="container">
       <div class="carousel">
-        <div class="slide" id="slideText">Main impress nahi—assure karna chahta hoon.</div>
+        <div class="slide" id="slideText">No expectations. Bas good wishes, daily.</div>
         <div class="nav">
           <button class="btn" id="prevLine">←</button>
           <button class="btn" id="nextLine">→</button>
@@ -230,12 +256,12 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
     </div>
   </section>
 
-  <!-- Finale: heart fireworks -->
+  <!-- Finale -->
   <section class="section final" id="final" style="overflow:hidden">
     <canvas id="fire" aria-hidden="true"></canvas>
     <div class="container center">
       <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Shruti</span>!</h2>
-      <p id="promiseLine">Aaj main yakeen nahi maang raha—roz aakar, yakeen ka kaam karunga.</p>
+      <p id="promiseLine">Is saal tumhare liye zyada sukoon, zyada hasi. Main sideline se quietly cheer karta rahunga—roz.</p>
       <div class="cta">
         <button class="btn" id="gift">Shower of cute things 🎁</button>
         <button class="btn" id="savePNG">Save this promise (PNG)</button>
@@ -256,11 +282,11 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
   </div>
 
 <script>
-/* ---------- helpers ---------- */
+/* helpers */
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const prefersReduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-/* ---------- mood with memory ---------- */
+/* mood with memory */
 function setMood(m){
   document.body.classList.remove('gulabi','denim');
   if(m==='gulabi') document.body.classList.add('gulabi');
@@ -269,7 +295,7 @@ function setMood(m){
 }
 (function initMood(){ setMood(localStorage.getItem('mood')||'night'); })();
 
-/* ---------- petals ---------- */
+/* petals */
 (function petals(){
   const wrap = $('#petals');
   for(let i=0;i<(prefersReduced?8:22);i++){
@@ -283,7 +309,7 @@ function setMood(m){
   }
 })();
 
-/* ---------- star trail + full-name constellation ---------- */
+/* star trail → name */
 (function starTrail(){
   const c=$('#trail'), ctx=c.getContext('2d'); let W,H; const parts=[];
   function fit(){ W=c.width=innerWidth; H=c.height=innerHeight } fit(); addEventListener('resize',fit);
@@ -293,7 +319,6 @@ function setMood(m){
   function touch(e){ const t=e.touches?e.touches[0]:e; spawn(t.clientX,t.clientY); if(timer) clearTimeout(timer); timer=setTimeout(()=> nameConstellation($('#herName').textContent||'Shruti'), 1400); }
   addEventListener('mousemove',touch); addEventListener('touchmove',touch,{passive:true});
 })();
-
 function nameConstellation(name){
   const cvs=$('#nameConstellation'), ctx=cvs.getContext('2d'); cvs.width=innerWidth; cvs.height=innerHeight;
   let pts=[]; const fam='Poppins, ui-sans-serif, system-ui';
@@ -321,26 +346,25 @@ function nameConstellation(name){
   })(t0);
 }
 
-/* ---------- diya + typeline + long-press easter note ---------- */
+/* diya + typed assurance + long-press note */
 const sparkIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeAssure(); } }); },{threshold:.45});
 sparkIO.observe($('#spark'));
 function typeAssure(){ const el=$('#assureLine'); const t=el.textContent.trim(); el.textContent=''; let i=0; const id=setInterval(()=>{ el.textContent+=t.charAt(i++); if(i>=t.length) clearInterval(id); },26); }
-// long-press to open note
 (function longPress(){
   const el=$('#diya'); let timer=null;
-  const open=()=>showModal('A small note','Panditayan, main baat se pehle sunna seekh raha hoon. Roz aakar, yakeen ka kaam karunga.');
+  const open=()=>showModal('A small note','Space chahiye toh milegi. Main bas background me diya jala ke rakhoonga.');
   el.addEventListener('pointerdown',()=>{ timer=setTimeout(open,650); });
   ['pointerup','pointerleave','pointercancel'].forEach(ev=> el.addEventListener(ev,()=>clearTimeout(timer)));
 })();
 
-/* ---------- blessings (with chime+haptics) ---------- */
+/* blessings balloons (birthday-toned) */
 const blessings=[
-  {word:'Sukoon', color:'#ff9ccc', msg:'Laadliji, tu tension na le—main yahin hoon.'},
-  {word:'Himmat', color:'#9bd3ff', msg:'Jab bojh lage, aadha mujhe de de.'},
-  {word:'Vishwas',color:'#c9a7ff', msg:'Main jawab se pehle haath nahi chhodunga.'},
-  {word:'Prem',   color:'#7ee6c9', msg:'Shor nahi—steadiness laaun, roz.'},
-  {word:'Hasi',   color:'#ffd86e', msg:'Teri muskurahat ka accountant main hoon :)'},
-  {word:'Barkat', color:'#ffb6a3', msg:'Ramji ki kripa bani rahe.'},
+  {word:'Sukoon',  color:'#ff9ccc', msg:'Har din ka pressure halka ho, aur raatein araam se kathein.'},
+  {word:'Himmat',  color:'#9bd3ff', msg:'Jab bhi tough lage, kehna—main cheer squad hoon.'},
+  {word:'Vishwas', color:'#c9a7ff', msg:'Vaade nahi—roz ki imandari. Bas itna.'},
+  {word:'Khushi',  color:'#7ee6c9', msg:'Chhoti jeetain, badi badi hansi.'},
+  {word:'Sehat',   color:'#ffd86e', msg:'Neend gehri, sehat mazboot, aura bright.'},
+  {word:'Barkat',  color:'#ffb6a3', msg:'Laadliji, Ramji ki kripa aur ghar me barkat.'},
 ];
 let balloonsInit=false;
 function spawnBalloons(){
@@ -365,13 +389,13 @@ $('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.i
 const blessIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) spawnBalloons(); }); },{threshold:.4});
 blessIO.observe($('#blessings'));
 
-/* ---------- greeting cards ---------- */
+/* greeting cards (birthday + charm) */
 const greetingCards=[
- {title:'Nazar Na Lage', charm:'🧿', text:'Madamji, nazar buri lage to bhi—tum par Kanha ki chhaya aur meri zimmedari.'},
- {title:'Chai + Sukoon', charm:'☕️', text:'Laadliji, subah ki chai ya raat ka sukoon—jo bhi chahiye, main le aaoon?'},
- {title:'Seedhi Baat', charm:'🕊️', text:'Sawal rakhna. Main bhaagunga nahi. Der ho sakti, par haath kabhi halka nahi padega.'},
- {title:'Haseen Chori', charm:'🌸', text:'Teri hasi chura li maine—par sirf rakhwali ke liye.'},
-];
+ {title:'Nazar Na Lage', charm:'🧿', text:'Madamji, nazar buri lage bhi toh—tum par Kanha ki chhaya aur meri rakhwali.'},
+ {title:'Chai + Calm',   charm:'☕️', text:'Subah ki chai ya raat ka sukoon—jo chahiye, bol do. Main dhoondh launga.'},
+ {title:'Calendar Bless', charm:'📅', text:'Is saal ka har Monday halka, aur har Friday ke beech me thodi si chhutti.'},
+ {title:'Inbox of Joy',   charm:'📫', text:'Roz thoda pyaar, thodi hansi—spam free, ad free.'},
+] ;
 (function buildCards(){
   const wrap=$('#cardsWrap');
   greetingCards.forEach((c)=>{
@@ -382,7 +406,7 @@ const greetingCards=[
   });
 })();
 
-/* ---------- spotlight photos (replace PHOTOS!) ---------- */
+/* spotlight photos (replace PHOTOS with her pics) */
 const PHOTOS=[
   // {src:'images/shruti1.jpg'},
   // {src:'images/shruti2.jpg'},
@@ -400,7 +424,7 @@ const PHOTOS=[
     const d=document.createElement('div'); d.className='pol'; d.style.setProperty('--r', (Math.random()*6-3)+'deg');
     d.innerHTML=`<img src="${p.src}" alt="her ${i+1}">`;
     d.addEventListener('click',()=>{ cur=i; hero.src=p.src; $$('.pol').forEach(x=>x.classList.remove('active')); d.classList.add('active'); });
-    // drag bounce (light)
+    // light drag
     let dragging=false,sx=0,sy=0; d.addEventListener('pointerdown',e=>{ dragging=true; d.setPointerCapture(e.pointerId); sx=e.clientX; sy=e.clientY; d.style.transition='none'; });
     d.addEventListener('pointermove',e=>{ if(!dragging) return; const dx=e.clientX-sx, dy=e.clientY-sy; d.style.transform=`translate(${dx}px,${dy}px) rotate(var(--r))`; });
     d.addEventListener('pointerup',()=>{ dragging=false; d.style.transition='transform .2s'; d.style.transform='rotate(var(--r))'; });
@@ -412,19 +436,19 @@ const PHOTOS=[
 function openLB(src){ $('#lbImg').src=src; $('#lb').style.display='flex'; }
 function closeLB(){ $('#lb').style.display='none'; }
 
-/* ---------- lines carousel ---------- */
+/* inside lines (assurance > romance) */
 const LINES=[
-  'Main impress nahi—assure karna chahta hoon.',
-  'Tumhaari khamoshi, meri favourite playlist.',
-  'Agar raat lambi ho, main lamhon ko halka bana dunga.',
-  'Laadliji, agar 1% chance hai, main 100% mehnat karta rahunga.',
-  'Panditayan, mere iraade mandir ke diye jaise—chhote sahi, par bujhte nahi.',
+  'No expectations. Bas good wishes, daily.',
+  'Ignore mode on? Theek hai—main yahin, quietly rooting.',
+  'Main impress nahi, consistent rehna chahta hoon.',
+  'Madamji, tu muskura—baaki sab adjust ho jayega.',
+  '1% chance? Main 100% mehnat karta rahunga—bina shor.',
 ];
 let li=0; const slide=$('#slideText');
 $('#nextLine').addEventListener('click',()=>{ li=(li+1)%LINES.length; slide.innerText=LINES[li]; playChime(); });
 $('#prevLine').addEventListener('click',()=>{ li=(li-1+LINES.length)%LINES.length; slide.innerText=LINES[li]; playChime(); });
 
-/* ---------- heart fireworks ---------- */
+/* heart fireworks */
 let fwStarted=false;
 const fwIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && !fwStarted){ fwStarted=true; fireworks(); } }); },{threshold:.42});
 fwIO.observe($('#final'));
@@ -438,7 +462,7 @@ function fireworks(){
   for(let i=0;i<4;i++) setTimeout(boom,i*380); const iv=setInterval(boom,1300); setTimeout(()=>clearInterval(iv),12000);
 }
 
-/* ---------- gift rain + haptics ---------- */
+/* gift rain */
 $('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibrate(14);}catch{} const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔'];
   const D=5200,t0=performance.now(); (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
     s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
@@ -446,7 +470,7 @@ $('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibra
     setTimeout(()=>s.remove(),time+60); requestAnimationFrame(drop) })();
 });
 
-/* ---------- save final promise as PNG (no libs) ---------- */
+/* save final as PNG (no libs) */
 $('#savePNG').addEventListener('click',()=>{
   const name=$('#herName').textContent||'You'; const text=$('#promiseLine').textContent||'With love.';
   const w=1200,h=630, cn=document.createElement('canvas'); cn.width=w; cn.height=h; const ctx=cn.getContext('2d');
@@ -462,16 +486,15 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight){
   ctx.fillText(line, x, y);
 }
 
-/* ---------- modal, cards, etc. already wired ---------- */
+/* modal close wired above */
 
-/* ---------- ambience (bansuri + bell, fades in after first tap) ---------- */
+/* ambience (bansuri + bell) */
 let ac, master;
 function ensureAudioCtx(){ if(ac) return; ac=new (window.AudioContext||window.webkitAudioContext)(); master=ac.createGain(); master.gain.value=0.0; master.connect(ac.destination); }
 function startAmbience(){
   try{
     ensureAudioCtx(); ac.resume&&ac.resume();
     const g=ac.createGain(); g.gain.value=0.0; g.connect(master);
-    // simple flute phrase + tiny bell
     function flute(freq, t0, dur){
       const o=ac.createOscillator(); o.type='sine'; o.frequency.value=freq;
       const v=ac.createOscillator(); v.frequency.value=5; const vGain=ac.createGain(); vGain.gain.value=2; v.connect(vGain); vGain.connect(o.frequency);
@@ -484,7 +507,6 @@ function startAmbience(){
     }
     const start=ac.currentTime+.1; const phrase=t=>{[440,494,523,587,523,494,440].forEach((f,i)=>flute(f/2,t+i*.9,1.2)); bell(t+2.7);};
     phrase(start); const iv=setInterval(()=>phrase(ac.currentTime+.1),5000);
-    // fade in
     master.gain.cancelScheduledValues(ac.currentTime); master.gain.linearRampToValueAtTime(0.10, ac.currentTime+1.2);
     g.gain.linearRampToValueAtTime(0.10, ac.currentTime+1.2);
   }catch{}
@@ -492,11 +514,13 @@ function startAmbience(){
 function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=880; g.gain.value=0.0001; o.connect(g); g.connect(master);
   const t=ac.currentTime; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.1,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4); o.start(t); o.stop(t+0.42);}catch{} }
 
-/* start ambience on first gesture */
-$('#walkBtn').addEventListener('click', startAmbience, {once:true});
+/* Welcome Gate wiring */
+const gate=$('#gate');
+$('#enterBtn').addEventListener('click',()=>{ startAmbience(); gate.classList.add('hide'); setTimeout(()=>gate.remove(),500); },{once:true});
+$('#playSongGate').addEventListener('click',openYT);
 
-/* ---------- YouTube overlay (preloaded with Zara Sa) ---------- */
-const DEFAULT_YT = 'GAXNdOm8rPY'; // SonyMusicIndiaVEVO – Zara Sa (Jannat)
+/* YouTube overlay (Zara Sa by default) */
+const DEFAULT_YT = 'GAXNdOm8rPY';
 function openYT(){
   const url = new URL(location.href);
   const id = url.searchParams.get('yt') || DEFAULT_YT;
@@ -508,8 +532,7 @@ function closeYT(){ $('#ytOverlay').style.display='none'; $('#yt').src=''; }
 $('#playSong').addEventListener('click',openYT);
 $('#playSong2').addEventListener('click',openYT);
 
-/* ---------- build cards ready / observers ---------- */
-document.addEventListener('DOMContentLoaded',()=>{/* observers already attached */});
+/* build balloons/cards on view handled above */
 </script>
 </body>
 </html>
