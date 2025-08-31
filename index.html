@@ -233,7 +233,17 @@
   body.her-day .glow{box-shadow:0 0 26px rgba(246,208,110,.55)}
 
   @media print{.section,.stars,#petals,#constellation,.chapters,.mono,.mono-tip,.watermark,#welcome,#letter,#cert{display:none!important}}
+
+/* --- FIX: row for the two buttons in the welcome card --- */
+.btn-row{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
 </style>
+
 </head>
 <body class="theme-girly">
   <!-- Theme chips -->
@@ -279,53 +289,24 @@
   </div>
 
   <!-- Welcome -->
-  <div class="welcome" id="welcome">
-    <div class="card">
-      <h2>Hi <span id="welcomeName">Shruti</span> (Madamji) 🌸</h2>
-      <p>I made this little night sky just for you. Walk with me and let the blessings unfold.</p>
+<div class="welcome" id="welcome">
+  <div class="card">
+    <h2>Hi <span id="welcomeName">Shruti</span> (Madamji) 🌸</h2>
+    <p>I made this little night sky just for you. Walk with me and let the blessings unfold.</p>
 
-style="display:flex;gap:10px;justify-content:center;flex -wrap:wrap">
+    <div class="btn-row">
+      <button class="btn" id="startJourney" type="button" data-start="1">
+        Start your tiny journey ✨
+      </button>
+      <button class="btn" id="playSong" type="button">
+        Play her song 🎵
+      </button>
+    </div>
 
-<button class="btn" id="startJourney"
-
-type="button" data-start="1">Start your tiny journey
-
-</button>
-
-<button class="btn" id="playSong"
-
-type="button">Play her song </button>
-
-can
-
-</div>
-
-<p
-
-class="hint center" style="margin-top:8px">You
-
-pre-load a track with <code>?yt=VIDEO_ID</code></p> </div>
-
-</div>
-
-role="dialog">
-
-<!-- Certificate -->
-
-<div class="cert" id="cert" aria-modal="true"
-
-div>
-
-<div class="cert-card"> <div class="cert-title">Certificate of Devotion</
-
-<p>Crafted for <strong id="certFor">Shruti</ strong> by <strong id="certBy">Pandit Ji</strong></p> <p><span id="certDate">Today</span></p> <div class="wax" aria-hidden="true"></div>
-
-<div style="margin-top:12px"><button class="btn"
-
-id="closeCert">Close</button></div>
-
-</div>
-
+    <p class="hint center" style="margin-top:8px">
+      You can pre-load a track with <code>?yt=VIDEO_ID</code>
+    </p>
+  </div>
 </div>
 
 <main>
