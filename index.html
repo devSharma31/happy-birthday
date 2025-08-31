@@ -204,6 +204,25 @@
   body.her-day .glow{box-shadow:0 0 26px rgba(246,208,110,.55)}
 
   @media print{.section,.stars,#petals,#constellation,.chapters,.mono,.mono-tip,.watermark,#welcome,#letter,#cert{display:none!important}}
+
+/* Gift sticker rain */
+.sticker{position:fixed; top:-40px; font-size:28px; will-change:transform,opacity; pointer-events:none; z-index:60}
+@media (min-width:640px){ .sticker{font-size:36px} }
+
+.polaroids{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
+  gap:14px; margin-top:14px;
+}
+.polaroid{
+  background:#fff; color:#111; border-radius:12px; padding:8px 8px 14px;
+  box-shadow:0 16px 36px rgba(0,0,0,.35);
+  transform:rotate(var(--r,0deg)); transition:transform .2s ease;
+  cursor:pointer; user-select:none;
+}
+.polaroid:hover{ transform:rotate(var(--r,0deg)) scale(1.03) }
+.polaroid img{ width:100%; height:170px; object-fit:cover; border-radius:8px }
+.polaroid .cap{ font-size:12px; text-align:center; margin-top:6px }
+
 </style>
 </head>
 <body>
@@ -351,6 +370,23 @@
       </div>
     </section>
 
+<section class="section" id="memories">
+  <div class="container" style="text-align:center">
+    <h2 style="margin:0 0 10px; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; font-size:12px">Memories</h2>
+    <p class="hint">A few moments that make my day feel alive.</p>
+    <div id="gallery" class="polaroids"></div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" style="display:none; position:fixed; inset:0; z-index:90; background:rgba(0,0,0,.85); align-items:center; justify-content:center;">
+  <button id="lbClose" class="pill" style="position:absolute; right:14px; top:14px;">Close ✖</button>
+  <button id="lbPrev" class="pill" style="position:absolute; left:14px; top:50%; transform:translateY(-50%);">←</button>
+  <img id="lbImg" alt="memory" style="max-width:92vw; max-height:86vh; border-radius:14px; box-shadow:0 22px 60px rgba(0,0,0,.6); border:1px solid rgba(255,255,255,.15)" />
+  <button id="lbNext" class="pill" style="position:absolute; right:14px; top:50%; transform:translateY(-50%);">→</button>
+</div>
+
+
     <!-- Divine -->
     <section class="section" id="divine">
       <div class="temple-bg" aria-hidden="true"></div>
@@ -399,6 +435,7 @@
           <button class="btn endbtn" id="endBtn">Read a little letter 💜</button>
           <button class="btn endbtn" id="savePng">Save final message (PNG)</button>
         </div>
+          <button class="btn endbtn" id="giftBtn">Open gift basket 🎁</button>
       </div>
       <div class="hint center">Chapter 5 • The Promise</div>
     </section>
@@ -725,6 +762,65 @@ $('#hvToggle').addEventListener('click',showHv);
 $('#speakHv').addEventListener('click',()=>{ const s=window.speechSynthesis; if(!s) return toast('Speech not supported'); const u=new SpeechSynthesisUtterance($('#hvText').textContent.replace(/"/g,'')); u.lang='hi-IN'; u.rate=0.95; s.speak(u); });
 showHv();
 
+/* ===== Memories gallery (static list) ===== */
+/* Put your photos in /images folder or use full URLs.
+   Then list them here. Example:
+   const PHOTO_LIST = [
+     {src:'images/01.jpg', cap:'Your smile, day One'},
+     {src:'images/02.jpg', cap:'The chai run'},
+     {src:'images/03.jpg', cap:'Pink & denim day'}
+   ];
+*/
+const PHOTO_LIST = [
+  // TODO: replace these placeholders with your real paths
+  // Example raw GitHub: 'https://raw.githubusercontent.com/<user>/<repo>/main/images/01.jpg'
+];
+
+(function renderGallery(){
+  const root = document.getElementById('gallery');
+  if(!root) return;
+  if(PHOTO_LIST.length===0){
+    root.innerHTML = `<div class="hint">Add your photos to <code>/images</code> and list them in <code>PHOTO_LIST</code> in the code.</div>`;
+    return;
+  }
+  PHOTO_LIST.forEach((p, i)=>{
+    const card = document.createElement('figure');
+    card.className='polaroid';
+    card.style.setProperty('--r', (Math.random()*6-3)+'deg');
+    card.innerHTML = `<img loading="lazy" src="${p.src}" alt="memory ${i+1}"><figcaption class="cap">${p.cap||''}</figcaption>`;
+    card.addEventListener('click', ()=> openLightbox(i));
+    root.appendChild(card);
+  });
+})();
+
+/* Lightbox */
+let lbIndex=0;
+function openLightbox(i){
+  lbIndex=i;
+  const lb=document.getElementById('lightbox');
+  const img=document.getElementById('lbImg');
+  img.src = PHOTO_LIST[i].src;
+  lb.style.display='flex';
+  // tiny emoji confetti to celebrate opening
+  const r = img.getBoundingClientRect();
+  confetti(r.left + r.width/2, r.top + scrollY + r.height/2);
+}
+function lbNav(dir){
+  if(PHOTO_LIST.length===0) return;
+  lbIndex = (lbIndex + dir + PHOTO_LIST.length) % PHOTO_LIST.length;
+  document.getElementById('lbImg').src = PHOTO_LIST[lbIndex].src;
+}
+document.getElementById('lbPrev')?.addEventListener('click', ()=> lbNav(-1));
+document.getElementById('lbNext')?.addEventListener('click', ()=> lbNav(1));
+document.getElementById('lbClose')?.addEventListener('click', ()=> document.getElementById('lightbox').style.display='none');
+document.getElementById('lightbox')?.addEventListener('click', (e)=>{ if(e.target.id==='lightbox') e.currentTarget.style.display='none'; });
+document.addEventListener('keydown', (e)=>{ const lb=document.getElementById('lightbox'); if(lb.style.display!=='flex') return;
+  if(e.key==='Escape') lb.style.display='none';
+  if(e.key==='ArrowRight') lbNav(1);
+  if(e.key==='ArrowLeft') lbNav(-1);
+});
+
+
 /* ===== pose + confetti + sfx ===== */
 function confetti(x,y){ const E=['💖','💗','💞','✨','😂','💐','🥰','🧡','💛','🪔','🍬']; for(let i=0;i<26;i++){ const e=document.createElement('span'); e.className='em'; e.textContent=E[Math.floor(Math.random()*E.length)];
   const a=Math.random()*Math.PI*2, sp=1+Math.random()*3, dur=900+Math.random()*700, dx=Math.cos(a)*sp*60, dy=Math.sin(a)*sp*60-40;
@@ -739,12 +835,69 @@ function whoosh(){ const a=ctxFX(); if(!a) return; const n=a.createBufferSource(
 /* ===== flip card ===== */
 $('#flipCard').addEventListener('click',()=> $('#flipCard').classList.toggle('is-flipped'));
 
-/* ===== fireworks ===== */
-let fw=false; function fireworks(){ if(fw) return; fw=true; const c=$('#fireCanvas'),ctx=c.getContext('2d'); function fit(){ c.width=innerWidth; c.height=Math.max(300,innerHeight*0.9)} fit(); addEventListener('resize',fit);
-  const parts=[]; function burst(x,y,col){ for(let i=0;i<90;i++){ const a=(Math.PI*2)*i/90, sp=2+Math.random()*3; parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:60+Math.random()*20,color:col}); } }
-  (function tick(){ ctx.clearRect(0,0,c.width,c.height); for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--; ctx.fillStyle=`rgba(${p.color},${Math.max(0,p.life/80)})`; ctx.fillRect(p.x,p.y,2,2); if(p.life<=0) parts.splice(i,1);} requestAnimationFrame(tick)})();
-  function rand(){ const x=Math.random()*c.width*0.9+c.width*0.05, y=Math.random()*c.height*0.4+c.height*0.1, colors=['255,200,221','155,211,255','201,167,255','246,208,110']; burst(x,y,colors[Math.floor(Math.random()*colors.length)]); }
-  for(let i=0;i<4;i++) setTimeout(rand,i*400); const iv=setInterval(rand,1200); setTimeout(()=>clearInterval(iv),12000);
+/* ===== fireworks (now with HEARTS) ===== */
+let fw=false;
+function fireworks(){
+  if(fw) return; fw=true;
+  const c=document.getElementById('fireCanvas'), ctx=c.getContext('2d');
+  function fit(){ c.width=innerWidth; c.height=Math.max(300,innerHeight*0.9) } fit(); addEventListener('resize',fit);
+
+  const parts=[];
+  function addParticle(x,y,vx,vy,color){
+    parts.push({x,y,vx,vy,life:70+Math.random()*30,color});
+  }
+
+  // parametric heart (t in [0, 2π])
+  function heartVector(t, size){
+    const x = 16*Math.sin(t)**3;
+    const y = 13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);
+    return {x: x*size, y: -y*size}; // invert y for canvas
+  }
+
+  function burstCircle(x,y,color){
+    const n=90;
+    for(let i=0;i<n;i++){
+      const a=(Math.PI*2)*i/n, sp=2+Math.random()*3;
+      addParticle(x,y,Math.cos(a)*sp,Math.sin(a)*sp,color);
+    }
+  }
+
+  function burstHeart(x,y,color){
+    const n=140, size=0.7; // tweak size for canvas scale
+    for(let i=0;i<n;i++){
+      const t = (i/n)*Math.PI*2;
+      const v = heartVector(t, 1.6);          // base heart shape
+      const mag = Math.hypot(v.x, v.y) || 1;  // normalize → velocity
+      const speed = 2.2 + Math.random()*2.4;
+      addParticle(x,y,(v.x/mag)*speed,(v.y/mag)*speed,color);
+    }
+  }
+
+  function tick(){
+    ctx.clearRect(0,0,c.width,c.height);
+    for(let i=parts.length-1;i>=0;i--){
+      const p=parts[i];
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--;
+      ctx.fillStyle=`rgba(${p.color},${Math.max(0,p.life/100)})`;
+      ctx.fillRect(p.x,p.y,2,2);
+      if(p.life<=0) parts.splice(i,1);
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  function randomBurst(){
+    const x = Math.random()*c.width*0.9 + c.width*0.05;
+    const y = Math.random()*c.height*0.4 + c.height*0.1;
+    const colors = ['255,200,221','155,211,255','201,167,255','246,208,110'];
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    // 50% heart, 50% circle
+    (Math.random()<0.5 ? burstHeart : burstCircle)(x,y,color);
+  }
+
+  for(let i=0;i<4;i++) setTimeout(randomBurst, i*400);
+  const iv=setInterval(randomBurst, 1200);
+  setTimeout(()=> clearInterval(iv), 12000);
 }
 
 /* ===== params (name/from/theme) + monogram + her-day ===== */
