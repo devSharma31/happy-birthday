@@ -505,33 +505,131 @@ function openYT(){
 $('#playSong').addEventListener('click',openYT);
 $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none'; $('#ytFrame').src=''; });
 
-/* ===== Constellation ===== */
+/* ===== Constellation: FULL NAME (auto-wrap) ===== */
 (function constellation(){
-  const cvs=$('#constellation'),ctx=cvs.getContext('2d');
-  function fit(){ cvs.width=innerWidth; cvs.height=innerHeight } fit(); addEventListener('resize',fit);
-  const N=220, pts=Array.from({length:N},()=>({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1,tx:0,ty:0}));
-  function targets(text){
-    const off=document.createElement('canvas'),o=off.getContext('2d'); off.width=cvs.width; off.height=cvs.height;
-    const fs=Math.min(180,Math.max(90,cvs.width*0.22)); o.fillStyle='#fff'; o.textAlign='center'; o.textBaseline='middle';
-    o.font=`bold ${fs}px ui-sans-serif,system-ui`; o.fillText(text,off.width/2,off.height*0.42);
-    const data=o.getImageData(0,0,off.width,off.height).data, arr=[], step=Math.floor(Math.max(1,fs/22));
-    for(let y=0;y<off.height;y+=step){ for(let x=0;x<off.width;x+=step){ if(data[(y*off.width+x)*4+3]>128) arr.push({x,y}); } }
-    return Array.from({length:N},(_,i)=>arr[Math.floor(i*(arr.length/N))]||{x:Math.random()*off.width,y:Math.random()*off.height});
+  const cvs = document.getElementById('constellation');
+  const ctx = cvs.getContext('2d');
+
+  function fit(){ cvs.width = innerWidth; cvs.height = innerHeight; }
+  fit(); addEventListener('resize', fit);
+
+  let pts = []; // particles
+
+  function ensureParticles(count){
+    // grow/shrink pool
+    if (pts.length < count){
+      for(let i=pts.length;i<count;i++){
+        pts.push({
+          x: Math.random()*cvs.width,
+          y: Math.random()*cvs.height*0.8 + cvs.height*0.1,
+          tx: 0, ty: 0
+        });
+      }
+    } else if (pts.length > count){
+      pts = pts.slice(0, count);
+    }
   }
-  function moveTo(text,hold=2800){
-    const tgs=targets(text); pts.forEach((p,i)=>{p.tx=tgs[i].x;p.ty=tgs[i].y;}); let phase='in',t0=performance.now();
-    function frame(t){ ctx.clearRect(0,0,cvs.width,cvs.height);
-      for(const p of pts){ p.x+=(p.tx-p.x)*0.08; p.y+=(p.ty-p.y)*0.08; ctx.fillStyle='rgba(200,215,255,0.9)'; ctx.fillRect(p.x,p.y,2,2); }
-      if(phase==='in'&&t-t0>hold){ phase='out'; pts.forEach(p=>{p.tx=Math.random()*cvs.width;p.ty=Math.random()*cvs.height*0.8+cvs.height*0.1;}); }
-      if(phase==='out'){ if(!pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)) return; }
+
+  // split the name into up to 2 lines at a nice space
+  function nameToLines(name){
+    const t = (name || 'You').trim().replace(/\s+/g,' ');
+    if (t.length <= 14) return [t];
+    const mid = Math.floor(t.length/2);
+    let split = t.lastIndexOf(' ', mid);
+    if (split < 6 || t.length - split < 6) split = t.indexOf(' ', mid);
+    if (split > 0) return [t.slice(0, split), t.slice(split+1)];
+    return [t];
+  }
+
+  // render lines on an offscreen canvas → sample bright pixels → target points
+  function targetsFromLines(lines, density=22){
+    const off = document.createElement('canvas');
+    const octx = off.getContext('2d');
+    off.width = cvs.width; off.height = cvs.height;
+
+    const family = 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
+    const maxWidth = off.width * 0.84;
+
+    // choose font-size that fits the widest line
+    let fs = Math.min(200, Math.max(70, off.width * 0.16));
+    octx.textAlign = 'center';
+    octx.textBaseline = 'middle';
+    octx.fillStyle = '#fff';
+
+    function lineWidth(t){ octx.font = `bold ${fs}px ${family}`; return octx.measureText(t).width; }
+    while (Math.max(...lines.map(lineWidth)) > maxWidth && fs > 36) fs -= 2;
+
+    const midY = off.height * 0.42;
+    const lineGap = fs * 1.2;
+
+    octx.font = `bold ${fs}px ${family}`;
+    lines.forEach((t, i) => {
+      octx.fillText(t, off.width/2, midY + (i - (lines.length-1)/2) * lineGap);
+    });
+
+    const data = octx.getImageData(0,0,off.width,off.height).data;
+    const ptsAll = [];
+    const step = Math.max(1, Math.floor(fs / density)); // sampling step based on font-size
+
+    for (let y=0; y<off.height; y+=step){
+      for (let x=0; x<off.width; x+=step){
+        if (data[(y*off.width + x)*4 + 3] > 128) ptsAll.push({x,y});
+      }
+    }
+    return ptsAll;
+  }
+
+  function moveToName(name, hold=3200){
+    const lines = nameToLines(name);
+    const cloud = targetsFromLines(lines);
+
+    // choose particle count ~ proportional to cloud size (clamped)
+    const N = Math.min(520, Math.max(200, Math.floor(cloud.length * 0.55)));
+    ensureParticles(N);
+
+    // map evenly through the cloud
+    const sel = [];
+    for (let i=0;i<N;i++){
+      sel.push(cloud[Math.floor(i * (cloud.length / N))] || {
+        x: Math.random()*cvs.width, y: Math.random()*cvs.height
+      });
+    }
+    pts.forEach((p,i)=>{ p.tx = sel[i].x; p.ty = sel[i].y; });
+
+    let phase = 'in', t0 = performance.now();
+
+    function frame(t){
+      ctx.clearRect(0,0,cvs.width,cvs.height);
+      for (const p of pts){
+        p.x += (p.tx - p.x) * 0.08;
+        p.y += (p.ty - p.y) * 0.08;
+        ctx.fillStyle = 'rgba(200,215,255,0.9)';
+        ctx.fillRect(p.x, p.y, 2, 2);
+      }
+      if (phase === 'in' && t - t0 > hold){
+        phase = 'out';
+        pts.forEach(p=>{
+          p.tx = Math.random()*cvs.width;
+          p.ty = Math.random()*cvs.height*0.8 + cvs.height*0.1;
+        });
+      }
+      if (phase === 'out'){
+        const moving = pts.some(p => Math.hypot(p.tx-p.x, p.ty-p.y) > 0.6);
+        if (!moving) return; // end once dispersed
+      }
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   }
-  const initials=name=> (name||'You').trim().split(/\s+/).map(s=>s[0]?.toUpperCase()).slice(0,2).join(' ')||'YOU';
-  function run(){ const nm=$('#herNameDynamic')?.textContent||DEFAULTS.name; moveTo(initials(nm)); }
-  $('#startJourney').addEventListener('click',run,{once:true});
-  $('#walkBtn').addEventListener('click',run,{once:true});
+
+  function start(){
+    const nm = (document.getElementById('herNameDynamic')?.textContent || (window.DEFAULTS?.name) || 'You');
+    moveToName(nm);
+  }
+
+  // trigger on first gesture just like before
+  document.getElementById('startJourney')?.addEventListener('click', start, { once:true });
+  document.getElementById('walkBtn')?.addEventListener('click', start, { once:true });
 })();
 
 /* ===== progress + feathers ===== */
