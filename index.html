@@ -7,6 +7,12 @@
 <meta name="description" content="A playful, personal Krishna-night birthday story with Bollywood romance, Haryanvi fun, memories, gifts & heart fireworks—crafted just for Shruti (Madamji • Laadliji • Panditayan)." />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
+
+/* Smoothly hide the welcome card when starting */
+#welcome.fade-out { animation: fadeWelcome .28s ease forwards }
+@keyframes fadeWelcome { to { opacity: 0; visibility: hidden } }
+
+
   /* ===== THEME ===== */
   :root{
     --night1:#0a0f26; --night2:#120f2e;
@@ -935,17 +941,87 @@ document.getElementById('giftBtn')?.addEventListener('click', ()=>{
 /* ===== theme chips ===== */
 $$('.chip').forEach(c=>c.addEventListener('click',()=>{ document.body.classList.remove('theme-girly','theme-pink','theme-denim','theme-beige','theme-black'); document.body.classList.add('theme-'+c.dataset.theme); }));
 
-/* ===== robust Start (mobile safe) ===== */
-function startJourney(){
-  const w=$('#welcome'); if(w) w.style.display='none';
-  try{ makeAmbience(); }catch{}
-  const m=$('#monogram'); m?.classList.add('bounce'); setTimeout(()=>m?.classList.remove('bounce'),700);
+/* ===== robust Start (mobile safe) - FIXED ===== */ function startJourney() {
+
+const w = document.getElementById('welcome');
+
+if (w) {
+
 }
-['click','touchend'].forEach(ev=> $('#startJourney')?.addEventListener(ev,(e)=>{ e.preventDefault(); startJourney(); }, {once:true, passive:false}));
-['click','touchend'].forEach(ev=> $('#welcome')?.addEventListener(ev,(e)=>{ if(e.target.closest('[data-start]')){ e.preventDefault(); startJourney(); } }, {passive:false}));
-document.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' ') startJourney(); });
-window.addEventListener('scroll',()=>{ const w=$('#welcome'); if(w && w.style.display!=='none') startJourney(); }, {once:true});
-if(new URLSearchParams(location.search).get('skip')==='1') startJourney();
+
+w.classList.add('fade-out');
+
+setTimeout(() => w.remove(), 280);
+
+try { makeAmbience(); } catch {}
+
+const m = document.getElementById('monogram');
+
+if (m) { m.classList.add('bounce'); setTimeout(() =>
+
+700); }
+
+m.classList.remove('bounce'),
+
+}
+
+/* one handler used in many places */ function begin(e){ if(e) e.preventDefault(); startJourney(); }
+
+begin(e);
+
+/* 1) direct button */
+
+['click', 'touchstart','pointerup'].forEach(ev => { const btn = document.getElementById('startJourney');
+
+if (btn) btn.addEventListener(ev, begin, { once:true, passive:false });
+
+});
+
+/* 2) any tap on the overlay that hits the button (fallback) */
+
+['click','touchstart','pointerup'].forEach(ev => { const wrap = document.getElementById('welcome'); if (wrap) wrap.addEventListener(ev, (e) => { if (e.target.closest('#startJourney'))
+
+}, { passive:false });
+
+});
+
+3) first user gesture anywhere (absolute fallback weird mobiles) */
+
+['touchstart',
+
+pointerdown',
+
+for
+
+mousedown', 'keydown',
+
+'wheel
+
+w = document.getElementById('welcome
+
+touchmove','scroll']
+
+.forEach(ev => document.addEventListener(ev, () => {
+
+const
+
+if (w) startJourney();
+
+}, {
+
+once:true, passive:true
+
+/* 4) auto-close after 10s just in case */ setTimeout(() => { if
+
+(document.getElementById('welcome
+
+10000);
+
+/* 5) URL bypass e.g. ?skip=1
+
+if (new URLSearchParams (lc
+
+'1') startJourney();
 
 /* ===== save PNG ===== */
 $('#savePng').addEventListener('click',async()=>{ if(!window.html2canvas){alert('Export unavailable');return;} const node=$('#finalCapture'); const c=await html2canvas(node,{backgroundColor:null,scale:2,useCORS:true}); const url=c.toDataURL('image/png'); const nm=($('#herNameDynamic')?.textContent||'you').replace(/\s+/g,'_'); const a=document.createElement('a'); a.href=url; a.download=`Happy-Birthday-${nm}.png`; a.click(); });
