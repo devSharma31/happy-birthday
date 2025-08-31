@@ -4,10 +4,9 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>for Shruti — a small night</title>
-<meta name="description" content="A small, hand-made birthday page for Shruti—diya, blessings, her photos, greeting cards, and heart fireworks. Trust-first, playful, spiritual.">
+<meta name="description" content="A trust-first birthday page for Shruti—diya, blessings, greeting cards, her photos, and heart fireworks—set to the mood of Zara Sa.">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;600;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
-/* ===== Palettes (Night / Gulabi / Denim) ===== */
 :root{
   --bg1:#0c1022; --bg2:#14102e; --ink:#eef2ff; --muted:#cdd5f9; --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
   --petal:#ffc8dd; --gold:#f6d06e; --card:#10182a; --card2:#0f1730;
@@ -17,7 +16,7 @@
 
 html,body{height:100%} html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){
-  *{animation-duration:0.001ms!important;animation-iteration-count:1!important;transition-duration:0.001ms!important;scroll-behavior:auto!important}
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 body{
   margin:0; color:var(--ink);
@@ -36,8 +35,6 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
   background:linear-gradient(90deg,var(--accent),#c9a7ff);box-shadow:0 12px 24px rgba(0,0,0,.28)}
 .btn:active{transform:translateY(1px) scale(.99)}
 .soft{border:1px solid var(--edge);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:0 18px 44px rgba(0,0,0,.35)}
-.fade{opacity:0;transform:translateY(6px);animation:fade .7s ease .2s forwards}
-@keyframes fade{to{opacity:1;transform:none}}
 .hint{font-size:12px;color:var(--muted)}
 .sig{position:fixed;left:12px;top:12px;font-size:12px;color:var(--muted);z-index:10}
 .sig b{color:var(--accent)}
@@ -45,7 +42,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .mood button{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25)}
 .mood .n{background:#1c1f2d}.mood .g{background:#ff8fb1}.mood .d{background:#85a9ff}
 
-/* Stars + sky layers */
+/* Stars + sky */
 .stars{position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.85;
   background:
     radial-gradient(2px 2px at 18% 28%,#fff,transparent 60%),
@@ -76,7 +73,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .lit{transform:translateY(0) scale(1)}
 .lit .flame{animation:flicker .18s infinite alternate .1s;opacity:1}
 .lit .glow{animation:glow 1.2s ease-in-out infinite alternate .1s;opacity:1}
-@keyframes flicker{from{transform:translateX(-50%) rotate(-2deg) scaleY(1)}to{transform:translateX(-50%) rotate(2deg) scaleY(1.07)}}
+@keyframes flicker{from{transform:translateX(-50%) rotate(-2deg) scaleY(1)}to{transform:translateX(50%) rotate(2deg) scaleY(1.07)}}
 @keyframes glow{from{transform:translateX(-50%) scale(.9)}to{transform:translateX(-50%) scale(1.05)}}
 
 /* Balloons + modal */
@@ -94,7 +91,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .dialog h4{margin:.25rem 0 .5rem;font-size:20px}
 .dialog p{margin:0;color:#c8d2f0}
 
-/* Greeting cards section */
+/* Greeting cards */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;width:min(100%,980px)}
 .card{position:relative;padding:16px;border-radius:16px;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--edge);box-shadow:0 16px 38px rgba(0,0,0,.35);transform:translateY(0);transition:.2s}
 .card:hover{transform:translateY(-2px)}
@@ -103,7 +100,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .card .charm{position:absolute;right:10px;top:10px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
 .card .spark{position:absolute;left:-8px;bottom:-8px;font-size:22px;opacity:.85}
 
-/* Spotlight (her photos only) */
+/* Spotlight */
 .gallery{display:grid;gap:12px}
 .hero{position:relative;border-radius:20px;overflow:hidden;height:min(60vh,520px)}
 .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:ken 14s ease-in-out infinite}
@@ -116,340 +113,403 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .lightbox img{max-width:92vw;max-height:86vh;border-radius:14px;border:1px solid var(--edge);box-shadow:0 22px 60px rgba(0,0,0,.6)}
 .lightbox .x{position:absolute;top:12px;right:12px}
 
-/* Inside lines mini-carousel */
+/* Lines carousel */
 .carousel{display:grid;gap:10px;justify-items:center}
 .slide{max-width:760px;text-align:center;padding:16px;border-radius:16px;border:1px solid var(--edge);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03))}
 .nav{display:flex;gap:10px;justify-content:center}
 
-/* Divine + Final */
+/* Divine + final */
 #fire{position:absolute;inset:0;pointer-events:none}
 .final p{font-size:clamp(18px,3.6vw,22px);line-height:1.6}
 @media (max-width:560px){ .polaroids{grid-template-columns:repeat(2,1fr)} }
 </style>
 </head>
 
-<!-- 1) Landing -->
-<section class="section" id="home">
-  <div class="container center">
-    <h1 class="title fade">On this small night, the universe plays its sweetest tune…</h1>
-    <p class="lead muted fade">…because it’s your day, <span id="nm1">Shruti</span>. (Madamji, Laadliji—haan, dono tum ho.)</p>
-    <div class="cta">
-      <a class="btn" href="#spark" id="walk">Walk with me →</a>
-      <button class="btn" id="playSongTop">Play that feeling 🎵</button>
-    </div>
-    <p class="hint" style="margin-top:8px">Tip: add <code>?yt=VIDEO_ID</code> to the URL to preload the song.</p>
+<body>
+  <div class="sig">made with <b>time</b> & <b>care</b></div>
+  <div class="mood">
+    <button class="n" title="Night"  onclick="setMood('night')"></button>
+    <button class="g" title="Gulabi" onclick="setMood('gulabi')"></button>
+    <button class="d" title="Denim"  onclick="setMood('denim')"></button>
   </div>
-</section>
 
-<!-- 2) Spark (diya) -->
-<section class="section" id="spark">
-  <div class="container center">
-    <div class="diya soft" id="diya" title="Long-press for a note">
-      <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
-    </div>
-    <p id="line" class="muted" style="max-width:760px;margin:16px auto 6px">
-      Jahan tum dheere ho, main aur dheere. Tum chup raho, main pehle sununga.
-    </p>
-    <a class="btn" href="#blessings">Next →</a>
-  </div>
-</section>
+  <!-- Sky layers -->
+  <canvas id="trail" aria-hidden="true"></canvas>
+  <canvas id="nameConstellation" aria-hidden="true"></canvas>
+  <div class="stars" aria-hidden="true"></div>
+  <div id="petals" aria-hidden="true"></div>
 
-<!-- 3) Blessings (Haryanvi sprinkles) -->
-<section class="section" id="blessings">
-  <div class="container center" style="width:min(100%,960px)">
-    <h2 style="margin:0 0 12px;color:var(--accent)">Chhoti-chhoti aashirwad</h2>
-    <div class="bArea" id="bArea" aria-label="Blessing balloons"></div>
-    <p class="hint">Tap a balloon to pop it—Laadliji, ye sab tumhare liye.</p>
-    <a class="btn" href="#cards">Next →</a>
-  </div>
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="dialog">
-      <h4 id="modalTitle">A message</h4>
-      <p id="modalMsg">You are loved.</p>
-      <button class="btn" id="modalClose">Close</button>
+  <!-- 1) Landing -->
+  <section class="section" id="home">
+    <div class="container center">
+      <h1 class="title">On this small night, the universe plays its sweetest tune…</h1>
+      <p class="lead muted">…because it’s your day, Shruti. (Madamji, Laadliji—haan, dono tum ho.)</p>
+      <div class="cta">
+        <a class="btn" href="#spark" id="walkBtn">Walk with me →</a>
+        <button class="btn" id="playSong">Play her song 🎵</button>
+      </div>
+      <p class="hint" style="margin-top:8px">You can also add <code>?yt=VIDEO_ID</code> to the URL.</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- 4) Greeting cards row (flip to read) -->
-<section class="section" id="cards">
-  <div class="container">
-    <h2 class="center" style="margin:0 0 12px">Some blessings, like little greeting cards</h2>
-    <div class="cards" id="cardsRow">
-      <!-- cards injected by JS -->
+  <!-- 2) Spark (diya + assurance) -->
+  <section class="section" id="spark">
+    <div class="container center">
+      <div class="diya soft" id="diya" title="Long-press me">
+        <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
+      </div>
+      <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px">
+        Jahan tum dheere ho, main aur dheere. Poochhna kuch bhi ho, poochh lena—jawab se pehle haath nahi chhodunga.
+      </p>
+      <div class="cta"><a class="btn" href="#blessings">Next →</a></div>
     </div>
-    <div class="center" style="margin-top:12px">
-      <a class="btn" href="#her">Next →</a>
+  </section>
+
+  <!-- 3) Blessings -->
+  <section class="section" id="blessings">
+    <div class="container" style="width:min(100%,960px)">
+      <h2 class="center" style="margin-bottom:14px;color:var(--accent)">Playful Aashirwad</h2>
+      <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
+      <p class="hint center">Tap a balloon to pop it. Laadliji, Ramji ki kripa bani rahe.</p>
+      <div class="center" style="margin-top:12px"><a class="btn" href="#cards">Next →</a></div>
     </div>
-  </div>
-</section>
-<!-- 5) Spotlight (only her photos) -->
-<section class="section" id="her">
-  <div class="container">
-    <div class="gallery">
-      <div class="hero soft"><img id="hero" alt="her photo" src=""></div>
-      <div id="thumbs" class="thumbs"></div>
-      <p class="hint center">Every picture repeats the truth: you’re sukoon… the rare kind, <span id="nm2">Shruti</span>.</p>
-      <div class="center" style="margin-top:10px">
-        <a class="btn" href="#final">Final page →</a>
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="dialog">
+        <h4 id="modalTitle">A note</h4>
+        <p id="modalMsg">You are loved.</p>
+        <button class="btn" id="modalClose">Close</button>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- 6) Final promise + diyas heart + heart fireworks -->
-<section class="section final" id="final" style="overflow:hidden">
-  <canvas id="fire" aria-hidden="true"></canvas>
-  <div class="container center">
-    <h2 style="margin:0 0 8px">Happy Birthday, <span id="nm3">Shruti</span>!</h2>
-    <p>You are not a day in my life—you’re why my days feel alive. Madamji, I’ll choose steadiness, daily.</p>
-    <div class="cta">
-      <button class="btn" id="gift">cute shower 🎁</button>
-      <button class="btn" id="playSongBottom">Play song again 🎵</button>
-      <button class="btn" id="saveCard">Save this as PNG 💾</button>
+  <!-- 4) Greeting Cards -->
+  <section class="section" id="cards">
+    <div class="container center">
+      <h2 style="margin:.2rem 0 .6rem;color:var(--accent)">Small Birthday Cards</h2>
+      <p class="muted" style="margin-top:-6px">Open any card—bas chhota sa sukoon aur thodi si meethi shaitaani.</p>
+      <div class="cards" id="cardsWrap"></div>
+      <div class="cta" style="margin-top:14px"><a class="btn" href="#spotlight">Next →</a></div>
+    </div>
+  </section>
+
+<!-- 5) Spotlight — ONLY her photos -->
+  <section class="section" id="spotlight">
+    <div class="container">
+      <div class="gallery">
+        <div class="hero soft"><img id="hero" alt="her photo" src=""></div>
+        <div class="polaroids" id="polaroids"></div>
+        <p class="hint center">Every picture whispers the same thing: “you’re trouble—the good kind, Madamji.”</p>
+        <div class="center" style="margin-top:10px"><a class="btn" href="#lines">Next →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6) Inside lines — assurance > romance -->
+  <section class="section" id="lines">
+    <div class="container">
+      <div class="carousel">
+        <div class="slide" id="slideText">Main impress nahi—assure karna chahta hoon.</div>
+        <div class="nav">
+          <button class="btn" id="prevLine">←</button>
+          <button class="btn" id="nextLine">→</button>
+        </div>
+      </div>
+      <div class="center" style="margin-top:14px"><a class="btn" href="#divine">Next →</a></div>
+    </div>
+  </section>
+
+  <!-- 7) Divine blessing -->
+  <section class="section" id="divine">
+    <div class="container center soft" style="padding:20px">
+      <h2 style="margin:.4rem 0;color:var(--accent)">A small prayer</h2>
+      <p class="muted" style="max-width:740px;margin:6px auto 0">
+        May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
+        May your days be soft where you need softness and strong where you need strength.
+      </p>
+      <div style="margin-top:12px"><a class="btn" href="#final">Final page →</a></div>
+    </div>
+  </section>
+
+  <!-- Finale: heart fireworks -->
+  <section class="section final" id="final" style="overflow:hidden">
+    <canvas id="fire" aria-hidden="true"></canvas>
+    <div class="container center">
+      <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Shruti</span>!</h2>
+      <p id="promiseLine">Aaj main yakeen nahi maang raha—roz aakar, yakeen ka kaam karunga.</p>
+      <div class="cta">
+        <button class="btn" id="gift">Shower of cute things 🎁</button>
+        <button class="btn" id="savePNG">Save this promise (PNG)</button>
+        <button class="btn" id="playSong2">Play her song 🎵</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lb"><img id="lbImg" alt=""><button class="btn x" onclick="closeLB()">Close ✖</button></div>
+
+  <!-- YouTube overlay -->
+  <div id="ytOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:80;align-items:center;justify-content:center">
+    <div style="width:min(860px,92vw);aspect-ratio:16/9;background:#000;border:1px solid var(--edge);border-radius:12px;overflow:hidden;position:relative">
+      <iframe id="yt" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <button class="btn" style="position:absolute;right:10px;top:10px" onclick="closeYT()">Close ✖</button>
     </div>
   </div>
-</section>
-
-<!-- lightbox -->
-<div class="lightbox" id="lb">
-  <img id="lbImg" alt="">
-  <button class="btn x" onclick="closeLB()">Close ✖</button>
-</div>
-
-<!-- YouTube overlay -->
-<div id="ytOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:80;align-items:center;justify-content:center">
-  <div style="width:min(860px,92vw);aspect-ratio:16/9;background:#000;border:1px solid var(--edge);border-radius:12px;overflow:hidden;position:relative">
-    <iframe id="yt" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <button class="btn" style="position:absolute;right:10px;top:10px" onclick="closeYT()">Close ✖</button>
-  </div>
-</div>
 
 <script>
-/* ===== helpers ===== */
+/* ---------- helpers ---------- */
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const QS=new URLSearchParams(location.search);
+const prefersReduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-/* ===== personalization ===== */
-const HER_NAME = QS.get('name') || 'Shruti';
-$('#nm1').textContent = HER_NAME; $('#nm2').textContent = HER_NAME; $('#nm3').textContent = HER_NAME;
-
-/* ===== mood toggle + memory ===== */
+/* ---------- mood with memory ---------- */
 function setMood(m){
-  localStorage.setItem('mood', m);
   document.body.classList.remove('gulabi','denim');
   if(m==='gulabi') document.body.classList.add('gulabi');
   if(m==='denim')  document.body.classList.add('denim');
+  localStorage.setItem('mood',m);
 }
-setMood(localStorage.getItem('mood') || 'night');
+(function initMood(){ setMood(localStorage.getItem('mood')||'night'); })();
 
-/* ===== petals ===== */
-(function petals(){ const wrap=$('#petals'); for(let i=0;i<22;i++){const p=document.createElement('div'); p.className='petal';
-  p.style.left=(Math.random()*100)+'vw'; const dur=9000+Math.random()*7000, delay=Math.random()*4000, drift=(Math.random()<.5?-1:1)*(10+Math.random()*14);
-  p.animate([{transform:'translate(0,0) rotate(0deg)',top:'-40px'},{transform:`translate(${drift}vw,110vh) rotate(${Math.random()*360}deg)`,top:'110vh'}],
-            {duration:dur,delay,iterations:Infinity,easing:'ease-in'}); wrap.appendChild(p);} })();
+/* ---------- petals ---------- */
+(function petals(){
+  const wrap = $('#petals');
+  for(let i=0;i<(prefersReduced?8:22);i++){
+    const p=document.createElement('div'); p.className='petal';
+    p.style.left=(Math.random()*100)+'vw';
+    const dur=9000+Math.random()*7000, delay=Math.random()*4000, drift=(Math.random()<.5?-1:1)*(10+Math.random()*14);
+    p.animate([{transform:'translate(0,0) rotate(0deg)',top:'-40px'},
+               {transform:`translate(${drift}vw,110vh) rotate(${Math.random()*360}deg)`,top:'110vh'}],
+              {duration:dur,delay,iterations:Infinity,easing:'ease-in'});
+    wrap.appendChild(p);
+  }
+})();
 
-/* ===== constellation: full-name moment (on first walk tap) ===== */
-(function constellation(){
-  const cvs=$('#constellation'), ctx=cvs.getContext('2d'); function fit(){cvs.width=innerWidth;cvs.height=innerHeight} fit(); addEventListener('resize',fit);
-  let pts=[]; function ensure(n){ if(pts.length<n){ for(let i=pts.length;i<n;i++) pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1,tx:0,ty:0}) } }
-  function lines(name){ const t=(name||'You').trim().replace(/\s+/g,' '); if(t.length<=14) return [t]; const mid=Math.floor(t.length/2); let s=t.lastIndexOf(' ',mid); if(s<6||t.length-s<6) s=t.indexOf(' ',mid); return s>0?[t.slice(0,s),t.slice(s+1)]:[t]; }
-  function targets(lines,density=22){ const off=document.createElement('canvas'), o=off.getContext('2d'); off.width=cvs.width; off.height=cvs.height;
-    const fam='Poppins,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial'; let fs=Math.min(200,Math.max(70,off.width*0.16)); const maxW=off.width*.84;
-    function w(t){o.font=`800 ${fs}px ${fam}`;return o.measureText(t).width} while(Math.max(...lines.map(w))>maxW && fs>36) fs-=2;
-    o.textAlign='center';o.textBaseline='middle';o.fillStyle='#fff';const midY=off.height*.42,gap=fs*1.2;o.font=`800 ${fs}px ${fam}`;
-    lines.forEach((t,i)=>o.fillText(t,off.width/2,midY+(i-(lines.length-1)/2)*gap));
+/* ---------- star trail + full-name constellation ---------- */
+(function starTrail(){
+  const c=$('#trail'), ctx=c.getContext('2d'); let W,H; const parts=[];
+  function fit(){ W=c.width=innerWidth; H=c.height=innerHeight } fit(); addEventListener('resize',fit);
+  function spawn(x,y){ parts.push({x,y,vx:(Math.random()-0.5)*1.2,vy:(Math.random()-0.5)*1.2,life:40}); }
+  function draw(){ ctx.clearRect(0,0,W,H); for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.life--; ctx.fillStyle=`rgba(255,210,230,${p.life/40})`; ctx.fillRect(p.x,p.y,2,2); if(p.life<=0) parts.splice(i,1); } requestAnimationFrame(draw) } draw();
+  let timer=null;
+  function touch(e){ const t=e.touches?e.touches[0]:e; spawn(t.clientX,t.clientY); if(timer) clearTimeout(timer); timer=setTimeout(()=> nameConstellation($('#herName').textContent||'Shruti'), 1400); }
+  addEventListener('mousemove',touch); addEventListener('touchmove',touch,{passive:true});
+})();
+
+function nameConstellation(name){
+  const cvs=$('#nameConstellation'), ctx=cvs.getContext('2d'); cvs.width=innerWidth; cvs.height=innerHeight;
+  let pts=[]; const fam='Poppins, ui-sans-serif, system-ui';
+  function lines(text){ const t=(text||'You').trim().replace(/\s+/g,' '); if(t.length<=14) return [t]; const mid=Math.floor(t.length/2); let s=t.lastIndexOf(' ',mid); if(s<6||t.length-s<6) s=t.indexOf(' ',mid); return s>0?[t.slice(0,s),t.slice(s+1)]:[t]; }
+  function targets(ls,density=22){
+    const off=document.createElement('canvas'), o=off.getContext('2d'); off.width=cvs.width; off.height=cvs.height;
+    let fs=Math.min(200,Math.max(70,off.width*0.16)); const maxW=off.width*.84;
+    function w(t){o.font=`800 ${fs}px ${fam}`;return o.measureText(t).width} while(Math.max(...ls.map(w))>maxW&&fs>36) fs-=2;
+    o.textAlign='center'; o.textBaseline='middle'; o.fillStyle='#fff'; o.font=`800 ${fs}px ${fam}`;
+    const midY=off.height*.42, gap=fs*1.2; ls.forEach((t,i)=>o.fillText(t,off.width/2,midY+(i-(ls.length-1)/2)*gap));
     const data=o.getImageData(0,0,off.width,off.height).data, arr=[], step=Math.max(1,Math.floor(fs/density));
     for(let y=0;y<off.height;y+=step) for(let x=0;x<off.width;x+=step) if(data[(y*off.width+x)*4+3]>128) arr.push({x,y});
     return arr;
   }
-  function moveTo(name,hold=3600){ const cloud=targets(lines(name)); const N=Math.min(520,Math.max(200,Math.floor(cloud.length*.55)));
-    ensure(N); const sel=[]; for(let i=0;i<N;i++) sel.push(cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height});
-    pts.forEach((p,i)=>{p.tx=sel[i].x;p.ty=sel[i].y}); let phase='in', t0=performance.now();
-    function frame(t){ ctx.clearRect(0,0,cvs.width,cvs.height); for(const p of pts){ p.x+=(p.tx-p.x)*0.08; p.y+=(p.ty-p.y)*0.08; ctx.fillStyle='rgba(255,210,230,.95)'; ctx.fillRect(p.x,p.y,2,2) }
-      if(phase==='in' && t-t0>hold){ phase='out'; pts.forEach(p=>{p.tx=Math.random()*cvs.width;p.ty=Math.random()*cvs.height*.8+cvs.height*.1}) }
-      if(phase==='out'){ if(!pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)) return; } requestAnimationFrame(frame) }
+  const cloud = targets(lines(name)); const N=Math.min(520,Math.max(200,Math.floor(cloud.length*.55)));
+  for(let i=0;i<N;i++){ const t=cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height};
+    pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1, tx:t.x, ty:t.y}); }
+  let phase='in', t0=performance.now();
+  (function frame(t){
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    for(const p of pts){ p.x+=(p.tx-p.x)*0.08; p.y+=(p.ty-p.y)*0.08; ctx.fillStyle='rgba(255,210,230,.95)'; ctx.fillRect(p.x,p.y,2,2); }
+    if(phase==='in' && t-t0>3800){ phase='out'; pts.forEach(p=>{ p.tx=Math.random()*cvs.width; p.ty=Math.random()*cvs.height*0.8+cvs.height*0.1; }); }
+    if(phase==='out' && !pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)) { ctx.clearRect(0,0,cvs.width,cvs.height); return; }
     requestAnimationFrame(frame);
-  }
-  $('#walk').addEventListener('click', ()=> moveTo(HER_NAME), { once:true });
+  })(t0);
+}
+
+/* ---------- diya + typeline + long-press easter note ---------- */
+const sparkIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeAssure(); } }); },{threshold:.45});
+sparkIO.observe($('#spark'));
+function typeAssure(){ const el=$('#assureLine'); const t=el.textContent.trim(); el.textContent=''; let i=0; const id=setInterval(()=>{ el.textContent+=t.charAt(i++); if(i>=t.length) clearInterval(id); },26); }
+// long-press to open note
+(function longPress(){
+  const el=$('#diya'); let timer=null;
+  const open=()=>showModal('A small note','Panditayan, main baat se pehle sunna seekh raha hoon. Roz aakar, yakeen ka kaam karunga.');
+  el.addEventListener('pointerdown',()=>{ timer=setTimeout(open,650); });
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=> el.addEventListener(ev,()=>clearTimeout(timer)));
 })();
 
-/* ===== diya trigger + type line + long-press note ===== */
-const sparkIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeLine(); } }); },{threshold:.4});
-sparkIO.observe($('#spark'));
-function typeLine(){ const el=$('#line'); const t=el.textContent.trim(); el.textContent=''; let i=0; const id=setInterval(()=>{ el.textContent+=t.charAt(i++); if(i>=t.length) clearInterval(id); },26); }
-(function longPress(){ let t; const d=$('#diya'); d.addEventListener('pointerdown',()=>{ t=setTimeout(()=>alert('Panditayan,\nMain baat se pehle sunna seekh raha hoon.\nRoz thoda behtar.'),700); }); ['pointerup','pointerleave'].forEach(ev=>d.addEventListener(ev,()=>clearTimeout(t))); })();
-
-/* ===== blessings balloons ===== */
-const blessings = [
-  {word:'Sukoon', color:'#ff9ccc', msg:'Laadliji, tu tension na le — main yahin hoon.'},
-  {word:'Himmat', color:'#9bd3ff', msg:'Thak gaye ho? Mere kandhe pe rakh de.'},
-  {word:'Vishwas', color:'#c9a7ff', msg:'Main impress nahi — assure karna chahta hoon.'},
-  {word:'Prem', color:'#7ee6c9', msg:'Pyar shor nahi hota. Roz ka halka sa garam chai jaisa.'},
-  {word:'Hasi', color:'#ffd6a5', msg:'Muskurahat mehnat lage? Aaj meri mehnat double.'},
-  {word:'Barkat', color:'#bde0fe', msg:'Ramji ki kripa bani rahe.'},
+/* ---------- blessings (with chime+haptics) ---------- */
+const blessings=[
+  {word:'Sukoon', color:'#ff9ccc', msg:'Laadliji, tu tension na le—main yahin hoon.'},
+  {word:'Himmat', color:'#9bd3ff', msg:'Jab bojh lage, aadha mujhe de de.'},
+  {word:'Vishwas',color:'#c9a7ff', msg:'Main jawab se pehle haath nahi chhodunga.'},
+  {word:'Prem',   color:'#7ee6c9', msg:'Shor nahi—steadiness laaun, roz.'},
+  {word:'Hasi',   color:'#ffd86e', msg:'Teri muskurahat ka accountant main hoon :)'},
+  {word:'Barkat', color:'#ffb6a3', msg:'Ramji ki kripa bani rahe.'},
 ];
-let balloonsMade=false;
+let balloonsInit=false;
 function spawnBalloons(){
-  if(balloonsMade) return; balloonsMade=true;
-  const area=$('#bArea');
+  if(balloonsInit) return; balloonsInit=true;
+  const area=$('#balloonArea');
   blessings.forEach((b,i)=>{
     const d=document.createElement('button'); d.className='balloon';
-    d.style.setProperty('--c',b.color); d.style.setProperty('--x',10+i*14+(Math.random()*8)); d.style.setProperty('--delay',Math.random()*6);
+    d.style.setProperty('--c',b.color); d.style.setProperty('--x',6+i*16+(Math.random()*10)); d.style.setProperty('--delay',Math.random()*6);
     d.innerHTML=`<span>${b.word}</span>`;
-    d.addEventListener('click',()=>{ popSound(); d.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260,easing:'ease-in'}); setTimeout(()=>d.remove(),240); showModal(b.word,b.msg); });
+    d.addEventListener('click',()=>{ popBlessing(d,b); });
     area.appendChild(d);
   });
 }
+function popBlessing(el,b){
+  try{ navigator.vibrate && navigator.vibrate(12);}catch{}
+  el.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260,easing:'ease-in'});
+  setTimeout(()=>el.remove(),220);
+  playChime(); showModal(b.word,b.msg);
+}
+function showModal(title,msg){ $('#modalTitle').textContent=title; $('#modalMsg').textContent=msg; $('#modal').classList.add('show'); }
+$('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
 const blessIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) spawnBalloons(); }); },{threshold:.4});
 blessIO.observe($('#blessings'));
-function showModal(title,msg){ $('#modalTitle').textContent=title; $('#modalMsg').textContent=msg; $('#modal').classList.add('show'); navigator.vibrate?.(10); }
-$('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
 
-/* ===== greeting cards (flip) ===== */
-const CARD_DATA = [
-  { title:'Subah ka vardaan', front:'Peacock-feather kind of calm.', back:'May Kanha keep mischief in your smile and peace in your steps.' },
-  { title:'Himmat ka diya',   front:'Tiny light, steady flame.',     back:'Bajrangbali cover you with courage wherever you need it most.' },
-  { title:'Nazakat',           front:'Soft ≠ small.',                 back:'May life treat you gently—and may you treat yourself gentler.' },
-  { title:'Vishwas',           front:'Questions welcome.',            back:'Poochhna kuch bhi ho, poochh lena. Main bhaagunga nahi.' },
+/* ---------- greeting cards ---------- */
+const greetingCards=[
+ {title:'Nazar Na Lage', charm:'🧿', text:'Madamji, nazar buri lage to bhi—tum par Kanha ki chhaya aur meri zimmedari.'},
+ {title:'Chai + Sukoon', charm:'☕️', text:'Laadliji, subah ki chai ya raat ka sukoon—jo bhi chahiye, main le aaoon?'},
+ {title:'Seedhi Baat', charm:'🕊️', text:'Sawal rakhna. Main bhaagunga nahi. Der ho sakti, par haath kabhi halka nahi padega.'},
+ {title:'Haseen Chori', charm:'🌸', text:'Teri hasi chura li maine—par sirf rakhwali ke liye.'},
 ];
 (function buildCards(){
-  const row = $('#cardsRow');
-  CARD_DATA.forEach(c=>{
-    const el = document.createElement('article'); el.className = 'gCard soft';
-    el.innerHTML = `
-      <div class="front">
-        <div class="gTitle">${c.title}</div>
-        <div class="gBody">${c.front}</div>
-      </div>
-      <div class="back">
-        <div class="gTitle">For ${HER_NAME}</div>
-        <div class="gBody">${c.back}</div>
-      </div>`;
-    el.addEventListener('click', ()=> el.classList.toggle('flip'));
-    row.appendChild(el);
+  const wrap=$('#cardsWrap');
+  greetingCards.forEach((c)=>{
+    const el=document.createElement('article'); el.className='card';
+    el.innerHTML=`<h3>${c.title}</h3><p>${c.text}</p><div class="charm">${c.charm}</div><div class="spark">✨</div>`;
+    el.addEventListener('click',()=>{ el.animate([{transform:'translateY(0)'},{transform:'translateY(-2px) rotate(0.6deg)'},{transform:'translateY(0)'}],{duration:320}); playChime();});
+    wrap.appendChild(el);
   });
 })();
 
-/* ===== gallery (YOU add photos here) ===== */
+/* ---------- spotlight photos (replace PHOTOS!) ---------- */
 const PHOTOS=[
-  // Replace these with HER photos (paths or URLs)
-  // {src:'images/shruti1.jpg'}, {src:'images/shruti2.jpg'}, {src:'images/shruti3.jpg'},
+  // {src:'images/shruti1.jpg'},
+  // {src:'images/shruti2.jpg'},
+  // {src:'images/shruti3.jpg'},
 ];
 (function gallery(){
-  const hero=$('#hero'), thumbs=$('#thumbs');
+  const hero=$('#hero'), grid=$('#polaroids');
   if(PHOTOS.length===0){
     hero.src='https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1600&q=80&auto=format&fit=crop';
-    thumbs.innerHTML='<div class="muted" style="grid-column:1/-1;text-align:center">Add her photos in <code>PHOTOS</code> (just URLs). Only her photos appear here.</div>';
+    grid.innerHTML='<div class="muted" style="grid-column:1/-1;text-align:center">Add her photos in <code>PHOTOS</code>. Only her photos appear here.</div>';
     return;
   }
   let cur=0; hero.src=PHOTOS[0].src;
-  PHOTOS.forEach((p,i)=>{ const t=document.createElement('div'); t.className='thumb'+(i===0?' active':''); t.innerHTML=`<img src="${p.src}" alt="her ${i+1}">`;
-    t.onclick=()=>{ cur=i; hero.src=p.src; $$('.thumb').forEach(x=>x.classList.remove('active')); t.classList.add('active') };
-    t.ondblclick=()=>openLB(p.src);
-    thumbs.appendChild(t);
+  PHOTOS.forEach((p,i)=>{
+    const d=document.createElement('div'); d.className='pol'; d.style.setProperty('--r', (Math.random()*6-3)+'deg');
+    d.innerHTML=`<img src="${p.src}" alt="her ${i+1}">`;
+    d.addEventListener('click',()=>{ cur=i; hero.src=p.src; $$('.pol').forEach(x=>x.classList.remove('active')); d.classList.add('active'); });
+    // drag bounce (light)
+    let dragging=false,sx=0,sy=0; d.addEventListener('pointerdown',e=>{ dragging=true; d.setPointerCapture(e.pointerId); sx=e.clientX; sy=e.clientY; d.style.transition='none'; });
+    d.addEventListener('pointermove',e=>{ if(!dragging) return; const dx=e.clientX-sx, dy=e.clientY-sy; d.style.transform=`translate(${dx}px,${dy}px) rotate(var(--r))`; });
+    d.addEventListener('pointerup',()=>{ dragging=false; d.style.transition='transform .2s'; d.style.transform='rotate(var(--r))'; });
+    d.addEventListener('dblclick',()=>openLB(p.src));
+    grid.appendChild(d);
   });
-  hero.onclick=()=>openLB(PHOTOS[cur]?.src||hero.src);
+  hero.addEventListener('click',()=>openLB(PHOTOS[cur]?.src||hero.src));
 })();
-function openLB(src){ $('#lbImg').src=src; $('#lb').style.display='flex' }
-function closeLB(){ $('#lb').style.display='none' }
+function openLB(src){ $('#lbImg').src=src; $('#lb').style.display='flex'; }
+function closeLB(){ $('#lb').style.display='none'; }
 
-/* ===== soft WebAudio bed (bansuri + bell) ===== */
-let audioCtx, masterGain, audioAllowed = (localStorage.getItem('audioAllowed')==='1');
-function makeAmbience(){
-  if(audioCtx) return;
-  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-  masterGain = audioCtx.createGain(); masterGain.gain.value=0.0; masterGain.connect(audioCtx.destination);
-  function flute(freq,start,dur,g=0.12){
-    const o=audioCtx.createOscillator(); o.type='sine'; o.frequency.value=freq;
-    const gnode=audioCtx.createGain(); gnode.gain.value=0.0001;
-    const vib=audioCtx.createOscillator(); vib.type='sine'; vib.frequency.value=5; const vg=audioCtx.createGain(); vg.gain.value=2; vib.connect(vg); vg.connect(o.frequency);
-    o.connect(gnode); gnode.connect(masterGain);
-    gnode.gain.setValueAtTime(0.0001,start);
-    gnode.gain.linearRampToValueAtTime(g,start+0.4);
-    gnode.gain.linearRampToValueAtTime(g*0.42,start+0.8);
-    gnode.gain.exponentialRampToValueAtTime(0.0001,start+dur);
-    o.start(start); vib.start(start); o.stop(start+dur+0.05); vib.stop(start+dur+0.05);
-  }
-  function bell(t){ [1,2.01,2.98,4.2].forEach((m,i)=>{ const o=audioCtx.createOscillator(); o.type='sine'; o.frequency.value=660*m; const g=audioCtx.createGain(); g.gain.value=0.0001; o.connect(g); g.connect(masterGain);
-    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.08/(i+1),t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+1.2+i*0.2); o.start(t); o.stop(t+1.6+i*0.2); }); }
-  function phrase(t0){ [440,494,523,587,523,494,440].forEach((f,i)=>flute(f/2,t0+i*0.9,1.2)); bell(t0+2.7) }
-  const start=(audioCtx.currentTime||0)+0.1; phrase(start); setInterval(()=>phrase(audioCtx.currentTime+0.1),5000);
-  const fade=()=>{ audioCtx.resume&&audioCtx.resume(); masterGain.gain.cancelScheduledValues(audioCtx.currentTime); masterGain.gain.linearRampToValueAtTime(0.10,audioCtx.currentTime+1.0); };
-  if(audioAllowed){ fade(); }
-  $('#walk').addEventListener('click', ()=>{ audioAllowed=true; localStorage.setItem('audioAllowed','1'); fade(); }, {once:true});
-}
+/* ---------- lines carousel ---------- */
+const LINES=[
+  'Main impress nahi—assure karna chahta hoon.',
+  'Tumhaari khamoshi, meri favourite playlist.',
+  'Agar raat lambi ho, main lamhon ko halka bana dunga.',
+  'Laadliji, agar 1% chance hai, main 100% mehnat karta rahunga.',
+  'Panditayan, mere iraade mandir ke diye jaise—chhote sahi, par bujhte nahi.',
+];
+let li=0; const slide=$('#slideText');
+$('#nextLine').addEventListener('click',()=>{ li=(li+1)%LINES.length; slide.innerText=LINES[li]; playChime(); });
+$('#prevLine').addEventListener('click',()=>{ li=(li-1+LINES.length)%LINES.length; slide.innerText=LINES[li]; playChime(); });
 
-/* tiny pop sound (synth) */
-function popSound(){ try{
-  if(!audioCtx) return;
-  const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='triangle'; o.frequency.value=600; g.gain.value=0.0001; o.connect(g); g.connect(masterGain);
-  const t=audioCtx.currentTime; g.gain.exponentialRampToValueAtTime(0.12,t+0.01); o.frequency.exponentialRampToValueAtTime(220,t+0.08); g.gain.exponentialRampToValueAtTime(0.0001,t+0.12); o.start(t); o.stop(t+0.14);
-} catch(e){} }
-
-/* ===== YouTube overlay ===== */
-function openYT(){ const id=QS.get('yt'); if(!id){ alert('Add ?yt=VIDEO_ID in the URL'); return; }
-  const fr=$('#yt'); fr.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${id}`; $('#ytOverlay').style.display='flex'; }
-function closeYT(){ $('#ytOverlay').style.display='none'; $('#yt').src='' }
-$('#playSongTop').onclick=openYT; $('#playSongBottom').onclick=openYT;
-
-/* ===== heart fireworks + diyas gather ===== */
+/* ---------- heart fireworks ---------- */
 let fwStarted=false;
-const fwIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && !fwStarted){ fwStarted=true; fireworks(); diyasGather(); } }); },{threshold:.45});
+const fwIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && !fwStarted){ fwStarted=true; fireworks(); } }); },{threshold:.42});
 fwIO.observe($('#final'));
 function fireworks(){
   const c=$('#fire'), a=c.getContext('2d'); function fit(){ c.width=innerWidth; c.height=Math.max(300,innerHeight*.9) } fit(); addEventListener('resize',fit);
   const ps=[]; function add(x,y,vx,vy,col){ ps.push({x,y,vx,vy,col,life:70+Math.random()*30}) }
   function hv(t){ const x=16*Math.sin(t)**3, y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); return {x, y:-y}; }
-  function burst(x,y,col,heart=true){ const n= heart?140:90; for(let i=0;i<n;i++){ if(heart){ const t=i/n*Math.PI*2, v=hv(t), m=Math.hypot(v.x,v.y)||1, s=2.2+Math.random()*2.4; add(x,y,(v.x/m)*s,(v.y/m)*s,col); } else { const ang=Math.PI*2*i/n, s=2+Math.random()*3; add(x,y,Math.cos(ang)*s,Math.sin(ang)*s,col); } } }
+  function burst(x,y,col,heart=true){ const n=heart?140:90; for(let i=0;i<n;i++){ if(heart){ const t=i/n*Math.PI*2, v=hv(t), m=Math.hypot(v.x,v.y)||1, s=2.2+Math.random()*2.4; add(x,y,(v.x/m)*s,(v.y/m)*s,col); } else { const ang=Math.PI*2*i/n, s=2+Math.random()*3; add(x,y,Math.cos(ang)*s,Math.sin(ang)*s,col); } } }
   function tick(){ a.clearRect(0,0,c.width,c.height); for(let i=ps.length-1;i>=0;i--){ const p=ps[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--; a.fillStyle=`rgba(${p.col},${Math.max(0,p.life/100)})`; a.fillRect(p.x,p.y,2,2); if(p.life<=0) ps.splice(i,1); } requestAnimationFrame(tick) } tick();
   function boom(){ const x=Math.random()*c.width*.9+c.width*.05, y=Math.random()*c.height*.4+c.height*.1; const cols=['255,200,221','255,168,194','201,167,255','246,208,110']; burst(x,y,cols[Math.floor(Math.random()*cols.length)],Math.random()<.7); }
-  for(let i=0;i<4;i++) setTimeout(boom,i*400); const iv=setInterval(boom,1200); setTimeout(()=>clearInterval(iv),12000);
+  for(let i=0;i<4;i++) setTimeout(boom,i*380); const iv=setInterval(boom,1300); setTimeout(()=>clearInterval(iv),12000);
 }
-/* cute emoji rain */
-$('#gift').addEventListener('click',()=>{ const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔']; const D=5200, t0=performance.now(); navigator.vibrate?.(15);
-  (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
+
+/* ---------- gift rain + haptics ---------- */
+$('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibrate(14);}catch{} const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔'];
+  const D=5200,t0=performance.now(); (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
     s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
-    const drift=(Math.random()*2-1)*80, time=2400+Math.random()*1800;
-    s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'}); setTimeout(()=>s.remove(),time+60);
-    requestAnimationFrame(drop); })();
+    const drift=(Math.random()*2-1)*80,time=2400+Math.random()*1800; s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'});
+    setTimeout(()=>s.remove(),time+60); requestAnimationFrame(drop) })();
 });
 
-/* ===== diyas gather into a heart (subtle glow points) ===== */
-function diyasGather(){
-  const wrap = document.createElement('div'); wrap.style.position='absolute'; wrap.style.inset='0'; wrap.style.pointerEvents='none'; document.querySelector('#final').appendChild(wrap);
-  const pts = []; function hv(t){ const x=16*Math.sin(t)**3, y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); return {x,y:-y}; }
-  const n=48; for(let i=0;i<n;i++){ const d=document.createElement('div'); d.style.position='absolute'; d.style.width='10px'; d.style.height='10px'; d.style.borderRadius='50%'; d.style.background='radial-gradient(circle,#ffd86e,#ff9ccc33)'; d.style.boxShadow='0 0 18px #ffd86e88'; wrap.appendChild(d); pts.push(d); }
-  function layout(){ const r=Math.min(innerWidth,innerHeight)*0.22; const cx=innerWidth/2, cy=window.scrollY + document.querySelector('#final').getBoundingClientRect().top + (document.querySelector('#final').offsetHeight*.42);
-    for(let i=0;i<n;i++){ const t=i/n*Math.PI*2, v=hv(t); const x=cx + (v.x* r/18), y=cy + (v.y* r/18); const d=pts[i]; d.animate([{transform:`translate(${Math.random()*innerWidth}px,-20px)`},{transform:`translate(${x-5}px,${y-5}px)`}],{duration:1200+Math.random()*600, easing:'ease-out', fill:'forwards'}); } }
-  layout(); setTimeout(()=>wrap.remove(), 6000);
+/* ---------- save final promise as PNG (no libs) ---------- */
+$('#savePNG').addEventListener('click',()=>{
+  const name=$('#herName').textContent||'You'; const text=$('#promiseLine').textContent||'With love.';
+  const w=1200,h=630, cn=document.createElement('canvas'); cn.width=w; cn.height=h; const ctx=cn.getContext('2d');
+  const grad=ctx.createLinearGradient(0,0,0,h); grad.addColorStop(0,'#0c1022'); grad.addColorStop(1,'#14102e'); ctx.fillStyle=grad; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='rgba(255,255,255,.08)'; for(let i=0;i<200;i++){ ctx.fillRect(Math.random()*w,Math.random()*h,2,2); }
+  ctx.fillStyle='#ff9ccc'; ctx.font='700 44px "Playfair Display", serif'; ctx.textAlign='center'; ctx.fillText('Happy Birthday, '+name, w/2, h/2-20);
+  ctx.fillStyle='#e8edff'; ctx.font='400 28px Poppins, sans-serif'; wrapText(ctx, text, w/2, h/2+28, 900, 36);
+  const a=document.createElement('a'); a.href=cn.toDataURL('image/png'); a.download=`Promise-${name}.png`; a.click();
+});
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+  const words=text.split(' '); let line=''; for(let n=0;n<words.length;n++){ const test=line+words[n]+' '; const w=ctx.measureText(test).width;
+    if(w>maxWidth && n>0){ ctx.fillText(line, x, y); line=words[n]+' '; y+=lineHeight; } else { line=test; } }
+  ctx.fillText(line, x, y);
 }
 
-/* ===== save final section as PNG (no external libs; uses canvas drawImage) ===== */
-document.getElementById('saveCard').addEventListener('click', async ()=>{
-  const node = document.querySelector('#final .container');
-  const r = node.getBoundingClientRect();
-  const c = document.createElement('canvas'); c.width = Math.floor(r.width*2); c.height = Math.floor(r.height*2);
-  const ctx = c.getContext('2d'); ctx.scale(2,2); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg2'); ctx.fillRect(0,0,r.width,r.height);
-  // render simple snapshot (text only, not fireworks). Lightweight, but honest.
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '700 28px "Playfair Display", serif';
-  ctx.textAlign='center';
-  ctx.fillText(`Happy Birthday, ${HER_NAME}!`, r.width/2, 48);
-  ctx.font = '16px Poppins, sans-serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.9)';
-  ctx.fillText('You are why my days feel alive. I will choose steadiness, daily.', r.width/2, 78);
-  const url = c.toDataURL('image/png'); const a = document.createElement('a'); a.href = url; a.download = `for-${HER_NAME}.png`; a.click();
-});
+/* ---------- modal, cards, etc. already wired ---------- */
 
-/* ===== minimal music init on first interaction ===== */
-document.addEventListener('DOMContentLoaded', ()=>{ makeAmbience(); });
-/* ===== theme buttons ===== */
-window.setMood = setMood;
-/* ===== greeting cards horizontal scroll hint ===== */
-$('#cardsRow').addEventListener('wheel', e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ e.preventDefault(); $('#cardsRow').scrollLeft += e.deltaY; } }, {passive:false});
-/* ===== close lightbox on bg click ===== */
-$('#lb').addEventListener('click', (e)=>{ if(e.target.id==='lb') closeLB(); });
+/* ---------- ambience (bansuri + bell, fades in after first tap) ---------- */
+let ac, master;
+function ensureAudioCtx(){ if(ac) return; ac=new (window.AudioContext||window.webkitAudioContext)(); master=ac.createGain(); master.gain.value=0.0; master.connect(ac.destination); }
+function startAmbience(){
+  try{
+    ensureAudioCtx(); ac.resume&&ac.resume();
+    const g=ac.createGain(); g.gain.value=0.0; g.connect(master);
+    // simple flute phrase + tiny bell
+    function flute(freq, t0, dur){
+      const o=ac.createOscillator(); o.type='sine'; o.frequency.value=freq;
+      const v=ac.createOscillator(); v.frequency.value=5; const vGain=ac.createGain(); vGain.gain.value=2; v.connect(vGain); vGain.connect(o.frequency);
+      const eg=ac.createGain(); eg.gain.setValueAtTime(0.0001,t0); eg.gain.linearRampToValueAtTime(0.10,t0+.4); eg.gain.linearRampToValueAtTime(0.05,t0+.8); eg.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+      o.connect(eg); eg.connect(g); o.start(t0); v.start(t0); o.stop(t0+dur+.05); v.stop(t0+dur+.05);
+    }
+    function bell(t){
+      [1,2.01,2.98,4.2].forEach((m,i)=>{ const o=ac.createOscillator(); o.frequency.value=660*m; const eg=ac.createGain(); eg.gain.setValueAtTime(0.0001,t);
+        eg.gain.exponentialRampToValueAtTime(0.06/(i+1),t+.02); eg.gain.exponentialRampToValueAtTime(0.0001,t+1.2+i*0.2); o.connect(eg); eg.connect(g); o.start(t); o.stop(t+1.6+i*0.2); });
+    }
+    const start=ac.currentTime+.1; const phrase=t=>{[440,494,523,587,523,494,440].forEach((f,i)=>flute(f/2,t+i*.9,1.2)); bell(t+2.7);};
+    phrase(start); const iv=setInterval(()=>phrase(ac.currentTime+.1),5000);
+    // fade in
+    master.gain.cancelScheduledValues(ac.currentTime); master.gain.linearRampToValueAtTime(0.10, ac.currentTime+1.2);
+    g.gain.linearRampToValueAtTime(0.10, ac.currentTime+1.2);
+  }catch{}
+}
+function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=880; g.gain.value=0.0001; o.connect(g); g.connect(master);
+  const t=ac.currentTime; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.1,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4); o.start(t); o.stop(t+0.42);}catch{} }
+
+/* start ambience on first gesture */
+$('#walkBtn').addEventListener('click', startAmbience, {once:true});
+
+/* ---------- YouTube overlay (preloaded with Zara Sa) ---------- */
+const DEFAULT_YT = 'GAXNdOm8rPY'; // SonyMusicIndiaVEVO – Zara Sa (Jannat)
+function openYT(){
+  const url = new URL(location.href);
+  const id = url.searchParams.get('yt') || DEFAULT_YT;
+  const fr=$('#yt');
+  fr.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${id}`;
+  $('#ytOverlay').style.display='flex';
+}
+function closeYT(){ $('#ytOverlay').style.display='none'; $('#yt').src=''; }
+$('#playSong').addEventListener('click',openYT);
+$('#playSong2').addEventListener('click',openYT);
+
+/* ---------- build cards ready / observers ---------- */
+document.addEventListener('DOMContentLoaded',()=>{/* observers already attached */});
 </script>
 </body>
 </html>
