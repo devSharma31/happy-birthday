@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Madamji ka Happy Birthday ♥</title>
-<meta name="description" content="A playful, personal Krishna-night birthday story with Bollywood romance & Haryanvi fun—crafted just for her." />
+<meta name="description" content="A playful, personal Krishna-night birthday story with Bollywood romance, Haryanvi fun, memories, gifts & heart fireworks—crafted just for her." />
 <style>
   /* ===== THEME ===== */
   :root{
@@ -148,6 +148,21 @@
   .hv-meaning{font-size:14px;color:var(--muted)}
   .hv-btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:var(--ink);cursor:pointer}
 
+  /* Memories (polaroids) */
+  .polaroids{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
+    gap:14px; margin-top:14px;
+  }
+  .polaroid{
+    background:#fff; color:#111; border-radius:12px; padding:8px 8px 14px;
+    box-shadow:0 16px 36px rgba(0,0,0,.35);
+    transform:rotate(var(--r,0deg)); transition:transform .2s ease;
+    cursor:pointer; user-select:none;
+  }
+  .polaroid:hover{ transform:rotate(var(--r,0deg)) scale(1.03) }
+  .polaroid img{ width:100%; height:170px; object-fit:cover; border-radius:8px }
+  .polaroid .cap{ font-size:12px; text-align:center; margin-top:6px }
+
   /* Divine card */
   .temple-bg{position:absolute;inset:0;pointer-events:none;opacity:.25;background:radial-gradient(1200px 600px at 50% 10%,rgba(155,211,255,.08),transparent 60%)}
   .card-3d{perspective:1200px;width:min(680px,92vw)}
@@ -158,7 +173,7 @@
   .front-title{font-weight:900;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;font-size:12px}
   .front-text{font-size:clamp(16px,3.4vw,20px);color:var(--muted)}
 
-  /* Final */
+  /* Final + Gift */
   #fireCanvas{position:absolute;inset:0;pointer-events:none}
   .final-inner{text-align:center;max-width:820px}
   .glowtext{font-size:clamp(22px,5vw,38px);line-height:1.35;text-shadow:0 0 18px rgba(155,211,255,.25)}
@@ -167,6 +182,9 @@
   .tokens{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:12px 0 0}
   .token{width:60px;height:60px;border-radius:16px;display:grid;place-items:center;font-size:24px;cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 24px rgba(0,0,0,.25);transition:transform .2s}
   .token:active{transform:scale(.97)}
+  /* Gift sticker rain */
+  .sticker{position:fixed; top:-40px; font-size:28px; will-change:transform,opacity; pointer-events:none; z-index:60}
+  @media (min-width:640px){ .sticker{font-size:36px} }
 
   /* Overlays */
   .letter-overlay{position:fixed;inset:0;background:rgba(10,14,22,.68);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:60}
@@ -204,25 +222,6 @@
   body.her-day .glow{box-shadow:0 0 26px rgba(246,208,110,.55)}
 
   @media print{.section,.stars,#petals,#constellation,.chapters,.mono,.mono-tip,.watermark,#welcome,#letter,#cert{display:none!important}}
-
-/* Gift sticker rain */
-.sticker{position:fixed; top:-40px; font-size:28px; will-change:transform,opacity; pointer-events:none; z-index:60}
-@media (min-width:640px){ .sticker{font-size:36px} }
-
-.polaroids{
-  display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
-  gap:14px; margin-top:14px;
-}
-.polaroid{
-  background:#fff; color:#111; border-radius:12px; padding:8px 8px 14px;
-  box-shadow:0 16px 36px rgba(0,0,0,.35);
-  transform:rotate(var(--r,0deg)); transition:transform .2s ease;
-  cursor:pointer; user-select:none;
-}
-.polaroid:hover{ transform:rotate(var(--r,0deg)) scale(1.03) }
-.polaroid img{ width:100%; height:170px; object-fit:cover; border-radius:8px }
-.polaroid .cap{ font-size:12px; text-align:center; margin-top:6px }
-
 </style>
 </head>
 <body>
@@ -251,6 +250,7 @@
     <span class="dot" data-target="#spark"   title="The Spark"></span>
     <span class="dot" data-target="#playful" title="Blessings"></span>
     <span class="dot" data-target="#filmy"   title="Filmy"></span>
+    <span class="dot" data-target="#memories" title="Memories"></span>
     <span class="dot" data-target="#divine"  title="Divine"></span>
     <span class="dot" data-target="#final"   title="Promise"></span>
   </nav>
@@ -266,7 +266,7 @@
   <!-- Welcome -->
   <div class="welcome" id="welcome">
     <div class="card">
-      <h2>Hi <span id="welcomeName">Laadli Madamji</span> 🌸</h2>
+      <h2>Hi <span id="welcomeName">you</span> 🌸</h2>
       <p>I made this little night sky just for you. Walk with me and let the blessings unfold.</p>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <button class="btn" id="startJourney" type="button" data-start="1">Start your tiny journey ✨</button>
@@ -288,7 +288,8 @@
   </div>
 
   <main>
-    <!-- Landing -->
+
+<!-- Landing -->
     <section class="section" id="landing">
       <div class="container landing-inner">
         <h1 class="title">On this special day, the universe plays its sweetest tune…<br/>because it’s your day 🌸</h1>
@@ -310,7 +311,7 @@
     </section>
 
     <!-- Playful Blessings -->
-     <section class="section" id="playful">
+    <section class="section" id="playful">
       <div class="container" style="width:min(100%,960px)">
         <h2 class="center" style="margin-bottom:14px; font-weight:900; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; font-size:12px">Playful blessings</h2>
         <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
@@ -327,8 +328,7 @@
       </div>
     </section>
 
-
- <!-- Filmy Interlude -->
+    <!-- Filmy Interlude -->
     <section class="section" id="filmy">
       <div class="filmy-wrap">
         <div class="filmy-heading">A tiny filmy interlude</div>
@@ -349,7 +349,7 @@
           <div class="actions">
             <button class="btn" id="newShayari">Another shayari 💗</button>
             <button class="btn" id="copyShayari">Copy line 📋</button>
-            <a href="#divine" class="btn next">Next →</a>
+            <a href="#memories" class="btn next">Next →</a>
           </div>
         </div>
 
@@ -370,22 +370,23 @@
       </div>
     </section>
 
-<section class="section" id="memories">
-  <div class="container" style="text-align:center">
-    <h2 style="margin:0 0 10px; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; font-size:12px">Memories</h2>
-    <p class="hint">A few moments that make my day feel alive.</p>
-    <div id="gallery" class="polaroids"></div>
-  </div>
-</section>
 
-<!-- Lightbox -->
-<div id="lightbox" style="display:none; position:fixed; inset:0; z-index:90; background:rgba(0,0,0,.85); align-items:center; justify-content:center;">
-  <button id="lbClose" class="pill" style="position:absolute; right:14px; top:14px;">Close ✖</button>
-  <button id="lbPrev" class="pill" style="position:absolute; left:14px; top:50%; transform:translateY(-50%);">←</button>
-  <img id="lbImg" alt="memory" style="max-width:92vw; max-height:86vh; border-radius:14px; box-shadow:0 22px 60px rgba(0,0,0,.6); border:1px solid rgba(255,255,255,.15)" />
-  <button id="lbNext" class="pill" style="position:absolute; right:14px; top:50%; transform:translateY(-50%);">→</button>
-</div>
+<!-- Memories -->
+    <section class="section" id="memories">
+      <div class="container" style="text-align:center">
+        <h2 style="margin:0 0 10px; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; font-size:12px">Memories</h2>
+        <p class="hint">A few moments that make my day feel alive.</p>
+        <div id="gallery" class="polaroids"></div>
+      </div>
+    </section>
 
+    <!-- Lightbox -->
+    <div id="lightbox" style="display:none; position:fixed; inset:0; z-index:90; background:rgba(0,0,0,.85); align-items:center; justify-content:center;">
+      <button id="lbClose" class="pill" style="position:absolute; right:14px; top:14px;">Close ✖</button>
+      <button id="lbPrev" class="pill" style="position:absolute; left:14px; top:50%; transform:translateY(-50%);">←</button>
+      <img id="lbImg" alt="memory" style="max-width:92vw; max-height:86vh; border-radius:14px; box-shadow:0 22px 60px rgba(0,0,0,.6); border:1px solid rgba(255,255,255,.15)" />
+      <button id="lbNext" class="pill" style="position:absolute; right:14px; top:50%; transform:translateY(-50%);">→</button>
+    </div>
 
     <!-- Divine -->
     <section class="section" id="divine">
@@ -434,8 +435,8 @@
         <div class="center stack">
           <button class="btn endbtn" id="endBtn">Read a little letter 💜</button>
           <button class="btn endbtn" id="savePng">Save final message (PNG)</button>
-        </div>
           <button class="btn endbtn" id="giftBtn">Open gift basket 🎁</button>
+        </div>
       </div>
       <div class="hint center">Chapter 5 • The Promise</div>
     </section>
@@ -459,13 +460,14 @@
   </main>
 
   <!-- Watermark -->
-  <div class="watermark" id="wm">Exclusively for <span id="wmName">Madamji 🩷</span></div>
+  <div class="watermark" id="wm">Exclusively for <span id="wmName">you</span></div>
 
-<!-- Save image dep -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script>
+  <!-- Save image dep -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+
 /* ===== PERSONAL DEFAULTS ===== */
-const DEFAULTS = { name: 'Shruti', from: 'Dev', theme: 'pink' };
+const DEFAULTS = { name: 'Her Name', from: 'Devashish', theme: 'pink' };
 
 /* ===== helpers ===== */
 const $ = (s,root=document)=>root.querySelector(s);
@@ -487,7 +489,7 @@ const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
   }
 })();
 
-/* ===== WebAudio ambience (fallback to YouTube overlay if provided) ===== */
+/* ===== WebAudio ambience (fallback, when not using YT) ===== */
 let audioCtx, masterGain;
 function makeAmbience(){
   if(audioCtx) return;
@@ -551,23 +553,16 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
   fit(); addEventListener('resize', fit);
 
   let pts = []; // particles
-
   function ensureParticles(count){
-    // grow/shrink pool
     if (pts.length < count){
       for(let i=pts.length;i<count;i++){
-        pts.push({
-          x: Math.random()*cvs.width,
-          y: Math.random()*cvs.height*0.8 + cvs.height*0.1,
-          tx: 0, ty: 0
-        });
+        pts.push({ x: Math.random()*cvs.width, y: Math.random()*cvs.height*0.8 + cvs.height*0.1, tx: 0, ty: 0 });
       }
     } else if (pts.length > count){
       pts = pts.slice(0, count);
     }
   }
 
-  // split the name into up to 2 lines at a nice space
   function nameToLines(name){
     const t = (name || 'You').trim().replace(/\s+/g,' ');
     if (t.length <= 14) return [t];
@@ -578,7 +573,6 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
     return [t];
   }
 
-  // render lines on an offscreen canvas → sample bright pixels → target points
   function targetsFromLines(lines, density=22){
     const off = document.createElement('canvas');
     const octx = off.getContext('2d');
@@ -587,7 +581,6 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
     const family = 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
     const maxWidth = off.width * 0.84;
 
-    // choose font-size that fits the widest line
     let fs = Math.min(200, Math.max(70, off.width * 0.16));
     octx.textAlign = 'center';
     octx.textBaseline = 'middle';
@@ -606,7 +599,7 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
 
     const data = octx.getImageData(0,0,off.width,off.height).data;
     const ptsAll = [];
-    const step = Math.max(1, Math.floor(fs / density)); // sampling step based on font-size
+    const step = Math.max(1, Math.floor(fs / density));
 
     for (let y=0; y<off.height; y+=step){
       for (let x=0; x<off.width; x+=step){
@@ -616,20 +609,16 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
     return ptsAll;
   }
 
-  function moveToName(name, hold=3200){
+  function moveToName(name, hold=3600){
     const lines = nameToLines(name);
     const cloud = targetsFromLines(lines);
 
-    // choose particle count ~ proportional to cloud size (clamped)
     const N = Math.min(520, Math.max(200, Math.floor(cloud.length * 0.55)));
     ensureParticles(N);
 
-    // map evenly through the cloud
     const sel = [];
     for (let i=0;i<N;i++){
-      sel.push(cloud[Math.floor(i * (cloud.length / N))] || {
-        x: Math.random()*cvs.width, y: Math.random()*cvs.height
-      });
+      sel.push(cloud[Math.floor(i * (cloud.length / N))] || { x: Math.random()*cvs.width, y: Math.random()*cvs.height });
     }
     pts.forEach((p,i)=>{ p.tx = sel[i].x; p.ty = sel[i].y; });
 
@@ -652,7 +641,7 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
       }
       if (phase === 'out'){
         const moving = pts.some(p => Math.hypot(p.tx-p.x, p.ty-p.y) > 0.6);
-        if (!moving) return; // end once dispersed
+        if (!moving) return;
       }
       requestAnimationFrame(frame);
     }
@@ -663,15 +652,13 @@ $('#ytClose').addEventListener('click',()=>{ $('#ytOverlay').style.display='none
     const nm = (document.getElementById('herNameDynamic')?.textContent || (window.DEFAULTS?.name) || 'You');
     moveToName(nm);
   }
-
-  // trigger on first gesture just like before
   document.getElementById('startJourney')?.addEventListener('click', start, { once:true });
   document.getElementById('walkBtn')?.addEventListener('click', start, { once:true });
 })();
 
 /* ===== progress + feathers ===== */
 (function chapters(){
-  const ids=['landing','spark','playful','filmy','divine','final'], dots=$$('.dot');
+  const ids=['landing','spark','playful','filmy','memories','divine','final'], dots=$$('.dot');
   dots.forEach(d=>d.addEventListener('click',()=>{ const t=d.getAttribute('data-target'); if(t) location.hash=t; }));
   const io=new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting){ const i=ids.indexOf(e.target.id); dots.forEach((d,idx)=>d.classList.toggle('active',idx===i)); feather(); } });},{threshold:.5});
   ids.forEach(id=>io.observe($('#'+id))); $$('.next').forEach(n=>n.addEventListener('click',feather));
@@ -762,65 +749,6 @@ $('#hvToggle').addEventListener('click',showHv);
 $('#speakHv').addEventListener('click',()=>{ const s=window.speechSynthesis; if(!s) return toast('Speech not supported'); const u=new SpeechSynthesisUtterance($('#hvText').textContent.replace(/"/g,'')); u.lang='hi-IN'; u.rate=0.95; s.speak(u); });
 showHv();
 
-/* ===== Memories gallery (static list) ===== */
-/* Put your photos in /images folder or use full URLs.
-   Then list them here. Example:
-   const PHOTO_LIST = [
-     {src:'images/01.jpg', cap:'Your smile, day One'},
-     {src:'images/02.jpg', cap:'The chai run'},
-     {src:'images/03.jpg', cap:'Pink & denim day'}
-   ];
-*/
-const PHOTO_LIST = [
-  // TODO: replace these placeholders with your real paths
-  // Example raw GitHub: 'https://raw.githubusercontent.com/<user>/<repo>/main/images/01.jpg'
-];
-
-(function renderGallery(){
-  const root = document.getElementById('gallery');
-  if(!root) return;
-  if(PHOTO_LIST.length===0){
-    root.innerHTML = `<div class="hint">Add your photos to <code>/images</code> and list them in <code>PHOTO_LIST</code> in the code.</div>`;
-    return;
-  }
-  PHOTO_LIST.forEach((p, i)=>{
-    const card = document.createElement('figure');
-    card.className='polaroid';
-    card.style.setProperty('--r', (Math.random()*6-3)+'deg');
-    card.innerHTML = `<img loading="lazy" src="${p.src}" alt="memory ${i+1}"><figcaption class="cap">${p.cap||''}</figcaption>`;
-    card.addEventListener('click', ()=> openLightbox(i));
-    root.appendChild(card);
-  });
-})();
-
-/* Lightbox */
-let lbIndex=0;
-function openLightbox(i){
-  lbIndex=i;
-  const lb=document.getElementById('lightbox');
-  const img=document.getElementById('lbImg');
-  img.src = PHOTO_LIST[i].src;
-  lb.style.display='flex';
-  // tiny emoji confetti to celebrate opening
-  const r = img.getBoundingClientRect();
-  confetti(r.left + r.width/2, r.top + scrollY + r.height/2);
-}
-function lbNav(dir){
-  if(PHOTO_LIST.length===0) return;
-  lbIndex = (lbIndex + dir + PHOTO_LIST.length) % PHOTO_LIST.length;
-  document.getElementById('lbImg').src = PHOTO_LIST[lbIndex].src;
-}
-document.getElementById('lbPrev')?.addEventListener('click', ()=> lbNav(-1));
-document.getElementById('lbNext')?.addEventListener('click', ()=> lbNav(1));
-document.getElementById('lbClose')?.addEventListener('click', ()=> document.getElementById('lightbox').style.display='none');
-document.getElementById('lightbox')?.addEventListener('click', (e)=>{ if(e.target.id==='lightbox') e.currentTarget.style.display='none'; });
-document.addEventListener('keydown', (e)=>{ const lb=document.getElementById('lightbox'); if(lb.style.display!=='flex') return;
-  if(e.key==='Escape') lb.style.display='none';
-  if(e.key==='ArrowRight') lbNav(1);
-  if(e.key==='ArrowLeft') lbNav(-1);
-});
-
-
 /* ===== pose + confetti + sfx ===== */
 function confetti(x,y){ const E=['💖','💗','💞','✨','😂','💐','🥰','🧡','💛','🪔','🍬']; for(let i=0;i<26;i++){ const e=document.createElement('span'); e.className='em'; e.textContent=E[Math.floor(Math.random()*E.length)];
   const a=Math.random()*Math.PI*2, sp=1+Math.random()*3, dur=900+Math.random()*700, dx=Math.cos(a)*sp*60, dy=Math.sin(a)*sp*60-40;
@@ -832,10 +760,10 @@ function ctxFX(){ if(!window.AudioContext&&!window.webkitAudioContext) return nu
 function ting(){ const a=ctxFX(); if(!a) return; const o=a.createOscillator(), g=a.createGain(); o.type='sine'; o.frequency.value=880; g.gain.value=0.0001; o.connect(g); g.connect(a.destination); const t=a.currentTime; g.gain.exponentialRampToValueAtTime(0.08,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.25); o.start(t); o.stop(t+0.28); }
 function whoosh(){ const a=ctxFX(); if(!a) return; const n=a.createBufferSource(), g=a.createGain(); const len=a.sampleRate*0.35, b=a.createBuffer(1,len,a.sampleRate), d=b.getChannelData(0); for(let i=0;i<len;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/len,1.6);} n.buffer=b; n.playbackRate.value=0.9; g.gain.value=0.0001; n.connect(g); g.connect(a.destination); const t=a.currentTime; g.gain.exponentialRampToValueAtTime(0.12,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.35); n.start(t); n.stop(t+0.36); }
 
-/* ===== flip card ===== */
+/* ===== Divine flip ===== */
 $('#flipCard').addEventListener('click',()=> $('#flipCard').classList.toggle('is-flipped'));
 
-/* ===== fireworks (now with HEARTS) ===== */
+/* ===== fireworks (with HEARTS) ===== */
 let fw=false;
 function fireworks(){
   if(fw) return; fw=true;
@@ -843,17 +771,13 @@ function fireworks(){
   function fit(){ c.width=innerWidth; c.height=Math.max(300,innerHeight*0.9) } fit(); addEventListener('resize',fit);
 
   const parts=[];
-  function addParticle(x,y,vx,vy,color){
-    parts.push({x,y,vx,vy,life:70+Math.random()*30,color});
-  }
+  function addParticle(x,y,vx,vy,color){ parts.push({x,y,vx,vy,life:70+Math.random()*30,color}); }
 
-  // parametric heart (t in [0, 2π])
-  function heartVector(t, size){
+  function heartVector(t){
     const x = 16*Math.sin(t)**3;
     const y = 13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);
-    return {x: x*size, y: -y*size}; // invert y for canvas
+    return {x, y:-y};
   }
-
   function burstCircle(x,y,color){
     const n=90;
     for(let i=0;i<n;i++){
@@ -861,13 +785,12 @@ function fireworks(){
       addParticle(x,y,Math.cos(a)*sp,Math.sin(a)*sp,color);
     }
   }
-
   function burstHeart(x,y,color){
-    const n=140, size=0.7; // tweak size for canvas scale
+    const n=140;
     for(let i=0;i<n;i++){
       const t = (i/n)*Math.PI*2;
-      const v = heartVector(t, 1.6);          // base heart shape
-      const mag = Math.hypot(v.x, v.y) || 1;  // normalize → velocity
+      const v = heartVector(t);
+      const mag = Math.hypot(v.x, v.y) || 1;
       const speed = 2.2 + Math.random()*2.4;
       addParticle(x,y,(v.x/mag)*speed,(v.y/mag)*speed,color);
     }
@@ -891,7 +814,6 @@ function fireworks(){
     const y = Math.random()*c.height*0.4 + c.height*0.1;
     const colors = ['255,200,221','155,211,255','201,167,255','246,208,110'];
     const color = colors[Math.floor(Math.random()*colors.length)];
-    // 50% heart, 50% circle
     (Math.random()<0.5 ? burstHeart : burstCircle)(x,y,color);
   }
 
@@ -899,6 +821,85 @@ function fireworks(){
   const iv=setInterval(randomBurst, 1200);
   setTimeout(()=> clearInterval(iv), 12000);
 }
+
+/* ===== Memories gallery ===== */
+/* Put your photos in /images or use full URLs. Fill PHOTO_LIST below. */
+const PHOTO_LIST = [
+  // Example:
+  // {src:'images/01.jpg', cap:'Your smile, day One'},
+  // {src:'images/02.jpg', cap:'The chai run'},
+  // {src:'images/03.jpg', cap:'Pink & denim day'},
+];
+
+(function renderGallery(){
+  const root = document.getElementById('gallery');
+  if(!root) return;
+  if(PHOTO_LIST.length===0){
+    root.innerHTML = `<div class="hint">Add your photos to <code>/images</code> and list them in <code>PHOTO_LIST</code> in the code.</div>`;
+    return;
+  }
+  PHOTO_LIST.forEach((p, i)=>{
+    const card = document.createElement('figure');
+    card.className='polaroid';
+    card.style.setProperty('--r', (Math.random()*6-3)+'deg');
+    card.innerHTML = `<img loading="lazy" src="${p.src}" alt="memory ${i+1}"><figcaption class="cap">${p.cap||''}</figcaption>`;
+    card.addEventListener('click', ()=> openLightbox(i));
+    root.appendChild(card);
+  });
+})();
+
+let lbIndex=0;
+function openLightbox(i){
+  lbIndex=i;
+  const lb=document.getElementById('lightbox');
+  const img=document.getElementById('lbImg');
+  img.src = PHOTO_LIST[i].src;
+  lb.style.display='flex';
+  const r = img.getBoundingClientRect();
+  confetti(r.left + r.width/2, r.top + scrollY + r.height/2);
+}
+function lbNav(dir){
+  if(PHOTO_LIST.length===0) return;
+  lbIndex = (lbIndex + dir + PHOTO_LIST.length) % PHOTO_LIST.length;
+  document.getElementById('lbImg').src = PHOTO_LIST[lbIndex].src;
+}
+document.getElementById('lbPrev')?.addEventListener('click', ()=> lbNav(-1));
+document.getElementById('lbNext')?.addEventListener('click', ()=> lbNav(1));
+document.getElementById('lbClose')?.addEventListener('click', ()=> document.getElementById('lightbox').style.display='none');
+document.getElementById('lightbox')?.addEventListener('click', (e)=>{ if(e.target.id==='lightbox') e.currentTarget.style.display='none'; });
+document.addEventListener('keydown', (e)=>{ const lb=document.getElementById('lightbox'); if(lb.style.display!=='flex') return;
+  if(e.key==='Escape') lb.style.display='none';
+  if(e.key==='ArrowRight') lbNav(1);
+  if(e.key==='ArrowLeft') lbNav(-1);
+});
+
+/* ===== Gift basket: teddy/choco/heart rain ===== */
+function stickerRain(emojis=['🧸','🍫','💖','🌸','🍰','🎈']){
+  const D = 5200;
+  const now = performance.now();
+  const spawn = ()=>{
+    if (performance.now() - now > D) return;
+    const span=document.createElement('span');
+    span.className='sticker';
+    span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    const x = Math.random()*innerWidth;
+    span.style.left = x+'px';
+    document.body.appendChild(span);
+    const drift = (Math.random()*2-1)*80;
+    const time = 2400 + Math.random()*1800;
+    span.animate(
+      [{transform:'translate(0,-40px)',opacity:.95},
+       {transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:0.1}],
+      {duration:time, easing:'ease-in'}
+    );
+    setTimeout(()=> span.remove(), time+50);
+    requestAnimationFrame(spawn);
+  };
+  spawn();
+}
+document.getElementById('giftBtn')?.addEventListener('click', ()=>{
+  stickerRain(['🧸','🍫','💗','💞','✨','🌸','🍬','🪔']);
+});
 
 /* ===== params (name/from/theme) + monogram + her-day ===== */
 (function params(){
@@ -942,6 +943,6 @@ $('#closeCert').addEventListener('click',()=>$('#cert').classList.remove('show')
 
 /* ===== esc close ===== */
 document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ $('#modal')?.classList.remove('show'); $('#letter')?.classList.remove('show'); $('#cert')?.classList.remove('show'); $('#ytOverlay').style.display='none'; }});
-</script>
+  </script>
 </body>
 </html>
