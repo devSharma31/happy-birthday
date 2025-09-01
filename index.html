@@ -145,17 +145,26 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 </head>
 
 <body>
+
+<!-- Local background song (starts after she taps Enter) -->
+<audio id="bgSong" preload="auto" loop>
+  <!-- Put your mp3 in /assets; or change the path accordingly -->
+  <source src="assets/zara-sa.mp3" type="audio/mpeg">
+  <!-- Optional fallback format -->
+  <source src="assets/zara-sa.m4a" type="audio/mp4">
+</audio>
+
   <!-- Welcome Gate -->
   <div class="gate" id="gate" aria-modal="true" role="dialog">
     <div class="gate-card soft">
-      <h1>Happy Birthday, Shruti 🎂</h1>
-      <p>Bas aaj duaayein: kaam halke, chai garam, din meetha.</p>
-      <p class="muted">I’ll stay in the background—no demands, just your quiet cheer squad.</p>
+      <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
+      <p>Only pure and warm wishes for you today 🤌🏻✨: Hope you your smile stays constant while you read this. </p>
+      <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
       <div class="gate-actions">
         <button class="btn" id="enterBtn">Enter the little night →</button>
         <button class="btn" id="playSongGate">Play “Zara Sa” 🎵</button>
       </div>
-      <p class="hint">Ignore mode on? Theek hai—main wahi silly ladka hoon jo phir se try kare.</p>
+      <p class="hint">Ignore Karo toh bhi Theek hai, I am that silly boy who would never stop trying 🫠 .</p>
     </div>
   </div>
 
@@ -417,7 +426,7 @@ blessIO.observe($('#blessings'));
 
 /* ---------- greeting cards ---------- */
 const greetingCards=[
- {title:'Nazar Na Lage', charm:'🧿', text:'Madamji, nazar buri lage bhi toh—tum par Kanha ki chhaya aur meri rakhwali.'},
+ {title:'Nazar Na Lage', charm:'🧿', text:'Madamji, nazar buri lage bhi toh—tum par Kanhaji ki chhaya aur meri rakhwali humesha rahegi.'},
  {title:'Chai + Calm',   charm:'☕️', text:'Subah ki chai ya raat ka sukoon—jo chahiye, bol do. Main dhoondh launga.'},
  {title:'Calendar Bless', charm:'📅', text:'Is saal ka har Monday halka, aur har Friday ke beech me thodi si chhutti.'},
  {title:'Inbox of Joy',   charm:'📫', text:'Roz thoda pyaar, thodi hansi—spam free, ad free.'},
@@ -433,11 +442,20 @@ const greetingCards=[
 })();
 
 /* ---------- spotlight photos (replace PHOTOS!) ---------- */
-const PHOTOS=[
-  // {src:'images/shruti1.jpg'},
-  // {src:'images/shruti2.jpg'},
-  // {src:'images/shruti3.jpg'},
+const PHOTOS = [
+  {src:'images/shruti-01.jpg'},
+  {src:'images/shruti-02.jpg'},
+  {src:'images/shruti-03.jpg'},
+  {src:'images/shruti-04.jpg'},
+  {src:'images/shruti-05.jpg'},
+  {src:'images/shruti-06.jpg'},
+  {src:'images/shruti-07.jpg'},
+  {src:'images/shruti-08.jpg'},
+  {src:'images/shruti-09.jpg'},
+  {src:'images/shruti-10.jpg'},
+  // add up to 12; the ring uses up to 12 panels
 ];
+
 (function gallery(){
   const hero=$('#hero'), grid=$('#polaroids');
   if(PHOTOS.length===0){
@@ -489,7 +507,7 @@ function fireworks(){
 }
 
 /* ---------- gift rain ---------- */
-$('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibrate(14);}catch{} const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔'];
+$('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibrate(14);}catch{} const icons=['🧸','🍫','❤️🩷,'💞','✨','🌸','🍬','🪔','🧿','🌼'];
   const D=5200,t0=performance.now(); (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
     s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
     const drift=(Math.random()*2-1)*80,time=2400+Math.random()*1800; s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'});
