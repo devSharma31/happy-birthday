@@ -235,7 +235,6 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
       if (gate && gate.parentNode) gate.parentNode.removeChild(gate);
     }, 500);
     try { if (home && home.scrollIntoView) home.scrollIntoView({behavior:'smooth'}); } catch(e) {}
-    try { sessionStorage.setItem('entered','1'); } catch(e) {}
   }
 
   window.enterSite = function () {
@@ -729,7 +728,6 @@ function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac
     gate.classList.add('hide');
     setTimeout(()=>{ gate.remove(); }, 500);
     try{ if(home && home.scrollIntoView) home.scrollIntoView({behavior:'smooth'}); }catch(e){}
-    sessionStorage.setItem('entered','1');
   }
 
   if(enterBtn){
