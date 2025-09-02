@@ -129,7 +129,11 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 @media (max-width:560px){ .polaroids{grid-template-columns:repeat(2,1fr)} }
 
 /* Welcome Gate (overlay, pop-in) */
-body.gated { overflow:hidden; }
+body.gated { 
+overflow:hidden; 
+overscroll-behavior: contain;
+touch-action: none;
+}
 .gate{
   position:fixed; inset:0; z-index:9999;
   display:flex; align-items:center; justify-content:center;
@@ -199,6 +203,11 @@ body.gated { overflow:hidden; }
 .gate, .gate * { pointer-events: auto !important; }
 
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="theme-color" content="#0c1022">
+
 </head>
 
 <body class="gated">
@@ -236,6 +245,8 @@ body.gated { overflow:hidden; }
     <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
   </div>
 </div>
+
+
 <!-- place this immediately after the Gate markup -->
 <script>
 (function () {
@@ -502,11 +513,11 @@ function imageConstellation(src, opts={}){
   cvs.height = innerHeight;
 
   const step      = opts.step ?? 6;       // sampling step (bigger = fewer points)
-  const dotSize   = opts.dotSize ?? 2;    // size of each particle
+  const dotSize   = opts.dotSize ?? 1;    // size of each particle
   const holdMs    = opts.hold ?? 2200;    // hold before dispersal
   const alphaMin  = opts.alphaMin ?? 40;  // alpha threshold
-  const fitRatioW = 0.62;
-  const fitRatioH = 0.52;
+  const fitRatioW = 0.72;
+  const fitRatioH = 0.62;
 
   const img = new Image();
   img.crossOrigin = 'anonymous';
@@ -814,19 +825,33 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ---------- YouTube overlay (Zara Sa default) ---------- */
-const DEFAULT_YT = 'GAXNdOm8rPY';
+
+let wasBgPlaying = false;
+
 function openYT(){
   const url = new URL(location.href);
   const id = url.searchParams.get('yt') || DEFAULT_YT;
-  const fr=$('#yt');
-  fr.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${id}`;
-  $('#ytOverlay').style.display='flex';
+
+  // pause local bg mp3 if it’s playing
+  const a = document.getElementById('bgSong');
+  if (a && !a.paused) { wasBgPlaying = true; a.pause(); }
+
+  const fr = document.getElementById('yt');
+  fr.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${id}`;
+  document.getElementById('ytOverlay').style.display = 'flex';
 }
-function closeYT(){ $('#ytOverlay').style.display='none'; $('#yt').src=''; }
-$('#playSong').addEventListener('click',openYT);
-$('#playSong2').addEventListener('click',openYT);
-$('#playSongGate').addEventListener('click',openYT);
-$('#walkBtn').addEventListener('click', startAmbience, {once:true});
+
+function closeYT(){
+  document.getElementById('ytOverlay').style.display = 'none';
+  document.getElementById('yt').src = '';
+
+  // resume bg mp3 if it was playing before
+  const a = document.getElementById('bgSong');
+  if (a && wasBgPlaying) {
+    wasBgPlaying = false;
+    a.play().catch(()=>{ /* ignore if blocked */ });
+  }
+}
 
 /* ========= Photo → Stardust engine ========= */
 (() => {
