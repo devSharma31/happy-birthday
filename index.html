@@ -1,20 +1,20 @@
-
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>for Shruti — a small night</title>
-<meta name="description" content="A birthday page for Shruti—blessings, silly-boy-trying energy, her photos, stardust and heart fireworks—with quiet spiritual vibes.">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;600;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<meta name="description" content="A birthday page for Shruti—blessings, silly-boy-trying energy, bigger balloons, flip cards, constellation, diya glow, and heart fireworks."/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet"/>
 
 <style>
 :root{
   --bg1:#0c1022; --bg2:#14102e; --ink:#eef2ff; --muted:#cdd5f9; --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
-  --petal:#ffc8dd; --card:#10182a; --card2:#0f1730;
+  --petal:#ffc8dd; --gold:#f6d06e; --card:#10182a; --card2:#0f1730;
 }
 .gulabi{ --bg1:#1a0b24; --bg2:#2a1345; --accent:#ff96c8; --ink:#fff4fa; --muted:#ffd9e8; --petal:#ffd1e1; --card:#1a1430; --card2:#23193f }
 .denim { --bg1:#0b1322; --bg2:#0b1b33; --accent:#85a9ff; --ink:#eaf2ff; --muted:#cfe0ff; --petal:#c7d7ff; --card:#0c1629; --card2:#0e1d36 }
+.beige { --bg1:#1a1715; --bg2:#2a2622; --accent:#f0caa8; --ink:#fff4ec; --muted:#f6e3d4; --petal:#ffd9c9; --card:#1f1b18; --card2:#26211d }
 
 html,body{height:100%} html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){
@@ -42,9 +42,13 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .sig b{color:var(--accent)}
 .mood{position:fixed;right:12px;top:12px;display:flex;gap:8px;z-index:10}
 .mood button{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25)}
-.mood .n{background:#1c1f2d}.mood .g{background:#ff8fb1}.mood .d{background:#85a9ff}
+.mood .n{background:#1c1f2d}.mood .g{background:#ff8fb1}.mood .d{background:#85a9ff}.mood .b{background:#d9c2a8}
 
-/* Stars */
+.progress{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:8px;z-index:9}
+.progress .dot{width:8px;height:8px;border-radius:50%;background:#ffffff33;border:1px solid #ffffff55}
+.progress .dot.active{background:var(--accent);box-shadow:0 0 12px var(--accent)}
+
+/* Stars + sky */
 .stars{position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.85;
   background:
     radial-gradient(2px 2px at 18% 28%,#fff,transparent 60%),
@@ -58,7 +62,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 
 /* Petals */
 #petals{position:fixed;inset:0;pointer-events:none;z-index:1}
-.petal{position:fixed;top:-40px;width:14px;height:14px;background:radial-gradient(circle at 30% 30%,#fff,transparent 60%),var(--petal);
+.petal{position:fixed;top:-40px;width:16px;height:16px;background:radial-gradient(circle at 30% 30%,#fff,transparent 60%),var(--petal);
   border-radius:42% 58% 58% 42%/64% 62% 38% 36%;opacity:.75;filter:drop-shadow(0 8px 10px rgba(255,200,221,.25))}
 
 /* Landing */
@@ -67,24 +71,24 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
 /* Diya */
-.diya{width:140px;height:140px;position:relative;filter:drop-shadow(0 28px 40px rgba(246,208,110,.22));transform:translateY(6px) scale(.96);transition:.7s ease}
-.bowl{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:130px;height:56px;background:radial-gradient(130px 56px at 50% 0%,#6b3b1b,#341c0f 70%);border-radius:80px 80px 30px 30px/40px 40px 30px 30px;box-shadow:inset 0 10px 24px rgba(255,255,255,.06)}
-.oil{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);width:110px;height:18px;background:radial-gradient(110px 18px at 50% 60%,#2c1409,#120803 70%);border-radius:999px}
-.flame{position:absolute;left:50%;bottom:52px;transform:translateX(-50%) rotate(-2deg);width:20px;height:34px;background:radial-gradient(ellipse at 50% 20%,#fff6b0,#ffd275 40%,rgba(255,120,64,.9) 70%,rgba(255,120,64,0) 75%);border-radius:50%/70% 70% 30% 30%;opacity:0}
-.glow{position:absolute;left:50%;bottom:52px;transform:translateX(-50%);width:110px;height:110px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,110,.42),rgba(255,214,110,0));opacity:0}
+.diya{width:150px;height:150px;position:relative;filter:drop-shadow(0 28px 40px rgba(246,208,110,.22));transform:translateY(6px) scale(.96);transition:.7s ease}
+.bowl{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:140px;height:60px;background:radial-gradient(130px 56px at 50% 0%,#6b3b1b,#341c0f 70%);border-radius:80px 80px 30px 30px/40px 40px 30px 30px;box-shadow:inset 0 10px 24px rgba(255,255,255,.06)}
+.oil{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);width:120px;height:18px;background:radial-gradient(110px 18px at 50% 60%,#2c1409,#120803 70%);border-radius:999px}
+.flame{position:absolute;left:50%;bottom:54px;transform:translateX(-50%) rotate(-2deg);width:22px;height:36px;background:radial-gradient(ellipse at 50% 20%,#fff6b0,#ffd275 40%,rgba(255,120,64,.9) 70%,rgba(255,120,64,0) 75%);border-radius:50%/70% 70% 30% 30%;opacity:0}
+.glow{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);width:120px;height:120px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,110,.42),rgba(255,214,110,0));opacity:0}
 .lit{transform:translateY(0) scale(1)}
 .lit .flame{animation:flicker .18s infinite alternate .1s;opacity:1}
 .lit .glow{animation:glow 1.2s ease-in-out infinite alternate .1s;opacity:1}
 @keyframes flicker{from{transform:translateX(-50%) rotate(-2deg) scaleY(1)}to{transform:translateX(-50%) rotate(2deg) scaleY(1.07)}}
 @keyframes glow{from{transform:translateX(-50%) scale(.9)}to{transform:translateX(-50%) scale(1.05)}}
 
-/* Balloons (big) + modal */
+/* Balloons + modal (BIGGER) */
 .balloon-area{position:relative;height:64vh;max-height:640px;width:100%;overflow:hidden;border-radius:18px;border:1px solid var(--edge);
   background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
-.balloon{--c:#ff9ccc;--x:10;--delay:0;position:absolute;bottom:-150px;left:calc(var(--x)*1%);width:88px;height:112px;border-radius:50% 50% 45% 45%/55% 55% 45% 45%;
+.balloon{--c:#ff9ccc;--x:10;--delay:0;position:absolute;bottom:-160px;left:calc(var(--x)*1%);width:92px;height:120px;border-radius:50% 50% 45% 45%/55% 55% 45% 45%;
   background:radial-gradient(circle at 30% 30%,#fff8,transparent 60%),var(--c);box-shadow:inset -10px -16px 24px rgba(0,0,0,.2);animation:floatUp 16s linear infinite;animation-delay:calc(var(--delay)*1s);
   display:grid;place-items:center;color:#0c0e1a;font-weight:900;text-shadow:0 1px 0 #ffffff88;cursor:pointer}
-.balloon::after{content:"";position:absolute;width:2px;height:140px;background:rgba(255,255,255,.3);left:50%;bottom:-140px}
+.balloon::after{content:"";position:absolute;width:2px;height:160px;background:rgba(255,255,255,.3);left:50%;bottom:-160px}
 .balloon span{background:#fff;padding:6px 10px;border-radius:999px;font-size:14px}
 @keyframes floatUp{from{transform:translateY(0)}to{transform:translateY(-105vh)}}
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:50}
@@ -95,17 +99,16 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 
 /* Greeting cards — flip */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;width:min(100%,980px)}
-.flip-card{perspective:1200px}
+.flip-card{perspective:1200px;cursor:pointer}
 .flip-inner{position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .flip-card.open .flip-inner{transform:rotateY(180deg)}
 .face{backface-visibility:hidden;border-radius:16px;border:1px solid var(--edge);box-shadow:0 16px 38px rgba(0,0,0,.35)}
 .face.front{padding:18px;background:linear-gradient(180deg,var(--card),var(--card2))}
 .face.back{padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));position:absolute;inset:0;transform:rotateY(180deg)}
-.face h3{margin:.3rem 0 .4rem;font-family:"Caveat",cursive;font-size:24px;color:var(--accent)}
+.face h3{margin:.3rem 0 .4rem;font-size:22px;color:var(--accent)}
 .face p{margin:.2rem 0 .2rem;line-height:1.7}
 
-/* Spotlight */
-.gallery{display:grid;gap:12px}
+/* Spotlight (photos later) */
 .hero{position:relative;border-radius:20px;overflow:hidden;height:min(60vh,520px)}
 .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:ken 14s ease-in-out infinite}
 @keyframes ken{0%{transform:scale(1.04)}50%{transform:scale(1.1) translate(-1%,-1%)}100%{transform:scale(1.04)}}
@@ -113,9 +116,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .pol{height:160px;border-radius:12px;overflow:hidden;border:2px solid transparent;background:#fff0;cursor:grab;transform:rotate(var(--r,0deg)) scale(1);transition:transform .2s}
 .pol img{width:100%;height:100%;object-fit:cover}
 .pol.active{border-color:var(--accent)}
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:60;align-items:center;justify-content:center}
-.lightbox img{max-width:92vw;max-height:86vh;border-radius:14px;border:1px solid var(--edge);box-shadow:0 22px 60px rgba(0,0,0,.6)}
-.lightbox .x{position:absolute;top:12px;right:12px}
+@media (max-width:560px){ .polaroids{grid-template-columns:repeat(2,1fr)} }
 
 /* Lines */
 .carousel{display:grid;gap:10px;justify-items:center}
@@ -125,281 +126,266 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 /* Final */
 #fire{position:absolute;inset:0;pointer-events:none}
 .final p{font-size:clamp(18px,3.6vw,22px);line-height:1.6}
-@media (max-width:560px){ .polaroids{grid-template-columns:repeat(2,1fr)} }
 
 /* Welcome Gate (overlay) */
 body.gated{overflow:hidden}
-.gate{
-  position:fixed; inset:0; z-index:9999;
-  display:flex; align-items:center; justify-content:center;
-  background:
-    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.18), transparent 60%),
-    linear-gradient(180deg,var(--bg1),var(--bg2));
-  backdrop-filter: blur(6px);
-  transition: opacity .45s ease;
-  animation: gateFade .45s ease both;
-}
+.gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.18), transparent 60%),linear-gradient(180deg,var(--bg1),var(--bg2));
+  backdrop-filter: blur(6px);transition:opacity .45s ease;animation: gateFade .45s ease both}
 .gate.hide{opacity:0;pointer-events:none}
-.gate-card{
-  width:min(560px,92vw); padding:18px; text-align:center;
-  border-radius:18px; border:1px solid var(--edge);
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  box-shadow:0 22px 48px rgba(0,0,0,.45);
-  transform: translateY(6px) scale(.94);
-  animation: gatePop .45s cubic-bezier(.2,.75,.2,1) .05s both;
-}
+.gate-card{width:min(560px,92vw);padding:18px;text-align:center;border-radius:18px;border:1px solid var(--edge);
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:0 22px 48px rgba(0,0,0,.45);
+  transform:translateY(6px) scale(.94);animation: gatePop .45s cubic-bezier(.2,.75,.2,1) .05s both}
 .gate-card h1{margin:.2rem 0 .3rem;font-size:clamp(22px,5.2vw,32px)}
 .gate-card p{margin:.2rem 0;color:var(--muted)}
 .gate-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
-@keyframes gateFade { from{opacity:0} to{opacity:1} }
-@keyframes gatePop  { from{opacity:0; transform:translateY(10px) scale(.94)} to{opacity:1; transform:none} }
+@keyframes gateFade{from{opacity:0}to{opacity:1}}
+@keyframes gatePop{from{opacity:0;transform:translateY(10px) scale(.94)}to{opacity:1;transform:none}}
 </style>
-
-<!-- Failsafe so the Enter button ALWAYS works even if later JS fails -->
-<script>
-  function enterGate(){
-    try{
-      var g=document.getElementById('gate');
-      if(g){ g.classList.add('hide'); document.body.classList.remove('gated');
-        setTimeout(function(){ if(g && g.parentNode){ g.parentNode.removeChild(g); } }, 500);
-      }
-      var home=document.getElementById('home');
-      if(home && home.scrollIntoView) home.scrollIntoView({behavior:'smooth'});
-    }catch(e){}
-  }
-  window.enterGate = enterGate; // inline onclick uses this immediately
-</script>
 </head>
 
+
 <body class="gated">
-
-<!-- Welcome Gate -->
-<div class="gate" id="gate" aria-modal="true" role="dialog">
-  <div class="gate-card soft">
-    <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
-    <p>Only pure and warm wishes for you today. Hope your smile stays constant while you read this.</p>
-    <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad.</p>
-    <div class="gate-actions">
-      <button class="btn" id="enterBtn" type="button" onclick="enterGate()">Enter the little night →</button>
-      <button class="btn" id="playSongGate" type="button">Play “Zara Sa” 🎵</button>
-    </div>
-    <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying.</p>
-  </div>
-</div>
-
-<!-- Top chrome -->
-<div class="sig">made with <b>time</b> & <b>care</b></div>
-<div class="mood">
-  <button class="n" title="Night"  onclick="setMood('night')"></button>
-  <button class="g" title="Gulabi" onclick="setMood('gulabi')"></button>
-  <button class="d" title="Denim"  onclick="setMood('denim')"></button>
-</div>
-
-<!-- Sky layers -->
-<canvas id="trail" aria-hidden="true"></canvas>
-<canvas id="nameConstellation" aria-hidden="true"></canvas>
-<div class="stars" aria-hidden="true"></div>
-<div id="petals" aria-hidden="true"></div>
-
-<!-- 1) Landing -->
-<section class="section" id="home">
-  <div class="container center">
-    <h1 class="title">On this small night, the universe plays its sweetest tune…</h1>
-    <p class="lead muted">…because it’s your day, Shruti. (Madamji, Laadliji—haan, dono tum ho.)</p>
-    <div class="cta">
-      <a class="btn" href="#spark" id="walkBtn">Walk with me →</a>
-      <button class="btn" id="playSong">Play her song 🎵</button>
+  <!-- Welcome Gate (always shows on load) -->
+  <div class="gate" id="gate" role="dialog" aria-modal="true">
+    <div class="gate-card soft">
+      <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
+      <p>Only pure and warm wishes for you today ✨ — hope your smile stays constant while you read this.</p>
+      <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
+      <div class="gate-actions">
+        <button class="btn" id="enterBtn" type="button" onclick="enterGate()">Enter the little night →</button>
+        <button class="btn" id="playSongGate" type="button">Play “Zara Sa” 🎵</button>
+      </div>
+      <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
     </div>
   </div>
-</section>
 
-<!-- 2) Spark (diya + assurance) -->
-<section class="section" id="spark">
-  <div class="container center">
-    <div class="diya soft" id="diya" title="Long-press me">
-      <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
-    </div>
-    <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px">
-      Aaj sirf duaayein: deadlines dayalu, playlist lambi, aur muskurahat asaan. Main yahin hoon—shanti se, bina demand ke—tumhari smile ka silly guard.
-    </p>
-    <div class="cta"><a class="btn" href="#blessings">Next →</a></div>
+  <!-- Top chrome -->
+  <div class="sig">made with <b>time</b> & <b>care</b></div>
+  <div class="mood">
+    <button class="n" title="Night"  onclick="setMood('night')"></button>
+    <button class="g" title="Gulabi" onclick="setMood('gulabi')"></button>
+    <button class="d" title="Denim"  onclick="setMood('denim')"></button>
+    <button class="b" title="Beige-Rose" onclick="setMood('beige')"></button>
   </div>
-</section>
 
-<!-- 3) Blessings -->
-<section class="section" id="blessings">
-  <div class="container" style="width:min(100%,960px)">
-    <h2 class="center" style="margin-bottom:14px;color:var(--accent)">Playful Aashirwad</h2>
-    <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
-    <p class="hint center">Tap a balloon to pop it. Laadliji, Ramji ki kripa bani rahe.</p>
-    <div class="center" style="margin-top:12px"><a class="btn" href="#cards">Next →</a></div>
+  <!-- Progress dots -->
+  <div class="progress" id="progress">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
   </div>
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="dialog">
-      <h4 id="modalTitle">A note</h4>
-      <p id="modalMsg">You are loved.</p>
-      <button class="btn" id="modalClose">Close</button>
-    </div>
-  </div>
-</section>
 
-<!-- 4) Greeting Cards -->
-<section class="section" id="cards">
-  <div class="container center">
-    <h2 style="margin:.2rem 0 .6rem;color:var(--accent)">Small Birthday Cards</h2>
-    <p class="muted" style="margin-top:-6px">Tap to flip—chhota sa sukoon aur thodi si meethi shaitaani.</p>
-    <div class="cards" id="cardsWrap"></div>
-    <div class="cta" style="margin-top:14px"><a class="btn" href="#spotlight">Next →</a></div>
-  </div>
-</section>
+  <!-- Sky layers -->
+  <canvas id="trail" aria-hidden="true"></canvas>
+  <canvas id="nameConstellation" aria-hidden="true"></canvas>
+  <div class="stars" aria-hidden="true"></div>
+  <div id="petals" aria-hidden="true"></div>
 
-<!-- 5) Spotlight — placeholder -->
-<section class="section" id="spotlight">
-  <div class="container">
-    <div class="gallery">
-      <div class="hero soft"><img id="hero" alt="her photo" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1600&q=80&auto=format&fit=crop"></div>
-      <div class="polaroids" id="polaroids"></div>
-      <p class="hint center">Every picture whispers: “you’re trouble—the good kind, Madamji.”</p>
-      <div class="center" style="margin-top:10px"><a class="btn" href="#lines">Next →</a></div>
-    </div>
-  </div>
-</section>
-
-<!-- 6) Lines -->
-<section class="section" id="lines">
-  <div class="container">
-    <div class="carousel">
-      <div class="slide" id="slideText">No expectations. Bas good wishes, daily.</div>
-      <div class="nav">
-        <button class="btn" id="prevLine">←</button>
-        <button class="btn" id="nextLine">→</button>
+  <!-- 1) Landing -->
+  <section class="section" id="home">
+    <div class="container center">
+      <h1 class="title">On this small night, the universe plays its sweetest tune…</h1>
+      <p class="lead muted">…because it’s your day, Shruti. (Madamji, Laadliji—haan, dono tum ho.)</p>
+      <div class="cta">
+        <a class="btn" href="#spark" id="walkBtn">Walk with me →</a>
+        <button class="btn" id="playSong">Play her song 🎵</button>
       </div>
     </div>
-    <div class="center" style="margin-top:14px"><a class="btn" href="#divine">Next →</a></div>
-  </div>
-</section>
+  </section>
 
-<!-- 7) Divine blessing -->
-<section class="section" id="divine">
-  <div class="container center soft" style="padding:20px">
-    <h2 style="margin:.4rem 0;color:var(--accent)">A small prayer</h2>
-    <p class="muted" style="max-width:740px;margin:6px auto 0">
-      May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
-      May your days be soft where you need softness and strong where you need strength.
-    </p>
-    <div style="margin-top:12px"><a class="btn" href="#final">Final page →</a></div>
-  </div>
-</section>
+  <!-- 2) Spark (diya + assurance) -->
+  <section class="section" id="spark">
+    <div class="container center">
+      <div class="diya soft" id="diya" title="Long-press me">
+        <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
+      </div>
+      <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px">
+        Aaj sirf duaayein: deadlines dayalu, playlist lambi, aur muskurahat asaan. Main yahin hoon—shanti se, bina demand ke—tumhari smile ka silly guard.
+      </p>
+      <div class="cta"><a class="btn" href="#blessings">Next →</a></div>
+    </div>
+  </section>
 
-<!-- Finale -->
-<section class="section final" id="final" style="overflow:hidden">
-  <canvas id="fire" aria-hidden="true"></canvas>
-  <div class="container center">
-    <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Shruti</span>!</h2>
-    <p id="promiseLine">Is saal tumhare liye zyada sukoon, zyada hasi. Main sideline se quietly cheer karta rahunga—roz.</p>
-    <div class="cta">
-      <button class="btn" id="gift">Shower of cute things 🎁</button>
-      <button class="btn" id="savePNG">Save this promise (PNG)</button>
-      <button class="btn" id="playSong2">Play her song 🎵</button>
+
+  <!-- 3) Blessings -->
+  <section class="section" id="blessings">
+    <div class="container" style="width:min(100%,960px)">
+      <h2 class="center" style="margin-bottom:14px;color:var(--accent)">Playful Aashirwad</h2>
+      <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
+      <p class="hint center">Tap a balloon to pop it. Laadliji, Ramji ki kripa bani rahe.</p>
+      <div class="center" style="margin-top:12px"><a class="btn" href="#cards">Next →</a></div>
+    </div>
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="dialog">
+        <h4 id="modalTitle">A note</h4>
+        <p id="modalMsg">You are loved.</p>
+        <button class="btn" id="modalClose">Close</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) Greeting Cards (flip) -->
+  <section class="section" id="cards">
+    <div class="container center">
+      <h2 style="margin:.2rem 0 .6rem;color:var(--accent)">Small Birthday Cards</h2>
+      <p class="muted" style="margin-top:-6px">Tap to flip—chhota sa sukoon aur thodi si meethi shaitaani.</p>
+      <div class="cards" id="cardsWrap"></div>
+      <div class="cta" style="margin-top:14px"><a class="btn" href="#lines">Next →</a></div>
+    </div>
+  </section>
+
+  <!-- 5) Lines -->
+  <section class="section" id="lines">
+    <div class="container">
+      <div class="carousel">
+        <div class="slide" id="slideText">No expectations. Bas good wishes, daily.</div>
+        <div class="nav">
+          <button class="btn" id="prevLine">←</button>
+          <button class="btn" id="nextLine">→</button>
+        </div>
+      </div>
+      <div class="center" style="margin-top:14px"><a class="btn" href="#divine">Next →</a></div>
+    </div>
+  </section>
+
+  <!-- 6) Divine blessing -->
+  <section class="section" id="divine">
+    <div class="container center soft" style="padding:20px">
+      <h2 style="margin:.4rem 0;color:var(--accent)">A small prayer</h2>
+      <p class="muted" style="max-width:740px;margin:6px auto 0">
+        May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
+        May your days be soft where you need softness and strong where you need strength.
+      </p>
+      <div style="margin-top:12px"><a class="btn" href="#final">Final page →</a></div>
+    </div>
+  </section>
+
+  <!-- 7) Finale -->
+  <section class="section final" id="final" style="overflow:hidden">
+    <canvas id="fire" aria-hidden="true"></canvas>
+    <div class="container center">
+      <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Shruti</span>!</h2>
+      <p id="promiseLine">Is saal tumhare liye zyada sukoon, zyada hasi. Main sideline se quietly cheer karta rahunga—roz.</p>
+      <div class="cta">
+        <button class="btn" id="gift">Shower of cute things 🎁</button>
+        <button class="btn" id="playSong2">Play her song 🎵</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox (for photos later) -->
+  <div class="lightbox" id="lb"><img id="lbImg" alt=""><button class="btn x" onclick="closeLB()">Close ✖</button></div>
+
+  <!-- YouTube overlay (no ads control, but handy) -->
+  <div id="ytOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:80;align-items:center;justify-content:center">
+    <div style="width:min(860px,92vw);aspect-ratio:16/9;background:#000;border:1px solid var(--edge);border-radius:12px;overflow:hidden;position:relative">
+      <iframe id="yt" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <button class="btn" style="position:absolute;right:10px;top:10px" onclick="closeYT()">Close ✖</button>
     </div>
   </div>
-</section>
-
-<!-- Lightbox -->
-<div class="lightbox" id="lb"><img id="lbImg" alt=""><button class="btn x" onclick="document.getElementById('lb').style.display='none'">Close ✖</button></div>
-
-<!-- YouTube overlay -->
-<div id="ytOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:80;align-items:center;justify-content:center">
-  <div style="width:min(860px,92vw);aspect-ratio:16/9;background:#000;border:1px solid var(--edge);border-radius:12px;overflow:hidden;position:relative">
-    <iframe id="yt" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <button class="btn" style="position:absolute;right:10px;top:10px" onclick="document.getElementById('ytOverlay').style.display='none';document.getElementById('yt').src=''">Close ✖</button>
-  </div>
-</div>
 
 <script>
-/* ---------- helpers ---------- */
+/* ========== tiny helpers ========== */
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const prefersReduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
+const prefersReduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-/* ---------- mood ---------- */
+/* ========== theme/mood ========== */
 function setMood(m){
-  document.body.classList.remove('gulabi','denim');
+  document.body.classList.remove('gulabi','denim','beige');
   if(m==='gulabi') document.body.classList.add('gulabi');
   if(m==='denim')  document.body.classList.add('denim');
+  if(m==='beige')  document.body.classList.add('beige');
   localStorage.setItem('mood',m);
 }
 (function initMood(){ setMood(localStorage.getItem('mood')||'night'); })();
 
-/* ---------- petals ---------- */
+/* ========== progress dots ========== */
+const sections=['home','spark','blessings','cards','lines','divine','final'];
+const dots=$$('#progress .dot');
+const progIO=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){ const i=sections.indexOf(e.target.id); dots.forEach((d,k)=>d.classList.toggle('active',k===i)); }
+  });
+},{threshold:.55});
+sections.forEach(id=> progIO.observe(document.getElementById(id)));
+
+/* ========== petals ========== */
 (function petals(){
-  const wrap = $('#petals');
-  for(let i=0;i<(prefersReduced?8:22);i++){
+  const wrap=$('#petals');
+  for(let i=0;i<(prefersReduced?8:24);i++){
     const p=document.createElement('div'); p.className='petal';
     p.style.left=(Math.random()*100)+'vw';
-    const dur=9000+Math.random()*7000, delay=Math.random()*4000, drift=(Math.random()<.5?-1:1)*(10+Math.random()*14);
-    p.animate([{transform:'translate(0,0) rotate(0deg)',top:'-40px'},
-               {transform:`translate(${drift}vw,110vh) rotate(${Math.random()*360}deg)`,top:'110vh'}],
-              {duration:dur,delay,iterations:Infinity,easing:'ease-in'});
+    const dur=9000+Math.random()*7000,delay=Math.random()*4000,drift=(Math.random()<.5?-1:1)*(10+Math.random()*14);
+    p.animate([{transform:'translate(0,0) rotate(0deg)',top:'-40px'},{transform:`translate(${drift}vw,110vh) rotate(${Math.random()*360}deg)`,top:'110vh'}],
+      {duration:dur,delay,iterations:Infinity,easing:'ease-in'});
     wrap.appendChild(p);
   }
 })();
 
-/* ---------- star trail + full-name constellation ---------- */
+/* ========== star trail + full-name constellation ========== */
 (function starTrail(){
   const c=$('#trail'), ctx=c.getContext('2d'); let W,H; const parts=[];
   function fit(){ W=c.width=innerWidth; H=c.height=innerHeight } fit(); addEventListener('resize',fit);
   function spawn(x,y){ parts.push({x,y,vx:(Math.random()-0.5)*1.2,vy:(Math.random()-0.5)*1.2,life:40}); }
-  function draw(){ ctx.clearRect(0,0,W,H); for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.life--; ctx.fillStyle=`rgba(255,210,230,${p.life/40})`; ctx.fillRect(p.x,p.y,2,2); if(p.life<=0) parts.splice(i,1); } requestAnimationFrame(draw) } draw();
+  function draw(){ ctx.clearRect(0,0,W,H);
+    for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.life--; ctx.fillStyle=`rgba(255,210,230,${p.life/40})`; ctx.fillRect(p.x,p.y,2,2); if(p.life<=0) parts.splice(i,1); }
+    requestAnimationFrame(draw) } draw();
   let timer=null;
-  function touch(e){ const t=e.touches?e.touches[0]:e; spawn(t.clientX,t.clientY); if(timer) clearTimeout(timer); timer=setTimeout(()=> nameConstellation($('#herName').textContent||'Shruti'), 1400); }
+  function touch(e){ const t=e.touches?e.touches[0]:e; spawn(t.clientX,t.clientY);
+    if(timer) clearTimeout(timer); timer=setTimeout(()=> nameConstellation($('#herName').textContent||'Shruti'),1400); }
   addEventListener('mousemove',touch); addEventListener('touchmove',touch,{passive:true});
 })();
 function nameConstellation(name){
   const cvs=$('#nameConstellation'), ctx=cvs.getContext('2d'); cvs.width=innerWidth; cvs.height=innerHeight;
-  let pts=[]; const fam='Poppins, ui-sans-serif, system-ui';
-  function lines(text){ const t=(text||'You').trim().replace(/\s+/g,' '); if(t.length<=14) return [t]; const mid=Math.floor(t.length/2); let s=t.lastIndexOf(' ',mid); if(s<6||t.length-s<6) s=t.indexOf(' ',mid); return s>0?[t.slice(0,s),t.slice(s+1)]:[t]; }
+  const fam='Poppins, ui-sans-serif, system-ui';
+  function lines(text){ const t=(text||'You').trim().replace(/\s+/g,' '); if(t.length<=14) return [t]; const mid=Math.floor(t.length/2);
+    let s=t.lastIndexOf(' ',mid); if(s<6||t.length-s<6) s=t.indexOf(' ',mid); return s>0?[t.slice(0,s),t.slice(s+1)]:[t];}
   function targets(ls,density=22){
     const off=document.createElement('canvas'), o=off.getContext('2d'); off.width=cvs.width; off.height=cvs.height;
     let fs=Math.min(200,Math.max(70,off.width*0.16)); const maxW=off.width*.84;
     function w(t){o.font=`800 ${fs}px ${fam}`;return o.measureText(t).width} while(Math.max(...ls.map(w))>maxW&&fs>36) fs-=2;
     o.textAlign='center'; o.textBaseline='middle'; o.fillStyle='#fff'; o.font=`800 ${fs}px ${fam}`;
-    const midY=off.height*.42, gap=fs*1.2; ls.forEach((t,i)=>o.fillText(t,off.width/2,midY+(i-(ls.length-1)/2)*gap));
+    const midY=off.height*.42, gap=fs*1.2; ls.forEach((t,i)=> o.fillText(t,off.width/2,midY+(i-(ls.length-1)/2)*gap));
     const data=o.getImageData(0,0,off.width,off.height).data, arr=[], step=Math.max(1,Math.floor(fs/density));
     for(let y=0;y<off.height;y+=step) for(let x=0;x<off.width;x+=step) if(data[(y*off.width+x)*4+3]>128) arr.push({x,y});
     return arr;
   }
-  const cloud = targets(lines(name)); const N=Math.min(520,Math.max(200,Math.floor(cloud.length*.55)));
-  for(let i=0;i<N;i++){ const t=cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height};
-    pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1, tx:t.x, ty:t.y}); }
+  const cloud=targets(lines(name)); const N=Math.min(520,Math.max(200,Math.floor(cloud.length*.55)));
+  const pts=[]; for(let i=0;i<N;i++){ const t=cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height};
+    pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1,tx:t.x,ty:t.y}); }
   let phase='in', t0=performance.now();
   (function frame(t){
     ctx.clearRect(0,0,cvs.width,cvs.height);
     for(const p of pts){ p.x+=(p.tx-p.x)*0.08; p.y+=(p.ty-p.y)*0.08; ctx.fillStyle='rgba(255,210,230,.95)'; ctx.fillRect(p.x,p.y,2,2); }
     if(phase==='in' && t-t0>3800){ phase='out'; pts.forEach(p=>{ p.tx=Math.random()*cvs.width; p.ty=Math.random()*cvs.height*0.8+cvs.height*0.1; }); }
-    if(phase==='out' && !pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)) { ctx.clearRect(0,0,cvs.width,cvs.height); return; }
+    if(phase==='out' && !pts.some(p=> Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)) { ctx.clearRect(0,0,cvs.width,cvs.height); return; }
     requestAnimationFrame(frame);
   })(t0);
 }
 
-/* ---------- diya + typed assurance + long-press ---------- */
-const sparkIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeAssure(); } }); },{threshold:.45});
+/* ========== diya + typed line + long press note ========== */
+const sparkIO=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeAssure(); } });
+},{threshold:.45});
 sparkIO.observe($('#spark'));
-function typeAssure(){ const el=$('#assureLine'); const t=el.textContent.trim(); el.textContent=''; let i=0; const id=setInterval(()=>{ el.textContent+=t.charAt(i++); if(i>=t.length) clearInterval(id); },26); }
+function typeAssure(){ const el=$('#assureLine'); const t=el.textContent.trim(); el.textContent=''; let i=0;
+  const id=setInterval(()=>{ el.textContent+=t.charAt(i++); if(i>=t.length) clearInterval(id); },26); }
 (function longPress(){
   const el=$('#diya'); let timer=null;
-  const open=()=>showModal('A small note','Space chahiye toh milegi. Main bas background me diya jala ke rakhoonga.');
+  const open=()=> showModal('A small note','Space chahiye toh milegi. Main bas background me diya jala ke rakhoonga.');
   el.addEventListener('pointerdown',()=>{ timer=setTimeout(open,650); });
   ['pointerup','pointerleave','pointercancel'].forEach(ev=> el.addEventListener(ev,()=>clearTimeout(timer)));
 })();
 
-/* ---------- blessings balloons ---------- */
+/* ========== blessings (bigger balloons + golden) ========== */
 const blessings=[
   {word:'Sukoon',  color:'#ff9ccc', msg:'Har din ka pressure halka ho, aur raatein araam se kathein.'},
   {word:'Himmat',  color:'#9bd3ff', msg:'Jab bhi tough lage, kehna—main cheer squad hoon.'},
   {word:'Vishwas', color:'#c9a7ff', msg:'Vaade nahi—roz ki imandari. Bas itna.'},
   {word:'Khushi',  color:'#7ee6c9', msg:'Chhoti jeetain, badi badi hansi.'},
   {word:'Sehat',   color:'#ffd86e', msg:'Neend gehri, sehat mazboot, aura bright.'},
-  {word:'Barkat',  color:'#ffb6a3', msg:'Laadliji, Ramji ki kripa aur ghar me barkat.'}
+  {word:'Barkat',  color:'#ffb6a3', msg:'Laadliji, Ramji ki kripa aur ghar me barkat.'},
+  {word:'Golden',  color:'#ffd86e', msg:'Secret booster: heart confetti + extra blessings!'}
 ];
 let balloonsInit=false;
 function spawnBalloons(){
@@ -407,61 +393,46 @@ function spawnBalloons(){
   const area=$('#balloonArea');
   blessings.forEach((b,i)=>{
     const d=document.createElement('button'); d.className='balloon';
-    d.style.setProperty('--c',b.color); d.style.setProperty('--x',6+i*16+(Math.random()*10)); d.style.setProperty('--delay',Math.random()*6);
+    d.style.setProperty('--c',b.color); d.style.setProperty('--x',6+i*13+(Math.random()*10)); d.style.setProperty('--delay',Math.random()*6);
     d.innerHTML=`<span>${b.word}</span>`;
-    d.addEventListener('click',()=>{ popBlessing(d,b); });
+    d.addEventListener('click',()=> popBlessing(d,b));
     area.appendChild(d);
   });
 }
 function popBlessing(el,b){
+  try{ navigator.vibrate && navigator.vibrate(12);}catch{}
   el.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260,easing:'ease-in'});
   setTimeout(()=>el.remove(),220);
-  showModal(b.word,b.msg);
+  playChime(); showModal(b.word,b.msg);
+  if(b.word==='Golden') heartConfetti();
 }
 function showModal(title,msg){ $('#modalTitle').textContent=title; $('#modalMsg').textContent=msg; $('#modal').classList.add('show'); }
-$('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
-const blessIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) spawnBalloons(); }); },{threshold:.4});
+$('#modal').addEventListener('click',e=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
+const blessIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) spawnBalloons(); }); },{threshold:.35});
 blessIO.observe($('#blessings'));
 
-/* ---------- greeting cards (flip) ---------- */
+/* ========== greeting cards (flip) ========== */
 const greetingCards=[
  {title:'Nazar Na Lage', text:'Madamji, nazar buri lage bhi toh—tum par Kanhaji ki chhaya aur meri rakhwali humesha rahegi.'},
  {title:'Chai + Calm',   text:'Subah ki chai ya raat ka sukoon—jo chahiye, bol do. Main dhoondh launga.'},
  {title:'Calendar Bless', text:'Is saal ka har Monday halka, aur har Friday ke beech me thodi si chhutti.'},
- {title:'Inbox of Joy',   text:'Roz thoda pyaar, thodi hansi—spam free, ad free.'}
+ {title:'Inbox of Joy',   text:'Roz thoda pyaar, thodi hansi—spam free, ad free.'},
 ];
 (function buildCards(){
   const wrap=$('#cardsWrap');
-  greetingCards.forEach((c)=>{
+  greetingCards.forEach(c=>{
     const card=document.createElement('article'); card.className='flip-card';
     card.innerHTML=`
       <div class="flip-inner">
-        <div class="face front">
-          <h3>${c.title}</h3>
-          <p class="muted">Tap to open</p>
-        </div>
-        <div class="face back">
-          <p>${c.text}</p>
-          <p class="muted">Tap to close</p>
-        </div>
+        <div class="face front"><h3>${c.title}</h3><p class="muted">Tap to open</p></div>
+        <div class="face back"><p>${c.text}</p><p class="muted" style="margin-top:6px">Tap to close</p></div>
       </div>`;
-    card.addEventListener('click',()=>{ card.classList.toggle('open'); });
+    card.addEventListener('click',()=>{ card.classList.toggle('open'); playChime(); });
     wrap.appendChild(card);
   });
 })();
 
-/* ---------- spotlight (polaroids demo with same hero) ---------- */
-(function gallery(){
-  const grid=$('#polaroids');
-  for(let i=0;i<6;i++){
-    const d=document.createElement('div'); d.className='pol'; d.style.setProperty('--r', (Math.random()*6-3)+'deg');
-    d.innerHTML=`<img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80&auto=format&fit=crop" alt="her ${i+1}">`;
-    d.addEventListener('dblclick',()=>{ $('#lbImg').src=d.querySelector('img').src; $('#lb').style.display='flex'; });
-    grid.appendChild(d);
-  }
-})();
-
-/* ---------- inside lines ---------- */
+/* ========== lines carousel ========== */
 const LINES=[
   'No expectations. Bas good wishes, daily.',
   'Ignore mode on? Theek hai—main yahin, quietly rooting.',
@@ -470,10 +441,10 @@ const LINES=[
   '1% chance? Main 100% mehnat karta rahunga—bina shor.'
 ];
 let li=0; const slide=$('#slideText');
-$('#nextLine').addEventListener('click',()=>{ li=(li+1)%LINES.length; slide.innerText=LINES[li]; });
-$('#prevLine').addEventListener('click',()=>{ li=(li-1+LINES.length)%LINES.length; slide.innerText=LINES[li]; });
+$('#nextLine').addEventListener('click',()=>{ li=(li+1)%LINES.length; slide.innerText=LINES[li]; playChime(); });
+$('#prevLine').addEventListener('click',()=>{ li=(li-1+LINES.length)%LINES.length; slide.innerText=LINES[li]; playChime(); });
 
-/* ---------- heart fireworks ---------- */
+/* ========== heart fireworks (final) ========== */
 let fwStarted=false;
 const fwIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && !fwStarted){ fwStarted=true; fireworks(); } }); },{threshold:.42});
 fwIO.observe($('#final'));
@@ -486,52 +457,57 @@ function fireworks(){
   function boom(){ const x=Math.random()*c.width*.9+c.width*.05, y=Math.random()*c.height*.4+c.height*.1; const cols=['255,200,221','255,168,194','201,167,255','246,208,110']; burst(x,y,cols[Math.floor(Math.random()*cols.length)],Math.random()<.7); }
   for(let i=0;i<4;i++) setTimeout(boom,i*380); const iv=setInterval(boom,1300); setTimeout(()=>clearInterval(iv),12000);
 }
-
-/* ---------- gift rain ---------- */
-$('#gift').addEventListener('click',()=>{
-  const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔','🧿','🌼'];
-  const D=5200,t0=performance.now(); (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
-    s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
-    const drift=(Math.random()*2-1)*80,time=2400+Math.random()*1800; s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'});
-    setTimeout(()=>s.remove(),time+60); requestAnimationFrame(drop) })();
-});
-
-/* ---------- save final promise as PNG ---------- */
-$('#savePNG').addEventListener('click',()=>{
-  const name=$('#herName').textContent||'You'; const text=$('#promiseLine').textContent||'With love.';
-  const w=1200,h=630, cn=document.createElement('canvas'); cn.width=w; cn.height=h; const ctx=cn.getContext('2d');
-  const grad=ctx.createLinearGradient(0,0,0,h); grad.addColorStop(0,'#0c1022'); grad.addColorStop(1,'#14102e'); ctx.fillStyle=grad; ctx.fillRect(0,0,w,h);
-  ctx.fillStyle='rgba(255,255,255,.08)'; for(let i=0;i<200;i++){ ctx.fillRect(Math.random()*w,Math.random()*h,2,2); }
-  ctx.fillStyle='#ff9ccc'; ctx.font='700 44px "Playfair Display", serif'; ctx.textAlign='center'; ctx.fillText('Happy Birthday, '+name, w/2, h/2-20);
-  ctx.fillStyle='#e8edff'; ctx.font='400 28px Poppins, sans-serif'; wrapText(ctx, text, w/2, h/2+28, 900, 36);
-  const a=document.createElement('a'); a.href=cn.toDataURL('image/png'); a.download=`Promise-${name}.png`; a.click();
-});
-function wrapText(ctx, text, x, y, maxWidth, lineHeight){
-  const words=text.split(' '); let line=''; for(let n=0;n<words.length;n++){ const test=line+words[n]+' '; const w=ctx.measureText(test).width;
-    if(w>maxWidth && n>0){ ctx.fillText(line, x, y); line=words[n]+' '; y+=lineHeight; } else { line=test; } }
-  ctx.fillText(line, x, y);
+/* extra heart confetti (used by golden balloon) */
+function heartConfetti(){
+  const icons=['💗','💞','🩷','✨','🌸'];
+  const D=3600,t0=performance.now();
+  (function drop(){ if(performance.now()-t0>D) return;
+    const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
+    s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60';
+    document.body.appendChild(s);
+    const drift=(Math.random()*2-1)*80,time=2200+Math.random()*1400;
+    s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'});
+    setTimeout(()=>s.remove(),time+60); requestAnimationFrame(drop);
+  })();
 }
+$('#gift').addEventListener('click',heartConfetti);
 
-/* ---------- welcome gate richer wiring (music via YouTube only) ---------- */
+/* ========== tiny chime SFX ========== */
+let ac, master;
+function ensureAudioCtx(){ if(ac) return; ac=new (window.AudioContext||window.webkitAudioContext)(); master=ac.createGain(); master.gain.value=0.0; master.connect(ac.destination); }
+function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=880; g.gain.value=0.0001; o.connect(g); g.connect(master);
+  const t=ac.currentTime; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.1,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4); o.start(t); o.stop(t+0.42);}catch{} }
+$('#walkBtn').addEventListener('click', ()=>{ try{ ensureAudioCtx(); master.gain.linearRampToValueAtTime(0.10, ac.currentTime+1.0);}catch{} }, {once:true});
+
+/* ========== Welcome Gate: bulletproof ========== */
+function hideGate(){
+  const gate=document.getElementById('gate'); if(!gate) return;
+  gate.classList.add('hide'); document.body.classList.remove('gated'); setTimeout(()=>gate.remove(),480);
+  try{ document.getElementById('home')?.scrollIntoView({behavior:'smooth'}); }catch{}
+}
+function playYT(){ openYT(); } // for gate button
+async function enterGate(){ hideGate(); }  // keep simple; song later
+window.enterGate = enterGate; // inline onclick uses this
+
+// extra safety in case inline attribute is stripped by a host
+document.addEventListener('click', (e)=>{ const btn=e.target.closest('#enterBtn'); if(btn && document.getElementById('gate')) enterGate(); });
+document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (e.key==='Enter'||e.key===' ')) enterGate(); });
+
+/* ========== YouTube overlay (Zara Sa default) ========== */
 const DEFAULT_YT='GAXNdOm8rPY';
 function openYT(){
-  const fr=$('#yt');
-  fr.src=`https://www.youtube.com/embed/${DEFAULT_YT}?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${DEFAULT_YT}`;
+  const url=new URL(location.href); const id=url.searchParams.get('yt')||DEFAULT_YT;
+  const fr=$('#yt'); fr.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${id}`;
   $('#ytOverlay').style.display='flex';
 }
+function closeYT(){ $('#ytOverlay').style.display='none'; $('#yt').src=''; }
 $('#playSong').addEventListener('click',openYT);
 $('#playSong2').addEventListener('click',openYT);
 $('#playSongGate').addEventListener('click',openYT);
 
-// extra safety: delegate + keyboard for the gate
-document.addEventListener('click',(e)=>{
-  const btn=e.target.closest('#enterBtn');
-  if(btn && document.getElementById('gate')) enterGate();
-});
-document.addEventListener('keydown',e=>{
-  if(document.getElementById('gate') && (e.key==='Enter'||e.key===' ')) enterGate();
-});
+/* (optional) lightbox helpers for photos later */
+function openLB(src){ $('#lbImg').src=src; $('#lb').style.display='flex'; }
+function closeLB(){ $('#lb').style.display='none'; }
 </script>
 </body>
 </html>
-
