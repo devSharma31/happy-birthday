@@ -7,8 +7,7 @@
 <meta name="description" content="A birthday page for Shruti—blessings, silly-boy-trying energy, her photos, 3D stardust and heart fireworks—with quiet spiritual vibes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;600;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
-<meta name="theme-color" content="#0c1022">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@400;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -18,24 +17,35 @@
 .gulabi{ --bg1:#1a0b24; --bg2:#2a1345; --accent:#ff96c8; --ink:#fff4fa; --muted:#ffd9e8; --petal:#ffd1e1; --card:#1a1430; --card2:#23193f }
 .denim { --bg1:#0b1322; --bg2:#0b1b33; --accent:#85a9ff; --ink:#eaf2ff; --muted:#cfe0ff; --petal:#c7d7ff; --card:#0c1629; --card2:#0e1d36 }
 
-html,body{height:100%} html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){
-  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+
 body{
   margin:0; color:var(--ink);
-  font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background:
-   radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
-   linear-gradient(180deg,var(--bg1),var(--bg2));
+    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
   overflow-x:hidden;
+  letter-spacing: 0.1px; /* tiny rounder feel */
 }
-h1,h2{font-family:"Playfair Display",serif}
-.container{max-width:980px;margin:0 auto;padding:0 16px}
-.section{min-height:100vh;display:grid;place-items:center;padding:84px 0;position:relative}
-.center{text-align:center}
-.muted{color:var(--muted)}
-a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;font-weight:800;cursor:pointer;color:#0c0f17;
+
+h1, h2{
+  font-family: "Fraunces", ui-serif, Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* keep your handwritten accents cute */
+.face h3{
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
   background:linear-gradient(90deg,var(--accent),#c9a7ff);box-shadow:0 12px 24px rgba(0,0,0,.28)}
 .btn:active{transform:translateY(1px) scale(.99)}
 .soft{border:1px solid var(--edge);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:0 18px 44px rgba(0,0,0,.35)}
