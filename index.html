@@ -264,6 +264,50 @@ body.rose h1, body.rose h2, body.rose .title{
 
 /* balloon area border visible on light */
 body.rose .balloon-area{ border-color: rgba(0,0,0,.06); }
+
+/* === REVERT TO DARK THEME (override the blush) === */
+:root{
+  --bg1:#0c1022; --bg2:#14102e;
+  --ink:#eef2ff; --muted:#cdd5f9;
+  --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
+  --card:#10182a; --card2:#0f1730;
+}
+
+body{
+  background:
+    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg2)) !important;
+  color:var(--ink);
+}
+
+/* restore star speckles to white */
+.stars{
+  opacity:.85 !important;
+  background:
+    radial-gradient(2px 2px at 18% 28%,#fff,transparent 60%),
+    radial-gradient(2px 2px at 78% 22%,#fff,transparent 60%),
+    radial-gradient(1.5px 1.5px at 32% 72%,#fff,transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 64%,#fff,transparent 60%),
+    radial-gradient(1.5px 1.5px at 52% 48%,#fff,transparent 60%) !important;
+}
+
+/* undo the rosy filter on canvases */
+#trail,#nameConstellation{
+  mix-blend-mode:screen !important;
+  filter:none !important;
+  opacity:.95 !important;
+}
+
+/* back to original soft card + button vibe */
+.soft{
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03)) !important;
+  border-color:var(--edge) !important;
+}
+a.btn,button.btn{
+  color:#0c0f17 !important;
+  background:linear-gradient(90deg,var(--accent),#c9a7ff) !important;
+}
+
 </style>
 </head>
 
@@ -453,6 +497,52 @@ body.rose .balloon-area{ border-color: rgba(0,0,0,.06); }
 </script>
 
 <script>
+
+/* restore constellation dots to original soft-pink glow */
+window.nameConstellation = function(name){
+  const cvs=document.getElementById('nameConstellation'), ctx=cvs.getContext('2d');
+  cvs.width=innerWidth; cvs.height=innerHeight;
+  const fam='Poppins, ui-sans-serif, system-ui';
+  function lines(t){ t=(t||'You').trim().replace(/\s+/g,' ');
+    if(t.length<=14) return [t];
+    const mid=Math.floor(t.length/2); let s=t.lastIndexOf(' ',mid);
+    if(s<6||t.length-s<6) s=t.indexOf(' ',mid);
+    return s>0?[t.slice(0,s),t.slice(s+1)]:[t];
+  }
+  function targets(ls,density=22){
+    const off=document.createElement('canvas'), o=off.getContext('2d');
+    off.width=cvs.width; off.height=cvs.height;
+    let fs=Math.min(200,Math.max(70,off.width*0.16)), maxW=off.width*.84;
+    function w(t){o.font=`800 ${fs}px ${fam}`; return o.measureText(t).width}
+    while(Math.max(...ls.map(w))>maxW&&fs>36) fs-=2;
+    o.textAlign='center'; o.textBaseline='middle'; o.fillStyle='#fff';
+    o.font=`800 ${fs}px ${fam}`;
+    const midY=off.height*.42, gap=fs*1.2;
+    ls.forEach((t,i)=>o.fillText(t,off.width/2,midY+(i-(ls.length-1)/2)*gap));
+    const data=o.getImageData(0,0,off.width,off.height).data, arr=[], step=Math.max(1,Math.floor(fs/density));
+    for(let y=0;y<off.height;y+=step) for(let x=0;x<off.width;x+=step)
+      if(data[(y*off.width+x)*4+3]>128) arr.push({x,y});
+    return arr;
+  }
+  const cloud=targets(lines(name)); const N=Math.min(520,Math.max(200,Math.floor(cloud.length*.55)));
+  const pts=[]; for(let i=0;i<N;i++){ const t=cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height};
+    pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1, tx:t.x, ty:t.y});
+  }
+  let phase='in', t0=performance.now();
+  (function frame(t){
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    for(const p of pts){
+      p.x+=(p.tx-p.x)*0.08; p.y+=(p.ty-p.y)*0.08;
+      ctx.fillStyle='rgba(255,210,230,.95)';   // ← original glow
+      ctx.fillRect(p.x,p.y,2,2);
+    }
+    if(phase==='in' && t-t0>3800){ phase='out'; pts.forEach(p=>{ p.tx=Math.random()*cvs.width; p.ty=Math.random()*cvs.height*0.8+cvs.height*0.1; }); }
+    if(phase==='out' && !pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)){ ctx.clearRect(0,0,cvs.width,cvs.height); return; }
+    requestAnimationFrame(frame);
+  })(t0);
+};
+
+
 /* ---------- helpers ---------- */
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const prefersReduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
