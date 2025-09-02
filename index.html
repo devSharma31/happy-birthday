@@ -184,6 +184,86 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 #ring3d .close{position:absolute; right:10px; top:10px}
 
 #three3d{position:fixed; inset:0; pointer-events:none; z-index:-1;}
+
+/* ===== Light Pink Theme (soft rose) — non-breaking overrides ===== */
+:root {
+  /* keep original for other moods; overrides live under body.rose */
+}
+
+body.rose{
+  /* palette */
+  --bg1:#ffe8f1;       /* top */
+  --bg2:#fff1f7;       /* bottom */
+  --ink:#2a2030;       /* main text on light */
+  --muted:#6e5a72;     /* secondary text */
+  --accent:#ff5ca8;    /* buttons & highlights */
+  --edge:rgba(0,0,0,.08);
+  --petal:#ffcfe3;     /* falling petals */
+  --card:#fff6fb;      /* card top */
+  --card2:#ffeaf4;     /* card bottom */
+}
+
+/* apply the soft light pink gradient */
+body.rose{
+  background:
+   radial-gradient(900px 440px at 50% -12%, rgba(255,140,190,.20), transparent 60%),
+   linear-gradient(180deg,var(--bg1),var(--bg2)) !important;
+  color: var(--ink);
+}
+
+/* make the twinkling “stars” darker pink dots so they read on light */
+body.rose .stars{
+  opacity:.8;
+  background:
+    radial-gradient(2px 2px at 18% 28%, rgba(190,60,110,.55), transparent 60%),
+    radial-gradient(2px 2px at 78% 22%, rgba(190,60,110,.55), transparent 60%),
+    radial-gradient(1.5px 1.5px at 32% 72%, rgba(190,60,110,.45), transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 64%, rgba(190,60,110,.45), transparent 60%),
+    radial-gradient(1.5px 1.5px at 52% 48%, rgba(190,60,110,.35), transparent 60%);
+  mix-blend-mode: normal; /* ensure it doesn't wash out */
+}
+
+/* make canvas spark particles a bit stronger on light bg */
+body.rose #trail, 
+body.rose #nameConstellation { mix-blend-mode: multiply; opacity: .9; }
+
+/* petals look slightly deeper */
+body.rose .petal{
+  filter: drop-shadow(0 8px 10px rgba(190,50,100,.18));
+}
+
+/* buttons & cards stay readable on light bg */
+body.rose a.btn, 
+body.rose button.btn{
+  color:#201320;
+  background: linear-gradient(90deg, var(--accent) 0%, #caa9ff 100%);
+  box-shadow: 0 12px 24px rgba(200, 60, 120, .25);
+}
+
+body.rose .soft{
+  border:1px solid var(--edge);
+  background: linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.55));
+  box-shadow: 0 18px 44px rgba(190,60,120,.18);
+}
+
+/* greeting cards on light bg */
+body.rose .card,
+body.rose .face.front{
+  background: linear-gradient(180deg, var(--card), var(--card2));
+  border:1px solid var(--edge);
+  box-shadow: 0 16px 38px rgba(190,60,120,.18);
+}
+body.rose .face.back{
+  background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.55));
+}
+
+/* headings keep nice contrast */
+body.rose h1, body.rose h2, body.rose .title{
+  color:#2b1b2a;
+}
+
+/* balloon area border visible on light */
+body.rose .balloon-area{ border-color: rgba(0,0,0,.06); }
 </style>
 </head>
 
@@ -235,7 +315,7 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 <div class="sig">made with <b>time</b> & <b>care</b></div>
 <div class="mood">
   <button class="n" title="Night"  onclick="setMood('night')"></button>
-  <button class="g" title="Gulabi" onclick="setMood('gulabi')"></button>
+<button class="g" title="Rose" onclick="setMood('rose')"></button>
   <button class="d" title="Denim"  onclick="setMood('denim')"></button>
   <button class="t3d" id="toggle3D" title="Toggle 3D">3D</button>
 </div>
@@ -379,12 +459,13 @@ const prefersReduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
 /* ---------- mood with memory ---------- */
 function setMood(m){
-  document.body.classList.remove('gulabi','denim');
+  document.body.classList.remove('gulabi','denim','rose'); // include 'rose' here
   if(m==='gulabi') document.body.classList.add('gulabi');
   if(m==='denim')  document.body.classList.add('denim');
+  if(m==='rose')   document.body.classList.add('rose');    // new
   localStorage.setItem('mood',m);
 }
-(function initMood(){ setMood(localStorage.getItem('mood')||'night'); })();
+(function initMood(){ setMood(localStorage.getItem('mood')||'rose'); })();
 
 /* ---------- petals ---------- */
 (function petals(){
