@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -171,14 +172,13 @@ body.gated { overflow:hidden; }
   <source src="assets/zara-sa.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Welcome Gate (always shown on load) -->
+<!-- Welcome Gate -->
 <div class="gate" id="gate" aria-modal="true" role="dialog">
   <div class="gate-card soft">
     <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
     <p>Only pure and warm wishes for you today 🤌🏻✨: Hope your smile stays constant while you read this.</p>
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
     <div class="gate-actions">
-      <!-- INLINE HANDLER so it always works -->
       <button class="btn" id="enterBtn" type="button" onclick="enterGate()">Enter the little night →</button>
       <button class="btn" id="playSongGate" type="button">Play “Zara Sa” 🎵</button>
     </div>
@@ -592,23 +592,18 @@ function playBgSong(){
   return p.then(()=>{
     let v=0, target=0.85, step=0.02;
     const id=setInterval(()=>{ v+=step; songEl.volume=Math.min(target,v); if(v>=target) clearInterval(id); },80);
-  }).catch(()=>Promise.resolve()); // ignore autoplay block
+  }).catch(()=>Promise.resolve());
 }
 
 async function enterGate(){
   try{ await playBgSong(); } finally { hideGate(); }
 }
-
-/* make sure inline onclick="enterGate()" always works */
 window.enterGate = enterGate;
 
-/* extra safety: delegate click anywhere in the doc */
 document.addEventListener('click', (e)=>{
   const btn = e.target.closest('#enterBtn');
   if(btn && document.getElementById('gate')) enterGate();
 });
-
-/* keyboard access */
 document.addEventListener('keydown',e=>{
   if(document.getElementById('gate') && (e.key==='Enter'||e.key===' ')) enterGate();
 });
@@ -829,3 +824,4 @@ $('#walkBtn').addEventListener('click', startAmbience, {once:true});
 </script>
 </body>
 </html>
+
