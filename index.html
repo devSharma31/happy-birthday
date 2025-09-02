@@ -163,6 +163,47 @@ body.gated { overflow:hidden; }
 
 #three3d{position:fixed; inset:0; pointer-events:none; z-index:-1;}
 </style>
+
+<script>
+
+window. enterGate = function () {
+
+try
+
+var
+
+if
+
+{
+
+gate = document.getElementById('gate'); (gate) {
+
+gate.classList.add('hide');
+
+document.body &&
+
+document.body.classList.remove('gated');
+
+setTimeout(function(){ if(gate &&
+
+gate.parentNode)
+
+{ gate.parentNode.removeChild(gate);
+
+500);
+
+var home = document.getElementById('home
+
+if
+
+(home && home.scrollIntoView)
+
+home.scrollIntoView({behavior:'smooth'});
+
+catch (e) {}
+
+</script>
+
 </head>
 
 <body class="gated">
