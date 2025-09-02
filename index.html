@@ -178,19 +178,57 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 <!-- Entry fireworks canvas -->
 <canvas id="fireEnter"></canvas>
 
-<!-- Welcome Gate -->
+<!-- Welcome Gate (always shown on load, inline-close so it NEVER breaks) -->
+
 <div class="gate" id="gate" aria-modal="true" role="dialog">
   <div class="gate-card soft">
     <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
     <p>Only pure and warm wishes for you today 🤌🏻✨: Hope your smile stays constant while you read this.</p>
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
+
     <div class="gate-actions">
-      <a class="btn" href="#spark" id="walkBtn">Walk with me →</a>
-      <button class="btn" id="playSong">Play her song 🎵</button>
+
+      <!-- ✅ This inline IIFE hides and removes the gate, no other JS required -->
+      <button
+        class="btn" id="enterBtn" type="button"
+        onclick="(function(){var g=document.getElementById('gate'); if(!g) return; g.classList.add('hide'); document.body.classList.remove('gated'); setTimeout(function(){ if(g&&g.parentNode) g.parentNode.removeChild(g); }, 450);}())">
+        Enter the little night →
+      </button>
+
+      <!-- Optional: play song via inline fallback, but does NOT block entering -->
+      <button
+        class="btn" id="playSongGate" type="button"
+        onclick="(function(){try{ if(window.openYT){openYT();} else { var btn=document.getElementById('playSong'); btn&&btn.click(); } }catch(e){} }())">
+        Play “Zara Sa” 🎵
+      </button>
     </div>
+
     <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
   </div>
 </div>
+
+
+<!-- place this immediately after the Gate markup -->
+<script>
+(function () {
+  const url = new URL(location.href);
+  if (url.searchParams.get('skip') === '1') {
+    const g = document.getElementById('gate');
+    if (g) {
+      g.classList.add('hide');
+      document.body.classList.remove('gated');
+      setTimeout(()=> g.remove(), 10);
+    }
+    // honor the anchor (e.g., #spotlight) after the gate disappears
+    if (location.hash) {
+      setTimeout(() => {
+        const target = document.querySelector(location.hash);
+        target && target.scrollIntoView({behavior: 'smooth', block:'start'});
+      }, 30);
+    }
+  }
+})();
+</script>
 
 <!-- Top chrome -->
 <div class="sig">made with <b>love</b> - by <b>Dev</b></div>
