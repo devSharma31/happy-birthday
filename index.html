@@ -11,52 +11,31 @@
 
 <style>
 :root{
-
---bg1:#0c1022; --bg2:#14102e; --ink:#eef2ff; --muted:#cdd5f9; --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
---petal:#ffc8dd; --gold:#f6d06e; --card:#10182a; --card2:#0f1730;
+  --bg1:#0c1022; --bg2:#14102e; --ink:#eef2ff; --muted:#cdd5f9; --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
+  --petal:#ffc8dd; --gold:#f6d06e; --card:#10182a; --card2:#0f1730;
 }
 .gulabi{ --bg1:#1a0b24; --bg2:#2a1345; --accent:#ff96c8; --ink:#fff4fa; --muted:#ffd9e8; --petal:#ffd1e1; --card:#1a1430; --card2:#23193f }
 .denim { --bg1:#0b1322; --bg2:#0b1b33; --accent:#85a9ff; --ink:#eaf2ff; --muted:#cfe0ff; --petal:#c7d7ff; --card:#0c1629; --card2:#0e1d36 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+html,body{height:100%} html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
-
-/* === fonts only (safe) === */
-:root{
-  --font-head: "Fraunces", ui-serif, Georgia, serif;
-  --font-body: "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-body{ font-family: var(--font-body); }
-
-/* headings keep their sizes, just change family */
-h1, h2, .title{
-  font-family: var(--font-head);
-  font-weight: 700;
-  line-height: 1.15;
-}
-
-/* force the original dark gradient back in case it got overridden */
 body{
+  margin:0; color:var(--ink);
+  font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
   background:
-    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
-    linear-gradient(180deg,var(--bg1),var(--bg2)) !important;
+   radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
+   linear-gradient(180deg,var(--bg1),var(--bg2));
+  overflow-x:hidden;
 }
-
-/* first section top padding so it clears the mood dots */
-.section:first-of-type{ padding-top: 96px; }
-
-/* in case the CTA turned into a plain link somewhere */
-a.btn, button.btn{
-  text-decoration: none;
-  display: inline-block;
-  font-weight: 700;
-}
-
- background:linear-gradient(90deg,var(--accent),#c9a7ff);box-shadow:0 12px 24px rgba(0,0,0,.28)}
+h1,h2{font-family:"Playfair Display",serif}
+.container{max-width:980px;margin:0 auto;padding:0 16px}
+.section{min-height:100vh;display:grid;place-items:center;padding:84px 0;position:relative}
+.center{text-align:center}
+.muted{color:var(--muted)}
+a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;font-weight:800;cursor:pointer;color:#0c0f17;
+  background:linear-gradient(90deg,var(--accent),#c9a7ff);box-shadow:0 12px 24px rgba(0,0,0,.28)}
 .btn:active{transform:translateY(1px) scale(.99)}
 .soft{border:1px solid var(--edge);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:0 18px 44px rgba(0,0,0,.35)}
 .hint{font-size:12px;color:var(--muted)}
@@ -184,130 +163,6 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 #ring3d .close{position:absolute; right:10px; top:10px}
 
 #three3d{position:fixed; inset:0; pointer-events:none; z-index:-1;}
-
-/* ===== Light Pink Theme (soft rose) — non-breaking overrides ===== */
-:root {
-  /* keep original for other moods; overrides live under body.rose */
-}
-
-body.rose{
-  /* palette */
-  --bg1:#ffe8f1;       /* top */
-  --bg2:#fff1f7;       /* bottom */
-  --ink:#2a2030;       /* main text on light */
-  --muted:#6e5a72;     /* secondary text */
-  --accent:#ff5ca8;    /* buttons & highlights */
-  --edge:rgba(0,0,0,.08);
-  --petal:#ffcfe3;     /* falling petals */
-  --card:#fff6fb;      /* card top */
-  --card2:#ffeaf4;     /* card bottom */
-}
-
-/* apply the soft light pink gradient */
-body.rose{
-  background:
-   radial-gradient(900px 440px at 50% -12%, rgba(255,140,190,.20), transparent 60%),
-   linear-gradient(180deg,var(--bg1),var(--bg2)) !important;
-  color: var(--ink);
-}
-
-/* make the twinkling “stars” darker pink dots so they read on light */
-body.rose .stars{
-  opacity:.8;
-  background:
-    radial-gradient(2px 2px at 18% 28%, rgba(190,60,110,.55), transparent 60%),
-    radial-gradient(2px 2px at 78% 22%, rgba(190,60,110,.55), transparent 60%),
-    radial-gradient(1.5px 1.5px at 32% 72%, rgba(190,60,110,.45), transparent 60%),
-    radial-gradient(1.5px 1.5px at 64% 64%, rgba(190,60,110,.45), transparent 60%),
-    radial-gradient(1.5px 1.5px at 52% 48%, rgba(190,60,110,.35), transparent 60%);
-  mix-blend-mode: normal; /* ensure it doesn't wash out */
-}
-
-/* make canvas spark particles a bit stronger on light bg */
-body.rose #trail, 
-body.rose #nameConstellation { mix-blend-mode: multiply; opacity: .9; }
-
-/* petals look slightly deeper */
-body.rose .petal{
-  filter: drop-shadow(0 8px 10px rgba(190,50,100,.18));
-}
-
-/* buttons & cards stay readable on light bg */
-body.rose a.btn, 
-body.rose button.btn{
-  color:#201320;
-  background: linear-gradient(90deg, var(--accent) 0%, #caa9ff 100%);
-  box-shadow: 0 12px 24px rgba(200, 60, 120, .25);
-}
-
-body.rose .soft{
-  border:1px solid var(--edge);
-  background: linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.55));
-  box-shadow: 0 18px 44px rgba(190,60,120,.18);
-}
-
-/* greeting cards on light bg */
-body.rose .card,
-body.rose .face.front{
-  background: linear-gradient(180deg, var(--card), var(--card2));
-  border:1px solid var(--edge);
-  box-shadow: 0 16px 38px rgba(190,60,120,.18);
-}
-body.rose .face.back{
-  background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.55));
-}
-
-/* headings keep nice contrast */
-body.rose h1, body.rose h2, body.rose .title{
-  color:#2b1b2a;
-}
-
-/* balloon area border visible on light */
-body.rose .balloon-area{ border-color: rgba(0,0,0,.06); }
-
-/* === REVERT TO DARK THEME (override the blush) === */
-:root{
-  --bg1:#0c1022; --bg2:#14102e;
-  --ink:#eef2ff; --muted:#cdd5f9;
-  --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
-  --card:#10182a; --card2:#0f1730;
-}
-
-body{
-  background:
-    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
-    linear-gradient(180deg,var(--bg1),var(--bg2)) !important;
-  color:var(--ink);
-}
-
-/* restore star speckles to white */
-.stars{
-  opacity:.85 !important;
-  background:
-    radial-gradient(2px 2px at 18% 28%,#fff,transparent 60%),
-    radial-gradient(2px 2px at 78% 22%,#fff,transparent 60%),
-    radial-gradient(1.5px 1.5px at 32% 72%,#fff,transparent 60%),
-    radial-gradient(1.5px 1.5px at 64% 64%,#fff,transparent 60%),
-    radial-gradient(1.5px 1.5px at 52% 48%,#fff,transparent 60%) !important;
-}
-
-/* undo the rosy filter on canvases */
-#trail,#nameConstellation{
-  mix-blend-mode:screen !important;
-  filter:none !important;
-  opacity:.95 !important;
-}
-
-/* back to original soft card + button vibe */
-.soft{
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03)) !important;
-  border-color:var(--edge) !important;
-}
-a.btn,button.btn{
-  color:#0c0f17 !important;
-  background:linear-gradient(90deg,var(--accent),#c9a7ff) !important;
-}
-
 </style>
 </head>
 
