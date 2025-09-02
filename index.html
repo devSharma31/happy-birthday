@@ -161,6 +161,40 @@ body.gated { overflow:hidden; }
 #ring3d .close{position:absolute; right:10px; top:10px}
 
 #three3d{position:fixed; inset:0; pointer-events:none; z-index:-1;}
+
+/* --- Photo stardust overlay + chip + panel --- */
+.photo-burst{position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen;}
+.burst-chip{
+  position:absolute; right:12px; bottom:12px; z-index:5;
+  padding:6px 10px; border-radius:999px; border:1px solid var(--edge);
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.06));
+  box-shadow:0 10px 24px rgba(0,0,0,.35); color:var(--ink); font-weight:700; cursor:pointer;
+  opacity:0; transform:translateY(6px) scale(.96); pointer-events:none; transition:opacity .25s, transform .25s;
+}
+.burst-chip.show{opacity:1; transform:none; pointer-events:auto;}
+
+.burst-panel{
+  position:absolute; right:12px; bottom:56px; z-index:6; width:220px;
+  padding:12px; border-radius:14px; border:1px solid var(--edge);
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.06));
+  box-shadow:0 18px 38px rgba(0,0,0,.45); color:var(--ink); display:none;
+}
+.burst-panel.show{display:block; animation:bpIn .18s ease both}
+@keyframes bpIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+.burst-panel .row{display:grid; grid-template-columns:80px 1fr; align-items:center; gap:8px; margin:6px 0}
+.burst-panel label{font-size:12px; color:var(--muted)}
+.burst-panel .seg{display:flex; gap:6px}
+.burst-panel .seg button{
+  flex:1; padding:6px 0; border-radius:10px; border:1px solid var(--edge);
+  background:rgba(255,255,255,.06); color:var(--ink); font-weight:700; cursor:pointer;
+}
+.burst-panel .seg button.on{outline:2px solid var(--accent)}
+.burst-panel input[type="range"]{width:100%}
+.burst-panel .chk{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); margin-top:6px}
+
+/* global mini FX canvas */
+#burstFX{position:fixed; inset:0; pointer-events:none; z-index:70; mix-blend-mode:screen;}
+
 </style>
 </head>
 
@@ -172,18 +206,80 @@ body.gated { overflow:hidden; }
 </audio>
 
 <!-- Welcome Gate (always shown on load) -->
+<!-- Welcome Gate (always shown on load) -->
 <div class="gate" id="gate" aria-modal="true" role="dialog">
   <div class="gate-card soft">
     <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
     <p>Only pure and warm wishes for you today 🤌🏻✨: Hope your smile stays constant while you read this.</p>
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
+
     <div class="gate-actions">
-      <button class="btn" id="enterBtn" type="button" onclick="enterGate()">Enter the little night →</button>
+      <!-- INLINE HANDLER so it always works -->
+      <button class="btn" id="enterBtn" type="button" onclick="window.enterGate && window.enterGate()">Enter the little night →</button>
       <button class="btn" id="playSongGate" type="button">Play “Zara Sa” 🎵</button>
     </div>
+
     <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
   </div>
 </div>
+
+<!-- 🔒 Ultra-reliable gate script: lives right after the gate so it runs first -->
+<script>
+(function(){
+  // 1) Guaranteed hide (no dependencies)
+  function hideGate(){
+    var g = document.getElementById('gate');
+    if(!g) return;
+    g.classList.add('hide');
+    document.body.classList.remove('gated');
+    setTimeout(function(){
+      if(g && g.parentNode) g.parentNode.removeChild(g);
+      // scroll to top section just in case
+      var home = document.getElementById('home');
+      if(home && home.scrollIntoView) try{ home.scrollIntoView({behavior:'smooth'}); }catch(e){}
+    }, 450);
+  }
+
+  // 2) Optional: try to open YT overlay if present (does NOT block entering)
+  function playGateSongFallback(){
+    try{
+      if (window.openYT) { window.openYT(); return; }
+      var fr = document.getElementById('yt');
+      var ov = document.getElementById('ytOverlay');
+      if(fr && ov){
+        var id = 'GAXNdOm8rPY';
+        fr.src = 'https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist='+id;
+        ov.style.display = 'flex';
+      }
+    }catch(e){}
+  }
+
+  // 3) Public API the inline onclick uses (always defined)
+  window.enterGate = function enterGate(){
+    // Do NOT rely on other scripts; just hide immediately.
+    hideGate();
+  };
+
+  // 4) Wire “Play song” on the gate
+  var ps = document.getElementById('playSongGate');
+  if(ps){
+    ps.addEventListener('click', function(e){
+      e.preventDefault();
+      playGateSongFallback();
+    });
+  }
+
+  // 5) Also allow keyboard enter/space while gate is visible
+  document.addEventListener('keydown', function(e){
+    if(!document.getElementById('gate')) return;
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      window.enterGate();
+    }
+  }, {passive:false});
+})();
+</script>
+-
 
 <!-- Top chrome -->
 <div class="sig">made with <b>time</b> & <b>care</b></div>
@@ -257,7 +353,26 @@ body.gated { overflow:hidden; }
 <section class="section" id="spotlight">
   <div class="container">
     <div class="gallery">
-      <div class="hero soft"><img id="hero" alt="her photo" src=""></div>
+      <div class="hero soft" id="heroWrap">
+  <img id="hero" alt="her photo" src="">
+  <canvas id="photoBurst" class="photo-burst" aria-hidden="true"></canvas>
+  <button id="burstAgain" class="burst-chip" type="button" title="Burst again">✨ again</button>
+  <div id="burstPanel" class="burst-panel" role="dialog" aria-modal="false" aria-label="Stardust settings">
+    <div class="row">
+      <label>Detail</label>
+      <div class="seg" id="burstDetail">
+        <button data-step="8">Low</button>
+        <button data-step="6" class="on">Med</button>
+        <button data-step="4">High</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>Dot size</label>
+      <input id="dotSize" type="range" min="1" max="3" step="1" value="2">
+    </div>
+    <label class="chk"><input id="batterySaver" type="checkbox"> Battery saver</label>
+  </div>
+</div>
       <div class="polaroids" id="polaroids"></div>
       <div class="center" style="margin-top:8px">
         <button class="btn" id="openRing3D">Try 3D photo ring ✨</button>
@@ -633,12 +748,14 @@ function fireworks(){
   function hv(t){ const x=16*Math.sin(t)**3, y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); return {x, y:-y}; }
   function burst(x,y,col,heart=true){ const n=heart?140:90; for(let i=0;i<n;i++){ if(heart){ const t=i/n*Math.PI*2, v=hv(t), m=Math.hypot(v.x,v.y)||1, s=2.2+Math.random()*2.4; add(x,y,(v.x/m)*s,(v.y/m)*s,col); } else { const ang=Math.PI*2*i/n, s=2+Math.random()*3; add(x,y,Math.cos(ang)*s,Math.sin(ang)*s,col); } } }
   function tick(){ a.clearRect(0,0,c.width,c.height); for(let i=ps.length-1;i>=0;i--){ const p=ps[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--; a.fillStyle=`rgba(${p.col},${Math.max(0,p.life/100)})`; a.fillRect(p.x,p.y,2,2); if(p.life<=0) ps.splice(i,1); } requestAnimationFrame(tick) } tick();
+  window._pulseCenter && window._pulseCenter();
   function boom(){ const x=Math.random()*c.width*.9+c.width*.05, y=Math.random()*c.height*.4+c.height*.1; const cols=['255,200,221','255,168,194','201,167,255','246,208,110']; burst(x,y,cols[Math.floor(Math.random()*cols.length)],Math.random()<.7); }
   for(let i=0;i<4;i++) setTimeout(boom,i*380); const iv=setInterval(boom,1300); setTimeout(()=>clearInterval(iv),12000);
 }
 
 /* ---------- gift rain ---------- */
 $('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibrate(14);}catch{} const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔','🧿','🌼'];
+ window._pulseTopRight && window._pulseTopRight();
   const D=5200,t0=performance.now(); (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
     s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
     const drift=(Math.random()*2-1)*80,time=2400+Math.random()*1800; s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'});
@@ -733,6 +850,242 @@ $('#playSong').addEventListener('click',openYT);
 $('#playSong2').addEventListener('click',openYT);
 $('#playSongGate').addEventListener('click',openYT);
 $('#walkBtn').addEventListener('click', startAmbience, {once:true});
+
+/* ========= Photo → Stardust engine ========= */
+(() => {
+  const prefersReduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const heroWrap = document.getElementById('heroWrap');
+  const heroImg  = document.getElementById('hero');
+  const burstCv  = document.getElementById('photoBurst');
+  const chip     = document.getElementById('burstAgain');
+  const panel    = document.getElementById('burstPanel');
+  const segWrap  = document.getElementById('burstDetail');
+  const dotRange = document.getElementById('dotSize');
+  const saverChk = document.getElementById('batterySaver');
+
+  if(!heroWrap || !heroImg || !burstCv) return;
+
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+
+  const cfg = Object.assign({
+    step: 6,   // density: 4 (high), 6 (med), 8 (low)
+    dot: 2,    // 1–3 px
+    cap: 10000,
+    hold: 2400,
+    battery: false
+  }, JSON.parse(localStorage.getItem('burstCfg') || '{}'));
+
+  function saveCfg(){ localStorage.setItem('burstCfg', JSON.stringify(cfg)); }
+
+  // panel UI wire
+  segWrap.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      segWrap.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      cfg.step = parseInt(btn.dataset.step,10);
+      saveCfg();
+    });
+    if(parseInt(btn.dataset.step,10)===cfg.step) btn.classList.add('on');
+  });
+  dotRange.value = String(cfg.dot);
+  dotRange.addEventListener('input', ()=>{ cfg.dot = parseInt(dotRange.value,10); saveCfg(); });
+  saverChk.checked = !!cfg.battery;
+  saverChk.addEventListener('change', ()=>{ cfg.battery = saverChk.checked; saveCfg(); });
+
+  function fitCanvas(){
+    const r = heroWrap.getBoundingClientRect();
+    burstCv.width = Math.max(1, Math.floor(r.width * dpr));
+    burstCv.height= Math.max(1, Math.floor(r.height* dpr));
+    burstCv.style.width  = r.width+'px';
+    burstCv.style.height = r.height+'px';
+  }
+  fitCanvas(); addEventListener('resize', fitCanvas);
+
+  function easeOutCubic(x){ return 1 - Math.pow(1 - x, 3); }
+
+  async function stardustFromHero({auto=false}={}){
+    if(prefersReduced) return;
+    fitCanvas();
+    const ctx = burstCv.getContext('2d', { willReadFrequently: true });
+    const w = burstCv.width, h = burstCv.height;
+
+    // fallback cap if battery saver
+    const cap = cfg.battery ? 7000 : cfg.cap;
+
+    // prepare an image we can sample
+    const src = heroImg.currentSrc || heroImg.src;
+    let img = new Image(); img.crossOrigin = 'anonymous'; img.src = src;
+
+    await new Promise(res=>{
+      if(img.complete) return res();
+      img.onload = ()=>res(); img.onerror = ()=>res();
+    });
+
+    // draw & sample
+    const off = document.createElement('canvas'); off.width = w; off.height = h;
+    const octx = off.getContext('2d');
+    try{
+      octx.drawImage(img, 0, 0, w, h);
+      const data = octx.getImageData(0, 0, w, h).data;
+
+      // dynamic step for mobile if too many points
+      let step = cfg.step;
+      const est = Math.floor((w/step)*(h/step));
+      if(est > 14000) step = Math.min(8, step+2);
+
+      const pts = [];
+      for(let y=0; y<h; y+=step){
+        for(let x=0; x<w; x+=step){
+          const i = (y*w + x) * 4;
+          const a = data[i+3];
+          if(a > 60){ // visible pixel
+            const r=data[i], g=data[i+1], b=data[i+2];
+            pts.push({x, y, r, g, b});
+          }
+        }
+      }
+      if(pts.length > cap) pts.length = cap;
+
+      // initialize particles
+      const cx = w/2, cy = h/2;
+      const parts = pts.map(p=>{
+        const sx = cx + (Math.random()-0.5)*w*0.25;
+        const sy = cy + (Math.random()-0.5)*h*0.25;
+        return {x:sx, y:sy, tx:p.x, ty:p.y, r:p.r, g:p.g, b:p.b};
+      });
+
+      const t0 = performance.now(), inDur = 900, hold = cfg.hold, outDur = 600;
+      function frame(t){
+        const dt = t - t0;
+        ctx.clearRect(0,0,w,h);
+        if(dt < inDur){
+          const k = easeOutCubic(dt/inDur);
+          for(const p of parts){
+            const x = p.x + (p.tx - p.x)*k;
+            const y = p.y + (p.ty - p.y)*k;
+            ctx.fillStyle = `rgba(${p.r},${p.g},${p.b},0.95)`;
+            ctx.fillRect(x, y, cfg.dot*dpr, cfg.dot*dpr);
+          }
+          requestAnimationFrame(frame);
+        } else if(dt < inDur + hold){
+          for(const p of parts){
+            ctx.fillStyle = `rgba(${p.r},${p.g},${p.b},0.95)`;
+            ctx.fillRect(p.tx, p.ty, cfg.dot*dpr, cfg.dot*dpr);
+          }
+          requestAnimationFrame(frame);
+        } else if(dt < inDur + hold + outDur){
+          const k = 1 - (dt - inDur - hold)/outDur;
+          const a = 0.2 + 0.75 * Math.max(0,k);
+          for(const p of parts){
+            ctx.fillStyle = `rgba(${p.r},${p.g},${p.b},${a})`;
+            ctx.fillRect(p.tx, p.ty, cfg.dot*dpr, cfg.dot*dpr);
+          }
+          requestAnimationFrame(frame);
+        } else {
+          ctx.clearRect(0,0,w,h);
+          showChip();
+        }
+      }
+      requestAnimationFrame(frame);
+    }catch(err){
+      // CORS or sampling failed → graceful heart burst
+      simpleHeart(ctx, w, h);
+      showChip();
+    }
+  }
+
+  function simpleHeart(ctx, w, h){
+    const col = ['255,200,221','201,167,255','246,208,110'][Math.floor(Math.random()*3)];
+    const n = 260, S = Math.min(w,h)*0.04;
+    for(let i=0;i<n;i++){
+      const t = (i/n)*Math.PI*2;
+      const x = 16*Math.pow(Math.sin(t),3);
+      const y = 13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);
+      const px = w/2 + x*S + (Math.random()-0.5)*4;
+      const py = h/2 - y*S + (Math.random()-0.5)*4;
+      ctx.fillStyle = `rgba(${col},0.9)`;
+      ctx.fillRect(px, py, (cfg.dot||2)*dpr, (cfg.dot||2)*dpr);
+    }
+    setTimeout(()=>ctx.clearRect(0,0,w,h), 1200);
+  }
+
+  // Chip show/hide
+  let chipHideId = null;
+  function showChip(){
+    chip.classList.add('show');
+    clearTimeout(chipHideId);
+    chipHideId = setTimeout(()=> chip.classList.remove('show'), 6000);
+  }
+
+  // double-tap/dblclick to trigger
+  let lastTap = 0;
+  heroWrap.addEventListener('click', e=>{
+    const now = Date.now();
+    if(now - lastTap < 380){ stardustFromHero(); }
+    lastTap = now;
+  }, {passive:true});
+  heroWrap.addEventListener('dblclick', e=>{ e.preventDefault(); stardustFromHero(); });
+
+  // chip click & long-press → panel
+  let longTimer=null, longUsed=false;
+  chip.addEventListener('pointerdown', ()=>{ longUsed=false; longTimer=setTimeout(()=>{ longUsed=true; openPanel(); }, 550); });
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=> chip.addEventListener(ev, ()=> clearTimeout(longTimer)));
+  chip.addEventListener('click', ()=>{ if(!longUsed) stardustFromHero(); });
+
+  function openPanel(){
+    panel.classList.add('show');
+    clearTimeout(panel._hid);
+    panel._hid = setTimeout(()=> panel.classList.remove('show'), 8000);
+  }
+
+  // One-time auto play when Spotlight first appears
+  const onceKey = 'burstOnceDone';
+  const spot = document.getElementById('spotlight');
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting && !sessionStorage.getItem(onceKey) && !prefersReduced){
+        sessionStorage.setItem(onceKey,'1');
+        stardustFromHero({auto:true});
+      }
+    });
+  }, {threshold:.6});
+  io.observe(spot);
+
+  // Export a tiny API for tie-ins
+  window._burstFX_fromHero = ()=> stardustFromHero();
+})();
+
+/* ========= Tiny global stardust pulses for tie-ins ========= */
+(() => {
+  const fx = document.getElementById('burstFX');
+  if(!fx) return;
+  const dpr = Math.min(2, window.devicePixelRatio||1);
+  function pulseAt(x, y, size=2){
+    const w=fx.width=innerWidth*dpr, h=fx.height=innerHeight*dpr;
+    fx.style.width = innerWidth+'px'; fx.style.height = innerHeight+'px';
+    const ctx = fx.getContext('2d');
+    const n = 160;
+    const cols = ['255,200,221','201,167,255','246,208,110'];
+    const col = cols[Math.floor(Math.random()*cols.length)];
+    const t0 = performance.now(), dur = 900;
+    (function frame(t){
+      const k = Math.min(1,(t-t0)/dur);
+      ctx.clearRect(0,0,w,h);
+      for(let i=0;i<n;i++){
+        const a = (i/n)*Math.PI*2;
+        const r = 6 + 90*k;
+        const px = x*dpr + Math.cos(a)*r;
+        const py = y*dpr + Math.sin(a)*r;
+        ctx.fillStyle = `rgba(${col},${1-k})`;
+        ctx.fillRect(px, py, size*dpr, size*dpr);
+      }
+      if(k<1) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h);
+    })(t0);
+  }
+  // expose small helpers
+  window._pulseTopRight = ()=> pulseAt(innerWidth-40, 40, 2);
+  window._pulseCenter   = ()=> pulseAt(innerWidth/2, innerHeight*0.35, 2);
+})();
 
 /* ===================== 3D MODE (background) ===================== */
 (() => {
@@ -942,5 +1295,6 @@ document.getElementById('imgDust')?.addEventListener('change', (e) => {
   if (f) imageConstellationFromFile(f);
 });
 </script>
+<canvas id="burstFX"></canvas>
 </body>
 </html>
