@@ -582,6 +582,7 @@ function hideGate(){
   setTimeout(()=>gate.remove(),500);
   try{ document.getElementById('home')?.scrollIntoView({behavior:'smooth'}); }catch{}
 }
+
 function playBgSong(){
   const songEl=document.getElementById('bgSong');
   if(!songEl) return Promise.resolve();
@@ -593,8 +594,24 @@ function playBgSong(){
     const id=setInterval(()=>{ v+=step; songEl.volume=Math.min(target,v); if(v>=target) clearInterval(id); },80);
   }).catch(()=>Promise.resolve()); // ignore autoplay block
 }
-async function enterGate(){ try{ await playBgSong(); } finally { hideGate(); } }
-document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (e.key==='Enter'||e.key===' ')) enterGate(); });
+
+async function enterGate(){
+  try{ await playBgSong(); } finally { hideGate(); }
+}
+
+/* make sure inline onclick="enterGate()" always works */
+window.enterGate = enterGate;
+
+/* extra safety: delegate click anywhere in the doc */
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('#enterBtn');
+  if(btn && document.getElementById('gate')) enterGate();
+});
+
+/* keyboard access */
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('gate') && (e.key==='Enter'||e.key===' ')) enterGate();
+});
 
 /* ---------- YouTube overlay (Zara Sa default) ---------- */
 const DEFAULT_YT = 'GAXNdOm8rPY';
