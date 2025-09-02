@@ -78,13 +78,40 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 @keyframes glow{from{transform:translateX(-50%) scale(.9)}to{transform:translateX(-50%) scale(1.05)}}
 
 /* Balloons + modal */
-.balloon-area{position:relative;height:64vh;max-height:640px;width:100%;overflow:hidden;border-radius:18px;border:1px solid var(--edge);
+.balloon-area{position:relative;height:75vh;max-height:640px;width:100%;overflow:hidden;border-radius:18px;border:1px solid var(--edge);
   background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
-.balloon{--c:#ff9ccc;--x:10;--delay:0;position:absolute;bottom:-120px;left:calc(var(--x)*1%);width:64px;height:80px;border-radius:50% 50% 45% 45%/55% 55% 45% 45%;
-  background:radial-gradient(circle at 30% 30%,#fff8,transparent 60%),var(--c);box-shadow:inset -10px -16px 24px rgba(0,0,0,.2);animation:floatUp 16s linear infinite;animation-delay:calc(var(--delay)*1s);
-  display:grid;place-items:center;color:#0c0e1a;font-weight:900;text-shadow:0 1px 0 #ffffff88;cursor:pointer}
-.balloon::after{content:"";position:absolute;width:2px;height:120px;background:rgba(255,255,255,.3);left:50%;bottom:-120px}
-.balloon span{background:#fff;padding:4px 8px;border-radius:999px;font-size:12px}
+/* Bigger, chunkier balloons */
+.balloon{
+  --c:#ff9ccc; --x:10; --delay:0;
+  position:absolute;
+  bottom:-160px;
+  left:calc(var(--x) * 1%);
+  width:clamp(88px, 12vw, 126px);
+  aspect-ratio: 7 / 9;            /* keeps nice proportion */
+  border-radius:50% 50% 45% 45% / 55% 55% 45% 45%;
+  background: radial-gradient(circle at 30% 30%, #fff8, transparent 60%), var(--c);
+  box-shadow: inset -12px -18px 26px rgba(0,0,0,.22);
+  animation: floatUp 18s linear infinite;
+  animation-delay: calc(var(--delay) * 1s);
+  display:grid; place-items:center;
+  color:#0c0e1a; font-weight:900; text-shadow:0 1px 0 #ffffff88;
+  cursor:pointer;
+}
+.balloon::after{
+  content:"";
+  position:absolute;
+  width:2px;
+  height:170px;                   /* longer string for bigger balloon */
+  background:rgba(255,255,255,.32);
+  left:50%; bottom:-170px;
+}
+.balloon span{
+  background:#fff;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:14px;                 /* larger label */
+}
+  
 @keyframes floatUp{from{transform:translateY(0)}to{transform:translateY(-105vh)}}
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:50}
 .modal.show{display:flex}
@@ -93,13 +120,42 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .dialog p{margin:0;color:var(--muted)}
 
 /* Greeting cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;width:min(100%,980px)}
-.card{position:relative;padding:16px;border-radius:16px;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--edge);box-shadow:0 16px 38px rgba(0,0,0,.35);transform:translateY(0);transition:.2s}
-.card:hover{transform:translateY(-2px)}
-.card h3{margin:.3rem 0 .4rem;font-family:"Caveat",cursive;font-size:24px;color:var(--accent)}
-.card p{margin:.2rem 0 .2rem;line-height:1.7}
-.card .charm{position:absolute;right:10px;top:10px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
-.card .spark{position:absolute;left:-8px;bottom:-8px;font-size:22px;opacity:.85}
+/* Flip-card system for greeting cards */
+.card{
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  perspective:1200px;             /* needed for 3D flip */
+}
+
+.card .flip{
+  position:relative;
+  height:200px;                    /* card height */
+  transform-style:preserve-3d;
+  transition:transform .7s ease;
+}
+
+.card .flip.is-flipped{ transform: rotateY(180deg); }
+
+.card .face{
+  position:absolute; inset:0;
+  backface-visibility:hidden;
+  border-radius:16px;
+  border:1px solid var(--edge);
+  background:linear-gradient(180deg, var(--card), var(--card2));
+  box-shadow:0 16px 38px rgba(0,0,0,.35);
+  padding:16px;
+  display:flex; flex-direction:column; justify-content:center;
+  transform: translateY(0);
+}
+.card:hover .face{ transform: translateY(-2px); }
+.card .front .hintline{ font-size:12px; color:var(--muted); margin-top:6px; }
+.card .back{ transform: rotateY(180deg); }
+.card h3{ margin:.3rem 0 .2rem; font-family:"Caveat",cursive; font-size:26px; color:var(--accent) }
+.card p{ margin:.2rem 0; line-height:1.7 }
+.card .charm{ position:absolute; right:10px; top:10px; filter:drop-shadow(0 6px 10px rgba(0,0,0,.4)) }
+.card .spark{ position:absolute; left:-8px; bottom:-8px; font-size:22px; opacity:.85 }
 
 /* Spotlight */
 .gallery{display:grid;gap:12px}
@@ -437,12 +493,12 @@ function typeAssure(){ const el=$('#assureLine'); const t=el.textContent.trim();
 
 /* ---------- blessings balloons (birthday-toned) ---------- */
 const blessings=[
-  {word:'Sukoon',  color:'#ff9ccc', msg:'Har din ka pressure halka ho, aur raatein araam se kathein.'},
-  {word:'Himmat',  color:'#9bd3ff', msg:'Jab bhi tough lage, kehna—main cheer squad hoon.'},
-  {word:'Vishwas', color:'#c9a7ff', msg:'Vaade nahi—roz ki imandari. Bas itna.'},
-  {word:'Khushi',  color:'#7ee6c9', msg:'Chhoti jeetain, badi badi hansi.'},
-  {word:'Sehat',   color:'#ffd86e', msg:'Neend gehri, sehat mazboot, aura bright.'},
-  {word:'Barkat',  color:'#ffb6a3', msg:'Laadliji, Ramji ki kripa aur ghar me barkat.'},
+  {word:'Peace',  color:'#ff9ccc', msg:'Har din ka pressure halka ho, aur raatein araam se kathein.'},
+  {word:'Courage',  color:'#9bd3ff', msg:'Jab bhi tough lage, kehna—main cheer squad hoon.'},
+  {word:'Trust', color:'#c9a7ff', msg:'Vaade nahi—roz ki imandari. Bas itna.'},
+  {word:'Happiness',  color:'#7ee6c9', msg:'Chhoti jeetain, badi badi hansi.'},
+  {word:'Health',   color:'#ffd86e', msg:'Neend gehri, sehat mazboot, aura bright.'},
+  {word:'Success',  color:'#ffb6a3', msg:'Laadliji, Ramji ki kripa aur ghar me barkat.'},
 ];
 let balloonsInit=false;
 function spawnBalloons(){
@@ -475,12 +531,33 @@ const greetingCards=[
  {title:'Inbox of Joy',   charm:'📫', text:'Roz thoda pyaar, thodi hansi—spam free, ad free.'},
 ];
 (function buildCards(){
-  const wrap=$('#cardsWrap');
+  const wrap = $('#cardsWrap');
   greetingCards.forEach((c)=>{
-    const el=document.createElement('article'); el.className='card';
-    el.innerHTML=`<h3>${c.title}</h3><p>${c.text}</p><div class="charm">${c.charm}</div><div class="spark">✨</div>`;
-    el.addEventListener('click',()=>{ el.animate([{transform:'translateY(0)'},{transform:'translateY(-2px) rotate(0.6deg)'},{transform:'translateY(0)'}],{duration:320}); playChime();});
-    wrap.appendChild(el);
+    const card = document.createElement('article');
+    card.className = 'card';
+
+    card.innerHTML = `
+      <div class="flip">
+        <div class="face front">
+          <h3>${c.title}</h3>
+          <div class="hintline">Tap to open</div>
+          <div class="charm">${c.charm}</div>
+          <div class="spark">✨</div>
+        </div>
+        <div class="face back">
+          <p>${c.text}</p>
+          <div class="hintline">Tap to close</div>
+        </div>
+      </div>
+    `;
+
+    const flip = card.querySelector('.flip');
+    card.addEventListener('click', ()=>{ 
+      flip.classList.toggle('is-flipped');
+      playChime();
+    });
+
+    wrap.appendChild(card);
   });
 })();
 
