@@ -477,6 +477,93 @@ body.blush-lite .stars {
   .greetInner{transition:none}
 }
 
+/* === Floating 3D Gift Card ========================================= */
+.giftWrap{
+  width:min(92vw,520px);
+  height:clamp(220px,46vw,320px);
+  margin-inline:auto;
+  position:relative;
+  perspective:1200px;
+  animation:bob 7s ease-in-out infinite;
+  user-select:none;
+}
+@keyframes bob{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+
+.book{
+  position:absolute; inset:0;
+  transform-style:preserve-3d;
+  filter:drop-shadow(0 26px 40px rgba(0,0,0,.35));
+}
+.cover,.page{
+  position:absolute; inset:0; border-radius:18px;
+  backface-visibility:hidden; overflow:hidden;
+  border:1px solid var(--edge);
+}
+.cover{
+  transform-origin:left center;
+  background:linear-gradient(145deg,#121a2d,#0e1527);
+}
+.cover::after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(120% 100% at 0% 50%, rgba(255,255,255,.08), transparent 30%);
+  pointer-events:none;
+}
+.coverArt{
+  position:absolute; inset:0; display:grid; place-items:center;
+  color:var(--muted); font-family:"Playfair Display",serif;
+  letter-spacing:.08em; font-size:clamp(18px,4.6vw,22px);
+}
+.coverArt b{color:var(--accent); font-weight:700; letter-spacing:.06em}
+.coverArt .tiny{display:inline-block;width:12px;height:0;border:0;border-top:2px solid rgba(255,255,255,.12);margin:0 2px;opacity:.6}
+
+.page{
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+}
+#pageText{
+  margin:0; padding:22px 18px;
+  font-size:clamp(18px,4.8vw,22px);
+  line-height:1.6; text-wrap:balance;
+}
+
+.hinge{
+  position:absolute; top:8px; bottom:8px; left:calc(0% + 10px); width:10px;
+  background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(255,255,255,.12));
+  border-radius:10px; filter:blur(.3px); opacity:.6;
+}
+
+/* ribbons */
+.ribbons{position:absolute; inset:0; display:block; pointer-events:none; z-index:5}
+.r{position:absolute; background:linear-gradient(90deg,#ff84b9,#caa8ff); filter:drop-shadow(0 10px 20px rgba(0,0,0,.35))}
+.r.hor{height:16px; width:100%; top:50%; transform:translateY(-50%); opacity:.95}
+.r.ver{width:16px; height:100%; left:50%; transform:translateX(-50%); opacity:.95; border-radius:2px}
+.bow{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-size:34px; text-shadow:0 6px 14px rgba(0,0,0,.35)}
+
+.giftWrap.unwrap .r.hor{animation:ribbonOutX .55s ease forwards}
+.giftWrap.unwrap .r.ver{animation:ribbonOutY .55s ease .05s forwards}
+.giftWrap.unwrap .bow   {animation:bowPop .55s ease forwards}
+
+@keyframes ribbonOutX{to{transform:translateY(-50%) translateX(120%); opacity:0}}
+@keyframes ribbonOutY{to{transform:translateX(-50%) translateY(-120%); opacity:0}}
+@keyframes bowPop{40%{transform:translate(-50%,-50%) scale(1.2)}100%{transform:translate(-50%,-180%) rotate(-20deg); opacity:0}}
+
+.giftWrap.open .cover{ transform:rotateY(-160deg); transition:transform .7s cubic-bezier(.2,.7,.2,1) }
+.giftWrap.open .hinge{ opacity:.28 }
+
+/* micro tilt on pointer */
+.giftWrap:hover .book{ transition:transform .2s ease }
+.giftWrap.tilt .book{ transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) }
+
+/* dots reused style from earlier */
+#cardDots{display:flex;gap:6px;justify-content:center;margin-top:10px}
+#cardDots button{width:8px;height:8px;border-radius:50%;border:0;background:#ffffff44;cursor:pointer}
+#cardDots button.active{background:#ff9cccee; box-shadow:0 0 0 4px #ff9ccc33}
+
+@media (prefers-reduced-motion:reduce){
+  .giftWrap{animation:none}
+  .giftWrap.open .cover{transition:none}
+}
+
 
 
 </style>
@@ -611,27 +698,32 @@ body.blush-lite .stars {
   </div>
 </section>
 
-<<!-- 6) Inside lines — 3D greeting card -->
+<!-- 6) Inside lines — Floating 3D Gift Card -->
 <section class="section" id="lines">
   <div class="container center">
-    <div class="cardDeck">
-      <div class="greetCard" id="greetCard" tabindex="0" aria-label="Greeting card" aria-live="polite">
-        <div class="greetInner" id="greetInner">
-          <div class="greetFace front">
-            <div class="shine"></div>
-            <p id="greetFront">Loading…</p>
-          </div>
-          <div class="greetFace back">
-            <div class="shine"></div>
-            <p id="greetBack">Loading…</p>
-          </div>
-        </div>
-        <div class="spine"></div>
+
+    <div class="giftWrap" id="giftCard" role="button" aria-label="Open the card" tabindex="0">
+      <!-- ribbons & bow that peel off -->
+      <div class="ribbons" aria-hidden="true">
+        <span class="r hor"></span>
+        <span class="r ver"></span>
+        <span class="bow">🎀</span>
       </div>
 
-      <div class="deckDots" id="deckDots"></div>
-      <p class="hint">Tap or swipe to turn the page. Auto turns slowly.</p>
+      <!-- the “book” (front cover + inside page) -->
+      <div class="book">
+        <div class="cover" aria-hidden="true">
+          <div class="coverArt">for <b>S<hr class="tiny">h<hr class="tiny">r<hr class="tiny">u<hr class="tiny">t<hr class="tiny">i</b></div>
+        </div>
+        <div class="page">
+          <p id="pageText">Loading…</p>
+        </div>
+        <div class="hinge"></div>
+      </div>
     </div>
+
+    <div class="deckDots" id="cardDots" aria-label="Messages pagination"></div>
+    <p class="hint">Tap the ribbon to unwrap. Tap the open card to flip through lines.</p>
 
     <div class="center" style="margin-top:14px"><a class="btn" href="#divine">Next →</a></div>
   </div>
@@ -1037,91 +1129,81 @@ const LINES = [
   'Tomorrow, I’ll still be here. That’s the whole message. 📩🌙'
 ];
 
-/* ===== 3D Greeting Card driver ===== */
-(function greetingCard3D(){
-  const lines = (typeof LINES!=='undefined' && LINES.length) ? LINES : ['Happy Birthday! 💖'];
-  const card = document.getElementById('greetCard');
-  const inner = document.getElementById('greetInner');
-  const fTxt = document.getElementById('greetFront');
-  const bTxt = document.getElementById('greetBack');
-  const dots = document.getElementById('deckDots');
-  if(!card || !inner || !fTxt || !bTxt || !dots) return;
+/* ===== Floating Gift-Card behaviour ===== */
+(function giftCard(){
+  const lines = (typeof LINES!=='undefined' && LINES.length) ? LINES : ['Happy Birthday 💖'];
+  const card  = document.getElementById('giftCard');
+  const page  = document.getElementById('pageText');
+  const dots  = document.getElementById('cardDots');
+  if(!card || !page || !dots) return;
 
   // build dots
   lines.forEach((_,idx)=>{
-    const d=document.createElement('button');
-    d.setAttribute('aria-label',`Go to message ${idx+1}`);
-    d.addEventListener('click',()=>jump(idx,true));
-    dots.appendChild(d);
+    const b=document.createElement('button');
+    b.setAttribute('aria-label',`Go to message ${idx+1}`);
+    b.addEventListener('click',()=>jump(idx,true));
+    dots.appendChild(b);
   });
 
-  let i=0, auto=null, flipping=false;
+  let i=0, opened=false;
 
   function setDots(){ [...dots.children].forEach((d,idx)=>d.classList.toggle('active',idx===i)); }
-
-  // Each flip shows current on front, next on back; after animation we rotate back and advance index
-  function layoutFaces(){
-    fTxt.innerHTML = lines[i];
-    const nextIndex = (i+1) % lines.length;
-    bTxt.innerHTML = lines[nextIndex];
-    setDots();
-  }
-
-  function turn(){
-    if(flipping) return;
-    flipping=true;
-    card.classList.add('flip');
-    inner.classList.add('shadow');
-    inner.style.transform = 'rotateY(180deg)';
-    try{ navigator.vibrate && navigator.vibrate(10);}catch{}
-    playChime && playChime();
-  }
-
-  inner.addEventListener('transitionend',()=>{ // after flip completes
-    if(inner.style.transform.includes('180deg')){
-      i = (i+1) % lines.length;
-      layoutFaces();
-      inner.style.transform='rotateY(0deg)'; // reset without snap
-      card.classList.remove('flip');
-      setTimeout(()=>{ flipping=false; }, 20);
+  function show(){ page.innerHTML = lines[i]; setDots(); }
+  function sparkleBurst(){
+    const N=18; for(let k=0;k<N;k++){
+      const s=document.createElement('span');
+      s.textContent=['✨','💖','🌸','🧿','💫'][k%5];
+      s.style.position='absolute'; s.style.left='50%'; s.style.top='50%'; s.style.zIndex='6';
+      s.style.transform='translate(-50%,-50%) scale(.7)';
+      card.appendChild(s);
+      const dx=(Math.random()*2-1)*140, dy=(Math.random()*2-1)*100, t=600+Math.random()*400;
+      s.animate([{transform:'translate(-50%,-50%) scale(.7)',opacity:1},{transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(.9)`,opacity:0}],{duration:t,easing:'ease-out'});
+      setTimeout(()=>s.remove(),t+20);
     }
-  });
+    try{ navigator.vibrate && navigator.vibrate(12);}catch{}
+    if(typeof playChime==='function') playChime();
+  }
+
+  function unwrapAndOpen(){
+    if(opened) return;
+    card.classList.add('unwrap');
+    setTimeout(()=>{ card.classList.add('open'); sparkleBurst(); opened=true; }, 520);
+  }
+
+  function nextLine(){
+    if(!opened) return unwrapAndOpen();
+    i=(i+1)%lines.length;
+    // tiny page-flip pulse
+    page.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(6px)',opacity:.0},{transform:'translateY(0)',opacity:1}],{duration:380,easing:'ease'});
+    show();
+    try{ if(typeof playChime==='function') playChime(); }catch{}
+  }
 
   function jump(to,stopAuto){
-    if(stopAuto){ clearInterval(auto); auto=null; }
-    i = (to + lines.length) % lines.length;
-    layoutFaces();
+    i = (to + lines.length)%lines.length;
+    if(!opened) unwrapAndOpen();
+    show();
   }
 
-  // swipe + tap
-  let touching=false, sx=0, sy=0;
-  card.addEventListener('pointerdown',e=>{ touching=true; card.setPointerCapture(e.pointerId); sx=e.clientX; sy=e.clientY; });
-  card.addEventListener('pointerup',e=>{
-    if(!touching) return; touching=false;
-    const dx=e.clientX-sx, dy=e.clientY-sy;
-    if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)) turn();
-    else if(Math.abs(dx)<10 && Math.abs(dy)<10) turn(); // tap
-  });
+  // interactions
+  card.addEventListener('click', nextLine);
+  card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' ') nextLine(); });
 
-  // keyboard
-  card.addEventListener('keydown',e=>{ if(e.key==='Enter' || e.key===' ' || e.key==='ArrowRight') turn(); });
-
-  // parallax tilt for a little life
-  card.addEventListener('mousemove',e=>{
+  // gentle tilt
+  let hover=false;
+  card.addEventListener('pointerenter', ()=>{ hover=true; card.classList.add('tilt'); });
+  card.addEventListener('pointermove', e=>{
+    if(!hover) return;
     const r=card.getBoundingClientRect();
     const x=(e.clientX-r.left)/r.width -.5, y=(e.clientY-r.top)/r.height -.5;
-    inner.style.transform += ''; // keep current
-    card.style.transform=`rotateY(${x*6}deg) rotateX(${-y*4}deg)`;
+    card.style.setProperty('--ry', `${x*6}deg`);
+    card.style.setProperty('--rx', `${-y*4}deg`);
   });
-  card.addEventListener('mouseleave',()=>{ card.style.transform='none'; });
+  card.addEventListener('pointerleave', ()=>{ hover=false; card.classList.remove('tilt'); card.style.removeProperty('--ry'); card.style.removeProperty('--rx'); });
 
-  // autoplay
-  auto = setInterval(()=>{ if(!document.hidden) turn(); }, 5200);
-
-  // initial faces
-  layoutFaces();
+  // init
+  show();
 })();
-
 
 
 /* ---------- fireworks (final + entry burst) ---------- */
