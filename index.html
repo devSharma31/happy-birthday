@@ -11,8 +11,11 @@
 
 <style>
 :root{
-  --bg1:#0c1022; --bg2:#14102e; --ink:#eef2ff; --muted:#cdd5f9; --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
-  --petal:#ffc8dd; --gold:#f6d06e; --card:#10182a; --card2:#0f1730;
+
+--font-head: "Fraunces", ui-serif, Georgia, serif; --font-body: "Quicksand", system-ui, -apple-system,"Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+--font-hand: "Caveat", cursive;
+--bg1:#0c1022; --bg2:#14102e; --ink:#eef2ff; --muted:#cdd5f9; --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
+--petal:#ffc8dd; --gold:#f6d06e; --card:#10182a; --card2:#0f1730;
 }
 .gulabi{ --bg1:#1a0b24; --bg2:#2a1345; --accent:#ff96c8; --ink:#fff4fa; --muted:#ffd9e8; --petal:#ffd1e1; --card:#1a1430; --card2:#23193f }
 .denim { --bg1:#0b1322; --bg2:#0b1b33; --accent:#85a9ff; --ink:#eaf2ff; --muted:#cfe0ff; --petal:#c7d7ff; --card:#0c1629; --card2:#0e1d36 }
@@ -25,27 +28,64 @@ html {
 }
 
 body{
-  margin:0; color:var(--ink);
-  font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background:
-    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
-    linear-gradient(180deg,var(--bg1),var(--bg2));
-  overflow-x:hidden;
-  letter-spacing: 0.1px; /* tiny rounder feel */
+
+font-family: var(--font-body); letter-spacing: .1px;
+
+-webkit-font-smoothing: antialiased;
+
+-moz-osx-font-smoothing: grayscale;
+
+text-rendering: optimizeLegibility;
+
+a
+
+h1, h2, .title{
+
 }
 
-h1, h2{
-  font-family: "Fraunces", ui-serif, Georgia, serif;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-}
+font-family: var(--font-head);
 
-/* keep your handwritten accents cute */
-.face h3{
-  font-family: "Caveat", cursive;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-}
+font-weight: 700;
+
+line-height: 1.15;
+
+letter-spacing: .2px;
+
+/* Clamp sizes so they don't explode on mobile */ .title{ font-size: clamp(26px, 6vw, 40px); } .section h2{ font-size: clamp(22px, 4.6vw, 34px); }
+
+/* Handwritten accents stay handwritten */ .face h3, handwritten{ font-family: var(--font-hand);
+
+font-weight: 700; }
+
+/* Keep the buttons looking like buttons (not plain links) */
+
+btn, button.btn{
+
+text-decoration: none;
+
+display: inline-block;
+
+font-family: var(--font-body);
+
+font-weight: 700;
+
+letter-spacing: .2px;
+
+*/
+
+/*
+
+a
+
+In case any global link styles overrode buttons btn:link, a.btn:visited{ color:#0c0f17; }
+
+/* Give the first section a touch more top space so it clears the fixed mood icons */
+
+.section: first-of-type{ padding-top: 120px; }
+
+/* Optional: tighten paragraph line-height a bit for the new font */
+
+.lead, .muted, p{ line-height: 1.6; }
   background:linear-gradient(90deg,var(--accent),#c9a7ff);box-shadow:0 12px 24px rgba(0,0,0,.28)}
 .btn:active{transform:translateY(1px) scale(.99)}
 .soft{border:1px solid var(--edge);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:0 18px 44px rgba(0,0,0,.35)}
