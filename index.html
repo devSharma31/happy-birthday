@@ -190,6 +190,27 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
     <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
   </div>
 </div>
+<!-- place this immediately after the Gate markup -->
+<script>
+(function () {
+  const url = new URL(location.href);
+  if (url.searchParams.get('skip') === '1') {
+    const g = document.getElementById('gate');
+    if (g) {
+      g.classList.add('hide');
+      document.body.classList.remove('gated');
+      setTimeout(()=> g.remove(), 10);
+    }
+    // honor the anchor (e.g., #spotlight) after the gate disappears
+    if (location.hash) {
+      setTimeout(() => {
+        const target = document.querySelector(location.hash);
+        target && target.scrollIntoView({behavior: 'smooth', block:'start'});
+      }, 30);
+    }
+  }
+})();
+</script>
 
 <!-- Top chrome -->
 <div class="sig">made with <b>time</b> & <b>care</b></div>
@@ -213,8 +234,7 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
     <h1 class="title">On this small night, the universe plays its sweetest tune…</h1>
     <p class="lead muted">…because it’s your day, Shruti. (Madamji, Laadliji—haan, dono tum ho.)</p>
     <div class="cta">
-      <a class="btn" href="#spark" id="walkBtn">Walk with me →</a>
-      <button class="btn" id="toggleSongBtn2">Pause / Play song 🎵</button>
+      <a class="btn" href="#spark" id="walkBtn"> Wanna walk with me ? →</a>
     </div>
   </div>
 </section>
