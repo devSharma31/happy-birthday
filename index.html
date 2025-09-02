@@ -290,7 +290,7 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
       <div class="center" style="margin-top:8px">
         <button class="btn" id="openRing3D">Try 3D photo ring ✨</button>
       </div>
-      <p class="hint center">Every picture whispers: “you’re trouble—the good kind, Madamji.”</p>
+      <p class="hint center">Every picture whispers: “you’re trouble — but the good kind, Madamji.”</p>
       <div class="center" style="margin-top:10px"><a class="btn" href="#lines">Next →</a></div>
     </div>
   </div>
@@ -315,7 +315,7 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
   <div class="container center soft" style="padding:20px">
     <h2 style="margin:.4rem 0;color:var(--accent)">A small prayer</h2>
     <p class="muted" style="max-width:740px;margin:6px auto 0">
-      May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
+      May Kanhaji keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
       May your days be soft where you need softness and strong where you need strength.
     </p>
     <div style="margin-top:12px"><a class="btn" href="#final">Final page →</a></div>
@@ -331,7 +331,6 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
     <div class="cta">
       <button class="btn" id="gift">Shower of cute things 🎁</button>
       <button class="btn" id="savePNG">Save this promise (PNG)</button>
-      <button class="btn" id="toggleSongBtn3">Pause / Play song 🎵</button>
     </div>
   </div>
 </section>
@@ -430,14 +429,39 @@ function typeAssure(){ const el=$('#assureLine'); const t=el.textContent.trim();
 })();
 
 /* ---------- blessings balloons (aligned columns, slower, no overlap) ---------- */
-const blessings=[
-  {word:'Sukoon',  color:'#ff9ccc', msg:'Har din ka pressure halka ho, aur raatein araam se kathein.'},
-  {word:'Himmat',  color:'#9bd3ff', msg:'Jab bhi tough lage, kehna—main cheer squad hoon.'},
-  {word:'Vishwas', color:'#c9a7ff', msg:'Vaade nahi—roz ki imandari. Bas itna.'},
-  {word:'Khushi',  color:'#7ee6c9', msg:'Chhoti jeetain, badi badi hansi.'},
-  {word:'Sehat',   color:'#ffd86e', msg:'Neend gehri, sehat mazboot, aura bright.'},
-  {word:'Barkat',  color:'#ffb6a3', msg:'Laadliji, Ramji ki kripa aur ghar me barkat.'},
+const blessings = [
+  {
+    word: 'Peace',
+    color: '#ff9ccc',
+    msg: 'Let the noise fall away. May your nights be soft, your mornings unhurried, and your mind find its quiet corner.'
+  },
+  {
+    word: 'Courage',
+    color: '#9bd3ff',
+    msg: 'When it feels heavy, text or don’t—either way I’m in your corner. Tiny steps still count; we’ll move the day gently.'
+  },
+  {
+    word: 'Trust',
+    color: '#c9a7ff',
+    msg: 'No speeches, no drama—just showing up the same way, every day. You can lean on that rhythm whenever you want.'
+  },
+  {
+    word: 'Joy',
+    color: '#7ee6c9',
+    msg: 'More random giggles, more little wins, more songs stuck in your head. If the day is dull, I’ll add color, not pressure.'
+  },
+  {
+    word: 'Health',
+    color: '#ffd86e',
+    msg: 'Deep sleep, easy breath, light body. May your energy refill quietly and stay with you longer than deadlines do.'
+  },
+  {
+    word: 'Grace',
+    color: '#ffb6a3',
+    msg: 'A soft shield around you and doors opening at the right time. May kindness follow you home and stay forever.'
+  },
 ];
+
 let balloonsInit=false;
 function spawnBalloons(){
   if(balloonsInit) return; balloonsInit=true;
@@ -465,12 +489,33 @@ const blessIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting
 blessIO.observe($('#blessings'));
 
 /* ---------- greeting cards (flip) ---------- */
-const greetingCards=[
- {title:'Nazar Na Lage', charm:'🧿', text:'Madamji, nazar buri lage bhi toh—tum par Kanhaji ki chhaya aur meri rakhwali humesha rahegi.'},
- {title:'Chai + Calm',   charm:'☕️', text:'Subah ki chai ya raat ka sukoon—jo chahiye, bol do. Main dhoondh launga.'},
- {title:'Calendar Bless', charm:'📅', text:'Is saal ka har Monday halka, aur har Friday ke beech me thodi si chhutti.'},
- {title:'Inbox of Joy',   charm:'📫', text:'Roz thoda pyaar, thodi hansi—spam free, ad free.'},
+const greetingCards = [
+  {
+    title: 'Nazar Na Lage 🧿',
+    text: 'May jealous eyes just slide off from you. May Kanhaji holds the roof, I’ll hold the door. Walk light, consider yourself covered.'
+  },
+  {
+    title: 'Chai + Calm ☕️',
+    text: 'Morning chai or midnight quiet—whatever steadies you, I’ll sort it. Ask if you want, or don’t; I’ll read the vibe.'
+  },
+  {
+    title: 'Calendar Bless 📅',
+    text: 'Gentler Mondays, kinder deadlines, and random mid-week pauses. May meetings end early and joy show up on schedule.'
+  },
+  {
+    title: 'Inbox of Joy 📫',
+    text: 'More “good news” pings, fewer “urgent” ones. Spam blocked (except me haha), hope delivered. DMs get sunshine, not noise.'
+  },
+  {
+    title: 'Health & Glow ✨',
+    text: 'Good Exercise, Deep sleep, easy breath, steady energy. May your body feel like home and your face keep that soft glow.'
+  },
+  {
+    title: 'Safe Roads 🚦',
+    text: 'Every route clear, timing right, people kind. Text back optional — arriving safe is the only update I might need.'
+  }
 ];
+
 (function buildCards(){
   const wrap=$('#cardsWrap');
   greetingCards.forEach((c)=>{
@@ -603,13 +648,21 @@ function initStardust(src){
 }
 
 /* ---------- inside lines ---------- */
-const LINES=[
-  'No expectations. Bas good wishes, daily.',
-  'Ignore mode on? Theek hai—main yahin, quietly rooting.',
-  'Main impress nahi, consistent rehna chahta hoon.',
-  'Madamji, tu muskura—baaki sab adjust ho jayega.',
-  '1% chance? Main 100% mehnat karta rahunga—bina shor.',
+const LINES = [
+  'No expectations. Just good wishes—every day, no matter what. 🌙✨',
+  'If you need distance, take it; I’ll still be quietly in your corner. 🕊️',
+  'Consistency over grand gestures—count on the small, steady things. 📆✨',
+  'Madamji, keep the smile; I’ll handle the background noise. 🙂🔕',
+  'Laadliji, take the space you need—my care doesn’t expire. ⏳💌',
+  '1% trust from you = 100% patience from me. 🤝',
+  'I’m not here to rush your heart; I’m here to respect its timing. ⏰❤️',
+  'Your peace first. I’ll be the soft, quiet corner when the world is loud. 🛋️🌤️',
+  'Tea + calm on standby—say the word or don’t; I’ll read the vibe. ☕️😌',
+  'Silly-boy-trying, not loud-boy-trying—promise. 🫠🫶',
+  'May your days be light and your nights easy; I’ll keep the diya lit. 🪔✨',
+  'Tomorrow, I’ll still be here. That’s the whole message. 📩🌙'
 ];
+
 let li=0; const slide=$('#slideText');
 $('#nextLine').addEventListener('click',()=>{ li=(li+1)%LINES.length; slide.innerText=LINES[li]; playChime(); });
 $('#prevLine').addEventListener('click',()=>{ li=(li-1+LINES.length)%LINES.length; slide.innerText=LINES[li]; playChime(); });
