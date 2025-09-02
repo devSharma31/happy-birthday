@@ -142,15 +142,35 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 @media (max-width:560px){ .polaroids{grid-template-columns:repeat(2,1fr)} }
 
 /* Welcome Gate */
-.gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:100;background:
-  radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.18), transparent 60%),
-  linear-gradient(180deg,var(--bg1),var(--bg2)); transition:opacity .45s ease}
-.gate.hide{opacity:0;pointer-events:none}
-.gate-card{width:min(560px,92vw);padding:18px;border-radius:18px;border:1px solid var(--edge);
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:0 22px 48px rgba(0,0,0,.45);text-align:center}
-.gate-card h1{margin:.2rem 0 .3rem;font-size:clamp(22px,5.2vw,32px)}
-.gate-card p{margin:.2rem 0;color:var(--muted)}
-.gate-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+/* Welcome Gate (overlay, pop-in) */
+body.gated { overflow:hidden; }  /* lock scroll while gate is visible */
+
+.gate{
+  position:fixed; inset:0; z-index:9999;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.18), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  backdrop-filter: blur(6px);
+  transition: opacity .45s ease;
+  animation: gateFade .45s ease both;
+}
+.gate.hide{ opacity:0; pointer-events:none }
+
+.gate-card{
+  width:min(560px,92vw); padding:18px; text-align:center;
+  border-radius:18px; border:1px solid var(--edge);
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  box-shadow:0 22px 48px rgba(0,0,0,.45);
+  transform: translateY(6px) scale(.94);
+  animation: gatePop .45s cubic-bezier(.2,.75,.2,1) .05s both;
+}
+.gate-card h1{ margin:.2rem 0 .3rem; font-size:clamp(22px,5.2vw,32px) }
+.gate-card p{ margin:.2rem 0; color:var(--muted) }
+.gate-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:12px }
+
+@keyframes gateFade { from{opacity:0} to{opacity:1} }
+@keyframes gatePop  { from{opacity:0; transform:translateY(10px) scale(.94)} to{opacity:1; transform:none} }
 
 /* === 3D add-ons === */
 #three3d{position:fixed; inset:0; pointer-events:none; z-index:-1;}
@@ -190,15 +210,20 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
   var songEl = document.getElementById('bgSong');
   var home   = document.getElementById('home');
 
+  // lock scroll while gate is visible
+  document.body.classList.add('gated');
+
   function hideGate() {
     if (!gate) return;
     gate.classList.add('hide');
+    document.body.classList.remove('gated'); // unlock scroll
     setTimeout(function () {
       if (gate && gate.parentNode) gate.parentNode.removeChild(gate);
     }, 500);
-    try { if (home && home.scrollIntoView) home.scrollIntoView({behavior:'smooth'}); } catch(e) {}
+    try { home && home.scrollIntoView({behavior:'smooth'}); } catch(e) {}
   }
 
+  // exposed so the button’s inline onclick works as a fallback
   window.enterSite = function () {
     try {
       if (songEl) {
@@ -212,16 +237,18 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
               v += step; songEl.volume = Math.min(target, v);
               if (v >= target) clearInterval(id);
             }, 80);
-          }).catch(function(){ /* ignore autoplay errors */ });
+          }).catch(function(){ /* autoplay blocked; ignore */ });
         }
       }
     } catch (e) {}
     hideGate();
   };
 
+  // wire button (extra safety)
   if (enter) enter.addEventListener('click', window.enterSite, { once: true });
 })();
 </script>
+
 
 <!-- Top chrome -->
 <div class="sig">made with <b>time</b> & <b>care</b></div>
