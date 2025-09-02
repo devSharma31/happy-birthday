@@ -407,6 +407,76 @@ body.blush-lite .stars {
   .page-face{ transition:opacity .2s ease; }
 }
 
+/* === 3D Greeting Card ================================================== */
+.cardDeck{display:grid;gap:10px;justify-items:center}
+
+.greetCard{
+  width:min(92vw,520px);
+  height:clamp(200px,46vw,320px);
+  perspective:1100px;
+  position:relative;
+}
+.greetInner{
+  position:absolute; inset:0;
+  transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.greetCard.open .greetInner{ transform:rotateY(180deg); }
+
+.greetFace{
+  position:absolute; inset:0; border-radius:18px;
+  backface-visibility:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border:1px solid var(--edge);
+  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.04);
+  overflow:hidden;
+}
+.greetFace.back{ transform:rotateY(180deg); }
+
+/* gentle “paper shine” sweep */
+.shine{
+  position:absolute; inset:-20%;
+  background: radial-gradient(120% 60% at -10% 0%, rgba(255,255,255,.14), transparent 30%),
+              radial-gradient(120% 60% at 110% 100%, rgba(255,255,255,.10), transparent 30%);
+  pointer-events:none;
+}
+
+/* fake spine at the fold */
+.spine{
+  position:absolute; top:8px; bottom:8px; left:calc(50% - 1px); width:2px;
+  background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(255,255,255,.12));
+  border-radius:2px;
+  filter:blur(.2px);
+  pointer-events:none;
+}
+
+#greetFront,#greetBack{
+  margin:0; padding:22px 18px;
+  font-size:clamp(18px,4.8vw,22px);
+  line-height:1.6; text-wrap:balance;
+}
+
+/* dots */
+.deckDots{display:flex;gap:6px;justify-content:center}
+.deckDots button{
+  width:8px;height:8px;border-radius:50%;border:0;cursor:pointer;
+  background:#ffffff44
+}
+.deckDots button.active{ background:#ff9cccee; box-shadow:0 0 0 4px #ff9ccc33 }
+
+/* subtle page-curl gloss on flip */
+.greetCard.flip .greetFace.front::after,
+.greetCard.flip .greetFace.back::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+  animation:gloss .7s ease;
+}
+@keyframes gloss{from{opacity:0}50%{opacity:1}to{opacity:0}}
+
+@media (prefers-reduced-motion:reduce){
+  .greetInner{transition:none}
+}
+
 
 
 </style>
@@ -541,18 +611,26 @@ body.blush-lite .stars {
   </div>
 </section>
 
-<!-- 6) Inside lines — cute soft-glass card -->
+<<!-- 6) Inside lines — 3D greeting card -->
 <section class="section" id="lines">
   <div class="container center">
-
-    <div class="quoteWrap">
-      <div class="quoteCard soft" id="quoteCard" aria-live="polite">
-        <div class="qDecor">✨</div>
-        <p id="quoteText">Loading…</p>
-        <div class="qSticker">💌</div>
+    <div class="cardDeck">
+      <div class="greetCard" id="greetCard" tabindex="0" aria-label="Greeting card" aria-live="polite">
+        <div class="greetInner" id="greetInner">
+          <div class="greetFace front">
+            <div class="shine"></div>
+            <p id="greetFront">Loading…</p>
+          </div>
+          <div class="greetFace back">
+            <div class="shine"></div>
+            <p id="greetBack">Loading…</p>
+          </div>
+        </div>
+        <div class="spine"></div>
       </div>
-      <div class="dots" id="dots"></div>
-      <p class="hint">Tap or swipe to change. Auto-plays too.</p>
+
+      <div class="deckDots" id="deckDots"></div>
+      <p class="hint">Tap or swipe to turn the page. Auto turns slowly.</p>
     </div>
 
     <div class="center" style="margin-top:14px"><a class="btn" href="#divine">Next →</a></div>
@@ -959,60 +1037,91 @@ const LINES = [
   'Tomorrow, I’ll still be here. That’s the whole message. 📩🌙'
 ];
 
-/* ---- Cute soft-card quotes (replaces 3D book/arrows) ---- */
-(function cuteCard(){
-  const lines = (typeof LINES !== 'undefined' && LINES.length) ? LINES : ['Happy Birthday! 💖'];
-  const card  = document.getElementById('quoteCard');
-  const text  = document.getElementById('quoteText');
-  const dots  = document.getElementById('dots');
-  if(!card||!text||!dots) return;
+/* ===== 3D Greeting Card driver ===== */
+(function greetingCard3D(){
+  const lines = (typeof LINES!=='undefined' && LINES.length) ? LINES : ['Happy Birthday! 💖'];
+  const card = document.getElementById('greetCard');
+  const inner = document.getElementById('greetInner');
+  const fTxt = document.getElementById('greetFront');
+  const bTxt = document.getElementById('greetBack');
+  const dots = document.getElementById('deckDots');
+  if(!card || !inner || !fTxt || !bTxt || !dots) return;
 
   // build dots
   lines.forEach((_,idx)=>{
-    const b=document.createElement('button');
-    b.setAttribute('aria-label',`Go to message ${idx+1}`);
-    b.addEventListener('click',()=>go(idx,true));
-    dots.appendChild(b);
+    const d=document.createElement('button');
+    d.setAttribute('aria-label',`Go to message ${idx+1}`);
+    d.addEventListener('click',()=>jump(idx,true));
+    dots.appendChild(d);
   });
 
-  let i=0, timer=null, touching=false, sx=0, sy=0;
-  function show(idx){
-    i=(idx+lines.length)%lines.length;
-    // quick dissolve
-    text.style.opacity=0;
-    setTimeout(()=>{ text.innerHTML=lines[i]; text.style.opacity=1; },120);
-    [...dots.children].forEach((d,j)=>d.classList.toggle('active', j===i));
+  let i=0, auto=null, flipping=false;
+
+  function setDots(){ [...dots.children].forEach((d,idx)=>d.classList.toggle('active',idx===i)); }
+
+  // Each flip shows current on front, next on back; after animation we rotate back and advance index
+  function layoutFaces(){
+    fTxt.innerHTML = lines[i];
+    const nextIndex = (i+1) % lines.length;
+    bTxt.innerHTML = lines[nextIndex];
+    setDots();
   }
-  function next(){ show(i+1); try{navigator.vibrate&&navigator.vibrate(8);}catch{} playChime&&playChime(); }
-  function prev(){ show(i-1); try{navigator.vibrate&&navigator.vibrate(8);}catch{} playChime&&playChime(); }
-  function go(idx,stopAuto){ show(idx); if(stopAuto){ clearInterval(timer); timer=null; } }
-  show(0);
 
-  // auto-advance every 5s (pauses while user interacts)
-  timer=setInterval(()=>{ if(!document.hidden) next(); }, 5000);
+  function turn(){
+    if(flipping) return;
+    flipping=true;
+    card.classList.add('flip');
+    inner.classList.add('shadow');
+    inner.style.transform = 'rotateY(180deg)';
+    try{ navigator.vibrate && navigator.vibrate(10);}catch{}
+    playChime && playChime();
+  }
 
-  // swipe
+  inner.addEventListener('transitionend',()=>{ // after flip completes
+    if(inner.style.transform.includes('180deg')){
+      i = (i+1) % lines.length;
+      layoutFaces();
+      inner.style.transform='rotateY(0deg)'; // reset without snap
+      card.classList.remove('flip');
+      setTimeout(()=>{ flipping=false; }, 20);
+    }
+  });
+
+  function jump(to,stopAuto){
+    if(stopAuto){ clearInterval(auto); auto=null; }
+    i = (to + lines.length) % lines.length;
+    layoutFaces();
+  }
+
+  // swipe + tap
+  let touching=false, sx=0, sy=0;
   card.addEventListener('pointerdown',e=>{ touching=true; card.setPointerCapture(e.pointerId); sx=e.clientX; sy=e.clientY; });
   card.addEventListener('pointerup',e=>{
     if(!touching) return; touching=false;
     const dx=e.clientX-sx, dy=e.clientY-sy;
-    if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)){ dx<0 ? next() : prev(); }
-    else next(); // gentle tap advances
+    if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)) turn();
+    else if(Math.abs(dx)<10 && Math.abs(dy)<10) turn(); // tap
   });
 
-  // parallax tilt
+  // keyboard
+  card.addEventListener('keydown',e=>{ if(e.key==='Enter' || e.key===' ' || e.key==='ArrowRight') turn(); });
+
+  // parallax tilt for a little life
   card.addEventListener('mousemove',e=>{
     const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width - .5;
-    const y=(e.clientY-r.top)/r.height - .5;
-    card.style.transform=`rotateY(${x*10}deg) rotateX(${-y*8}deg)`;
+    const x=(e.clientX-r.left)/r.width -.5, y=(e.clientY-r.top)/r.height -.5;
+    inner.style.transform += ''; // keep current
+    card.style.transform=`rotateY(${x*6}deg) rotateX(${-y*4}deg)`;
   });
-  card.addEventListener('mouseleave',()=>{ card.style.transform='rotateY(0) rotateX(0)'; });
+  card.addEventListener('mouseleave',()=>{ card.style.transform='none'; });
 
-  // pause auto when focused/hovered
-  ['pointerdown','mouseenter','focusin'].forEach(ev=> card.addEventListener(ev,()=>{ clearInterval(timer); timer=null; }));
-  ['pointerup','mouseleave','focusout'].forEach(ev=> card.addEventListener(ev,()=>{ if(!timer) timer=setInterval(()=>{ if(!document.hidden) next(); },5000); }));
+  // autoplay
+  auto = setInterval(()=>{ if(!document.hidden) turn(); }, 5200);
+
+  // initial faces
+  layoutFaces();
 })();
+
 
 
 /* ---------- fireworks (final + entry burst) ---------- */
