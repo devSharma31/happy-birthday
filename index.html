@@ -148,11 +148,9 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 
 <!-- Local background song (starts after she taps Enter) -->
 <audio id="bgSong" preload="auto" loop>
-  <!-- Put your mp3 in /assets; or change the path accordingly -->
   <source src="assets/zara-sa.mp3" type="audio/mpeg">
-  <!-- Optional fallback format -->
-  <source src="assets/zara-sa.m4a" type="audio/mp4">
 </audio>
+
 
   <!-- Welcome Gate -->
   <div class="gate" id="gate" aria-modal="true" role="dialog">
@@ -557,8 +555,61 @@ function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac
   const t=ac.currentTime; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.1,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4); o.start(t); o.stop(t+0.42);}catch{} }
 
 /* ---------- Welcome Gate wiring ---------- */
-const gate=$('#gate');
-$('#enterBtn').addEventListener('click',()=>{ startAmbience(); gate.classList.add('hide'); setTimeout(()=>gate.remove(),500); },{once:true});
+(function(){
+  const gate = document.getElementById('gate');
+  const enterBtn = document.getElementById('enterBtn');
+  const home = document.getElementById('home');
+
+  let songPlaying = false;
+
+  function playBgSong(){
+    const a = document.getElementById('bgSong');
+    if(!a) return Promise.resolve(); // no audio tag? just continue
+    a.muted = false;
+    a.volume = 0; // fade in
+    const p = a.play();
+    if(!p || typeof p.then !== 'function') return Promise.resolve();
+    return p.then(()=>{
+      songPlaying = true;
+      let v = 0, target = 0.85, step = 0.02;
+      const id = setInterval(()=>{
+        v += step; a.volume = Math.min(target, v);
+        if(v >= target) clearInterval(id);
+      }, 80);
+    }).catch((err)=>{
+      // Autoplay blocked or file missing – don’t block entering
+      console.log('Music could not start yet:', err);
+      musicNudge();
+    });
+  }
+
+  function musicNudge(){
+    if(document.getElementById('musicNudge')) return;
+    const b = document.createElement('button');
+    b.id='musicNudge'; b.className='btn'; b.textContent='Start music 🎵';
+    b.style.position='fixed'; b.style.bottom='12px'; b.style.right='12px';
+    b.style.zIndex='120';
+    b.addEventListener('click',()=>{ playBgSong().then(()=>b.remove()); });
+    document.body.appendChild(b);
+  }
+
+  function hideGate(){
+    if(!gate) return;
+    gate.classList.add('hide');  // CSS already sets pointer-events:none
+    setTimeout(()=>{ gate.remove(); }, 500);
+    // scroll to the top section just in case
+    try{ home?.scrollIntoView({behavior:'smooth'}); }catch{}
+    sessionStorage.setItem('entered','1');
+  }
+
+  // Wire the click
+  enterBtn?.addEventListener('click', async ()=>{
+    try { await playBgSong(); } finally { hideGate(); } // always hide, even if song fails
+  }, { once:true });
+
+  // If user refreshes mid-site, auto-skip the gate
+  if(sessionStorage.getItem('entered') === '1'){ hideGate(); }
+})();
 
 /* ---------- YouTube overlay (Zara Sa by default) ---------- */
 const DEFAULT_YT = 'GAXNdOm8rPY';
