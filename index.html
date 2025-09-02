@@ -541,30 +541,20 @@ body.blush-lite .stars {
   </div>
 </section>
 
-<!-- 6) Inside lines — 3D foldable card -->
+<!-- 6) Inside lines — cute soft-glass card -->
 <section class="section" id="lines">
   <div class="container center">
 
-    <div class="book3d soft" id="book3d">
-      <div class="book-stage">
-        <!-- The page that flips -->
-        <div class="page flip" id="pageFlip" aria-live="polite">
-          <div class="page-face front">
-            <div class="pgtext" id="lineFront">…</div>
-          </div>
-          <div class="page-face back">
-            <div class="pgtext" id="lineBack">…</div>
-          </div>
-        </div>
+    <div class="quoteWrap">
+      <div class="quoteCard soft" id="quoteCard" aria-live="polite">
+        <div class="qDecor">✨</div>
+        <p id="quoteText">Loading…</p>
+        <div class="qSticker">💌</div>
       </div>
-
-      <div class="book-controls">
-        <button class="btn tiny" id="prevPg" aria-label="Previous line">⟵</button>
-        <button class="btn tiny" id="nextPg" aria-label="Next line">Turn page ⟶</button>
-      </div>
+      <div class="dots" id="dots"></div>
+      <p class="hint">Tap or swipe to change. Auto-plays too.</p>
     </div>
 
-    <!-- keep your story flow -->
     <div class="center" style="margin-top:14px"><a class="btn" href="#divine">Next →</a></div>
   </div>
 </section>
@@ -969,89 +959,60 @@ const LINES = [
   'Tomorrow, I’ll still be here. That’s the whole message. 📩🌙'
 ];
 
-/* ---- 3D Foldable Greeting Card for LINES ---- */
-(function linesBook3D(){
-  const lines = (typeof LINES !== 'undefined' && LINES.length) ? LINES : ['Happy Birthday!'];
-  const flip = document.getElementById('pageFlip');
-  const frontEl = document.getElementById('lineFront');
-  const backEl  = document.getElementById('lineBack');
-  const prevBtn = document.getElementById('prevPg');
-  const nextBtn = document.getElementById('nextPg');
-  if(!flip || !frontEl || !backEl) return;
+/* ---- Cute soft-card quotes (replaces 3D book/arrows) ---- */
+(function cuteCard(){
+  const lines = (typeof LINES !== 'undefined' && LINES.length) ? LINES : ['Happy Birthday! 💖'];
+  const card  = document.getElementById('quoteCard');
+  const text  = document.getElementById('quoteText');
+  const dots  = document.getElementById('dots');
+  if(!card||!text||!dots) return;
 
-  let i = 0, animating = false;
-  function setFaces(){
-    frontEl.innerHTML = lines[i];
-    backEl.innerHTML  = lines[(i+1) % lines.length];
-  }
-  setFaces();
-
-  // NEXT: left-hinged turn (0 -> -180)
-  function turnNext(){
-    if(animating) return; animating = true;
-    flip.classList.add('turn');
-  }
-  flip.addEventListener('transitionend', () => {
-    if(!flip.classList.contains('turn')) return; // ignore resets
-    // Advance index and reset instantly to start pose with new faces
-    i = (i + 1) % lines.length;
-    flip.classList.remove('turn');
-    flip.style.transition = 'none';
-    flip.style.transform  = 'rotateY(0deg)';
-    setFaces();
-    requestAnimationFrame(() => {
-      flip.style.transition = 'transform .7s cubic-bezier(.2,.7,.2,1), box-shadow .7s';
-      animating = false;
-    });
+  // build dots
+  lines.forEach((_,idx)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label',`Go to message ${idx+1}`);
+    b.addEventListener('click',()=>go(idx,true));
+    dots.appendChild(b);
   });
 
-  // PREV: do a mirrored right-hinge turn (start at +180 -> 0)
-  function turnPrev(){
-    if(animating) return; animating = true;
-    // prepare previous on the "back" face
-    const prevIndex = (i - 1 + lines.length) % lines.length;
-    backEl.innerHTML = lines[prevIndex];
-
-    flip.style.transformOrigin = 'right center';
-    flip.style.transition = 'none';
-    flip.style.transform  = 'rotateY(180deg)';
-    requestAnimationFrame(() => {
-      flip.style.transition = 'transform .7s cubic-bezier(.2,.7,.2,1), box-shadow .7s';
-      flip.style.transform  = 'rotateY(0deg)';
-    });
-
-    const onEnd = () => {
-      flip.removeEventListener('transitionend', onEnd);
-      i = prevIndex;
-      flip.style.transformOrigin = 'left center';
-      setFaces();
-      animating = false;
-    };
-    flip.addEventListener('transitionend', onEnd);
+  let i=0, timer=null, touching=false, sx=0, sy=0;
+  function show(idx){
+    i=(idx+lines.length)%lines.length;
+    // quick dissolve
+    text.style.opacity=0;
+    setTimeout(()=>{ text.innerHTML=lines[i]; text.style.opacity=1; },120);
+    [...dots.children].forEach((d,j)=>d.classList.toggle('active', j===i));
   }
+  function next(){ show(i+1); try{navigator.vibrate&&navigator.vibrate(8);}catch{} playChime&&playChime(); }
+  function prev(){ show(i-1); try{navigator.vibrate&&navigator.vibrate(8);}catch{} playChime&&playChime(); }
+  function go(idx,stopAuto){ show(idx); if(stopAuto){ clearInterval(timer); timer=null; } }
+  show(0);
 
-  // Controls
-  nextBtn?.addEventListener('click', turnNext);
-  prevBtn?.addEventListener('click', turnPrev);
-  // Tap card to advance
-  flip.addEventListener('click', turnNext);
+  // auto-advance every 5s (pauses while user interacts)
+  timer=setInterval(()=>{ if(!document.hidden) next(); }, 5000);
 
-  // Swipe support
-  let startX=0, swiping=false;
-  flip.addEventListener('pointerdown', e=>{ swiping=true; flip.setPointerCapture(e.pointerId); startX=e.clientX; });
-  flip.addEventListener('pointerup',   e=>{
-    if(!swiping) return; swiping=false;
-    const dx=e.clientX-startX;
-    if(Math.abs(dx) > 50){ dx<0 ? turnNext() : turnPrev(); }
-    else turnNext();
+  // swipe
+  card.addEventListener('pointerdown',e=>{ touching=true; card.setPointerCapture(e.pointerId); sx=e.clientX; sy=e.clientY; });
+  card.addEventListener('pointerup',e=>{
+    if(!touching) return; touching=false;
+    const dx=e.clientX-sx, dy=e.clientY-sy;
+    if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)){ dx<0 ? next() : prev(); }
+    else next(); // gentle tap advances
   });
 
-  // Auto-advance (pause on interact)
-  let auto = setInterval(()=>{ if(!document.hidden) turnNext(); }, 6000);
-  ['pointerdown','mouseenter','focusin'].forEach(ev=> flip.addEventListener(ev, ()=>{ clearInterval(auto); auto=null; }));
-  ['pointerup','mouseleave','focusout'].forEach(ev=> flip.addEventListener(ev, ()=>{ if(!auto) auto=setInterval(()=>{ if(!document.hidden) turnNext(); }, 6000); }));
+  // parallax tilt
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width - .5;
+    const y=(e.clientY-r.top)/r.height - .5;
+    card.style.transform=`rotateY(${x*10}deg) rotateX(${-y*8}deg)`;
+  });
+  card.addEventListener('mouseleave',()=>{ card.style.transform='rotateY(0) rotateX(0)'; });
+
+  // pause auto when focused/hovered
+  ['pointerdown','mouseenter','focusin'].forEach(ev=> card.addEventListener(ev,()=>{ clearInterval(timer); timer=null; }));
+  ['pointerup','mouseleave','focusout'].forEach(ev=> card.addEventListener(ev,()=>{ if(!timer) timer=setInterval(()=>{ if(!document.hidden) next(); },5000); }));
 })();
-
 
 
 /* ---------- fireworks (final + entry burst) ---------- */
