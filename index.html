@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -178,60 +177,22 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 <!-- Entry fireworks canvas -->
 <canvas id="fireEnter"></canvas>
 
-<!-- Welcome Gate (always shown on load, inline-close so it NEVER breaks) -->
-
+<!-- Welcome Gate -->
 <div class="gate" id="gate" aria-modal="true" role="dialog">
   <div class="gate-card soft">
     <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
     <p>Only pure and warm wishes for you today 🤌🏻✨: Hope your smile stays constant while you read this.</p>
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
-
     <div class="gate-actions">
-
-      <!-- ✅ This inline IIFE hides and removes the gate, no other JS required -->
-      <button
-        class="btn" id="enterBtn" type="button"
-        onclick="(function(){var g=document.getElementById('gate'); if(!g) return; g.classList.add('hide'); document.body.classList.remove('gated'); setTimeout(function(){ if(g&&g.parentNode) g.parentNode.removeChild(g); }, 450);}())">
-        Enter the little night →
-      </button>
-
-      <!-- Optional: play song via inline fallback, but does NOT block entering -->
-      <button
-        class="btn" id="playSongGate" type="button"
-        onclick="(function(){try{ if(window.openYT){openYT();} else { var btn=document.getElementById('playSong'); btn&&btn.click(); } }catch(e){} }())">
-        Play “Zara Sa” 🎵
-      </button>
+      <button class="btn" id="enterBtn" type="button" onclick="enterGate()">Enter the little night →</button>
+      <button class="btn" id="toggleSongBtn" type="button">Pause / Play song 🎵</button>
     </div>
-
     <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
   </div>
 </div>
 
-
-<!-- place this immediately after the Gate markup -->
-<script>
-(function () {
-  const url = new URL(location.href);
-  if (url.searchParams.get('skip') === '1') {
-    const g = document.getElementById('gate');
-    if (g) {
-      g.classList.add('hide');
-      document.body.classList.remove('gated');
-      setTimeout(()=> g.remove(), 10);
-    }
-    // honor the anchor (e.g., #spotlight) after the gate disappears
-    if (location.hash) {
-      setTimeout(() => {
-        const target = document.querySelector(location.hash);
-        target && target.scrollIntoView({behavior: 'smooth', block:'start'});
-      }, 30);
-    }
-  }
-})();
-</script>
-
 <!-- Top chrome -->
-<div class="sig">made with <b>love</b> - by <b>Dev</b></div>
+<div class="sig">made with <b>time</b> & <b>care</b></div>
 <div class="mood">
   <button class="n" title="Night"  onclick="setMood('night')"></button>
   <button class="g" title="Gulabi" onclick="setMood('gulabi')"></button>
@@ -252,7 +213,8 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
     <h1 class="title">On this small night, the universe plays its sweetest tune…</h1>
     <p class="lead muted">…because it’s your day, Shruti. (Madamji, Laadliji—haan, dono tum ho.)</p>
     <div class="cta">
-      <button class="btn" id="toggleSongBtn2">Wanna walk with me ? 🎵</button>
+      <a class="btn" href="#spark" id="walkBtn">Walk with me →</a>
+      <button class="btn" id="toggleSongBtn2">Pause / Play song 🎵</button>
     </div>
   </div>
 </section>
@@ -273,9 +235,9 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 <!-- 3) Blessings -->
 <section class="section" id="blessings">
   <div class="container" style="width:min(100%,960px)">
-    <h2 class="center" style="margin-bottom:14px;color:var(--accent)">Cute Playful Blessings</h2>
+    <h2 class="center" style="margin-bottom:14px;color:var(--accent)">Playful Aashirwad</h2>
     <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
-    <p class="hint center">Tap a balloon to pop it.</p>
+    <p class="hint center">Tap a balloon to pop it. Laadliji, Ramji ki kripa bani rahe.</p>
     <div class="center" style="margin-top:12px"><a class="btn" href="#cards">Next →</a></div>
   </div>
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -291,7 +253,7 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 <section class="section" id="cards">
   <div class="container center">
     <h2 style="margin:.2rem 0 .6rem;color:var(--accent)">Small Birthday Cards</h2>
-    <p class="muted" style="margin-top:-6px">Tap to flip—chhoti si khushiyan aur meethi si shaitaani.</p>
+    <p class="muted" style="margin-top:-6px">Tap to flip—chhota sa sukoon aur thodi si meethi shaitaani.</p>
     <div class="cards" id="cardsWrap"></div>
     <div class="cta" style="margin-top:14px"><a class="btn" href="#spotlight">Next →</a></div>
   </div>
@@ -309,7 +271,7 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
       <div class="center" style="margin-top:8px">
         <button class="btn" id="openRing3D">Try 3D photo ring ✨</button>
       </div>
-      <p class="hint center">Every picture whispers: “you’re trouble, but the good kind, Madamji.”</p>
+      <p class="hint center">Every picture whispers: “you’re trouble—the good kind, Madamji.”</p>
       <div class="center" style="margin-top:10px"><a class="btn" href="#lines">Next →</a></div>
     </div>
   </div>
@@ -334,7 +296,7 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
   <div class="container center soft" style="padding:20px">
     <h2 style="margin:.4rem 0;color:var(--accent)">A small prayer</h2>
     <p class="muted" style="max-width:740px;margin:6px auto 0">
-      May Kanhaji keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
+      May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
       May your days be soft where you need softness and strong where you need strength.
     </p>
     <div style="margin-top:12px"><a class="btn" href="#final">Final page →</a></div>
@@ -345,7 +307,7 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 <section class="section final" id="final" style="overflow:hidden">
   <canvas id="fire" aria-hidden="true"></canvas>
   <div class="container center">
-    <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Madamji</span>!</h2>
+    <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Shruti</span>!</h2>
     <p id="promiseLine">Is saal tumhare liye zyada sukoon, zyada hasi. Main sideline se quietly cheer karta rahunga—roz.</p>
     <div class="cta">
       <button class="btn" id="gift">Shower of cute things 🎁</button>
@@ -485,10 +447,10 @@ blessIO.observe($('#blessings'));
 
 /* ---------- greeting cards (flip) ---------- */
 const greetingCards=[
- {title:'Nazar Na Lage', '🧿', text:'Madamji, nazar buri lage bhi toh—tum par Kanhaji ki chhaya aur meri rakhwali humesha rahegi.'},
- {title:'Chai + Calm',  '☕️', text:'Subah ki chai ya raat ka sukoon—jo chahiye, bol do. Main dhoondh launga.'},
- {title:'Calendar Bless', '📅', text:'Is saal ka har Monday halka, aur har Friday ke beech me thodi si chhutti mile aapko.'},
- {title:'Inbox of Joy',  '📫', text:'Roz thoda sa pyaar aur thodi hansi (spam free and ad free).'},
+ {title:'Nazar Na Lage', charm:'🧿', text:'Madamji, nazar buri lage bhi toh—tum par Kanhaji ki chhaya aur meri rakhwali humesha rahegi.'},
+ {title:'Chai + Calm',   charm:'☕️', text:'Subah ki chai ya raat ka sukoon—jo chahiye, bol do. Main dhoondh launga.'},
+ {title:'Calendar Bless', charm:'📅', text:'Is saal ka har Monday halka, aur har Friday ke beech me thodi si chhutti.'},
+ {title:'Inbox of Joy',   charm:'📫', text:'Roz thoda pyaar, thodi hansi—spam free, ad free.'},
 ];
 (function buildCards(){
   const wrap=$('#cardsWrap');
@@ -623,11 +585,11 @@ function initStardust(src){
 
 /* ---------- inside lines ---------- */
 const LINES=[
-  'No expectations. just pure good wishes, daily.',
-  'Ignore mode on? Theek hai, main yahin, quietly rooting.',
-  'Main impress karna nahi, consistent rehna chahta hoon, hope you get it!.',
-  'Madamji, tum muskurao — baaki sab adjust ho jayega.',
-  '1% chance bhi agar hoga? Main 100% mehnat karta rahunga - without complaining.',
+  'No expectations. Bas good wishes, daily.',
+  'Ignore mode on? Theek hai—main yahin, quietly rooting.',
+  'Main impress nahi, consistent rehna chahta hoon.',
+  'Madamji, tu muskura—baaki sab adjust ho jayega.',
+  '1% chance? Main 100% mehnat karta rahunga—bina shor.',
 ];
 let li=0; const slide=$('#slideText');
 $('#nextLine').addEventListener('click',()=>{ li=(li+1)%LINES.length; slide.innerText=LINES[li]; playChime(); });
@@ -945,5 +907,3 @@ document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (
 </script>
 </body>
 </html>
-
-
