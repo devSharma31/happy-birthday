@@ -158,12 +158,57 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
     <p>Only pure and warm wishes for you today 🤌🏻✨: Hope your smile stays constant while you read this.</p>
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
     <div class="gate-actions">
-      <button class="btn" id="enterBtn" type="button">Enter the little night →</button>
+      <button class="btn" id="enterBtn" type="button" onclick="enterSite()">Enter the little night →</button>
       <button class="btn" id="playSongGate" type="button">Play “Zara Sa” 🎵</button>
     </div>
     <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
   </div>
 </div>
+
+  <!-- Failsafe gate controller (inserted here) -->
+<script>
+(function () {
+  var gate   = document.getElementById('gate');
+  var enter  = document.getElementById('enterBtn');
+  var songEl = document.getElementById('bgSong');
+  var home   = document.getElementById('home');
+
+  function hideGate() {
+    if (!gate) return;
+    gate.classList.add('hide');
+    setTimeout(function () {
+      if (gate && gate.parentNode) gate.parentNode.removeChild(gate);
+    }, 500);
+    try { if (home && home.scrollIntoView) home.scrollIntoView({behavior:'smooth'}); } catch(e) {}
+    try { sessionStorage.setItem('entered','1'); } catch(e) {}
+  }
+
+  window.enterSite = function () {
+    try {
+      if (songEl) {
+        songEl.muted = false;
+        songEl.volume = 0;
+        var p = songEl.play();
+        if (p && typeof p.then === 'function') {
+          p.then(function () {
+            var v = 0, target = 0.85, step = 0.02;
+            var id = setInterval(function () {
+              v += step; songEl.volume = Math.min(target, v);
+              if (v >= target) clearInterval(id);
+            }, 80);
+          }).catch(function(){});
+        }
+      }
+    } catch (e) {}
+    hideGate();
+  };
+
+  if (enter) enter.addEventListener('click', window.enterSite, { once: true });
+
+  try { if (sessionStorage.getItem('entered') === '1') hideGate(); } catch(e) {}
+})();
+</script>
+
 
 <!-- Top chrome -->
 <div class="sig">made with <b>time</b> & <b>care</b></div>
