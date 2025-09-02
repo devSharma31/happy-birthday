@@ -75,7 +75,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .lit{transform:translateY(0) scale(1)}
 .lit .flame{animation:flicker .18s infinite alternate .1s;opacity:1}
 .lit .glow{animation:glow 1.2s ease-in-out infinite alternate .1s;opacity:1}
-@keyframes flicker{from{transform:translateX(-50%) rotate(-2deg) scaleY(1)}to{transform:translateX(50%) rotate(2deg) scaleY(1.07)}}
+@keyframes flicker{from{transform:translateX(-50%) rotate(-2deg) scaleY(1)}to{transform:translateX(-50%) rotate(2deg) scaleY(1.07)}}
 @keyframes glow{from{transform:translateX(-50%) scale(.9)}to{transform:translateX(-50%) scale(1.05)}}
 
 /* Balloons + modal (BIGGER) */
@@ -178,7 +178,8 @@ body.gated { overflow:hidden; }
     <p>Only pure and warm wishes for you today 🤌🏻✨: Hope your smile stays constant while you read this.</p>
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
     <div class="gate-actions">
-      <button class="btn" id="enterBtn" type="button">Enter the little night →</button>
+      <!-- INLINE HANDLER so it always works -->
+      <button class="btn" id="enterBtn" type="button" onclick="enterGate()">Enter the little night →</button>
       <button class="btn" id="playSongGate" type="button">Play “Zara Sa” 🎵</button>
     </div>
     <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
@@ -327,7 +328,7 @@ body.gated { overflow:hidden; }
   </div>
 </div>
 
-<!-- Three.js (module) for background / ring -->
+<!-- Three.js (module) -->
 <script type="module">
   import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
   window.THREE = THREE;
@@ -471,8 +472,7 @@ const greetingCards=[
 
 /* ---------- spotlight photos (replace PHOTOS!) ---------- */
 const PHOTOS = [
-  // put your image URLs
-  // {src:'images/shruti-01.jpg'},
+  // add later: {src:'images/shruti-01.jpg'},
 ];
 (function gallery(){
   const hero=$('#hero'), grid=$('#polaroids');
@@ -547,7 +547,7 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight){
   ctx.fillText(line, x, y);
 }
 
-/* ---------- ambience (small chimes) ---------- */
+/* ---------- ambience (tiny chimes) ---------- */
 let ac, master;
 function ensureAudioCtx(){ if(ac) return; ac=new (window.AudioContext||window.webkitAudioContext)(); master=ac.createGain(); master.gain.value=0.0; master.connect(ac.destination); }
 function startAmbience(){
@@ -573,36 +573,28 @@ function startAmbience(){
 function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=880; g.gain.value=0.0001; o.connect(g); g.connect(master);
   const t=ac.currentTime; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.1,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4); o.start(t); o.stop(t+0.42);}catch{} }
 
-/* ---------- Welcome Gate wiring (always show; pop-in; hide on click) ---------- */
-(function(){
-  const gate   = document.getElementById('gate');
-  const enter  = document.getElementById('enterBtn');
-  const home   = document.getElementById('home');
-  const songEl = document.getElementById('bgSong');
-
-  function hideGate(){
-    if(!gate) return;
-    gate.classList.add('hide');
-    document.body.classList.remove('gated'); // unlock scroll
-    setTimeout(()=>{ gate.remove(); }, 500);
-    try{ home?.scrollIntoView({behavior:'smooth'}); }catch{}
-  }
-
-  function playBgSong(){
-    if(!songEl) return Promise.resolve();
-    songEl.muted=false; songEl.volume=0;
-    const p=songEl.play();
-    if(!p||typeof p.then!=='function') return Promise.resolve();
-    return p.then(()=>{
-      let v=0, target=0.85, step=0.02;
-      const id=setInterval(()=>{ v+=step; songEl.volume=Math.min(target,v); if(v>=target) clearInterval(id); },80);
-    }).catch(()=>{ /* ignore autoplay block */ });
-  }
-
-  enter?.addEventListener('click', async ()=>{
-    try{ await playBgSong(); } finally { hideGate(); }
-  }, {once:true});
-})();
+/* ---------- Welcome Gate: global handlers so click always works ---------- */
+function hideGate(){
+  const gate=document.getElementById('gate');
+  if(!gate) return;
+  gate.classList.add('hide');
+  document.body.classList.remove('gated');
+  setTimeout(()=>gate.remove(),500);
+  try{ document.getElementById('home')?.scrollIntoView({behavior:'smooth'}); }catch{}
+}
+function playBgSong(){
+  const songEl=document.getElementById('bgSong');
+  if(!songEl) return Promise.resolve();
+  songEl.muted=false; songEl.volume=0;
+  const p=songEl.play();
+  if(!p||typeof p.then!=='function') return Promise.resolve();
+  return p.then(()=>{
+    let v=0, target=0.85, step=0.02;
+    const id=setInterval(()=>{ v+=step; songEl.volume=Math.min(target,v); if(v>=target) clearInterval(id); },80);
+  }).catch(()=>Promise.resolve()); // ignore autoplay block
+}
+async function enterGate(){ try{ await playBgSong(); } finally { hideGate(); } }
+document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (e.key==='Enter'||e.key===' ')) enterGate(); });
 
 /* ---------- YouTube overlay (Zara Sa default) ---------- */
 const DEFAULT_YT = 'GAXNdOm8rPY';
