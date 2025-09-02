@@ -151,171 +151,168 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
   <source src="assets/zara-sa.mp3" type="audio/mpeg">
 </audio>
 
-
-  <!-- Welcome Gate -->
-  <div class="gate" id="gate" aria-modal="true" role="dialog">
-    <div class="gate-card soft">
-      <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
-      <p>Only pure and warm wishes for you today 🤌🏻✨: Hope you your smile stays constant while you read this. </p>
-      <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
-      <div class="gate-actions">
-        <button class="btn" id="enterBtn">Enter the little night →</button>
-        <button class="btn" id="playSongGate">Play “Zara Sa” 🎵</button>
-      </div>
-      <p class="hint">Ignore Karo toh bhi Theek hai, I am that silly boy who would never stop trying 🫠 .</p>
+<!-- Welcome Gate -->
+<div class="gate" id="gate" aria-modal="true" role="dialog">
+  <div class="gate-card soft">
+    <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
+    <p>Only pure and warm wishes for you today 🤌🏻✨: Hope your smile stays constant while you read this.</p>
+    <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
+    <div class="gate-actions">
+      <button class="btn" id="enterBtn" type="button">Enter the little night →</button>
+      <button class="btn" id="playSongGate" type="button">Play “Zara Sa” 🎵</button>
     </div>
+    <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
   </div>
+</div>
 
-  <!-- Top chrome -->
-  <div class="sig">made with <b>time</b> & <b>care</b></div>
-  <div class="mood">
-    <button class="n" title="Night"  onclick="setMood('night')"></button>
-    <button class="g" title="Gulabi" onclick="setMood('gulabi')"></button>
-    <button class="d" title="Denim"  onclick="setMood('denim')"></button>
-    <button class="t3d" id="toggle3D" title="Toggle 3D">3D</button>
+<!-- Top chrome -->
+<div class="sig">made with <b>time</b> & <b>care</b></div>
+<div class="mood">
+  <button class="n" title="Night"  onclick="setMood('night')"></button>
+  <button class="g" title="Gulabi" onclick="setMood('gulabi')"></button>
+  <button class="d" title="Denim"  onclick="setMood('denim')"></button>
+  <button class="t3d" id="toggle3D" title="Toggle 3D">3D</button>
+</div>
+
+<!-- Sky layers -->
+<canvas id="trail" aria-hidden="true"></canvas>
+<canvas id="nameConstellation" aria-hidden="true"></canvas>
+<div class="stars" aria-hidden="true"></div>
+<canvas id="three3d" aria-hidden="true"></canvas>
+<div id="petals" aria-hidden="true"></div>
+
+<!-- 1) Landing -->
+<section class="section" id="home">
+  <div class="container center">
+    <h1 class="title">On this small night, the universe plays its sweetest tune…</h1>
+    <p class="lead muted">…because it’s your day, Shruti. (Madamji, Laadliji—haan, dono tum ho.)</p>
+    <div class="cta">
+      <a class="btn" href="#spark" id="walkBtn">Walk with me →</a>
+      <button class="btn" id="playSong">Play her song 🎵</button>
+    </div>
+    <p class="hint" style="margin-top:8px">You can also add <code>?yt=VIDEO_ID</code> to the URL.</p>
   </div>
+</section>
 
-  <!-- Sky layers -->
-  <canvas id="trail" aria-hidden="true"></canvas>
-  <canvas id="nameConstellation" aria-hidden="true"></canvas>
-  <div class="stars" aria-hidden="true"></div>
-  <canvas id="three3d" aria-hidden="true"></canvas>
-  <div id="petals" aria-hidden="true"></div>
-
-  <!-- 1) Landing -->
-  <section class="section" id="home">
-    <div class="container center">
-      <h1 class="title">On this small night, the universe plays its sweetest tune…</h1>
-      <p class="lead muted">…because it’s your day, Shruti. (Madamji, Laadliji—haan, dono tum ho.)</p>
-      <div class="cta">
-        <a class="btn" href="#spark" id="walkBtn">Walk with me →</a>
-        <button class="btn" id="playSong">Play her song 🎵</button>
-      </div>
-      <p class="hint" style="margin-top:8px">You can also add <code>?yt=VIDEO_ID</code> to the URL.</p>
+<!-- 2) Spark (diya + assurance) -->
+<section class="section" id="spark">
+  <div class="container center">
+    <div class="diya soft" id="diya" title="Long-press me">
+      <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
     </div>
-  </section>
-
-  <!-- 2) Spark (diya + assurance) -->
-  <section class="section" id="spark">
-    <div class="container center">
-      <div class="diya soft" id="diya" title="Long-press me">
-        <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
-      </div>
-      <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px">
-        Aaj sirf duaayein: deadlines dayalu, playlist lambi, aur muskurahat asaan. Main yahin hoon—shanti se, bina demand ke—tumhari smile ka silly guard.
-      </p>
-      <div class="cta"><a class="btn" href="#blessings">Next →</a></div>
-    </div>
-  </section>
+    <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px">
+      Aaj sirf duaayein: deadlines dayalu, playlist lambi, aur muskurahat asaan. Main yahin hoon—shanti se, bina demand ke—tumhari smile ka silly guard.
+    </p>
+    <div class="cta"><a class="btn" href="#blessings">Next →</a></div>
+  </div>
+</section>
 
 <!-- 3) Blessings -->
-  <section class="section" id="blessings">
-    <div class="container" style="width:min(100%,960px)">
-      <h2 class="center" style="margin-bottom:14px;color:var(--accent)">Playful Aashirwad</h2>
-      <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
-      <p class="hint center">Tap a balloon to pop it. Laadliji, Ramji ki kripa bani rahe.</p>
-      <div class="center" style="margin-top:12px"><a class="btn" href="#cards">Next →</a></div>
+<section class="section" id="blessings">
+  <div class="container" style="width:min(100%,960px)">
+    <h2 class="center" style="margin-bottom:14px;color:var(--accent)">Playful Aashirwad</h2>
+    <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
+    <p class="hint center">Tap a balloon to pop it. Laadliji, Ramji ki kripa bani rahe.</p>
+    <div class="center" style="margin-top:12px"><a class="btn" href="#cards">Next →</a></div>
+  </div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="dialog">
+      <h4 id="modalTitle">A note</h4>
+      <p id="modalMsg">You are loved.</p>
+      <button class="btn" id="modalClose">Close</button>
     </div>
-    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="dialog">
-        <h4 id="modalTitle">A note</h4>
-        <p id="modalMsg">You are loved.</p>
-        <button class="btn" id="modalClose">Close</button>
+  </div>
+</section>
+
+<!-- 4) Greeting Cards -->
+<section class="section" id="cards">
+  <div class="container center">
+    <h2 style="margin:.2rem 0 .6rem;color:var(--accent)">Small Birthday Cards</h2>
+    <p class="muted" style="margin-top:-6px">Open any card—bas chhota sa sukoon aur thodi si meethi shaitaani.</p>
+    <div class="cards" id="cardsWrap"></div>
+    <div class="cta" style="margin-top:14px"><a class="btn" href="#spotlight">Next →</a></div>
+  </div>
+</section>
+
+<!-- 5) Spotlight — ONLY her photos -->
+<section class="section" id="spotlight">
+  <div class="container">
+    <div class="gallery">
+      <div class="hero soft"><img id="hero" alt="her photo" src=""></div>
+      <div class="polaroids" id="polaroids"></div>
+      <div class="center" style="margin-top:8px">
+        <button class="btn" id="openRing3D">Try 3D photo ring ✨</button>
+      </div>
+      <p class="hint center">Every picture whispers the same thing: “you’re trouble—the good kind, Madamji.”</p>
+      <div class="center" style="margin-top:10px"><a class="btn" href="#lines">Next →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6) Inside lines — assurance > romance -->
+<section class="section" id="lines">
+  <div class="container">
+    <div class="carousel">
+      <div class="slide" id="slideText">No expectations. Bas good wishes, daily.</div>
+      <div class="nav">
+        <button class="btn" id="prevLine">←</button>
+        <button class="btn" id="nextLine">→</button>
       </div>
     </div>
-  </section>
-
-  <!-- 4) Greeting Cards -->
-  <section class="section" id="cards">
-    <div class="container center">
-      <h2 style="margin:.2rem 0 .6rem;color:var(--accent)">Small Birthday Cards</h2>
-      <p class="muted" style="margin-top:-6px">Open any card—bas chhota sa sukoon aur thodi si meethi shaitaani.</p>
-      <div class="cards" id="cardsWrap"></div>
-      <div class="cta" style="margin-top:14px"><a class="btn" href="#spotlight">Next →</a></div>
-    </div>
-  </section>
-
-  <!-- 5) Spotlight — ONLY her photos -->
-  <section class="section" id="spotlight">
-    <div class="container">
-      <div class="gallery">
-        <div class="hero soft"><img id="hero" alt="her photo" src=""></div>
-        <div class="polaroids" id="polaroids"></div>
-        <div class="center" style="margin-top:8px">
-          <button class="btn" id="openRing3D">Try 3D photo ring ✨</button>
-        </div>
-        <p class="hint center">Every picture whispers the same thing: “you’re trouble—the good kind, Madamji.”</p>
-        <div class="center" style="margin-top:10px"><a class="btn" href="#lines">Next →</a></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6) Inside lines — assurance > romance -->
-  <section class="section" id="lines">
-    <div class="container">
-      <div class="carousel">
-        <div class="slide" id="slideText">No expectations. Bas good wishes, daily.</div>
-        <div class="nav">
-          <button class="btn" id="prevLine">←</button>
-          <button class="btn" id="nextLine">→</button>
-        </div>
-      </div>
-      <div class="center" style="margin-top:14px"><a class="btn" href="#divine">Next →</a></div>
-    </div>
-  </section>
-
+    <div class="center" style="margin-top:14px"><a class="btn" href="#divine">Next →</a></div>
+  </div>
+</section>
 
 <!-- 7) Divine blessing -->
-  <section class="section" id="divine">
-    <div class="container center soft" style="padding:20px">
-      <h2 style="margin:.4rem 0;color:var(--accent)">A small prayer</h2>
-      <p class="muted" style="max-width:740px;margin:6px auto 0">
-        May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
-        May your days be soft where you need softness and strong where you need strength.
-      </p>
-      <div style="margin-top:12px"><a class="btn" href="#final">Final page →</a></div>
-    </div>
-  </section>
+<section class="section" id="divine">
+  <div class="container center soft" style="padding:20px">
+    <h2 style="margin:.4rem 0;color:var(--accent)">A small prayer</h2>
+    <p class="muted" style="max-width:740px;margin:6px auto 0">
+      May Kanha keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
+      May your days be soft where you need softness and strong where you need strength.
+    </p>
+    <div style="margin-top:12px"><a class="btn" href="#final">Final page →</a></div>
+  </div>
+</section>
 
-  <!-- Finale -->
-  <section class="section final" id="final" style="overflow:hidden">
-    <canvas id="fire" aria-hidden="true"></canvas>
-    <div class="container center">
-      <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Shruti</span>!</h2>
-      <p id="promiseLine">Is saal tumhare liye zyada sukoon, zyada hasi. Main sideline se quietly cheer karta rahunga—roz.</p>
-      <div class="cta">
-        <button class="btn" id="gift">Shower of cute things 🎁</button>
-        <button class="btn" id="savePNG">Save this promise (PNG)</button>
-        <button class="btn" id="playSong2">Play her song 🎵</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Lightbox -->
-  <div class="lightbox" id="lb"><img id="lbImg" alt=""><button class="btn x" onclick="closeLB()">Close ✖</button></div>
-
-  <!-- YouTube overlay -->
-  <div id="ytOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:80;align-items:center;justify-content:center">
-    <div style="width:min(860px,92vw);aspect-ratio:16/9;background:#000;border:1px solid var(--edge);border-radius:12px;overflow:hidden;position:relative">
-      <iframe id="yt" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      <button class="btn" style="position:absolute;right:10px;top:10px" onclick="closeYT()">Close ✖</button>
+<!-- Finale -->
+<section class="section final" id="final" style="overflow:hidden">
+  <canvas id="fire" aria-hidden="true"></canvas>
+  <div class="container center">
+    <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Shruti</span>!</h2>
+    <p id="promiseLine">Is saal tumhare liye zyada sukoon, zyada hasi. Main sideline se quietly cheer karta rahunga—roz.</p>
+    <div class="cta">
+      <button class="btn" id="gift">Shower of cute things 🎁</button>
+      <button class="btn" id="savePNG">Save this promise (PNG)</button>
+      <button class="btn" id="playSong2">Play her song 🎵</button>
     </div>
   </div>
+</section>
 
-  <!-- 3D Photo Ring overlay -->
-  <div id="ring3d">
-    <div class="box">
-      <canvas id="ringCanvas"></canvas>
-      <button class="btn close" onclick="closeRing3D()">Close ✖</button>
-    </div>
+<!-- Lightbox -->
+<div class="lightbox" id="lb"><img id="lbImg" alt=""><button class="btn x" onclick="closeLB()">Close ✖</button></div>
+
+<!-- YouTube overlay -->
+<div id="ytOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:80;align-items:center;justify-content:center">
+  <div style="width:min(860px,92vw);aspect-ratio:16/9;background:#000;border:1px solid var(--edge);border-radius:12px;overflow:hidden;position:relative">
+    <iframe id="yt" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <button class="btn" style="position:absolute;right:10px;top:10px" onclick="closeYT()">Close ✖</button>
   </div>
+</div>
 
-  <!-- Three.js loader -->
- <script type="module">
+<!-- 3D Photo Ring overlay -->
+<div id="ring3d">
+  <div class="box">
+    <canvas id="ringCanvas"></canvas>
+    <button class="btn close" onclick="closeRing3D()">Close ✖</button>
+  </div>
+</div>
+
+<!-- Three.js (module) -->
+<script type="module">
   import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-  window.THREE = THREE; // keep the rest of your code unchanged
+  window.THREE = THREE; // expose for non-module code below
 </script>
-
 
 <script>
 /* ---------- helpers ---------- */
@@ -383,12 +380,12 @@ function nameConstellation(name){
 }
 
 /* ---------- diya + typed assurance + long-press note ---------- */
-const sparkIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeAssure(); } }); },{threshold:.45});
+const sparkIO=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeAssure(); } }); },{threshold:.45});
 sparkIO.observe($('#spark'));
 function typeAssure(){ const el=$('#assureLine'); const t=el.textContent.trim(); el.textContent=''; let i=0; const id=setInterval(()=>{ el.textContent+=t.charAt(i++); if(i>=t.length) clearInterval(id); },26); }
 (function longPress(){
   const el=$('#diya'); let timer=null;
-  const open=()=>showModal('A small note','Space chahiye toh milegi. Main bas background me diya jala ke rakhoonga.');
+  const open=function(){ showModal('A small note','Space chahiye toh milegi. Main bas background me diya jala ke rakhoonga.'); };
   el.addEventListener('pointerdown',()=>{ timer=setTimeout(open,650); });
   ['pointerup','pointerleave','pointercancel'].forEach(ev=> el.addEventListener(ev,()=>clearTimeout(timer)));
 })();
@@ -415,14 +412,14 @@ function spawnBalloons(){
   });
 }
 function popBlessing(el,b){
-  try{ navigator.vibrate && navigator.vibrate(12);}catch{}
+  try{ if(navigator.vibrate) navigator.vibrate(12);}catch(e){}
   el.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260,easing:'ease-in'});
   setTimeout(()=>el.remove(),220);
   playChime(); showModal(b.word,b.msg);
 }
 function showModal(title,msg){ $('#modalTitle').textContent=title; $('#modalMsg').textContent=msg; $('#modal').classList.add('show'); }
 $('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
-const blessIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) spawnBalloons(); }); },{threshold:.4});
+const blessIO=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) spawnBalloons(); }); },{threshold:.4});
 blessIO.observe($('#blessings'));
 
 /* ---------- greeting cards ---------- */
@@ -476,7 +473,7 @@ const PHOTOS = [
     d.addEventListener('dblclick',()=>openLB(p.src));
     grid.appendChild(d);
   });
-  hero.addEventListener('click',()=>openLB(PHOTOS[cur]?.src||hero.src));
+  hero.addEventListener('click',()=>openLB(PHOTOS[cur] ? PHOTOS[cur].src : hero.src));
 })();
 function openLB(src){ $('#lbImg').src=src; $('#lb').style.display='flex'; }
 function closeLB(){ $('#lb').style.display='none'; }
@@ -495,7 +492,7 @@ $('#prevLine').addEventListener('click',()=>{ li=(li-1+LINES.length)%LINES.lengt
 
 /* ---------- heart fireworks ---------- */
 let fwStarted=false;
-const fwIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && !fwStarted){ fwStarted=true; fireworks(); } }); },{threshold:.42});
+const fwIO=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !fwStarted){ fwStarted=true; fireworks(); } }); },{threshold:.42});
 fwIO.observe($('#final'));
 function fireworks(){
   const c=$('#fire'), a=c.getContext('2d'); function fit(){ c.width=innerWidth; c.height=Math.max(300,innerHeight*.9) } fit(); addEventListener('resize',fit);
@@ -507,12 +504,23 @@ function fireworks(){
   for(let i=0;i<4;i++) setTimeout(boom,i*380); const iv=setInterval(boom,1300); setTimeout(()=>clearInterval(iv),12000);
 }
 
-/* ---------- gift rain ---------- */
-$('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibrate(14);}catch{} const icons=['🧸','🍫','❤️🩷,'💞','✨','🌸','🍬','🪔','🧿','🌼'];
-  const D=5200,t0=performance.now(); (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
-    s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
-    const drift=(Math.random()*2-1)*80,time=2400+Math.random()*1800; s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'});
-    setTimeout(()=>s.remove(),time+60); requestAnimationFrame(drop) })();
+/* ---------- gift rain (fixed emoji array) ---------- */
+document.getElementById('gift').addEventListener('click',function(){
+  try{ if(navigator.vibrate) navigator.vibrate(14);}catch(e){}
+  const icons=['🧸','🍫','❤️','🩷','💞','✨','🌸','🍬','🪔','🧿','🌼'];
+  const D=5200,t0=performance.now();
+  (function drop(){
+    if(performance.now()-t0>D) return;
+    const s=document.createElement('span');
+    s.textContent=icons[Math.floor(Math.random()*icons.length)];
+    s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px';
+    s.style.fontSize='32px'; s.style.zIndex='60';
+    document.body.appendChild(s);
+    const drift=(Math.random()*2-1)*80,time=2400+Math.random()*1800;
+    s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'});
+    setTimeout(()=>s.remove(),time+60);
+    requestAnimationFrame(drop);
+  })();
 });
 
 /* ---------- save final promise as PNG ---------- */
@@ -536,7 +544,7 @@ let ac, master;
 function ensureAudioCtx(){ if(ac) return; ac=new (window.AudioContext||window.webkitAudioContext)(); master=ac.createGain(); master.gain.value=0.0; master.connect(ac.destination); }
 function startAmbience(){
   try{
-    ensureAudioCtx(); ac.resume&&ac.resume();
+    ensureAudioCtx(); if(ac.resume) ac.resume();
     const g=ac.createGain(); g.gain.value=0.0; g.connect(master);
     function flute(freq, t0, dur){
       const o=ac.createOscillator(); o.type='sine'; o.frequency.value=freq;
@@ -552,12 +560,12 @@ function startAmbience(){
     phrase(start); setInterval(()=>phrase(ac.currentTime+.1),5000);
     master.gain.cancelScheduledValues(ac.currentTime); master.gain.linearRampToValueAtTime(0.10, ac.currentTime+1.2);
     g.gain.linearRampToValueAtTime(0.10, ac.currentTime+1.2);
-  }catch{}
+  }catch(e){}
 }
 function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=880; g.gain.value=0.0001; o.connect(g); g.connect(master);
-  const t=ac.currentTime; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.1,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4); o.start(t); o.stop(t+0.42);}catch{} }
+  const t=ac.currentTime; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.1,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4); o.start(t); o.stop(t+0.42);}catch(e){} }
 
-/* ---------- Welcome Gate wiring ---------- */
+/* ---------- Welcome Gate wiring (safe) ---------- */
 (function(){
   const gate = document.getElementById('gate');
   const enterBtn = document.getElementById('enterBtn');
@@ -567,7 +575,7 @@ function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac
 
   function playBgSong(){
     const a = document.getElementById('bgSong');
-    if(!a) return Promise.resolve(); // no audio tag? just continue
+    if(!a) return Promise.resolve(); // no audio tag? continue
     a.muted = false;
     a.volume = 0; // fade in
     const p = a.play();
@@ -580,7 +588,6 @@ function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac
         if(v >= target) clearInterval(id);
       }, 80);
     }).catch((err)=>{
-      // Autoplay blocked or file missing – don’t block entering
       console.log('Music could not start yet:', err);
       musicNudge();
     });
@@ -598,19 +605,18 @@ function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac
 
   function hideGate(){
     if(!gate) return;
-    gate.classList.add('hide');  // CSS already sets pointer-events:none
+    gate.classList.add('hide');
     setTimeout(()=>{ gate.remove(); }, 500);
-    // scroll to the top section just in case
-    try{ home?.scrollIntoView({behavior:'smooth'}); }catch{}
+    try{ if(home && home.scrollIntoView) home.scrollIntoView({behavior:'smooth'}); }catch(e){}
     sessionStorage.setItem('entered','1');
   }
 
-  // Wire the click
-  enterBtn?.addEventListener('click', async ()=>{
-    try { await playBgSong(); } finally { hideGate(); } // always hide, even if song fails
-  }, { once:true });
+  if(enterBtn){
+    enterBtn.addEventListener('click', async ()=>{
+      try { await playBgSong(); } finally { hideGate(); }
+    }, { once:true });
+  }
 
-  // If user refreshes mid-site, auto-skip the gate
   if(sessionStorage.getItem('entered') === '1'){ hideGate(); }
 })();
 
@@ -628,8 +634,6 @@ $('#playSong').addEventListener('click',openYT);
 $('#playSong2').addEventListener('click',openYT);
 $('#playSongGate').addEventListener('click',openYT);
 $('#walkBtn').addEventListener('click', startAmbience, {once:true});
-
-/* ---------- Blessings modal already wired above ---------- */
 
 /* ===================== 3D MODE (background) ===================== */
 (() => {
@@ -677,7 +681,7 @@ $('#walkBtn').addEventListener('click', startAmbience, {once:true});
         const p = hearts[i];
         p.v.add(p.g); p.m.position.add(p.v); p.life--;
         p.m.material.opacity = Math.max(0, p.life/120);
-        if(p.life<=0){ scene.remove(p.m); p.m.geometry.dispose(); p.m.material.dispose(); hearts.splice(i,1); }
+        if(p.life<=0){ scene.remove(p.m); if(p.m.geometry&&p.m.geometry.dispose) p.m.geometry.dispose(); if(p.m.material&&p.m.material.dispose) p.m.material.dispose(); hearts.splice(i,1); }
       }
       renderer.render(scene,camera);
       rafId = requestAnimationFrame(animate);
@@ -722,22 +726,27 @@ $('#walkBtn').addEventListener('click', startAmbience, {once:true});
     localStorage.removeItem('threeEnabled');
     if(rafId) cancelAnimationFrame(rafId);
     if(renderer){
-      renderer.dispose(); renderer.forceContextLoss && renderer.forceContextLoss();
+      renderer.dispose(); if(renderer.forceContextLoss) renderer.forceContextLoss();
       window.removeEventListener('resize', resize);
     }
     if(scene){
-      scene.traverse(o=>{
-        if(o.geometry) o.geometry.dispose?.();
+      scene.traverse(function(o){
+        if(o.geometry && o.geometry.dispose) o.geometry.dispose();
         if(o.material){
-          if(Array.isArray(o.material)) o.material.forEach(m=>m.dispose?.()); else o.material.dispose?.();
+          if(Array.isArray(o.material)) o.material.forEach(function(m){ if(m && m.dispose) m.dispose(); });
+          else if(o.material.dispose) o.material.dispose();
         }
       });
     }
     renderer=scene=camera=stars=clock=null; hearts=[];
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl'); gl && gl.getExtension('WEBGL_lose_context')?.loseContext();
+    var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (gl) { var ext = gl.getExtension('WEBGL_lose_context'); if (ext && ext.loseContext) ext.loseContext(); }
   }
 
-  document.getElementById('gift')?.addEventListener('click', ()=> burstHearts('#ffd86e'));
+  (function(){
+    var gbtn = document.getElementById('gift');
+    if(gbtn) gbtn.addEventListener('click', function(){ burstHearts('#ffd86e'); });
+  })();
   btn.addEventListener('click', ()=> renderer ? disable3D() : enable3D());
   if(localStorage.getItem('threeEnabled')==='1' && !prefersReduced) enable3D();
 })();
@@ -762,15 +771,16 @@ $('#walkBtn').addEventListener('click', startAmbience, {once:true});
     overlay.style.display='none';
     if(rafId) cancelAnimationFrame(rafId);
     if(renderer){
-      renderer.dispose(); renderer.forceContextLoss && renderer.forceContextLoss();
+      renderer.dispose(); if(renderer.forceContextLoss) renderer.forceContextLoss();
     }
     if(scene){
-      scene.traverse(o=>{
-        if(o.geometry) o.geometry.dispose?.();
+      scene.traverse(function(o){
+        if(o.geometry && o.geometry.dispose) o.geometry.dispose();
         if(o.material){
-          if(Array.isArray(o.material)) o.material.forEach(m=>m.dispose?.()); else o.material.dispose?.();
+          if(Array.isArray(o.material)) o.material.forEach(function(m){ if(m && m.dispose) m.dispose(); });
+          else if(o.material.dispose) o.material.dispose();
         }
-        if(o.texture) o.texture.dispose?.();
+        if(o.texture && o.texture.dispose) o.texture.dispose();
       });
     }
     renderer=scene=camera=ringGroup=null;
@@ -823,11 +833,11 @@ $('#walkBtn').addEventListener('click', startAmbience, {once:true});
   function size(){
     const w = overlay.clientWidth || innerWidth;
     const h = overlay.clientHeight || innerHeight;
-    renderer?.setSize(w*0.94, h*0.82, false);
-    camera && (camera.aspect = (w*0.94)/(h*0.82), camera.updateProjectionMatrix());
+    if (renderer) renderer.setSize(w*0.94, h*0.82, false);
+    if (camera) { camera.aspect = (w*0.94)/(h*0.82); camera.updateProjectionMatrix(); }
   }
 
-  btnOpen?.addEventListener('click', openRing3D);
+  if(btnOpen) btnOpen.addEventListener('click', openRing3D);
 })();
 </script>
 </body>
