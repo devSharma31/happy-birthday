@@ -163,6 +163,114 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 #ring3d .close{position:absolute; right:10px; top:10px}
 
 #three3d{position:fixed; inset:0; pointer-events:none; z-index:-1;}
+
+/* === tiny visual polish pack (safe to append) ===================== */
+/* improves: titles, buttons, cards, balloons, micro-hovers */
+/* DOES NOT change your base palette unless you enable .blush-lite */
+
+/* 1) Headline love — gentle gradient + soft glow */
+.title, h1, h2 {
+  letter-spacing: .2px;
+  text-shadow: 0 2px 22px rgba(201,167,255,.12);
+}
+.title {
+  background: linear-gradient(180deg, #e9edff 0%, #d9dfff 60%, #bfc8ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 2) Buttons — pill + glow + crisper focus */
+a.btn, button.btn {
+  border-radius: 999px;
+  padding: 13px 22px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  background: linear-gradient(90deg, var(--accent), #c9a7ff);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.28),
+    0 0 0 0 rgba(255,143,177,.35);
+  transition: transform .15s ease, box-shadow .25s ease, opacity .25s ease;
+}
+a.btn:hover, button.btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 16px 32px rgba(0,0,0,.32),
+    0 0 0 6px rgba(255,143,177,.12);
+}
+a.btn:focus-visible, button.btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 18px 36px rgba(0,0,0,.34),
+    0 0 0 8px rgba(201,167,255,.22);
+}
+
+/* 3) Cards & dialogs — glassier, a touch more depth */
+.soft, .dialog, .card, .gate-card {
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid var(--edge);
+  box-shadow:
+    0 18px 44px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter: saturate(110%) blur(2px);
+}
+
+/* 4) Balloons — cleaner highlights & subtle specular edge */
+.balloon {
+  border: 1px solid rgba(255,255,255,.25);
+  box-shadow:
+    inset -10px -16px 24px rgba(0,0,0,.18),
+    inset 0 12px 26px rgba(255,255,255,.12),
+    0 10px 30px rgba(0,0,0,.22);
+}
+.balloon span {
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+/* 5) Polaroids — tiny lift on hover, nothing drastic */
+.pol {
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.pol:hover {
+  transform: translateY(-2px) rotate(var(--r,0deg));
+  box-shadow: 0 14px 30px rgba(0,0,0,.26);
+}
+
+/* 6) Diya — warmer glow when lit (keeps your timing) */
+.lit .glow {
+  box-shadow:
+    0 0 50px 6px rgba(246,208,110,.16),
+    0 0 120px 12px rgba(246,208,110,.1);
+}
+
+/* 7) Section headings tint */
+h2 {
+  color: var(--accent);
+  text-shadow: 0 6px 26px rgba(255,143,177,.15);
+}
+
+/* 8) Optional: blush-lite mode (only if you add class="blush-lite" on <body>)
+   Keeps contrast, just softens the background and sparkles. */
+body.blush-lite {
+  --bg1: #2b0f23;        /* deep plum so content stays readable */
+  --bg2: #1a0f24;
+  --accent: #ff9ac3;
+}
+body.blush-lite {
+  background:
+    radial-gradient(900px 440px at 50% -12%, rgba(255,153,195,.13), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+body.blush-lite .stars {
+  opacity: .9;
+  background:
+    radial-gradient(2px 2px at 18% 28%, #ffd6e9, transparent 60%),
+    radial-gradient(2px 2px at 78% 22%, #ffe1ef, transparent 60%),
+    radial-gradient(1.5px 1.5px at 32% 72%, #fff, transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 64%, #ffd6e9, transparent 60%),
+    radial-gradient(1.5px 1.5px at 52% 48%, #fff, transparent 60%);
+}
+
 </style>
 </head>
 
