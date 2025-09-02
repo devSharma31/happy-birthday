@@ -1052,9 +1052,7 @@ const LINES = [
   ['pointerup','mouseleave','focusout'].forEach(ev=> flip.addEventListener(ev, ()=>{ if(!auto) auto=setInterval(()=>{ if(!document.hidden) turnNext(); }, 6000); }));
 })();
 
-let li=0; const slide=$('#slideText');
-$('#nextLine').addEventListener('click',()=>{ li=(li+1)%LINES.length; slide.innerText=LINES[li]; playChime(); });
-$('#prevLine').addEventListener('click',()=>{ li=(li-1+LINES.length)%LINES.length; slide.innerText=LINES[li]; playChime(); });
+
 
 /* ---------- fireworks (final + entry burst) ---------- */
 function fireworksOnCanvas(cId, duration=12000, quick=false){
