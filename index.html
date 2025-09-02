@@ -195,6 +195,9 @@ body.gated { overflow:hidden; }
 /* global mini FX canvas */
 #burstFX{position:fixed; inset:0; pointer-events:none; z-index:70; mix-blend-mode:screen;}
 
+/* Make sure nothing blocks clicks on the gate/card */
+.gate, .gate * { pointer-events: auto !important; }
+
 </style>
 </head>
 
@@ -205,7 +208,8 @@ body.gated { overflow:hidden; }
   <source src="assets/zara-sa.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Welcome Gate (always shown on load) -->
+<!-- Welcome Gate (always shown on load, inline-close so it NEVER breaks) -->
+
 <div class="gate" id="gate" aria-modal="true" role="dialog">
   <div class="gate-card soft">
     <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
@@ -213,71 +217,25 @@ body.gated { overflow:hidden; }
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
 
     <div class="gate-actions">
-      <!-- INLINE HANDLER so it always works -->
-      <button class="btn" id="enterBtn" type="button" onclick="window.enterGate && window.enterGate()">Enter the little night →</button>
-      <button class="btn" id="playSongGate" type="button">Play “Zara Sa” 🎵</button>
+
+      <!-- ✅ This inline IIFE hides and removes the gate, no other JS required -->
+      <button
+        class="btn" id="enterBtn" type="button"
+        onclick="(function(){var g=document.getElementById('gate'); if(!g) return; g.classList.add('hide'); document.body.classList.remove('gated'); setTimeout(function(){ if(g&&g.parentNode) g.parentNode.removeChild(g); }, 450);}())">
+        Enter the little night →
+      </button>
+
+      <!-- Optional: play song via inline fallback, but does NOT block entering -->
+      <button
+        class="btn" id="playSongGate" type="button"
+        onclick="(function(){try{ if(window.openYT){openYT();} else { var btn=document.getElementById('playSong'); btn&&btn.click(); } }catch(e){} }())">
+        Play “Zara Sa” 🎵
+      </button>
     </div>
 
     <p class="hint">Ignore karo toh bhi theek hai — I’m that silly boy who never stops trying 🫠.</p>
   </div>
 </div>
-
-<!-- 🔒 Ultra-reliable gate script: lives right after the gate so it runs first -->
-<script>
-(function(){
-  // 1) Guaranteed hide (no dependencies)
-  function hideGate(){
-    var g = document.getElementById('gate');
-    if(!g) return;
-    g.classList.add('hide');
-    document.body.classList.remove('gated');
-    setTimeout(function(){
-      if(g && g.parentNode) g.parentNode.removeChild(g);
-      // scroll to top section just in case
-      var home = document.getElementById('home');
-      if(home && home.scrollIntoView) try{ home.scrollIntoView({behavior:'smooth'}); }catch(e){}
-    }, 450);
-  }
-
-  // 2) Optional: try to open YT overlay if present (does NOT block entering)
-  function playGateSongFallback(){
-    try{
-      if (window.openYT) { window.openYT(); return; }
-      var fr = document.getElementById('yt');
-      var ov = document.getElementById('ytOverlay');
-      if(fr && ov){
-        var id = 'GAXNdOm8rPY';
-        fr.src = 'https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist='+id;
-        ov.style.display = 'flex';
-      }
-    }catch(e){}
-  }
-
-  // 3) Public API the inline onclick uses (always defined)
-  window.enterGate = function enterGate(){
-    // Do NOT rely on other scripts; just hide immediately.
-    hideGate();
-  };
-
-  // 4) Wire “Play song” on the gate
-  var ps = document.getElementById('playSongGate');
-  if(ps){
-    ps.addEventListener('click', function(e){
-      e.preventDefault();
-      playGateSongFallback();
-    });
-  }
-
-  // 5) Also allow keyboard enter/space while gate is visible
-  document.addEventListener('keydown', function(e){
-    if(!document.getElementById('gate')) return;
-    if(e.key === 'Enter' || e.key === ' '){
-      e.preventDefault();
-      window.enterGate();
-    }
-  }, {passive:false});
-})();
-</script>
 
 
 <!-- Top chrome -->
