@@ -7,13 +7,11 @@
 <meta name="description" content="A birthday page for Shruti—blessings, silly-boy-trying energy, her photos, 3D stardust and heart fireworks—with quiet spiritual vibes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@400;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800&family=Quicksand:wght@400;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
 
 <style>
 :root{
 
---font-head: "Fraunces", ui-serif, Georgia, serif; --font-body: "Quicksand", system-ui, -apple-system,"Segoe UI", Roboto, Helvetica, Arial, sans-serif;
---font-hand: "Caveat", cursive;
 --bg1:#0c1022; --bg2:#14102e; --ink:#eef2ff; --muted:#cdd5f9; --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
 --petal:#ffc8dd; --gold:#f6d06e; --card:#10182a; --card2:#0f1730;
 }
@@ -27,66 +25,38 @@ html {
   text-rendering: optimizeLegibility;
 }
 
-body{
+/* === fonts only (safe) === */
+:root{
+  --font-head: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+body{ font-family: var(--font-body); }
 
-font-family: var(--font-body); letter-spacing: .1px;
-
--webkit-font-smoothing: antialiased;
-
--moz-osx-font-smoothing: grayscale;
-
-text-rendering: optimizeLegibility;
-
-a
-
+/* headings keep their sizes, just change family */
 h1, h2, .title{
-
+  font-family: var(--font-head);
+  font-weight: 700;
+  line-height: 1.15;
 }
 
-font-family: var(--font-head);
+/* force the original dark gradient back in case it got overridden */
+body{
+  background:
+    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg2)) !important;
+}
 
-font-weight: 700;
+/* first section top padding so it clears the mood dots */
+.section:first-of-type{ padding-top: 96px; }
 
-line-height: 1.15;
+/* in case the CTA turned into a plain link somewhere */
+a.btn, button.btn{
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 700;
+}
 
-letter-spacing: .2px;
-
-/* Clamp sizes so they don't explode on mobile */ .title{ font-size: clamp(26px, 6vw, 40px); } .section h2{ font-size: clamp(22px, 4.6vw, 34px); }
-
-/* Handwritten accents stay handwritten */ .face h3, handwritten{ font-family: var(--font-hand);
-
-font-weight: 700; }
-
-/* Keep the buttons looking like buttons (not plain links) */
-
-btn, button.btn{
-
-text-decoration: none;
-
-display: inline-block;
-
-font-family: var(--font-body);
-
-font-weight: 700;
-
-letter-spacing: .2px;
-
-*/
-
-/*
-
-a
-
-In case any global link styles overrode buttons btn:link, a.btn:visited{ color:#0c0f17; }
-
-/* Give the first section a touch more top space so it clears the fixed mood icons */
-
-.section: first-of-type{ padding-top: 120px; }
-
-/* Optional: tighten paragraph line-height a bit for the new font */
-
-.lead, .muted, p{ line-height: 1.6; }
-  background:linear-gradient(90deg,var(--accent),#c9a7ff);box-shadow:0 12px 24px rgba(0,0,0,.28)}
+ background:linear-gradient(90deg,var(--accent),#c9a7ff);box-shadow:0 12px 24px rgba(0,0,0,.28)}
 .btn:active{transform:translateY(1px) scale(.99)}
 .soft{border:1px solid var(--edge);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:0 18px 44px rgba(0,0,0,.35)}
 .hint{font-size:12px;color:var(--muted)}
