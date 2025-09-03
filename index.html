@@ -614,6 +614,39 @@ body.blush-lite .stars {
   .gift3d.open .cover3d{ transition:none }
 }
 
+/* === Fix 3D card layout shift (lock stage height) === */
+#lines .cardStage{
+  /* responsive, but fixed for the section */
+  --cardH: 380px;                 /* JS below will update this on load/resize */
+  display: grid;
+  grid-template-rows: var(--cardH) auto; /* card area + footer */
+  row-gap: 12px;
+  align-items: start;
+  max-width: 620px;
+  margin: 0 auto;
+}
+#lines .gift3d{
+  height: var(--cardH);
+  width: min(92vw, 560px);
+  margin-inline: auto;
+}
+#lines .book3d,
+#lines .cover3d,
+#lines .pages3d,
+#lines .page3d{ height:100% }
+
+#lines .page3d p{
+  padding: 20px;
+  /* keep message inside the fixed card height */
+  max-height: calc(var(--cardH) - 84px);
+  overflow: hidden;
+}
+
+/* footer fixed so "dots + hint" never push content down */
+#lines .cardFoot{ min-height: 66px }
+#lines .cardFoot .dots{ height:14px }
+#lines .cardFoot .hint{ min-height:18px }
+
 
 </style>
 </head>
@@ -1289,6 +1322,19 @@ const LINES = [
 
   // init (message exists but hidden by CSS until .open)
   show();
+})();
+
+/* Lock the card stage height responsively so it never reflows the page */
+(function lockCardHeight(){
+  const stage = document.querySelector('#lines .cardStage');
+  if(!stage) return;
+  function setH(){
+    // scale with viewport; clamp for phones/tablets; prevents layout jump
+    const h = Math.max(340, Math.min(440, Math.round(window.innerWidth * 0.58)));
+    stage.style.setProperty('--cardH', h + 'px');
+  }
+  setH();
+  addEventListener('resize', setH, { passive: true });
 })();
 
 
