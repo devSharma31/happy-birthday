@@ -614,38 +614,141 @@ body.blush-lite .stars {
   .gift3d.open .cover3d{ transition:none }
 }
 
-/* === Fix 3D card layout shift (lock stage height) === */
-#lines .cardStage{
-  /* responsive, but fixed for the section */
-  --cardH: 380px;                 /* JS below will update this on load/resize */
-  display: grid;
-  grid-template-rows: var(--cardH) auto; /* card area + footer */
+/* === 3D Book Card (no layout shift) === */
+#lines .bookStage{
+  --bookW: min(92vw, 560px);
+  --bookH: clamp(320px, 56vw, 420px); /* responsive but fixed for the section */
+  display:grid;
+  grid-template-rows: var(--bookH) auto;
   row-gap: 12px;
-  align-items: start;
-  max-width: 620px;
-  margin: 0 auto;
-}
-#lines .gift3d{
-  height: var(--cardH);
-  width: min(92vw, 560px);
-  margin-inline: auto;
-}
-#lines .book3d,
-#lines .cover3d,
-#lines .pages3d,
-#lines .page3d{ height:100% }
-
-#lines .page3d p{
-  padding: 20px;
-  /* keep message inside the fixed card height */
-  max-height: calc(var(--cardH) - 84px);
-  overflow: hidden;
+  justify-items:center;
 }
 
-/* footer fixed so "dots + hint" never push content down */
-#lines .cardFoot{ min-height: 66px }
-#lines .cardFoot .dots{ height:14px }
-#lines .cardFoot .hint{ min-height:18px }
+#lines .bookWrap{
+  position:relative;
+  width:var(--bookW);
+  height:var(--bookH);
+  perspective:1400px;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+
+#lines .book3d{
+  position:absolute; inset:0;
+  border-radius:18px;
+  transform:translateZ(0);
+  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+}
+
+/* Book structure */
+#lines .book{
+  position:absolute; inset:0;
+  border-radius:18px;
+  overflow:hidden;
+  transform-style:preserve-3d;
+}
+#lines .pages,
+#lines .cover{ position:absolute; inset:0; }
+
+#lines .cover{ border-radius:18px; backface-visibility:hidden; }
+#lines .coverLeft{
+  width:50%; left:0; border-right:1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.22), rgba(255,255,255,.06) 30%, rgba(255,255,255,0) 60%),
+    linear-gradient(180deg, #0f172a, #0c1323);
+  box-shadow:inset -12px 0 24px rgba(0,0,0,.35);
+}
+#lines .coverRight{
+  width:50%; right:0; transform-origin:left center;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,0)),
+    linear-gradient(180deg, #121b30, #0c1323);
+  box-shadow:inset 12px 0 22px rgba(0,0,0,.35);
+}
+
+/* Pages */
+#lines .page{ position:absolute; top:0; bottom:0; width:50%; }
+#lines .page.left{ left:0; border-right:1px solid rgba(255,255,255,.08); }
+#lines .page.right{ right:0; }
+#lines .pageInner{
+  position:absolute; inset:14px;
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border:1px solid var(--edge, rgba(255,255,255,.12));
+  display:grid; place-items:center; text-align:center;
+  padding:20px;
+}
+#lines .quote{
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  font-weight:500; line-height:1.45;
+  color:var(--ink,#eaf2ff);
+}
+
+/* Flipping sheet */
+#lines .flipSheet{
+  position:absolute; right:0; top:0; bottom:0; width:50%;
+  transform-origin:left center;
+  background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+  border-left:1px solid rgba(255,255,255,.08);
+  box-shadow:0 22px 40px rgba(0,0,0,.45);
+  backface-visibility:hidden;
+  display:none;
+}
+#lines .flipSheet.show{ display:block; }
+
+/* Ribbon + wax seal */
+#lines .ribbon{ position:absolute; inset:0; display:grid; place-items:center; z-index:6; }
+#lines .ribbon .r{
+  position:absolute; background:linear-gradient(90deg,#ff9ccc,#c9a7ff);
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,.35));
+}
+#lines .ribbon .r.h{ height:10px; left:0; right:0; top:calc(50% - 5px); }
+#lines .ribbon .r.v{ width:10px; top:0; bottom:0; left:calc(50% - 5px); }
+#lines .seal{
+  width:66px; height:66px; border-radius:50%; border:0; cursor:pointer;
+  background:
+    radial-gradient(circle at 30% 30%, #fff6, transparent 60%),
+    radial-gradient(closest-side,#ff6a8e,#ff2f68);
+  box-shadow:0 12px 24px rgba(0,0,0,.35), inset 0 3px 6px rgba(255,255,255,.25);
+}
+
+/* Opening states */
+#lines .bookWrap.opening .ribbon{ animation:unwrap .6s ease forwards; }
+#lines .bookWrap.open .ribbon{ display:none; }
+#lines .bookWrap.open #coverRight{
+  transition:transform .9s cubic-bezier(.2,.75,.2,1);
+  transform:rotateY(-160deg);
+  pointer-events:none;
+}
+
+/* Page turn animation uses flipSheet */
+@keyframes turnRightToLeft{
+  0%{ transform:rotateY(0deg); box-shadow:0 22px 40px rgba(0,0,0,.45); }
+  100%{ transform:rotateY(-180deg); box-shadow: -10px 22px 40px rgba(0,0,0,.25);}
+}
+#lines .flipSheet.animating{ animation:turnRightToLeft .9s ease both; }
+
+/* Ribbon unwrap */
+@keyframes unwrap{
+  0%{ opacity:1; transform:none }
+  100%{ opacity:0; transform:scale(1.04) rotate(2deg) }
+}
+
+#lines .bookFoot{ width:var(--bookW); text-align:center; }
+#lines .dots{ display:flex; gap:6px; justify-content:center; }
+#lines .dots i{
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(255,255,255,.28);
+}
+#lines .dots i.on{ background:linear-gradient(90deg,#ff9ccc,#c9a7ff); }
+
+/* Petal shower emitted on first open */
+#lines .petal{
+  position:absolute; top:-24px; font-size:20px; pointer-events:none;
+  filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));
+}
+
 
 
 </style>
@@ -783,43 +886,58 @@ body.blush-lite .stars {
 <!-- 6) Inside lines — Realistic 3D Gift-Wrapped Card (stable layout) -->
 <section class="section" id="lines">
   <div class="container">
-    <div class="cardStage center">
-      <div class="gift3d" id="gift3d" role="button" aria-label="Open the card" tabindex="0">
-        <!-- localized flower shower layer -->
-        <div class="flowers" id="flowerFX" aria-hidden="true"></div>
+    <div class="bookStage" aria-live="polite">
+      <div class="bookWrap" id="bookWrap">
+        <!-- Ribbon + seal (visible while closed) -->
+        <div class="ribbon" id="ribbon">
+          <span class="r h"></span>
+          <span class="r v"></span>
+          <button class="seal" id="sealBtn" aria-label="Open the gift"></button>
+        </div>
 
-        <!-- wax seal -->
-        <div class="wax" id="waxSeal"><span>ॐ</span></div>
+        <!-- Book (hidden behind ribbon until opened) -->
+        <div class="book3d" id="book3d" aria-hidden="true">
+          <div class="book">
+            <!-- fixed left cover (spine) -->
+            <div class="cover coverLeft"></div>
+            <!-- animated right cover (opens on unwrap) -->
+            <div class="cover coverRight" id="coverRight"></div>
 
-        <!-- cloth ribbons -->
-        <div class="ribbon h"></div>
-        <div class="ribbon v"></div>
+            <!-- pages -->
+            <div class="pages">
+              <div class="page left">
+                <div class="pageInner">
+                  <p class="quote" id="leftText">Hi 👋</p>
+                </div>
+              </div>
 
-        <!-- the book (cover + inside page) -->
-        <div class="book3d">
-          <div class="cover3d">
-            <div class="foilStamp">Shruti</div>
+              <div class="page right" id="rightPage">
+                <div class="pageInner">
+                  <p class="quote" id="rightText">Tap the seal to open.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- temporary flipping sheet we re-use for turns -->
+            <div class="flipSheet" id="flipSheet"></div>
           </div>
-          <div class="pages3d">
-            <div class="page3d"><p id="pageText">…</p></div>
-          </div>
-          <div class="spine3d"></div>
-          <div class="edge top"></div>
-          <div class="edge right"></div>
-          <div class="edge bottom"></div>
         </div>
       </div>
 
-      <!-- footer area is always present (no layout shift) -->
-      <div class="cardFoot">
-        <div class="dots" id="cardDots" aria-label="Messages"></div>
-        <p class="hint">Tap the wax seal to unwrap. Tap the open card to flip through lines.</p>
+      <div class="bookFoot">
+        <div class="dots" id="dots"></div>
+        <div class="hint muted" id="bookHint">
+          Tap the seal to unwrap. Tap the right page to turn.
+        </div>
       </div>
+    </div>
 
-      <div class="center" style="margin-top:12px"><a class="btn" href="#divine">Next →</a></div>
+    <div class="center" style="margin-top:14px">
+      <a class="btn" href="#divine">Next →</a>
     </div>
   </div>
 </section>
+
 
 <!-- 7) Divine blessing -->
 <section class="section" id="divine">
@@ -1205,6 +1323,21 @@ function initStardust(src){
   };
 }
 
+(() => {
+  const wrap     = document.getElementById('bookWrap');
+  const ribbon   = document.getElementById('ribbon');
+  const sealBtn  = document.getElementById('sealBtn');
+  const book3d   = document.getElementById('book3d');
+  const coverR   = document.getElementById('coverRight');
+  const rightPg  = document.getElementById('rightPage');
+  const leftTxt  = document.getElementById('leftText');
+  const rightTxt = document.getElementById('rightText');
+  const dotsBox  = document.getElementById('dots');
+  const flip     = document.getElementById('flipSheet');
+  const hint     = document.getElementById('bookHint');
+
+  if(!wrap) return;
+
 /* ---------- inside lines ---------- */
 const LINES = [
   'No expectations. Just good wishes—every day, no matter what. 🌙✨',
@@ -1221,120 +1354,91 @@ const LINES = [
   'Tomorrow, I’ll still be here. That’s the whole message. 📩🌙'
 ];
 
-/* ===== Realistic 3D Gift Card: no layout shift + flower shower ===== */
-(function giftCardReal(){
-  const lines = (typeof LINES!=='undefined' && LINES.length) ? LINES : ['Happy Birthday 💖'];
-  const wrap   = document.getElementById('gift3d');
-  const seal   = document.getElementById('waxSeal');
-  const page   = document.getElementById('pageText');
-  const dots   = document.getElementById('cardDots');
-  const petals = document.getElementById('flowerFX');
-  if(!wrap||!page||!dots||!seal) return;
+let idx = 0, opened = false, turning = false;
 
-  // pagination dots (space reserved by CSS so no jump)
-  lines.forEach((_,idx)=>{
-    const b=document.createElement('button');
-    b.addEventListener('click',()=>jump(idx));
-    dots.appendChild(b);
+  // Dots
+  LINES.forEach((_,i) => {
+    const d = document.createElement('i');
+    if(i===0) d.classList.add('on');
+    dotsBox.appendChild(d);
   });
-
-  let i=0, unsealed=false, opened=false;
-  function setDots(){ [...dots.children].forEach((d,idx)=>d.classList.toggle('active',idx===i)); }
-  function show(){ page.innerHTML = lines[i]; setDots(); }
-
-  // localized flower shower (on unseal)
-  function flowerShower(){
-    const EMO = ['🌸','🌷','💮','🌼','🌺'];
-    const N = 28;
-    for(let k=0;k<N;k++){
-      const s=document.createElement('span');
-      s.textContent = EMO[k%EMO.length];
-      s.style.position='absolute';
-      s.style.left = (50 + (Math.random()*40-20)) + '%';
-      s.style.top  = '-8%';
-      s.style.fontSize = (18+Math.random()*12)+'px';
-      s.style.filter='drop-shadow(0 6px 10px rgba(0,0,0,.35))';
-      petals.appendChild(s);
-      const dx=(Math.random()*2-1)*35;
-      const t = 900+Math.random()*700;
-      s.animate([
-        { transform:`translate(${dx}px, 0) rotate(0deg)`, opacity:1 },
-        { transform:`translate(${dx*1.2}px, 110%) rotate(${120+Math.random()*120}deg)`, opacity:0.05 }
-      ], { duration:t, easing:'ease-in' });
-      setTimeout(()=>s.remove(), t+40);
-    }
-    try{ navigator.vibrate && navigator.vibrate(12);}catch{}
-    if(typeof playChime==='function') playChime();
+  function setDots(i){
+    [...dotsBox.children].forEach((d,k)=> d.classList.toggle('on', k===i));
   }
 
-  function unseal(){
-    if(unsealed) return;
-    unsealed=true;
-    wrap.classList.add('unsealed');
-    flowerShower();
-    setTimeout(openCover, 520);
-  }
+  // Initial texts
+  leftTxt.textContent  = "";
+  rightTxt.textContent = LINES[0];
 
-  function openCover(){
+  // Unwrap + open
+  sealBtn.addEventListener('click', () => {
     if(opened) return;
-    wrap.classList.add('open');
-    opened=true;
-    // text fades in (CSS) and dots already have space reserved
-    show();
-  }
-
-  function next(){
-    if(!unsealed) return unseal();
-    if(!opened)  return openCover();
-    i=(i+1)%lines.length;
-    page.animate(
-      [{transform:'rotateX(0) translateY(0)',opacity:1},
-       {transform:'rotateX(18deg) translateY(6px)',opacity:.0},
-       {transform:'rotateX(0) translateY(0)',opacity:1}],
-      {duration:420,easing:'ease'}
-    );
-    show();
-    try{ if(typeof playChime==='function') playChime(); }catch{}
-  }
-  function jump(to){
-    i=(to+lines.length)%lines.length;
-    if(!unsealed){ unseal(); return; }
-    if(!opened){ openCover(); return; }
-    show();
-  }
-
-  // interactions
-  seal.addEventListener('click', unseal);
-  wrap.addEventListener('click', e=>{ if(e.target===seal) return; next(); });
-  wrap.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' ') next(); });
-
-  // parallax tilt
-  let hover=false;
-  wrap.addEventListener('pointerenter', ()=>{ hover=true; wrap.classList.add('tilt'); });
-  wrap.addEventListener('pointermove', e=>{
-    if(!hover) return;
-    const r=wrap.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width -.5, y=(e.clientY-r.top)/r.height -.5;
-    wrap.style.setProperty('--ry', `${x*6}deg`);
-    wrap.style.setProperty('--rx', `${-y*4}deg`);
+    wrap.classList.add('opening');
+    // after unwrap, reveal book and flip cover
+    setTimeout(() => {
+      wrap.classList.remove('opening');
+      wrap.classList.add('open');
+      book3d.setAttribute('aria-hidden','false');
+      // a tiny delay so the cover open feels separate from ribbon
+      setTimeout(() => {
+        coverR.style.transform = 'rotateY(-160deg)';
+        opened = true;
+        hint.textContent = "Tap the right page to turn.";
+        flowerShower();
+      }, 40);
+    }, 560);
   });
-  wrap.addEventListener('pointerleave', ()=>{ hover=false; wrap.classList.remove('tilt'); wrap.style.removeProperty('--ry'); wrap.style.removeProperty('--rx'); });
 
-  // init (message exists but hidden by CSS until .open)
-  show();
-})();
+  // Page turn on right page click
+  rightPg.addEventListener('click', () => {
+    if(!opened || turning) return;
+    turning = true;
+    // prepare flip sheet visual with current right page text
+    flip.classList.add('show');
+    flip.innerHTML = rightPg.querySelector('.pageInner').outerHTML;
 
-/* Lock the card stage height responsively so it never reflows the page */
-(function lockCardHeight(){
-  const stage = document.querySelector('#lines .cardStage');
-  if(!stage) return;
-  function setH(){
-    // scale with viewport; clamp for phones/tablets; prevents layout jump
-    const h = Math.max(340, Math.min(440, Math.round(window.innerWidth * 0.58)));
-    stage.style.setProperty('--cardH', h + 'px');
+    // animate
+    requestAnimationFrame(() => {
+      flip.classList.add('animating');
+    });
+
+    // after turn completes, update texts
+    flip.addEventListener('animationend', onTurnEnd, { once:true });
+  });
+
+  function onTurnEnd(){
+    // "Move" right text to left, advance index for new right
+    leftTxt.textContent  = LINES[idx];
+    idx = (idx + 1) % LINES.length;
+    rightTxt.textContent = LINES[idx];
+    setDots(idx);
+    flip.classList.remove('animating','show');
+    turning = false;
   }
-  setH();
-  addEventListener('resize', setH, { passive: true });
+
+  // Flower shower on first open (local, no layout shift)
+  function flowerShower(){
+    const emojis = ['🌸','🌼','💮','🌷','💐'];
+    const N = 28;
+    for(let i=0;i<N;i++){
+      const s = document.createElement('span');
+      s.className='petal';
+      s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      const x = Math.random() * wrap.clientWidth;
+      s.style.left = x+'px';
+      s.style.top = '-24px';
+      wrap.appendChild(s);
+      const drift = (Math.random()*2-1)*80;
+      const dur = 2400 + Math.random()*1800;
+      s.animate(
+        [
+          { transform:'translate(0,-24px)', opacity:.95 },
+          { transform:`translate(${drift}px, ${wrap.clientHeight+40}px) rotate(${Math.random()*120-60}deg)`, opacity:.1 }
+        ],
+        { duration: dur, easing:'ease-in' }
+      ).finished.then(()=> s.remove()).catch(()=> s.remove());
+    }
+  }
 })();
 
 
