@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800&family=Quicksand:wght@400;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Satisfy&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -641,6 +642,7 @@ body.blush-lite .stars {
   background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
 }
 
+
 /* Book structure */
 #lines .book{
   position:absolute; inset:0;
@@ -683,45 +685,6 @@ body.blush-lite .stars {
   font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
   font-weight:500; line-height:1.45;
   color:var(--ink,#eaf2ff);
-}
-
-
-/* --- Ink feather write-on --- */
-#lines .pageInner { position: relative; } /* ensures the quill positions correctly */
-
-.inkStyle{
-  font-family: "Caveat", cursive;   /* only while writing */
-  letter-spacing: .2px;
-  text-shadow:
-    0 1px 0 rgba(255,255,255,.05),
-    0 2px 12px rgba(201,167,255,.10); /* slight ink glow */
-}
-
-.inkWrite span{
-  opacity:0;
-  display:inline-block;
-  transform: translateY(4px) scale(.98) rotate(var(--r,0deg));
-  filter: blur(1px);
-  animation: letterIn .55s forwards;
-}
-
-@keyframes letterIn{
-  to{
-    opacity:1;
-    transform: translateY(0) scale(1) rotate(var(--r,0deg));
-    filter: blur(0);
-  }
-}
-
-/* moving quill */
-.quill{
-  position:absolute;
-  font-size:20px;
-  line-height:1;
-  pointer-events:none;
-  transform: translate(-6px,-10px);
-  transition: transform .12s ease; /* tiny smoothing */
-  opacity:.9;
 }
 
 /* Flipping sheet */
@@ -794,6 +757,74 @@ body.blush-lite .stars {
 #lines .ribbon .r{ pointer-events:none; }  /* the tapes won't steal clicks */
 #lines .seal{ pointer-events:auto; }       /* the seal *will* get the click */
 
+/* === Book layout polish + ink canvas ================================== */
+/* keep the stage size fixed so layout never shifts */
+#lines .bookStage{
+  --bookW: min(92vw, 560px);
+  --bookH: clamp(320px, 56vw, 420px);
+  display:grid; grid-template-rows: var(--bookH) auto;
+  row-gap: 12px; justify-items:center;
+}
+
+#lines .bookWrap{ width:var(--bookW); height:var(--bookH); perspective:1400px; position:relative; }
+
+#lines .book3d{
+  position:absolute; inset:0; border-radius:18px; overflow:hidden;
+  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+}
+
+/* book internals */
+#lines .book{ position:absolute; inset:0; border-radius:18px; transform-style:preserve-3d; overflow:hidden; }
+#lines .pages{ position:absolute; inset:0; }
+#lines .page{ position:absolute; top:0; bottom:0; width:50%; }
+#lines .page.left{ left:0; border-right:1px solid rgba(255,255,255,.08); }
+#lines .page.right{ right:0; }
+
+#lines .pageInner{
+  position:absolute; inset:14px; border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border:1px solid var(--edge, rgba(255,255,255,.12));
+  display:grid; place-items:center; text-align:center; padding:20px;
+}
+
+#lines .cover{ position:absolute; inset:0; border-radius:18px; backface-visibility:hidden; }
+#lines .coverLeft{
+  width:50%; left:0;
+  border-right:1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.22), rgba(255,255,255,.06) 30%, rgba(255,255,255,0) 60%),
+    linear-gradient(180deg, #0f172a, #0c1323);
+  box-shadow:inset -12px 0 24px rgba(0,0,0,.35);
+}
+#lines .coverRight{
+  width:50%; right:0; transform-origin:left center;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,0)),
+    linear-gradient(180deg, #121b30, #0c1323);
+  box-shadow:inset 12px 0 22px rgba(0,0,0,.35);
+}
+
+/* handwriting look for both pages */
+#lines .quote,
+#lines .hand{ 
+  font-family: "Satisfy","Caveat",cursive;
+  font-weight:500;
+  letter-spacing:.5px;
+  color:var(--ink);
+}
+
+/* the animated ink layer */
+#lines .inkCanvas{
+  position:absolute; inset:14px; border-radius:14px; pointer-events:none;
+}
+
+/* moving quill */
+#lines .quill{
+  position:absolute; font-size:22px; line-height:1; pointer-events:none;
+  transform: translate(0,0);
+  opacity:.95; filter: drop-shadow(0 2px 4px rgba(0,0,0,.4));
+}
 
 
 </style>
@@ -844,7 +875,7 @@ body.blush-lite .stars {
 </script>
 
 <!-- Top chrome -->
-<div class="sig">made with <b>time</b> & <b>care</b></div>
+<div class="sig"> I made this with <b>pure efforts</b> & <b>care.</b><b> So please dont judge!</b></div>
 <div class="mood">
   <button class="n" title="Night"  onclick="setMood('night')"></button>
 <button class="g" title="Rose" onclick="setMood('rose')"></button>
@@ -876,9 +907,7 @@ body.blush-lite .stars {
     <div class="diya soft" id="diya" title="Long-press me">
       <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
     </div>
-    <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px">
-      Aaj sirf duaayein: deadlines dayalu, playlist lambi, aur muskurahat asaan. Main yahin hoon—shanti se, bina demand ke—tumhari smile ka silly guard.
-    </p>
+    <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px"> Laadliji, the diya is lit for you here, little flame and big faith. If the world gets loud, come sit by this calm and Kanhaji will cover you with his grace✨ </p>
     <div class="cta"><a class="btn" href="#blessings">Next →</a></div>
   </div>
 </section>
@@ -888,14 +917,14 @@ body.blush-lite .stars {
   <div class="container" style="width:min(100%,960px)">
     <h2 class="center" style="margin-bottom:14px;color:var(--accent)">Playful Aashirwad</h2>
     <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
-    <p class="hint center">Tap a balloon to pop it. Laadliji, Ramji ki kripa bani rahe.</p>
-    <div class="center" style="margin-top:12px"><a class="btn" href="#cards">Next →</a></div>
+    <p class="hint center">Tap a balloon to pop it. Jai bolo baba ki aur blessings lapetlo.</p>
+    <div class="center" style="margin-top:30px"><a class="btn" href="#cards">Next →</a></div>
   </div>
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="dialog">
       <h4 id="modalTitle">A note</h4>
       <p id="modalMsg">You are loved.</p>
-      <button class="btn" id="modalClose">Close</button>
+      <button class="btn" id="modalClose" style="margin-top:30px">Close</button>
     </div>
   </div>
 </section>
@@ -904,7 +933,7 @@ body.blush-lite .stars {
 <section class="section" id="cards">
   <div class="container center">
     <h2 style="margin:.2rem 0 .6rem;color:var(--accent)">Small Birthday Cards</h2>
-    <p class="muted" style="margin-top:-6px">Tap to flip—chhota sa sukoon aur thodi si meethi shaitaani.</p>
+    <p class="muted" style="margin-top:-6px">Tap to flip — thodasa sukoon bhi aur thodasa fun</p>
     <div class="cards" id="cardsWrap"></div>
     <div class="cta" style="margin-top:14px"><a class="btn" href="#spotlight">Next →</a></div>
   </div>
@@ -922,7 +951,7 @@ body.blush-lite .stars {
       <div class="center" style="margin-top:8px">
         <button class="btn" id="openRing3D">Try 3D photo ring ✨</button>
       </div>
-      <p class="hint center">Every picture whispers: “you’re trouble — but the good kind, Madamji.”</p>
+      <p class="hint center">Every picture whispers: “you’re an absolute trouble — but the good kind, Madamji.”</p>
       <div class="center" style="margin-top:10px"><a class="btn" href="#lines">Next →</a></div>
     </div>
   </div>
@@ -947,7 +976,9 @@ body.blush-lite .stars {
             <div class="cover coverLeft"></div>
             <!-- animated right cover (opens on unwrap) -->
             <div class="cover coverRight" id="coverRight"></div>
-
+          
+            
+            
             <!-- pages -->
             <div class="pages">
               <div class="page left">
@@ -971,13 +1002,13 @@ body.blush-lite .stars {
 
       <div class="bookFoot">
         <div class="dots" id="dots"></div>
-        <div class="hint muted" id="bookHint">
+        <div class="hint muted" id="bookHint" >
           Tap the seal to unwrap. Tap the right page to turn.
         </div>
       </div>
     </div>
 
-    <div class="center" style="margin-top:14px">
+    <div class="center" style="margin-top:30px">
       <a class="btn" href="#divine">Next →</a>
     </div>
   </div>
@@ -986,13 +1017,13 @@ body.blush-lite .stars {
 
 <!-- 7) Divine blessing -->
 <section class="section" id="divine">
-  <div class="container center soft" style="padding:20px">
+  <div class="container center soft" style="padding:50px">
     <h2 style="margin:.4rem 0;color:var(--accent)">A small prayer</h2>
     <p class="muted" style="max-width:740px;margin:6px auto 0">
-      May Kanhaji keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage.
+      May Kanhaji always keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage on your every step.
       May your days be soft where you need softness and strong where you need strength.
     </p>
-    <div style="margin-top:12px"><a class="btn" href="#final">Final page →</a></div>
+    <div style="margin-top:30px"><a class="btn" href="#final">Final page →</a></div>
   </div>
 </section>
 
@@ -1001,7 +1032,7 @@ body.blush-lite .stars {
   <canvas id="fire" aria-hidden="true"></canvas>
   <div class="container center">
     <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Shruti</span>!</h2>
-    <p id="promiseLine">Is saal tumhare liye zyada sukoon, zyada hasi. Main sideline se quietly cheer karta rahunga—roz.</p>
+    <p id="promiseLine">Is saal appko bohot zyada success mile, aur uske saath dher saari khushiyaan. Main, yahi...sideline se chup chaap cheer karta rahunga roz, zarurat pade toh bula lena</p>
     <div class="cta">
       <button class="btn" id="gift">Shower of cute things 🎁</button>
       <button class="btn" id="savePNG">Save this promise (PNG)</button>
@@ -1216,12 +1247,12 @@ const greetingCards = [
     text: 'May jealous eyes just slide off from you. May Kanhaji holds the roof, I’ll hold the door. Walk light, consider yourself covered.'
   },
   {
-    title: 'Chai + Calm ☕️',
-    text: 'Morning chai or midnight quiet—whatever steadies you, I’ll sort it. Ask if you want, or don’t; I’ll read the vibe.'
+    title: 'Food + Calm ☕️',
+    text: 'Morning breakfast or midnight munchings — whatever you crave, I’ll sort it. Ask if you want, or don’t; I’ll read the vibe.'
   },
   {
     title: 'Calendar Bless 📅',
-    text: 'Gentler Mondays, kinder deadlines, and random mid-week pauses. May meetings end early and joy show up on schedule.'
+    text: 'Gentler Mondays, kinder deadlines, and random mid-week pauses. May meetings end early and kids trouble you less in school.'
   },
   {
     title: 'Inbox of Joy 📫',
@@ -1233,7 +1264,7 @@ const greetingCards = [
   },
   {
     title: 'Safe Roads 🚦',
-    text: 'Every route clear, timing right, people kind. Text back optional — arriving safe is the only update I might need.'
+    text: 'Every route clear, timing right, people kind. Text back is optional — arriving safe is the only update I might need.'
   }
 ];
 
@@ -1246,7 +1277,6 @@ const greetingCards = [
         <div class="face front">
           <h3>${c.title}</h3>
           <p class="muted">Tap to open</p>
-          <div class="openHint">Charm: ${c.charm}</div>
         </div>
         <div class="face back">
           <p>${c.text}</p>
@@ -1395,52 +1425,110 @@ function initStardust(src){
       "Your pace, your rules; I’m not in a rush. 🐢",
     ];
 
-// Feather-ink write-on for the active page
-function inkWrite(el, text, {speed=26, useQuill=true} = {}){
-  if (prefersReduced){ el.textContent = text; return; }
+    // ---- Feather writes the line on a canvas over the right page ----
+function writeWithFeather(targetP, text, opts={duration:2600}){
+  const pageInner = targetP.closest('.pageInner');
+  if(!pageInner) return;
 
-  // prepare
-  el.classList.add('inkStyle');
-  el.innerHTML = '';  // rebuild as spans
-  const frag = document.createDocumentFragment();
-  const letters = Array.from(text);
-
-  letters.forEach((ch, i)=>{
-    const s = document.createElement('span');
-    s.textContent = ch;
-    // light randomness so it feels hand-written
-    const wobble = (Math.random()*0.6 - 0.3).toFixed(3) + 'deg';
-    s.style.setProperty('--r', wobble);
-    s.style.animationDelay = (i * (speed/1000)).toFixed(3) + 's';
-    frag.appendChild(s);
-  });
-  el.appendChild(frag);
-
-  // optional 🪶 quill that follows the last written char
-  let tickId = null, q = null, i = 0;
-  if(useQuill){
-    q = document.createElement('span');
-    q.className = 'quill';
-    q.textContent = '🪶';
-    // anchor the quill to the page container
-    (el.parentElement || el).appendChild(q);
-
-    tickId = setInterval(()=>{
-      const spans = el.querySelectorAll('span');
-      if (i >= spans.length){
-        clearInterval(tickId);
-        setTimeout(()=>{ q && q.remove(); el.classList.remove('inkStyle'); }, 280);
-        return;
-      }
-      const target = spans[i];
-      const tb = target.getBoundingClientRect();
-      const pb = el.getBoundingClientRect();
-      const x = tb.left - pb.left + tb.width;
-      const y = tb.top  - pb.top  + tb.height * .6;
-      q.style.transform = `translate(${x}px, ${y}px)`;
-      i++;
-    }, speed);
+  // ensure a canvas + quill exist
+  let cvs = pageInner.querySelector('canvas.inkCanvas');
+  if(!cvs){
+    cvs = document.createElement('canvas');
+    cvs.className = 'inkCanvas';
+    pageInner.appendChild(cvs);
   }
+  let quill = pageInner.querySelector('.quill');
+  if(!quill){
+    quill = document.createElement('span');
+    quill.className = 'quill';
+    quill.textContent = '🪶';
+    pageInner.appendChild(quill);
+  }
+
+  // size canvas to the inner card
+  function size(){
+    const r = pageInner.getBoundingClientRect();
+    cvs.width = Math.max(10, Math.floor(r.width - 28));
+    cvs.height = Math.max(10, Math.floor(r.height - 28));
+  }
+  size();
+
+  const ctx = cvs.getContext('2d');
+  const css = getComputedStyle(document.body);
+  const ink = css.getPropertyValue('--ink').trim() || '#eaf2ff';
+
+  // responsive script size
+  const base = Math.max(18, Math.min(30, cvs.width/14));
+  const lineHeight = base*1.35;
+  ctx.font = `700 ${base}px "Satisfy","Caveat",cursive`;
+  ctx.fillStyle = ink;
+  ctx.textBaseline = 'alphabetic';
+
+  // word-wrap into lines
+  function wrap(text, maxW){
+    const words = text.split(/\s+/), lines=[]; let line='';
+    for(const w of words){
+      const test = line ? line + ' ' + w : w;
+      if(ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+      else { line = test; }
+    }
+    if(line) lines.push(line);
+    return lines;
+  }
+
+  const padX = 22;
+  const maxW = cvs.width - padX*2;
+  const lines = wrap(text, maxW);
+  const widths = lines.map(l => ctx.measureText(l).width);
+  const totalW = widths.reduce((a,b)=>a+b, 0);
+
+  // vertical centering
+  const top = Math.max(lineHeight, (cvs.height - lines.length*lineHeight)/2 + base);
+
+  // hide the DOM text (we keep it for accessibility)
+  targetP.style.opacity = 0;
+  targetP.classList.add('hand');
+
+  // animate a revealing clip, moving the quill to the current endpoint
+  let t0=null;
+  function frame(t){
+    if(!t0) t0=t;
+    let k = Math.min(1, (t - t0)/opts.duration);
+    // ease a bit
+    k = k<.5 ? 2*k*k : 1 - Math.pow(-2*k+2,2)/2;
+
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+
+    let progress = totalW * k;
+    let cum = 0, qx = padX, qy = top - base*0.25;
+
+    for(let i=0; i<lines.length; i++){
+      const y = top + i*lineHeight;
+      const w = widths[i];
+      const drawW = Math.max(0, Math.min(progress - cum, w));
+      if(drawW > 0){
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(padX, y - base, drawW, base*1.25);
+        ctx.clip();
+        ctx.fillText(lines[i], padX, y);
+        ctx.restore();
+
+        qx = padX + drawW;
+        qy = y - base*0.25;
+      }
+      cum += w;
+    }
+
+    quill.style.transform = `translate(${qx}px, ${qy}px)`;
+
+    if(k < 1) requestAnimationFrame(frame);
+    else {
+      // leave the text fully drawn; tiny settle of the quill
+      quill.style.transform = `translate(${qx+6}px, ${qy}px)`;
+    }
+  }
+  requestAnimationFrame(frame);
 }
 
     // Dots
@@ -1480,17 +1568,22 @@ function inkWrite(el, text, {speed=26, useQuill=true} = {}){
     function openCard(){
       if(opened || wrap.classList.contains('opening')) return;
       wrap.classList.add('opening');
-      setTimeout(()=>{
-        wrap.classList.remove('opening');
+      wrap.classList.remove('opening');
         wrap.classList.add('open');
         book3d.setAttribute('aria-hidden','false');
-        requestAnimationFrame(()=>{
-          coverR.style.transform='rotateY(-160deg)';
-        });
-        opened=true;
+
+        requestAnimationFrame(()=>{ coverR.style.transform='rotateY(-160deg)'; });
+
+        opened = true;
         hint.textContent = "Tap the right page to turn.";
         flowerShower();
-      },560);
+
+        // first spread: left blank, right writes the first line
+        leftTxt.textContent = "";
+        leftTxt.classList.add('hand');
+        rightTxt.textContent = LINES[idx];
+        writeWithFeather(rightTxt, LINES[idx], {duration: 2600});
+
     }
 
     // expose for inline fallback
@@ -1508,19 +1601,20 @@ function inkWrite(el, text, {speed=26, useQuill=true} = {}){
       flip.innerHTML = rightPg.querySelector('.pageInner').outerHTML;
       requestAnimationFrame(()=> flip.classList.add('animating'));
       flip.addEventListener('animationend', ()=>{
-  // left shows the line we just finished reading
+  // the right page we just read becomes the static left page
   leftTxt.textContent = LINES[idx];
+  leftTxt.classList.add('hand');
 
-  // advance index and "ink write" the new right page
+  // advance and write the new right page with the feather
   idx = (idx+1) % LINES.length;
-  rightTxt.textContent = ''; // clear before writing
+  rightTxt.textContent = LINES[idx];
   setDots(idx);
-  inkWrite(rightTxt, LINES[idx], {speed: 26, useQuill: true});
+  writeWithFeather(rightTxt, LINES[idx], {duration: 2400});
 
   flip.classList.remove('animating','show');
   turning=false;
 }, {once:true});
-    });
+});
   }
 
   if(document.readyState === 'loading'){
