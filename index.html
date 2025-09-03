@@ -749,6 +749,12 @@ body.blush-lite .stars {
   filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));
 }
 
+/* hotfix: make sure the ribbon/seal are on top & clickable */
+#lines .book3d{ z-index:5; }
+#lines .ribbon{ z-index:8; }
+#lines .ribbon .r{ pointer-events:none; }  /* the tapes won't steal clicks */
+#lines .seal{ pointer-events:auto; }       /* the seal *will* get the click */
+
 
 
 </style>
@@ -892,7 +898,7 @@ body.blush-lite .stars {
         <div class="ribbon" id="ribbon">
           <span class="r h"></span>
           <span class="r v"></span>
-          <button class="seal" id="sealBtn" aria-label="Open the gift"></button>
+          <button class="seal" id="sealBtn" type="button" onclick="unwrapCard()" aria-label="Open the gift"></button>
         </div>
 
         <!-- Book (hidden behind ribbon until opened) -->
@@ -1184,7 +1190,7 @@ const greetingCards = [
   },
   {
     title: 'Health & Glow ✨',
-    text: 'Good Exercise, Deep sleep, easy breath, steady energy. May your body feel like home and your face keep that soft glow.'
+    text: 'Good Exercise, Deep sleep, easy breath, steady energy. May your body feel like home and your face keep that soft glow forever.'
   },
   {
     title: 'Safe Roads 🚦',
@@ -1323,123 +1329,115 @@ function initStardust(src){
   };
 }
 
-(() => {
-  const wrap     = document.getElementById('bookWrap');
-  const ribbon   = document.getElementById('ribbon');
-  const sealBtn  = document.getElementById('sealBtn');
-  const book3d   = document.getElementById('book3d');
-  const coverR   = document.getElementById('coverRight');
-  const rightPg  = document.getElementById('rightPage');
-  const leftTxt  = document.getElementById('leftText');
-  const rightTxt = document.getElementById('rightText');
-  const dotsBox  = document.getElementById('dots');
-  const flip     = document.getElementById('flipSheet');
-  const hint     = document.getElementById('bookHint');
+(function(){
+  function initBook(){
+    const wrap     = document.getElementById('bookWrap');
+    const ribbon   = document.getElementById('ribbon');
+    const sealBtn  = document.getElementById('sealBtn');
+    const book3d   = document.getElementById('book3d');
+    const coverR   = document.getElementById('coverRight');
+    const rightPg  = document.getElementById('rightPage');
+    const leftTxt  = document.getElementById('leftText');
+    const rightTxt = document.getElementById('rightText');
+    const dotsBox  = document.getElementById('dots');
+    const flip     = document.getElementById('flipSheet');
+    const hint     = document.getElementById('bookHint');
 
-  if(!wrap) return;
+    if(!wrap || !sealBtn || !coverR || !rightPg){ return; }
 
-/* ---------- inside lines ---------- */
-const LINES = [
-  'No expectations. Just good wishes—every day, no matter what. 🌙✨',
-  'If you need distance, take it; I’ll still be quietly in your corner. 🕊️',
-  'Consistency over grand gestures—count on the small, steady things. 📆✨',
-  'Madamji, keep the smile; I’ll handle the background noise. 🙂🔕',
-  'Laadliji, take the space you need—my care doesn’t expire. ⏳💌',
-  '1% trust from you = 100% patience from me. 🤝',
-  'I’m not here to rush your heart; I’m here to respect its timing. ⏰❤️',
-  'Your peace first. I’ll be the soft, quiet corner when the world is loud. 🛋️🌤️',
-  'Tea + calm on standby—say the word or don’t; I’ll read the vibe. ☕️😌',
-  'Silly-boy-trying, not loud-boy-trying—promise. 🫠🫶',
-  'May your days be light and your nights easy; I’ll keep the diya lit. 🪔✨',
-  'Tomorrow, I’ll still be here. That’s the whole message. 📩🌙'
-];
+    // Lines (your vibe)
+    const LINES = [
+      "No expectations — just good wishes, every day. 🌙✨",
+      "If you need distance, take it; I’ll still be quietly in your corner. 🕯️",
+      "Consistency over drama — I’ll be here, same energy. 🔁",
+      "Madamji, keep the smile; the rest will sort itself. 🙂",
+      "Even a 1% chance? I’ll show up with 100% effort, no noise. 💪",
+      "Tea + calm on standby — say the word or don’t; I’ll read the vibe. ☕😌",
+      "Your pace, your rules; I’m not in a rush. 🐢",
+    ];
 
-let idx = 0, opened = false, turning = false;
+    // Dots
+    dotsBox.innerHTML = '';
+    LINES.forEach((_,i)=> {
+      const d=document.createElement('i');
+      if(i===0) d.classList.add('on');
+      dotsBox.appendChild(d);
+    });
+    const setDots = i => [...dotsBox.children].forEach((d,k)=> d.classList.toggle('on', k===i));
 
-  // Dots
-  LINES.forEach((_,i) => {
-    const d = document.createElement('i');
-    if(i===0) d.classList.add('on');
-    dotsBox.appendChild(d);
-  });
-  function setDots(i){
-    [...dotsBox.children].forEach((d,k)=> d.classList.toggle('on', k===i));
-  }
+    // Initial text
+    let idx=0, opened=false, turning=false;
+    leftTxt.textContent  = "";
+    rightTxt.textContent = LINES[0];
 
-  // Initial texts
-  leftTxt.textContent  = "";
-  rightTxt.textContent = LINES[0];
+    function flowerShower(){
+      const emojis = ['🌸','🌼','💮','🌷','💐'];
+      const N = 28;
+      for(let i=0;i<N;i++){
+        const s = document.createElement('span');
+        s.className='petal';
+        s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        s.style.left = (Math.random()*wrap.clientWidth)+'px';
+        s.style.top = '-24px';
+        wrap.appendChild(s);
+        const drift = (Math.random()*2-1)*80;
+        const dur = 2400 + Math.random()*1800;
+        s.animate(
+          [{transform:'translate(0,-24px)',opacity:.95},
+           {transform:`translate(${drift}px, ${wrap.clientHeight+40}px) rotate(${Math.random()*120-60}deg)`,opacity:.1}],
+          {duration:dur, easing:'ease-in'}
+        ).finished.then(()=>s.remove()).catch(()=>s.remove());
+      }
+    }
 
-  // Unwrap + open
-  sealBtn.addEventListener('click', () => {
-    if(opened) return;
-    wrap.classList.add('opening');
-    // after unwrap, reveal book and flip cover
-    setTimeout(() => {
-      wrap.classList.remove('opening');
-      wrap.classList.add('open');
-      book3d.setAttribute('aria-hidden','false');
-      // a tiny delay so the cover open feels separate from ribbon
-      setTimeout(() => {
-        coverR.style.transform = 'rotateY(-160deg)';
-        opened = true;
+    function openCard(){
+      if(opened || wrap.classList.contains('opening')) return;
+      wrap.classList.add('opening');
+      setTimeout(()=>{
+        wrap.classList.remove('opening');
+        wrap.classList.add('open');
+        book3d.setAttribute('aria-hidden','false');
+        requestAnimationFrame(()=>{
+          coverR.style.transform='rotateY(-160deg)';
+        });
+        opened=true;
         hint.textContent = "Tap the right page to turn.";
         flowerShower();
-      }, 40);
-    }, 560);
-  });
+      },560);
+    }
 
-  // Page turn on right page click
-  rightPg.addEventListener('click', () => {
-    if(!opened || turning) return;
-    turning = true;
-    // prepare flip sheet visual with current right page text
-    flip.classList.add('show');
-    flip.innerHTML = rightPg.querySelector('.pageInner').outerHTML;
+    // expose for inline fallback
+    window.unwrapCard = openCard;
 
-    // animate
-    requestAnimationFrame(() => {
-      flip.classList.add('animating');
+    // bind click (in case inline is stripped by sanitizer/CDN)
+    sealBtn.addEventListener('click', openCard);
+
+    // Page turn
+    rightPg.addEventListener('click', ()=>{
+      if(!opened || turning) return;
+      turning = true;
+      // prepare flipsheet content (clone current right page)
+      flip.classList.add('show');
+      flip.innerHTML = rightPg.querySelector('.pageInner').outerHTML;
+      requestAnimationFrame(()=> flip.classList.add('animating'));
+      flip.addEventListener('animationend', ()=>{
+        leftTxt.textContent = LINES[idx];
+        idx = (idx+1) % LINES.length;
+        rightTxt.textContent = LINES[idx];
+        setDots(idx);
+        flip.classList.remove('animating','show');
+        turning=false;
+      }, {once:true});
     });
-
-    // after turn completes, update texts
-    flip.addEventListener('animationend', onTurnEnd, { once:true });
-  });
-
-  function onTurnEnd(){
-    // "Move" right text to left, advance index for new right
-    leftTxt.textContent  = LINES[idx];
-    idx = (idx + 1) % LINES.length;
-    rightTxt.textContent = LINES[idx];
-    setDots(idx);
-    flip.classList.remove('animating','show');
-    turning = false;
   }
 
-  // Flower shower on first open (local, no layout shift)
-  function flowerShower(){
-    const emojis = ['🌸','🌼','💮','🌷','💐'];
-    const N = 28;
-    for(let i=0;i<N;i++){
-      const s = document.createElement('span');
-      s.className='petal';
-      s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-      const x = Math.random() * wrap.clientWidth;
-      s.style.left = x+'px';
-      s.style.top = '-24px';
-      wrap.appendChild(s);
-      const drift = (Math.random()*2-1)*80;
-      const dur = 2400 + Math.random()*1800;
-      s.animate(
-        [
-          { transform:'translate(0,-24px)', opacity:.95 },
-          { transform:`translate(${drift}px, ${wrap.clientHeight+40}px) rotate(${Math.random()*120-60}deg)`, opacity:.1 }
-        ],
-        { duration: dur, easing:'ease-in' }
-      ).finished.then(()=> s.remove()).catch(()=> s.remove());
-    }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initBook);
+  } else {
+    initBook();
   }
 })();
+
 
 
 /* ---------- fireworks (final + entry burst) ---------- */
