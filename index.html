@@ -685,6 +685,45 @@ body.blush-lite .stars {
   color:var(--ink,#eaf2ff);
 }
 
+
+/* --- Ink feather write-on --- */
+#lines .pageInner { position: relative; } /* ensures the quill positions correctly */
+
+.inkStyle{
+  font-family: "Caveat", cursive;   /* only while writing */
+  letter-spacing: .2px;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.05),
+    0 2px 12px rgba(201,167,255,.10); /* slight ink glow */
+}
+
+.inkWrite span{
+  opacity:0;
+  display:inline-block;
+  transform: translateY(4px) scale(.98) rotate(var(--r,0deg));
+  filter: blur(1px);
+  animation: letterIn .55s forwards;
+}
+
+@keyframes letterIn{
+  to{
+    opacity:1;
+    transform: translateY(0) scale(1) rotate(var(--r,0deg));
+    filter: blur(0);
+  }
+}
+
+/* moving quill */
+.quill{
+  position:absolute;
+  font-size:20px;
+  line-height:1;
+  pointer-events:none;
+  transform: translate(-6px,-10px);
+  transition: transform .12s ease; /* tiny smoothing */
+  opacity:.9;
+}
+
 /* Flipping sheet */
 #lines .flipSheet{
   position:absolute; right:0; top:0; bottom:0; width:50%;
@@ -1356,6 +1395,54 @@ function initStardust(src){
       "Your pace, your rules; I’m not in a rush. 🐢",
     ];
 
+// Feather-ink write-on for the active page
+function inkWrite(el, text, {speed=26, useQuill=true} = {}){
+  if (prefersReduced){ el.textContent = text; return; }
+
+  // prepare
+  el.classList.add('inkStyle');
+  el.innerHTML = '';  // rebuild as spans
+  const frag = document.createDocumentFragment();
+  const letters = Array.from(text);
+
+  letters.forEach((ch, i)=>{
+    const s = document.createElement('span');
+    s.textContent = ch;
+    // light randomness so it feels hand-written
+    const wobble = (Math.random()*0.6 - 0.3).toFixed(3) + 'deg';
+    s.style.setProperty('--r', wobble);
+    s.style.animationDelay = (i * (speed/1000)).toFixed(3) + 's';
+    frag.appendChild(s);
+  });
+  el.appendChild(frag);
+
+  // optional 🪶 quill that follows the last written char
+  let tickId = null, q = null, i = 0;
+  if(useQuill){
+    q = document.createElement('span');
+    q.className = 'quill';
+    q.textContent = '🪶';
+    // anchor the quill to the page container
+    (el.parentElement || el).appendChild(q);
+
+    tickId = setInterval(()=>{
+      const spans = el.querySelectorAll('span');
+      if (i >= spans.length){
+        clearInterval(tickId);
+        setTimeout(()=>{ q && q.remove(); el.classList.remove('inkStyle'); }, 280);
+        return;
+      }
+      const target = spans[i];
+      const tb = target.getBoundingClientRect();
+      const pb = el.getBoundingClientRect();
+      const x = tb.left - pb.left + tb.width;
+      const y = tb.top  - pb.top  + tb.height * .6;
+      q.style.transform = `translate(${x}px, ${y}px)`;
+      i++;
+    }, speed);
+  }
+}
+
     // Dots
     dotsBox.innerHTML = '';
     LINES.forEach((_,i)=> {
@@ -1421,13 +1508,18 @@ function initStardust(src){
       flip.innerHTML = rightPg.querySelector('.pageInner').outerHTML;
       requestAnimationFrame(()=> flip.classList.add('animating'));
       flip.addEventListener('animationend', ()=>{
-        leftTxt.textContent = LINES[idx];
-        idx = (idx+1) % LINES.length;
-        rightTxt.textContent = LINES[idx];
-        setDots(idx);
-        flip.classList.remove('animating','show');
-        turning=false;
-      }, {once:true});
+  // left shows the line we just finished reading
+  leftTxt.textContent = LINES[idx];
+
+  // advance index and "ink write" the new right page
+  idx = (idx+1) % LINES.length;
+  rightTxt.textContent = ''; // clear before writing
+  setDots(idx);
+  inkWrite(rightTxt, LINES[idx], {speed: 26, useQuill: true});
+
+  flip.classList.remove('animating','show');
+  turning=false;
+}, {once:true});
     });
   }
 
