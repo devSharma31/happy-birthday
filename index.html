@@ -477,13 +477,13 @@ body.blush-lite .stars {
   .greetInner{transition:none}
 }
 
-/* === Realistic 3D Gift Card (scoped) ============================== */
+/* === Realistic 3D Gift Card (stable + hidden text until open) ===== */
 .cardStage{
   max-width: 620px;
   margin: 0 auto;
   padding: 6px 8px;
-  /* reserve space so layout doesn't jump */
-  min-height: clamp(320px, 46vw, 380px);
+  /* reserve space so layout doesn't jump when opening */
+  min-height: clamp(360px, 46vw, 420px);
 }
 
 .gift3d{
@@ -498,13 +498,20 @@ body.blush-lite .stars {
 }
 @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
 
+/* localized flower shower container */
+.flowers{
+  position:absolute; inset:-8% -6%;
+  pointer-events:none; z-index:7;
+  overflow:visible;
+}
+
 .book3d{
   position:absolute; inset:0;
   transform-style:preserve-3d;
   filter: drop-shadow(0 26px 42px rgba(0,0,0,.40));
 }
 
-/* ——— Cover (leather + foil) */
+/* Cover (leather + foil) */
 .cover3d{
   position:absolute; inset:0; border-radius:18px;
   background:
@@ -519,20 +526,16 @@ body.blush-lite .stars {
   font-family:"Playfair Display", serif;
   letter-spacing:.14em; text-transform:uppercase;
   font-size: clamp(18px, 4.6vw, 24px);
-  color: #f6d06e;
   background: linear-gradient(90deg,#b68b2e,#f6d06e,#fff2b7,#b68b2e);
   -webkit-background-clip:text; background-clip:text; color:transparent;
   text-shadow: 0 1px 0 rgba(0,0,0,.3);
 }
 
-/* ——— Paper stack */
-.pages3d, .page3d{
-  position:absolute; inset:0; border-radius:16px;
-}
+/* Paper */
+.pages3d, .page3d{ position:absolute; inset:0; border-radius:16px; }
 .pages3d{
   transform: translateZ(-2px);
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  background: linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
   border:1px solid rgba(255,255,255,.10);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
 }
@@ -545,86 +548,71 @@ body.blush-lite .stars {
   margin:0; padding:24px 20px;
   font-size: clamp(18px,4.8vw,22px);
   line-height:1.6; text-wrap:balance;
+  transition: opacity .35s ease;
 }
+/* hide message until the cover opens */
+.gift3d:not(.open) .page3d p{ opacity:0 }
 
-/* ——— Spine & edges for thickness */
-.spine3d{
-  position:absolute; top:10px; bottom:10px; left:0;
-  width: 16px; border-radius:12px;
-  background: linear-gradient(180deg, rgba(0,0,0,.6), rgba(255,255,255,.1));
-  transform: translateZ(1px);
-  opacity:.6;
-}
-.edge{ position:absolute; left:12px; right:12px; height:10px; }
+/* Spine & edges */
+.spine3d{ position:absolute; top:10px; bottom:10px; left:0; width:16px; border-radius:12px;
+  background: linear-gradient(180deg, rgba(0,0,0,.6), rgba(255,255,255,.1)); transform: translateZ(1px); opacity:.6 }
+.edge{ position:absolute; left:12px; right:12px; height:10px }
 .edge.top{ top:-5px; background:linear-gradient(180deg, rgba(0,0,0,.35), transparent) }
 .edge.bottom{ bottom:-6px; background:linear-gradient(0deg, rgba(0,0,0,.35), transparent) }
-.edge.right{
-  left:auto; right:-6px; top:12px; bottom:12px; width:10px; height:auto;
-  background:linear-gradient(90deg, rgba(0,0,0,.35), transparent);
-  border-radius:10px;
-}
+.edge.right{ left:auto; right:-6px; top:12px; bottom:12px; width:10px; height:auto;
+  background:linear-gradient(90deg, rgba(0,0,0,.35), transparent); border-radius:10px }
 
-/* ——— Ribbons (cloth texture) */
+/* Ribbons + wax */
 .ribbon{
-  position:absolute; pointer-events:none; z-index:4;
+  position:absolute; z-index:4;
   background:
     repeating-linear-gradient(90deg, #ffffff66 0 6px, #ffffff22 6px 12px),
     linear-gradient(90deg,#ff8fb1,#caa7ff);
   filter: drop-shadow(0 10px 20px rgba(0,0,0,.35));
+  pointer-events:none;
 }
 .ribbon.h{ height:18px; width:100%; top:50%; transform:translateY(-50%) }
 .ribbon.v{ width:18px; height:100%; left:50%; transform:translateX(-50%) }
 
-/* ——— Wax seal */
 .wax{
   position:absolute; left:50%; top:50%; z-index:6;
   width:64px; height:64px; border-radius:50%;
   transform:translate(-50%,-50%) rotate(-6deg);
-  background:
-    radial-gradient(60% 60% at 35% 30%, #ffdfef, #ffb7d1 60%, #ff86b3 100%);
-  box-shadow:
-    inset 0 8px 14px rgba(255,255,255,.35),
-    inset 0 -10px 18px rgba(0,0,0,.2),
-    0 16px 30px rgba(0,0,0,.45);
-  border:1px solid rgba(0,0,0,.25);
-  display:grid; place-items:center;
+  background: radial-gradient(60% 60% at 35% 30%, #ffdfef, #ffb7d1 60%, #ff86b3 100%);
+  box-shadow: inset 0 8px 14px rgba(255,255,255,.35), inset 0 -10px 18px rgba(0,0,0,.2), 0 16px 30px rgba(0,0,0,.45);
+  border:1px solid rgba(0,0,0,.25); display:grid; place-items:center;
 }
 .wax span{ font-size:22px; color:#842d4b; filter:drop-shadow(0 1px 0 #fff6) }
 
-/* peel + open states */
 .gift3d.unsealed .ribbon.h{ animation:rOutX .6s ease forwards }
 .gift3d.unsealed .ribbon.v{ animation:rOutY .6s ease .05s forwards }
 .gift3d.unsealed .wax{ animation:waxPop .55s ease forwards }
-
 @keyframes rOutX{ to{ transform:translateY(-50%) translateX(120%); opacity:0 } }
 @keyframes rOutY{ to{ transform:translateX(-50%) translateY(-120%); opacity:0 } }
-@keyframes waxPop{
-  40%{ transform:translate(-50%,-50%) rotate(-2deg) scale(1.15) }
-  100%{ transform:translate(-50%,-170%) rotate(-18deg); opacity:0 }
-}
+@keyframes waxPop{ 40%{ transform:translate(-50%,-50%) rotate(-2deg) scale(1.15) } 100%{ transform:translate(-50%,-170%) rotate(-18deg); opacity:0 } }
 
-.gift3d.open .cover3d{
-  transform: rotateY(-168deg);
-  transition: transform .8s cubic-bezier(.2,.8,.2,1);
-}
+/* open */
+.gift3d.open .cover3d{ transform: rotateY(-168deg); transition: transform .8s cubic-bezier(.2,.8,.2,1) }
 
-/* gentle parallax tilt */
-.gift3d.tilt .book3d{
-  transition: transform .18s ease;
-  transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-}
+/* tilt */
+.gift3d.tilt .book3d{ transition: transform .18s ease; transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) }
 
-/* pagination dots */
-.dots{ display:flex; gap:6px; justify-content:center; margin-top:10px }
-.dots button{ width:8px;height:8px;border-radius:50%;border:0;background:#ffffff44;cursor:pointer }
-.dots button.active{ background:#ff9cccee; box-shadow:0 0 0 4px #ff9ccc33 }
+/* footer keeps space even before open */
+.cardFoot{ min-height: 58px }
+.cardFoot .dots{ display:flex; gap:6px; justify-content:center; align-items:center; height:14px; margin:10px 0 6px }
+.cardFoot .dots button{ width:8px;height:8px;border-radius:50%;border:0;background:#ffffff33;cursor:pointer }
+.cardFoot .dots button.active{ background:#ff9cccee; box-shadow:0 0 0 4px #ff9ccc33 }
+.cardFoot .hint{ margin:0; font-size:12px; opacity:.65 }
 
-/* prefers-reduced-motion */
+/* enable stronger visuals only after open (no layout change though) */
+.gift3d.open ~ .cardFoot .dots button{ background:#ffffff55 }
+.gift3d.open ~ .cardFoot .hint{ opacity:1 }
+
+/* reduced motion */
 @media (prefers-reduced-motion:reduce){
   .gift3d{ animation:none }
   .gift3d.open .cover3d{ transition:none }
 }
-
 
 
 </style>
@@ -759,13 +747,17 @@ body.blush-lite .stars {
   </div>
 </section>
 
-<!-- 6) Inside lines — Realistic 3D Gift-Wrapped Card -->
+<!-- 6) Inside lines — Realistic 3D Gift-Wrapped Card (stable layout) -->
 <section class="section" id="lines">
   <div class="container">
     <div class="cardStage center">
       <div class="gift3d" id="gift3d" role="button" aria-label="Open the card" tabindex="0">
+        <!-- localized flower shower layer -->
+        <div class="flowers" id="flowerFX" aria-hidden="true"></div>
+
         <!-- wax seal -->
         <div class="wax" id="waxSeal"><span>ॐ</span></div>
+
         <!-- cloth ribbons -->
         <div class="ribbon h"></div>
         <div class="ribbon v"></div>
@@ -776,7 +768,7 @@ body.blush-lite .stars {
             <div class="foilStamp">Shruti</div>
           </div>
           <div class="pages3d">
-            <div class="page3d"><p id="pageText">Loading…</p></div>
+            <div class="page3d"><p id="pageText">…</p></div>
           </div>
           <div class="spine3d"></div>
           <div class="edge top"></div>
@@ -785,18 +777,14 @@ body.blush-lite .stars {
         </div>
       </div>
 
-      <div class="dots" id="cardDots" aria-label="Messages"></div>
-      <p class="hint">Tap the wax seal to unwrap. Tap the open card to flip through lines.</p>
+      <!-- footer area is always present (no layout shift) -->
+      <div class="cardFoot">
+        <div class="dots" id="cardDots" aria-label="Messages"></div>
+        <p class="hint">Tap the wax seal to unwrap. Tap the open card to flip through lines.</p>
+      </div>
 
       <div class="center" style="margin-top:12px"><a class="btn" href="#divine">Next →</a></div>
     </div>
-  </div>
-</section>
-
-    <div class="deckDots" id="cardDots" aria-label="Messages pagination"></div>
-    <p class="hint">Tap the ribbon to unwrap. Tap the open card to flip through lines.</p>
-
-    <div class="center" style="margin-top:14px"><a class="btn" href="#divine">Next →</a></div>
   </div>
 </section>
 
@@ -1200,16 +1188,17 @@ const LINES = [
   'Tomorrow, I’ll still be here. That’s the whole message. 📩🌙'
 ];
 
-/* ===== Realistic 3D Gift Card logic ===== */
+/* ===== Realistic 3D Gift Card: no layout shift + flower shower ===== */
 (function giftCardReal(){
   const lines = (typeof LINES!=='undefined' && LINES.length) ? LINES : ['Happy Birthday 💖'];
-  const wrap = document.getElementById('gift3d');
-  const seal = document.getElementById('waxSeal');
-  const page = document.getElementById('pageText');
-  const dots = document.getElementById('cardDots');
-  if(!wrap || !page || !dots) return;
+  const wrap   = document.getElementById('gift3d');
+  const seal   = document.getElementById('waxSeal');
+  const page   = document.getElementById('pageText');
+  const dots   = document.getElementById('cardDots');
+  const petals = document.getElementById('flowerFX');
+  if(!wrap||!page||!dots||!seal) return;
 
-  // pagination dots
+  // pagination dots (space reserved by CSS so no jump)
   lines.forEach((_,idx)=>{
     const b=document.createElement('button');
     b.addEventListener('click',()=>jump(idx));
@@ -1220,17 +1209,26 @@ const LINES = [
   function setDots(){ [...dots.children].forEach((d,idx)=>d.classList.toggle('active',idx===i)); }
   function show(){ page.innerHTML = lines[i]; setDots(); }
 
-  function confetti(){
-    const N=18;
+  // localized flower shower (on unseal)
+  function flowerShower(){
+    const EMO = ['🌸','🌷','💮','🌼','🌺'];
+    const N = 28;
     for(let k=0;k<N;k++){
       const s=document.createElement('span');
-      s.textContent=['✨','💖','🌸','🧿','💫'][k%5];
-      s.style.position='absolute'; s.style.left='50%'; s.style.top='50%';
-      s.style.transform='translate(-50%,-50%)'; s.style.zIndex='7';
-      wrap.appendChild(s);
-      const dx=(Math.random()*2-1)*160, dy=(Math.random()*2-1)*110, t=700+Math.random()*500;
-      s.animate([{transform:'translate(-50%,-50%) scale(.9)',opacity:1},{transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1)`,opacity:0}],{duration:t,easing:'ease-out'});
-      setTimeout(()=>s.remove(),t+20);
+      s.textContent = EMO[k%EMO.length];
+      s.style.position='absolute';
+      s.style.left = (50 + (Math.random()*40-20)) + '%';
+      s.style.top  = '-8%';
+      s.style.fontSize = (18+Math.random()*12)+'px';
+      s.style.filter='drop-shadow(0 6px 10px rgba(0,0,0,.35))';
+      petals.appendChild(s);
+      const dx=(Math.random()*2-1)*35;
+      const t = 900+Math.random()*700;
+      s.animate([
+        { transform:`translate(${dx}px, 0) rotate(0deg)`, opacity:1 },
+        { transform:`translate(${dx*1.2}px, 110%) rotate(${120+Math.random()*120}deg)`, opacity:0.05 }
+      ], { duration:t, easing:'ease-in' });
+      setTimeout(()=>s.remove(), t+40);
     }
     try{ navigator.vibrate && navigator.vibrate(12);}catch{}
     if(typeof playChime==='function') playChime();
@@ -1240,20 +1238,28 @@ const LINES = [
     if(unsealed) return;
     unsealed=true;
     wrap.classList.add('unsealed');
+    flowerShower();
     setTimeout(openCover, 520);
   }
+
   function openCover(){
     if(opened) return;
     wrap.classList.add('open');
     opened=true;
-    confetti();
+    // text fades in (CSS) and dots already have space reserved
+    show();
   }
 
   function next(){
     if(!unsealed) return unseal();
     if(!opened)  return openCover();
     i=(i+1)%lines.length;
-    page.animate([{transform:'rotateX(0) translateY(0)',opacity:1},{transform:'rotateX(18deg) translateY(6px)',opacity:.0},{transform:'rotateX(0) translateY(0)',opacity:1}],{duration:420,easing:'ease'});
+    page.animate(
+      [{transform:'rotateX(0) translateY(0)',opacity:1},
+       {transform:'rotateX(18deg) translateY(6px)',opacity:.0},
+       {transform:'rotateX(0) translateY(0)',opacity:1}],
+      {duration:420,easing:'ease'}
+    );
     show();
     try{ if(typeof playChime==='function') playChime(); }catch{}
   }
@@ -1266,10 +1272,7 @@ const LINES = [
 
   // interactions
   seal.addEventListener('click', unseal);
-  wrap.addEventListener('click', e=>{
-    if(e.target===seal) return; // seal already handled
-    next();
-  });
+  wrap.addEventListener('click', e=>{ if(e.target===seal) return; next(); });
   wrap.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' ') next(); });
 
   // parallax tilt
@@ -1284,7 +1287,7 @@ const LINES = [
   });
   wrap.addEventListener('pointerleave', ()=>{ hover=false; wrap.classList.remove('tilt'); wrap.style.removeProperty('--ry'); wrap.style.removeProperty('--rx'); });
 
-  // init
+  // init (message exists but hidden by CSS until .open)
   show();
 })();
 
