@@ -477,91 +477,152 @@ body.blush-lite .stars {
   .greetInner{transition:none}
 }
 
-/* === Floating 3D Gift Card ========================================= */
-.giftWrap{
-  width:min(92vw,520px);
-  height:clamp(220px,46vw,320px);
-  margin-inline:auto;
-  position:relative;
-  perspective:1200px;
-  animation:bob 7s ease-in-out infinite;
-  user-select:none;
+/* === Realistic 3D Gift Card (scoped) ============================== */
+.cardStage{
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 6px 8px;
+  /* reserve space so layout doesn't jump */
+  min-height: clamp(320px, 46vw, 380px);
 }
-@keyframes bob{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
 
-.book{
+.gift3d{
+  width: min(92vw, 560px);
+  height: clamp(260px, 42vw, 340px);
+  margin-inline: auto;
+  position: relative;
+  perspective: 1600px;
+  transform-style: preserve-3d;
+  animation: floaty 8s ease-in-out infinite;
+  user-select: none;
+}
+@keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+
+.book3d{
   position:absolute; inset:0;
   transform-style:preserve-3d;
-  filter:drop-shadow(0 26px 40px rgba(0,0,0,.35));
+  filter: drop-shadow(0 26px 42px rgba(0,0,0,.40));
 }
-.cover,.page{
-  position:absolute; inset:0; border-radius:18px;
-  backface-visibility:hidden; overflow:hidden;
-  border:1px solid var(--edge);
-}
-.cover{
-  transform-origin:left center;
-  background:linear-gradient(145deg,#121a2d,#0e1527);
-}
-.cover::after{
-  content:""; position:absolute; inset:0;
-  background:radial-gradient(120% 100% at 0% 50%, rgba(255,255,255,.08), transparent 30%);
-  pointer-events:none;
-}
-.coverArt{
-  position:absolute; inset:0; display:grid; place-items:center;
-  color:var(--muted); font-family:"Playfair Display",serif;
-  letter-spacing:.08em; font-size:clamp(18px,4.6vw,22px);
-}
-.coverArt b{color:var(--accent); font-weight:700; letter-spacing:.06em}
-.coverArt .tiny{display:inline-block;width:12px;height:0;border:0;border-top:2px solid rgba(255,255,255,.12);margin:0 2px;opacity:.6}
 
-.page{
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+/* ——— Cover (leather + foil) */
+.cover3d{
+  position:absolute; inset:0; border-radius:18px;
+  background:
+    radial-gradient(80% 120% at 10% 10%, rgba(255,255,255,.08), transparent 32%),
+    linear-gradient(145deg, #151c2f 0%, #0f172b 45%, #0c1323 100%);
+  border: 1px solid rgba(255,255,255,.14);
+  backface-visibility:hidden;
+  transform-origin: left center;
 }
-#pageText{
-  margin:0; padding:22px 18px;
-  font-size:clamp(18px,4.8vw,22px);
+.foilStamp{
+  position:absolute; inset:0; display:grid; place-items:center;
+  font-family:"Playfair Display", serif;
+  letter-spacing:.14em; text-transform:uppercase;
+  font-size: clamp(18px, 4.6vw, 24px);
+  color: #f6d06e;
+  background: linear-gradient(90deg,#b68b2e,#f6d06e,#fff2b7,#b68b2e);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  text-shadow: 0 1px 0 rgba(0,0,0,.3);
+}
+
+/* ——— Paper stack */
+.pages3d, .page3d{
+  position:absolute; inset:0; border-radius:16px;
+}
+.pages3d{
+  transform: translateZ(-2px);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+.page3d{
+  background:
+    radial-gradient(120% 140% at 10% 5%, rgba(255,255,255,.14), transparent 30%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 2px, rgba(255,255,255,0) 2px 6px);
+}
+.page3d p{
+  margin:0; padding:24px 20px;
+  font-size: clamp(18px,4.8vw,22px);
   line-height:1.6; text-wrap:balance;
 }
 
-.hinge{
-  position:absolute; top:8px; bottom:8px; left:calc(0% + 10px); width:10px;
-  background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(255,255,255,.12));
-  border-radius:10px; filter:blur(.3px); opacity:.6;
+/* ——— Spine & edges for thickness */
+.spine3d{
+  position:absolute; top:10px; bottom:10px; left:0;
+  width: 16px; border-radius:12px;
+  background: linear-gradient(180deg, rgba(0,0,0,.6), rgba(255,255,255,.1));
+  transform: translateZ(1px);
+  opacity:.6;
+}
+.edge{ position:absolute; left:12px; right:12px; height:10px; }
+.edge.top{ top:-5px; background:linear-gradient(180deg, rgba(0,0,0,.35), transparent) }
+.edge.bottom{ bottom:-6px; background:linear-gradient(0deg, rgba(0,0,0,.35), transparent) }
+.edge.right{
+  left:auto; right:-6px; top:12px; bottom:12px; width:10px; height:auto;
+  background:linear-gradient(90deg, rgba(0,0,0,.35), transparent);
+  border-radius:10px;
 }
 
-/* ribbons */
-.ribbons{position:absolute; inset:0; display:block; pointer-events:none; z-index:5}
-.r{position:absolute; background:linear-gradient(90deg,#ff84b9,#caa8ff); filter:drop-shadow(0 10px 20px rgba(0,0,0,.35))}
-.r.hor{height:16px; width:100%; top:50%; transform:translateY(-50%); opacity:.95}
-.r.ver{width:16px; height:100%; left:50%; transform:translateX(-50%); opacity:.95; border-radius:2px}
-.bow{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-size:34px; text-shadow:0 6px 14px rgba(0,0,0,.35)}
+/* ——— Ribbons (cloth texture) */
+.ribbon{
+  position:absolute; pointer-events:none; z-index:4;
+  background:
+    repeating-linear-gradient(90deg, #ffffff66 0 6px, #ffffff22 6px 12px),
+    linear-gradient(90deg,#ff8fb1,#caa7ff);
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,.35));
+}
+.ribbon.h{ height:18px; width:100%; top:50%; transform:translateY(-50%) }
+.ribbon.v{ width:18px; height:100%; left:50%; transform:translateX(-50%) }
 
-.giftWrap.unwrap .r.hor{animation:ribbonOutX .55s ease forwards}
-.giftWrap.unwrap .r.ver{animation:ribbonOutY .55s ease .05s forwards}
-.giftWrap.unwrap .bow   {animation:bowPop .55s ease forwards}
+/* ——— Wax seal */
+.wax{
+  position:absolute; left:50%; top:50%; z-index:6;
+  width:64px; height:64px; border-radius:50%;
+  transform:translate(-50%,-50%) rotate(-6deg);
+  background:
+    radial-gradient(60% 60% at 35% 30%, #ffdfef, #ffb7d1 60%, #ff86b3 100%);
+  box-shadow:
+    inset 0 8px 14px rgba(255,255,255,.35),
+    inset 0 -10px 18px rgba(0,0,0,.2),
+    0 16px 30px rgba(0,0,0,.45);
+  border:1px solid rgba(0,0,0,.25);
+  display:grid; place-items:center;
+}
+.wax span{ font-size:22px; color:#842d4b; filter:drop-shadow(0 1px 0 #fff6) }
 
-@keyframes ribbonOutX{to{transform:translateY(-50%) translateX(120%); opacity:0}}
-@keyframes ribbonOutY{to{transform:translateX(-50%) translateY(-120%); opacity:0}}
-@keyframes bowPop{40%{transform:translate(-50%,-50%) scale(1.2)}100%{transform:translate(-50%,-180%) rotate(-20deg); opacity:0}}
+/* peel + open states */
+.gift3d.unsealed .ribbon.h{ animation:rOutX .6s ease forwards }
+.gift3d.unsealed .ribbon.v{ animation:rOutY .6s ease .05s forwards }
+.gift3d.unsealed .wax{ animation:waxPop .55s ease forwards }
 
-.giftWrap.open .cover{ transform:rotateY(-160deg); transition:transform .7s cubic-bezier(.2,.7,.2,1) }
-.giftWrap.open .hinge{ opacity:.28 }
+@keyframes rOutX{ to{ transform:translateY(-50%) translateX(120%); opacity:0 } }
+@keyframes rOutY{ to{ transform:translateX(-50%) translateY(-120%); opacity:0 } }
+@keyframes waxPop{
+  40%{ transform:translate(-50%,-50%) rotate(-2deg) scale(1.15) }
+  100%{ transform:translate(-50%,-170%) rotate(-18deg); opacity:0 }
+}
 
-/* micro tilt on pointer */
-.giftWrap:hover .book{ transition:transform .2s ease }
-.giftWrap.tilt .book{ transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) }
+.gift3d.open .cover3d{
+  transform: rotateY(-168deg);
+  transition: transform .8s cubic-bezier(.2,.8,.2,1);
+}
 
-/* dots reused style from earlier */
-#cardDots{display:flex;gap:6px;justify-content:center;margin-top:10px}
-#cardDots button{width:8px;height:8px;border-radius:50%;border:0;background:#ffffff44;cursor:pointer}
-#cardDots button.active{background:#ff9cccee; box-shadow:0 0 0 4px #ff9ccc33}
+/* gentle parallax tilt */
+.gift3d.tilt .book3d{
+  transition: transform .18s ease;
+  transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+}
 
+/* pagination dots */
+.dots{ display:flex; gap:6px; justify-content:center; margin-top:10px }
+.dots button{ width:8px;height:8px;border-radius:50%;border:0;background:#ffffff44;cursor:pointer }
+.dots button.active{ background:#ff9cccee; box-shadow:0 0 0 4px #ff9ccc33 }
+
+/* prefers-reduced-motion */
 @media (prefers-reduced-motion:reduce){
-  .giftWrap{animation:none}
-  .giftWrap.open .cover{transition:none}
+  .gift3d{ animation:none }
+  .gift3d.open .cover3d{ transition:none }
 }
 
 
@@ -698,29 +759,39 @@ body.blush-lite .stars {
   </div>
 </section>
 
-<!-- 6) Inside lines — Floating 3D Gift Card -->
+<!-- 6) Inside lines — Realistic 3D Gift-Wrapped Card -->
 <section class="section" id="lines">
-  <div class="container center">
+  <div class="container">
+    <div class="cardStage center">
+      <div class="gift3d" id="gift3d" role="button" aria-label="Open the card" tabindex="0">
+        <!-- wax seal -->
+        <div class="wax" id="waxSeal"><span>ॐ</span></div>
+        <!-- cloth ribbons -->
+        <div class="ribbon h"></div>
+        <div class="ribbon v"></div>
 
-    <div class="giftWrap" id="giftCard" role="button" aria-label="Open the card" tabindex="0">
-      <!-- ribbons & bow that peel off -->
-      <div class="ribbons" aria-hidden="true">
-        <span class="r hor"></span>
-        <span class="r ver"></span>
-        <span class="bow">🎀</span>
+        <!-- the book (cover + inside page) -->
+        <div class="book3d">
+          <div class="cover3d">
+            <div class="foilStamp">Shruti</div>
+          </div>
+          <div class="pages3d">
+            <div class="page3d"><p id="pageText">Loading…</p></div>
+          </div>
+          <div class="spine3d"></div>
+          <div class="edge top"></div>
+          <div class="edge right"></div>
+          <div class="edge bottom"></div>
+        </div>
       </div>
 
-      <!-- the “book” (front cover + inside page) -->
-      <div class="book">
-        <div class="cover" aria-hidden="true">
-          <div class="coverArt">for <b>S<hr class="tiny">h<hr class="tiny">r<hr class="tiny">u<hr class="tiny">t<hr class="tiny">i</b></div>
-        </div>
-        <div class="page">
-          <p id="pageText">Loading…</p>
-        </div>
-        <div class="hinge"></div>
-      </div>
+      <div class="dots" id="cardDots" aria-label="Messages"></div>
+      <p class="hint">Tap the wax seal to unwrap. Tap the open card to flip through lines.</p>
+
+      <div class="center" style="margin-top:12px"><a class="btn" href="#divine">Next →</a></div>
     </div>
+  </div>
+</section>
 
     <div class="deckDots" id="cardDots" aria-label="Messages pagination"></div>
     <p class="hint">Tap the ribbon to unwrap. Tap the open card to flip through lines.</p>
@@ -1129,77 +1200,89 @@ const LINES = [
   'Tomorrow, I’ll still be here. That’s the whole message. 📩🌙'
 ];
 
-/* ===== Floating Gift-Card behaviour ===== */
-(function giftCard(){
+/* ===== Realistic 3D Gift Card logic ===== */
+(function giftCardReal(){
   const lines = (typeof LINES!=='undefined' && LINES.length) ? LINES : ['Happy Birthday 💖'];
-  const card  = document.getElementById('giftCard');
-  const page  = document.getElementById('pageText');
-  const dots  = document.getElementById('cardDots');
-  if(!card || !page || !dots) return;
+  const wrap = document.getElementById('gift3d');
+  const seal = document.getElementById('waxSeal');
+  const page = document.getElementById('pageText');
+  const dots = document.getElementById('cardDots');
+  if(!wrap || !page || !dots) return;
 
-  // build dots
+  // pagination dots
   lines.forEach((_,idx)=>{
     const b=document.createElement('button');
-    b.setAttribute('aria-label',`Go to message ${idx+1}`);
-    b.addEventListener('click',()=>jump(idx,true));
+    b.addEventListener('click',()=>jump(idx));
     dots.appendChild(b);
   });
 
-  let i=0, opened=false;
-
+  let i=0, unsealed=false, opened=false;
   function setDots(){ [...dots.children].forEach((d,idx)=>d.classList.toggle('active',idx===i)); }
   function show(){ page.innerHTML = lines[i]; setDots(); }
-  function sparkleBurst(){
-    const N=18; for(let k=0;k<N;k++){
+
+  function confetti(){
+    const N=18;
+    for(let k=0;k<N;k++){
       const s=document.createElement('span');
       s.textContent=['✨','💖','🌸','🧿','💫'][k%5];
-      s.style.position='absolute'; s.style.left='50%'; s.style.top='50%'; s.style.zIndex='6';
-      s.style.transform='translate(-50%,-50%) scale(.7)';
-      card.appendChild(s);
-      const dx=(Math.random()*2-1)*140, dy=(Math.random()*2-1)*100, t=600+Math.random()*400;
-      s.animate([{transform:'translate(-50%,-50%) scale(.7)',opacity:1},{transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(.9)`,opacity:0}],{duration:t,easing:'ease-out'});
+      s.style.position='absolute'; s.style.left='50%'; s.style.top='50%';
+      s.style.transform='translate(-50%,-50%)'; s.style.zIndex='7';
+      wrap.appendChild(s);
+      const dx=(Math.random()*2-1)*160, dy=(Math.random()*2-1)*110, t=700+Math.random()*500;
+      s.animate([{transform:'translate(-50%,-50%) scale(.9)',opacity:1},{transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1)`,opacity:0}],{duration:t,easing:'ease-out'});
       setTimeout(()=>s.remove(),t+20);
     }
     try{ navigator.vibrate && navigator.vibrate(12);}catch{}
     if(typeof playChime==='function') playChime();
   }
 
-  function unwrapAndOpen(){
+  function unseal(){
+    if(unsealed) return;
+    unsealed=true;
+    wrap.classList.add('unsealed');
+    setTimeout(openCover, 520);
+  }
+  function openCover(){
     if(opened) return;
-    card.classList.add('unwrap');
-    setTimeout(()=>{ card.classList.add('open'); sparkleBurst(); opened=true; }, 520);
+    wrap.classList.add('open');
+    opened=true;
+    confetti();
   }
 
-  function nextLine(){
-    if(!opened) return unwrapAndOpen();
+  function next(){
+    if(!unsealed) return unseal();
+    if(!opened)  return openCover();
     i=(i+1)%lines.length;
-    // tiny page-flip pulse
-    page.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(6px)',opacity:.0},{transform:'translateY(0)',opacity:1}],{duration:380,easing:'ease'});
+    page.animate([{transform:'rotateX(0) translateY(0)',opacity:1},{transform:'rotateX(18deg) translateY(6px)',opacity:.0},{transform:'rotateX(0) translateY(0)',opacity:1}],{duration:420,easing:'ease'});
     show();
     try{ if(typeof playChime==='function') playChime(); }catch{}
   }
-
-  function jump(to,stopAuto){
-    i = (to + lines.length)%lines.length;
-    if(!opened) unwrapAndOpen();
+  function jump(to){
+    i=(to+lines.length)%lines.length;
+    if(!unsealed){ unseal(); return; }
+    if(!opened){ openCover(); return; }
     show();
   }
 
   // interactions
-  card.addEventListener('click', nextLine);
-  card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' ') nextLine(); });
-
-  // gentle tilt
-  let hover=false;
-  card.addEventListener('pointerenter', ()=>{ hover=true; card.classList.add('tilt'); });
-  card.addEventListener('pointermove', e=>{
-    if(!hover) return;
-    const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width -.5, y=(e.clientY-r.top)/r.height -.5;
-    card.style.setProperty('--ry', `${x*6}deg`);
-    card.style.setProperty('--rx', `${-y*4}deg`);
+  seal.addEventListener('click', unseal);
+  wrap.addEventListener('click', e=>{
+    if(e.target===seal) return; // seal already handled
+    next();
   });
-  card.addEventListener('pointerleave', ()=>{ hover=false; card.classList.remove('tilt'); card.style.removeProperty('--ry'); card.style.removeProperty('--rx'); });
+  wrap.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' ') next(); });
+
+  // parallax tilt
+  let hover=false;
+  wrap.addEventListener('pointerenter', ()=>{ hover=true; wrap.classList.add('tilt'); });
+  wrap.addEventListener('pointermove', e=>{
+    if(!hover) return;
+    const r=wrap.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width -.5, y=(e.clientY-r.top)/r.height -.5;
+    wrap.style.setProperty('--ry', `${x*6}deg`);
+    wrap.style.setProperty('--rx', `${-y*4}deg`);
+  });
+  wrap.addEventListener('pointerleave', ()=>{ hover=false; wrap.classList.remove('tilt'); wrap.style.removeProperty('--ry'); wrap.style.removeProperty('--rx'); });
 
   // init
   show();
