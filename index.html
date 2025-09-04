@@ -325,7 +325,7 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 <body class="gated">
 
 <!-- Background song (starts on gate enter) -->
-<audio id="bgSong" preload="auto" loop playsinline src="public/audio/ilovebloemstore.co.za - KK Zara Sa - Audio Lyrical Emraan Hashmi Sonal Chauhan Pritam Sayeed Quadri Jannat (320 KBps).mp3" type="audio/mpeg">
+<audio id="bgSong" preload="auto" loop playsinline src="public/audio/zara_sa.mp3">
 </audio>
 
 <!-- Welcome Gate -->
@@ -1175,53 +1175,21 @@ $('#savePNG')?.addEventListener('click',()=>{
 
 
 /* ---------- ambience (tiny chimes) ---------- */
+let ac, master, ambienceTimer = null;
 
-// add near your ambience code
-let ambienceTimer = null;
+function ensureAudioCtx(){
+  if (ac) return;
+  ac = new (window.AudioContext || window.webkitAudioContext)();
+  master = ac.createGain();
+  master.gain.value = 0.0;
+  master.connect(ac.destination);
+}
 
 function startAmbience(){
   try{
     ensureAudioCtx(); ac.resume && ac.resume();
     const g = ac.createGain(); g.gain.value = 0.0; g.connect(master);
 
-    function flute(freq, t0, dur){ /* ... your same code ... */ }
-    function bell(t){ /* ... your same code ... */ }
-
-    const phrase = t => { [440,494,523,587,523,494,440].forEach((f,i)=>flute(f/2, t+i*.9, 1.2)); bell(t+2.7); };
-
-    const first = ac.currentTime + .1;
-    phrase(first);
-    ambienceTimer = setInterval(()=>phrase(ac.currentTime+.1), 5000);
-
-    master.gain.cancelScheduledValues(ac.currentTime);
-    master.gain.linearRampToValueAtTime(0.05, ac.currentTime + 1.2); // softer than before
-    g.gain.linearRampToValueAtTime(0.05, ac.currentTime + 1.2);
-  }catch{}
-}
-
-function stopAmbience(fadeMs=400){
-  try{
-    if(!ac || !master) return;
-    const t = ac.currentTime;
-    master.gain.cancelScheduledValues(t);
-    master.gain.linearRampToValueAtTime(0.0001, t + fadeMs/1000);
-    if (ambienceTimer){ clearInterval(ambienceTimer); ambienceTimer = null; }
-  }catch{}
-}
-
-
-
-
-
-
-
-
-let ac, master;
-function ensureAudioCtx(){ if(ac) return; ac=new (window.AudioContext||window.webkitAudioContext)(); master=ac.createGain(); master.gain.value=0.0; master.connect(ac.destination); }
-function startAmbience(){
-  try{
-    ensureAudioCtx(); ac.resume&&ac.resume();
-    const g=ac.createGain(); g.gain.value=0.0; g.connect(master);
     function flute(freq, t0, dur){
       const o=ac.createOscillator(); o.type='sine'; o.frequency.value=freq;
       const v=ac.createOscillator(); v.frequency.value=5; const vGain=ac.createGain(); vGain.gain.value=2; v.connect(vGain); vGain.connect(o.frequency);
@@ -1235,63 +1203,73 @@ function startAmbience(){
         o.connect(eg); eg.connect(g); o.start(t); o.stop(t+1.6+i*0.2);
       });
     }
-    const start=ac.currentTime+.1; const phrase=t=>{[440,494,523,587,523,494,440].forEach((f,i)=>flute(f/2,t+i*.9,1.2)); bell(t+2.7);};
-    phrase(start); setInterval(()=>phrase(ac.currentTime+.1),5000);
-    master.gain.cancelScheduledValues(ac.currentTime); master.gain.linearRampToValueAtTime(0.08, ac.currentTime+1.2);
-    g.gain.linearRampToValueAtTime(0.08, ac.currentTime+1.2);
+    const phrase = t => { [440,494,523,587,523,494,440].forEach((f,i)=>flute(f/2, t+i*.9, 1.2)); bell(t+2.7); };
+    const first = ac.currentTime + .1;
+    phrase(first);
+    ambienceTimer = setInterval(()=>phrase(ac.currentTime+.1), 5000);
+
+    // keep ambience very soft
+    master.gain.cancelScheduledValues(ac.currentTime);
+    master.gain.linearRampToValueAtTime(0.03, ac.currentTime + 1.2);
+    g.gain.linearRampToValueAtTime(0.03, ac.currentTime + 1.2);
   }catch{}
 }
-function playChime(){ try{ ensureAudioCtx(); const o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=880; g.gain.value=0.0001; o.connect(g); g.connect(master);
-  const t=ac.currentTime; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.1,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4); o.start(t); o.stop(t+0.42);}catch{} }
+
+/* HARD STOP: silences flute/bells permanently */
+async function stopAmbienceHard(){
+  try{
+    if (ambienceTimer){ clearInterval(ambienceTimer); ambienceTimer = null; }
+    if (master){ try{ master.disconnect(); }catch{} }
+    if (ac){
+      try { await ac.close(); } catch {}
+    }
+  } finally {
+    ac = null; master = null;
+  }
+}
+
+
+
 
 /* ---------- Local MP3 controls ---------- */
 function playBgSongFadeIn(){
-  const a = $('#bgSong'); if(!a) return Promise.resolve();
-  a.muted=false; a.volume=0;
-  const p=a.play(); if(!p||typeof p.then!=='function') return Promise.resolve();
+  const a = document.getElementById('bgSong'); if(!a) return Promise.resolve();
+  a.muted = false; a.volume = 0;
+  const p = a.play();
+  if (!p || typeof p.then !== 'function') return Promise.resolve();
   return p.then(()=>{
-    let v=0, target=0.85, step=0.02;
-    const id=setInterval(()=>{ v+=step; a.volume=Math.min(target,v); if(v>=target) clearInterval(id); },80);
+    let v=0, target=0.85, step=0.03;
+    const id = setInterval(()=>{ v+=step; a.volume=Math.min(target,v); if(v>=target) clearInterval(id); }, 80);
   }).catch(()=>Promise.resolve());
 }
 function pauseBgSongFadeOut(){
-  const a=$('#bgSong'); if(!a) return;
+  const a = document.getElementById('bgSong'); if(!a) return;
   let v=a.volume, step=0.04; const id=setInterval(()=>{ v-=step; a.volume=Math.max(0,v); if(v<=0){ clearInterval(id); a.pause(); } },60);
 }
-function toggleSong(){ const a=$('#bgSong'); if(!a) return; if(a.paused) playBgSongFadeIn(); else pauseBgSongFadeOut(); }
-document.getElementById('toggleSongBtn')?.addEventListener('click', toggleSong);
-
-
-
-
 
 /* ---------- Welcome Gate ---------- */
-
 let __enteredGate = false;
 async function enterGate(){
   if (__enteredGate) return;
   __enteredGate = true;
 
-  // 1) Kill flute/bells
-  try { window.stopAmbience?.(500); } catch {}
-
-  // 2) Make sure the MP3 source is your new file (cache-bust with ?v=)
+  // 0) make sure the song has the correct file (EDIT NAME BELOW)
   const a = document.getElementById('bgSong');
+  const NEW_SRC = 'public/audio/shruti_theme.mp3?v=9'; // <— EDIT filename if needed
   if (a){
-    const NEW_SRC = 'public/audio/shruti_theme.mp3?v=3'; // <-- EDIT filename if needed
     if (a.getAttribute('src') !== NEW_SRC){
       a.setAttribute('src', NEW_SRC);
       a.load();
     }
   }
 
-  // 3) Fade-in the song (uses your existing helper)
-  try { await (window.playBgSongFadeIn?.() || Promise.resolve()); } catch {}
+  // 1) kill flute/bells entirely
+  await stopAmbienceHard();
 
-  // 4) (Optional) If you *really* want ambience layered under MP3, start it VERY soft:
-  // setTimeout(()=>{ try{ startAmbience(); master.gain.value = 0.01; }catch{} }, 1500);
+  // 2) start MP3 with fade in
+  try { await playBgSongFadeIn(); } catch {}
 
-  // 5) Entry fireworks + hide gate (your original code)
+  // 3) (your fireworks + hide gate)
   try {
     const fe = document.getElementById('fireEnter');
     if (fe) {
