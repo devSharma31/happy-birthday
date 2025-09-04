@@ -1,3 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Postcard + QR (for Shruti)</title>
+
+<!-- cute + readable fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800&family=Quicksand:wght@400;600;700&family=Satisfy&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&family=Sacramento&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1:#0c1022; --bg2:#14102e; --ink:#eaf2ff; --muted:#cdd5f9; --accent:#ff9ccc; --edge:rgba(255,255,255,.14);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--ink);
+  background:
+    radial-gradient(900px 440px at 50% -12%, rgba(141, 190, 228, 0.641), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  font-family: Quicksand, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  display:grid; place-items:center; padding:24px;
+}
+.wrap{
+  width:min(980px,94vw);
+  border:1px solid var(--edge);
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  box-shadow:0 22px 48px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
+  padding:18px;
+}
+h1{
+  font-family: "Fraunces", serif;
+  margin:0 0 4px;
+  font-weight:800; letter-spacing:.2px;
+  background: linear-gradient(180deg, #e9edff 0%, #d9dfff 60%, #bfc8ff 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.small{color:var(--muted); margin:0 0 12px}
+.grid{
+  display:grid; gap:14px;
+  grid-template-columns: 1fr;
+}
+.panel{
+  display:grid; gap:10px;
+}
+label{font-size:13px; color:var(--muted)}
+input[type="text"], textarea, select{
+  width:100%; color:var(--ink);
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--edge);
+  border-radius:12px; padding:10px 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+textarea{min-height:96px; resize:vertical}
+.btns{display:flex; gap:10px; flex-wrap:wrap}
+button{
+  appearance:none; border:0; cursor:pointer; font-weight:800; letter-spacing:.2px;
+  color:#0c0f17; padding:12px 18px; border-radius:999px;
+  background:linear-gradient(90deg,var(--accent),#c9a7ff);
+  box-shadow:0 12px 24px rgba(0,0,0,.28);
+}
+button:active{transform:translateY(1px) scale(.99)}
+canvas{
+  width:100%; height:auto; display:block;
+  border-radius:16px; border:1px solid var(--edge);
+  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+}
+.hr{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent)}
+.note{font-size:12px; color:var(--muted)}
+
+/* === SPRING THEME PACK (page chrome only) ======================== */
+body.spring{
+  --ink:#1b2230;
+  --muted:#4b5a79;
+  --accent:#52d6a0;
+  --accent-2:#ffd86e;
+  --accent-3:#ffb7c5;
+  --panel:rgba(255,255,255,.86);
+  --edge:rgba(0,0,0,.06);
+  --glow:rgba(82,214,160,.18);
+  --bg1:#fff9fb;
+  --bg2:#f3ffe8;
+  color:var(--ink);
+  background:
+    radial-gradient(900px 420px at 50% -12%, rgba(255,183,197,.28), transparent 60%),
+    radial-gradient(1100px 600px at 20% 120%, rgba(173, 255, 201, .25), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+body.spring .wrap{
+  background:var(--panel);
+  border:1px solid var(--edge);
+  box-shadow:
+    0 22px 48px var(--glow),
+    0 12px 26px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.45);
+  backdrop-filter:saturate(115%) blur(3px);
+}
+</style>
+</head>
+
+<body class="spring">
+  <div class="wrap">
+    <h1>Postcard + QR</h1>
+    <p class="small">Make a postcard PNG you can send on Snapchat. Scanning opens your surprise page.</p>
+    
+    <div class="grid">
+      <div class="panel">
+        <label>Message (handwritten on the card)</label>
+        <textarea id="msg">Today the world feels brighter, because it carries your light. Happy Birthday to the one who makes learning and living equally beautiful.</textarea>
+        
+        <label for="pcTheme">Theme</label>
+        <select id="pcTheme">
+          <option value="classic">Classic Night</option>
+          <option value="spring">Spring Blossom</option>
+          <option value="gulabi">Gulabi (Pink)</option>
+          <option value="denim">Denim (Blue)</option>
+          <option value="aurora">Aurora Candy</option>
+          <option value="kraft">Kraft & Gold</option>
+          <option value="lavender">Midnight Lilac</option>
+        </select>
+
+        <label>Footer (tiny line)</label>
+        <input id="footer" type="text" value="From Dev, with a silly grin and a lot of care 🤍"/>
+
+        <label>Link to open (QR target)</label>
+        <input id="url" type="text" value="https://devsharma31.github.io/happy-birthday/"/>
+
+        <label>Title (top heading)</label>
+        <input id="title" type="text" value="A little note for you"/>
+
+        <label>Font style for message</label>
+        <select id="pcFont">
+        <option value="auto" selected>Auto (per theme)</option>
+        <option value="clean">Clean (Quicksand)</option>
+        <option value="cursive">Cursive (Pacifico)</option>
+        <option value="elegant">Elegant Script (Great Vibes)</option>
+        </select>
+
+        <label>Format</label>
+        <select id="fmt">
+          <option value="card">Landscape Card — 1200 × 720 (nice share)</option>
+          <option value="story">Vertical Story — 1080 × 1920 (Snap-friendly)</option>
+          <option value="square">Square — 1080 × 1080</option>
+        </select>
+
+        <div class="btns">
+          <button id="render">Generate / Refresh</button>
+          <button id="download">Download PNG</button>
+        </div>
+        <p class="note">Tip: tweak text, hit “Generate”, then “Download”.</p>
+      </div>
+
+      <div class="hr"></div>
+
+      <!-- preview canvas -->
+      <canvas id="pcCanvas" width="1200" height="720"></canvas>
+    </div>
+
+    <!-- hidden QR render target (not used by this lib, kept just in case) -->
+    <div id="qrTmp" style="position:absolute;left:-9999px;top:-9999px"></div>
+  </div>
+
+<!-- Single QR library (modern) -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+<script>
+/* ----------  THEMES  (panel + ink are now theme-aware) ---------- */
+const THEMES = {
+  // dreamy pastel sky with candy bokeh
+  aurora: {
+    name: 'Aurora Candy',
+    bgStops: ['#f9e3ff','#e3f0ff'],
+    panelBg: 'rgba(255,255,255,0.92)',
+    panelStroke: 'rgba(0,0,0,0.07)',
+    ink: '#172034',
+    sub: '#556388',
+    accent: '#ff8fb1',
+    titleGrad: ['#ff8fb1','#c9a7ff','#ffd86e'],
+    confetti: ['#ffc7d9','#cde8ff','#ffe7a3','#e2d0ff'],
+    stickers: 'hearts',
+    defaultFont: 'cursive'   // auto -> cursive
+  },
+
+  // bright spring with washi-tape vibe
+  spring: {
+    name: 'Spring Blossom',
+    bgStops: ['#fff9fb','#f3ffe8'],
+    panelBg: 'rgba(255,255,255,0.95)',
+    panelStroke: 'rgba(0,0,0,0.06)',
+    ink: '#1b2230',
+    sub: '#4b5a79',
+    accent: '#52d6a0',
+    titleGrad: ['#4ccf9c','#fff0a3','#ffb7c5'],
+    confetti: ['#ffcadb','#c8f7e2','#ffe59a','#c8e4ff'],
+    stickers: 'daisies',
+    defaultFont: 'cursive'
+  },
+
+  // cozy craft-paper + gold foil feel
+  kraft: {
+    name: 'Kraft & Gold',
+    bgStops: ['#f1e6d1','#e7dcc2'],
+    panelBg: '#f7efdf',
+    panelStroke: 'rgba(120,90,40,0.25)',
+    ink: '#2a230f',
+    sub: '#5b4a2a',
+    accent: '#caa45a',
+    titleGrad: ['#b68b2e','#f6d06e','#fff2b7','#b68b2e'],
+    confetti: ['#f1e6d1','#e9d9b9','#f6d06e'],
+    stickers: 'ribbons',
+    defaultFont: 'elegant'
+  },
+
+  // lavender dusk with tiny twinkles
+  lavender: {
+    name: 'Midnight Lilac',
+    bgStops: ['#171a3a','#2a1e55'],
+    panelBg: 'rgba(22,25,52,0.92)',
+    panelStroke: 'rgba(255,255,255,0.10)',
+    ink: '#eef2ff',
+    sub: '#cdd5f9',
+    accent: '#c9a7ff',
+    titleGrad: ['#c9a7ff','#ffd2ea'],
+    confetti: ['#c9a7ff','#ffd2ea','#a8b8ff'],
+    stickers: 'stars',
+    defaultFont: 'clean'
+  },
+
+  // your original dark night / denim —
+  denim: {
+    name: 'Denim',
+    bgStops: ['#0b1322','#0b1b33'],
+    panelBg: 'rgba(17,22,40,0.86)',
+    panelStroke: 'rgba(255,255,255,0.10)',
+    ink: '#eaf2ff',
+    sub: '#cfe0ff',
+    accent: '#85a9ff',
+    titleGrad: ['#85a9ff','#c9e0ff'],
+    confetti: ['#99b8ff','#cfe0ff'],
+    stickers: 'stars',
+    defaultFont: 'clean'
+  },
+
+  // your original rosy night (kept)
+  gulabi: {
+    name: 'Gulabi',
+    bgStops: ['#1a0b24','#2a1345'],
+    panelBg: 'rgba(26,20,48,0.88)',
+    panelStroke: 'rgba(255,255,255,0.10)',
+    ink: '#fff4fa',
+    sub: '#ffd9e8',
+    accent: '#ff96c8',
+    titleGrad: ['#ff9ac3','#ffd6e9'],
+    confetti: ['#ffb0d0','#ffd6e9'],
+    stickers: 'hearts',
+    defaultFont: 'cursive'
+  },
+
+  // keep one very neutral
+  classic: {
+    name: 'Classic Night',
+    bgStops: ['#0c1022','#14102e'],
+    panelBg: 'rgba(12,16,34,0.88)',
+    panelStroke: 'rgba(255,255,255,0.12)',
+    ink: '#eaf2ff',
+    sub: '#cdd5f9',
+    accent: '#ff8fb1',
+    titleGrad: ['#ff8fb1','#c9a7ff'],
+    confetti: ['#ffffff22','#ffc8dd33','#c9a7ff33'],
+    stickers: 'stars',
+    defaultFont: 'clean'
+  }
+};
+
+
+/* ----------  Formats (everything scales from a base width) ---------- */
+const FORMATS = {
+  card:   { w:1200, h:720  },
+  story:  { w:1080, h:1920 },
+  square: { w:1080, h:1080 }
+};
+
+/* ----------  QR helper -> returns a <canvas>  ---------- */
 /* ---------- QR helper (theme-aware) ---------- */
 function makeQRCanvas(text, size=260){
   const c = document.createElement('canvas'); c.width = c.height = size;
@@ -96,11 +383,7 @@ async function drawPostcard(opts){
   const PAD = Math.round(40*k), R = Math.round(22*k), innerPadX = Math.round(26*k);
   const panelX = PAD, panelY = PAD, panelW = W-PAD*2, panelH = H-PAD*2;
 
-  // shadow
-  ctx.save();
-  ctx.shadowColor = 'rgba(0,0,0,.28)'; ctx.shadowBlur = 36*k; ctx.shadowOffsetY = 12*k;
-  roundRect(ctx, panelX, panelY, panelW, panelH, R, true, false);
-  ctx.restore();
+
 
   // actual fill + stroke
   ctx.fillStyle = theme.panelBg;
@@ -133,12 +416,12 @@ async function drawPostcard(opts){
   // Message block
   ctx.fillStyle = theme.ink; ctx.font = msgFont; ctx.textAlign = 'left';
   const textX = panelX+innerPadX;
-  const textTop = panelY+Math.round(110*k);
-  const textMax = panelW - innerPadX*2 - Math.round(320*k);
+  const textTop = panelY+Math.round(150*k);
+  const textMax = panelW - innerPadX*3 - Math.round(320*k);
 
   // soft heart glyph between text lines (cute, optional)
   const lines = wrapLines(ctx, message, textMax);
-  let yy = textTop, lh = (mode==='clean'? 40*k : 46*k);
+  let yy = textTop, lh = (mode==='clean'? 45*k : 46*k);
   lines.forEach((l,i)=>{ ctx.fillText(l, textX, yy); yy += lh; });
 
   // Footer anchored to bottom inside panel
@@ -159,14 +442,14 @@ async function drawPostcard(opts){
 
   // QR white tile with rounded corners
   ctx.fillStyle = '#fff';
-  roundRect(ctx, qrX-12, qrY-12, qr.width+24, qr.height+24, 12*k, true, false);
+  roundRect(ctx, qrX-10, qrY-10, qr.width+20, qr.height+24, 20*k, true, false);
   ctx.drawImage(qr, qrX, qrY);
 
   // QR caption
   ctx.fillStyle = theme.sub;
   ctx.font = `600 ${Math.round(18*k)}px "Quicksand",sans-serif`;
   ctx.textAlign = 'center';
-  ctx.fillText('Scan to open', qrX + qr.width/2, qrY + qr.height + Math.round(26*k));
+  ctx.fillText('Scan karlo isko ab', qrX + qr.width/2, qrY + qr.height + Math.round(26*k));
 }
 
 /* ----- basic helpers ----- */
@@ -205,3 +488,8 @@ function downloadPNG(){
 
 /* initial render */
 generatePostcard();
+
+</script>
+
+</body>
+</html>
