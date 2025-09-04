@@ -325,9 +325,11 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 <body class="gated">
 
 <!-- Background song (starts on gate enter) -->
-<audio id="bgSong" preload="auto" loop playsinline>
-  <source src="public/audio/zara_sa.mp3?v=5" type="audio/mpeg">
-</audio>
+<audio id="bgSong" preload="auto" loop playsinline></audio>
+
+<!-- Optional visible fallback if a browser blocks autoplay -->
+<button id="playFallback" class="btn" style="display:none;position:fixed;bottom:16px;right:16px;z-index:2000"
+        onclick="resumeAudio()">▶️ Tap to play music</button>
 
 <!-- Welcome Gate -->
 <div class="gate" id="gate" role="dialog" aria-modal="true">
@@ -337,9 +339,9 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
 
     <div class="gate-actions">
-      <button class="btn" id="enterBtn" type="button" onclick="window.__GateClick && window.__GateClick(event)">
-        Enter the little night → 🎵
-      </button>
+     <button class="btn" id="enterBtn" type="button" onclick="enterGate(event)">
+  Enter the little night → 🎵
+</button>
     </div>
 
     <p class="hint">Ignore karogi toh bhi theek hai — main wohi silly boy hoon jo giving-up ke mood me nahi hota 🫠.</p>
@@ -347,82 +349,87 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 </div>
 
 <script>
-async function enterGate(){
-  const a = document.getElementById('bgSong');
-  if (!a) return;
+/* Final, click-safe audio start with cache-bust + hard diagnostics */
+const MUSIC_SRC = 'public/audio/zara_sa.mp3?v=5';  // <-- your file (v=5 busts cache)
 
-  try {
-    a.currentTime = 0;
-    a.muted = false;
-    await a.play();        // user-gesture: allowed on mobile
-    // smooth fade-in
-    let v = 0, target = 0.85, step = 0.04;
-    const id = setInterval(()=>{
-      v += step; a.volume = Math.min(target, v);
-      if (v >= target) clearInterval(id);
-    }, 80);
-  } catch(err){
-    console.warn('Autoplay blocked:', err);
+function log(...args){ try{ console.log('[AUDIO]', ...args); }catch{} }
+
+async function startSongNow() {
+  const a = document.getElementById('bgSong');
+  if (!a) { alert('Audio tag #bgSong missing'); return; }
+
+  // Force fresh source each time to avoid stale cache
+  if (a.src.indexOf('zara_sa.mp3') === -1 || !a.src.includes('v=5')) {
+    a.src = MUSIC_SRC;
+    a.load();
   }
+
+  a.muted = false;
+  a.volume = 0.0;
+
+  // Try to play immediately inside the user gesture tick
+  try {
+    await a.play();
+    log('play() resolved');
+  } catch (err) {
+    log('play() blocked', err);
+    // Show manual fallback button
+    const pf = document.getElementById('playFallback');
+    if (pf) pf.style.display = 'inline-block';
+    throw err;
+  }
+
+  // Smooth fade-in to target vol
+  let v = 0, target = 0.85, step = 0.05;
+  const id = setInterval(() => {
+    v += step;
+    a.volume = Math.min(target, v);
+    if (v >= target) clearInterval(id);
+  }, 80);
 }
 
-  /* Bullet-proof gate: iOS/Android/desktop + in-app browsers */
-  (function gateWiring(){
-    const gate = document.getElementById('gate');
-    const btn  = document.getElementById('enterBtn');
-    if (!gate || !btn) return;
+function resumeAudio(){
+  const a = document.getElementById('bgSong');
+  if (!a) return;
+  a.muted = false;
+  a.play().then(()=>{
+    document.getElementById('playFallback').style.display = 'none';
+  }).catch(err=>{
+    alert('Please tap the ▶️ button again to allow audio.');
+    console.warn(err);
+  });
+}
 
-    let entered = false;
-
-    function hideGate(){
-      if (gate.classList.contains('hide')) return;
-      gate.classList.add('hide');
-      document.body.classList.remove('gated');
-      try { localStorage.setItem('gateEntered','1'); } catch {}
-      setTimeout(()=>{ try{ gate.remove(); }catch{} }, 450);
+/* KILL any other audio elements just in case */
+function stopOthers(){
+  document.querySelectorAll('audio').forEach(x=>{
+    if (x.id !== 'bgSong') {
+      try { x.pause(); } catch {}
+      x.removeAttribute('src');
+      try { x.load(); } catch {}
     }
+  });
+}
 
-    async function go(e){
-      try { e?.preventDefault?.(); e?.stopPropagation?.(); } catch {}
-      if (entered) return;
-      entered = true;
+/* Simple, robust enter handler */
+let __enteredGate = false;
+async function enterGate(ev){
+  try { ev && ev.preventDefault && ev.preventDefault(); } catch {}
+  if (__enteredGate) return;
+  __enteredGate = true;
 
-      // 🔊 Start your MP3 (no ambience)
-      let enterP;
-      if (typeof window.enterGate === 'function') {
-        enterP = Promise.resolve(window.enterGate());
-      } else {
-        // minimal fallback
-        enterP = (async () => {
-          try {
-            const a = document.getElementById('bgSong');
-            if (a){ a.muted=false; a.currentTime=0; await a.play(); }
-          } catch {}
-        })();
-      }
+  stopOthers();          // no flute, no duplicates
+  await startSongNow();  // start your MP3 (or show fallback button)
 
-      hideGate();
-      enterP.catch(()=>{}); // ignore autoplay quirks
-    }
-
-    // Make this accessible to the inline onclick
-    window.__GateClick = go;
-
-    // Bind widely for reliability
-    const opts = { passive:false };
-    ['click','pointerup','touchend'].forEach(ev => btn.addEventListener(ev, go, opts));
-    btn.addEventListener('keydown', e => { if (e.key==='Enter' || e.key===' ') go(e); });
-
-    // Tap outside card also enters
-    gate.addEventListener('click', e => { if (e.target === gate) go(e); }, { passive:true });
-
-    // Last-resort: first interaction anywhere
-    const once = () => { document.removeEventListener('touchstart', once, true);
-                         document.removeEventListener('mousedown', once, true);
-                         go(); };
-    document.addEventListener('touchstart', once, true);
-    document.addEventListener('mousedown', once, true);
-  })();
+  // Hide gate
+  const gate = document.getElementById('gate');
+  if (gate){
+    gate.classList.add('hide');
+    document.body.classList.remove('gated');
+    setTimeout(()=>{ try{ gate.remove(); }catch{} }, 400);
+  }
+}
+window.enterGate = enterGate; // ensure global for onclick
 </script>
   
    
