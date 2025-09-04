@@ -2,21 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>for Shruti — a small night (v1.1)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>for Shruti — a small night</title>
 <meta name="description" content="A birthday page for Shruti—blessings, silly-boy-trying energy, her photos, 3D stardust and heart fireworks—with quiet spiritual vibes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800&family=Quicksand:wght@400;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Satisfy&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800&family=Quicksand:wght@400;600;700&family=Caveat:wght@600&family=Satisfy&display=swap" rel="stylesheet">
 
 <style>
+/* ---------- THEME TOKENS ---------- */
 :root{
   --bg1:#0c1022; --bg2:#14102e; --ink:#eef2ff; --muted:#cdd5f9; --accent:#ff8fb1; --edge:rgba(255,255,255,.12);
   --petal:#ffc8dd; --gold:#f6d06e; --card:#10182a; --card2:#0f1730;
 }
-.gulabi{ --bg1:#1a0b24; --bg2:#2a1345; --accent:#ff96c8; --ink:#fff4fa; --muted:#ffd9e8; --petal:#ffd1e1; --card:#1a1430; --card2:#23193f }
-.denim { --bg1:#0b1322; --bg2:#0b1b33; --accent:#85a9ff; --ink:#eaf2ff; --muted:#cfe0ff; --petal:#c7d7ff; --card:#0c1629; --card2:#0e1d36 }
+body.gulabi{ --bg1:#1a0b24; --bg2:#2a1345; --accent:#ff96c8; --ink:#fff4fa; --muted:#ffd9e8; --petal:#ffd1e1; --card:#1a1430; --card2:#23193f }
+body.denim { --bg1:#0b1322; --bg2:#0b1b33; --accent:#85a9ff; --ink:#eaf2ff; --muted:#cfe0ff; --petal:#c7d7ff; --card:#0c1629; --card2:#0e1d36 }
+body.spring{ --bg1:#fff9fb; --bg2:#f3ffe8; --accent:#52d6a0; --ink:#1b2230; --muted:#4b5a79; --petal:#ffe0ec; --card:#ffffffdd; --card2:#f6fff1 }
+body.dusk  { --bg1:#131022; --bg2:#0b1020; --accent:#bca2ff; --ink:#e9e7ff; --muted:#c9c6ff; --petal:#d7c9ff; --card:#141726; --card2:#0f1424 }
 
 html,body{height:100%} html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){
@@ -24,13 +26,13 @@ html,body{height:100%} html{scroll-behavior:smooth}
 }
 body{
   margin:0; color:var(--ink);
-  font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  font-family:Quicksand,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
   background:
    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
    linear-gradient(180deg,var(--bg1),var(--bg2));
   overflow-x:hidden;
 }
-h1,h2{font-family:"Playfair Display",serif}
+h1,h2{font-family:"Fraunces",serif}
 .container{max-width:980px;margin:0 auto;padding:0 16px}
 .section{min-height:100vh;display:grid;place-items:center;padding:84px 0;position:relative}
 .center{text-align:center}
@@ -44,8 +46,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .sig b{color:var(--accent)}
 .mood{position:fixed;right:12px;top:12px;display:flex;gap:8px;z-index:10}
 .mood button{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25)}
-.mood .n{background:#1c1f2d}.mood .g{background:#ff8fb1}.mood .d{background:#85a9ff}
-.mood .t3d{background:linear-gradient(135deg,#ffd2ea,#b9c8ff); color:#111; font-size:12px; width:auto; height:auto; padding:4px 8px; border-radius:12px; border:1px solid rgba(255,255,255,.5)}
+.mood .night{background:#1c1f2d}.mood .spring{background:#52d6a0}.mood .gulabi{background:#ff8fb1}.mood .denim{background:#85a9ff}.mood .dusk{background:#bca2ff}
 
 /* Stars + sky */
 .stars{position:fixed;inset:0;pointer-events:none;z-index:-2;opacity:.85;
@@ -81,7 +82,7 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 @keyframes flicker{from{transform:translateX(-50%) rotate(-2deg) scaleY(1)}to{transform:translateX(-50%) rotate(2deg) scaleY(1.07)}}
 @keyframes glow{from{transform:translateX(-50%) scale(.9)}to{transform:translateX(-50%) scale(1.05)}}
 
-/* Balloons + modal (slower, aligned, non-overlap) */
+/* Balloons + modal */
 .balloon-area{position:relative;height:64vh;max-height:640px;width:100%;overflow:hidden;border-radius:18px;border:1px solid var(--edge);
   background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
 .balloon{
@@ -89,13 +90,13 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
   position:absolute; bottom:-150px; left:calc(var(--x)*1%);
   width:88px; height:112px; border-radius:50% 50% 45% 45%/55% 55% 45% 45%;
   background:radial-gradient(circle at 30% 30%,#fff8,transparent 60%),var(--c);
-  box-shadow:inset -10px -16px 24px rgba(0,0,0,.2);
+  border:1px solid rgba(255,255,255,.25);
+  box-shadow:inset -10px -16px 24px rgba(0,0,0,.18), inset 0 12px 26px rgba(255,255,255,.12), 0 10px 30px rgba(0,0,0,.22);
   animation:floatUp 26s linear infinite; animation-delay:calc(var(--delay)*1s);
   display:grid;place-items:center;color:#0c0e1a;font-weight:900;text-shadow:0 1px 0 #ffffff88;cursor:pointer;
-  will-change: transform;
 }
 .balloon::after{content:"";position:absolute;width:2px;height:140px;background:rgba(255,255,255,.3);left:50%;bottom:-140px}
-.balloon span{background:#fff;padding:6px 10px;border-radius:999px;font-size:14px}
+.balloon span{background:#fff;padding:6px 10px;border-radius:999px;font-size:14px;box-shadow:0 4px 10px rgba(0,0,0,.08)}
 @keyframes floatUp{from{transform:translateY(0)}to{transform:translateY(-105vh)}}
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:50}
 .modal.show{display:flex}
@@ -104,13 +105,13 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 .dialog p{margin:0;color:var(--muted)}
 
 /* Greeting cards — FLIP */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;width:min(100%,980px)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,5fr));gap:14px;width:min(100%,1080px)}
 .flip-card{perspective:1200px}
 .flip-inner{position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .flip-card.open .flip-inner{transform:rotateY(180deg)}
 .face{backface-visibility:hidden;border-radius:16px;border:1px solid var(--edge);box-shadow:0 16px 38px rgba(0,0,0,.35)}
 .face.front{padding:18px;background:linear-gradient(180deg,var(--card),var(--card2))}
-.face.back{padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));position:absolute;inset:0;transform:rotateY(180deg)}
+.face.back{padding:4px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));position:absolute;inset:0;transform:rotateY(180deg)}
 .face h3{margin:.3rem 0 .4rem;font-family:"Caveat",cursive;font-size:24px;color:var(--accent)}
 .face p{margin:.2rem 0 .2rem;line-height:1.7}
 .openHint{font-size:12px;color:var(--muted);margin-top:6px}
@@ -122,25 +123,132 @@ a.btn,button.btn{appearance:none;border:0;border-radius:16px;padding:12px 18px;f
 @keyframes ken{0%{transform:scale(1.04)}50%{transform:scale(1.1) translate(-1%,-1%)}100%{transform:scale(1.04)}}
 .hero canvas#stardust { position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen; }
 
-/* Polaroids */
-.polaroids{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
-.pol{height:160px;border-radius:12px;overflow:hidden;border:2px solid transparent;background:#fff0;cursor:grab;transform:rotate(var(--r,0deg)) scale(1);transition:transform .2s}
+/* Polaroids (larger for readability) */
+.polaroids{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.pol{height:220px;border-radius:12px;overflow:hidden;border:2px solid transparent;background:#fff0;cursor:grab;transform:rotate(var(--r,0deg)) scale(1);transition:transform .18s ease, box-shadow .18s ease}
 .pol img{width:100%;height:100%;object-fit:cover}
 .pol.active{border-color:var(--accent)}
+.pol:hover{transform:translateY(-2px) rotate(var(--r,0deg));box-shadow:0 14px 30px rgba(0,0,0,.26)}
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:60;align-items:center;justify-content:center}
-.lightbox img{max-width:92vw;max-height:86vh;border-radius:14px;border:1px solid var(--edge);box-shadow:0 22px 60px rgba(0,0,0,.6)}
+.lightbox img{max-width:192vw;max-height:186vh;border-radius:114px;border:1px solid var(--edge);box-shadow:0 22px 60px rgba(0,0,0,.6)}
 .lightbox .x{position:absolute;top:12px;right:12px}
 
-/* Lines */
-.carousel{display:grid;gap:10px;justify-items:center}
-.slide{max-width:760px;text-align:center;padding:16px;border-radius:16px;border:1px solid var(--edge);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03))}
-.nav{display:flex;gap:10px;justify-content:center}
+/* ---------- 3D BOOK (fixed) ---------- */
+#lines .bookStage{
+  --bookW:min(92vw,560px);
+  --bookH:clamp(320px,56vw,420px);
+  display:grid; grid-template-rows:var(--bookH) auto;
+  row-gap:12px; justify-items:center;
+}
+#lines .bookWrap{ position:relative; width:var(--bookW); height:var(--bookH); perspective:1400px; }
+
+#lines .book3d{
+  position:absolute; inset:0; z-index:1;               /* book below wrap */
+  border-radius:18px; overflow:hidden;
+  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+}
+#lines .book{ position:absolute; inset:0; border-radius:18px; transform-style:preserve-3d; overflow:hidden; }
+#lines .cover{ position:absolute; inset:0; border-radius:18px; backface-visibility:hidden; will-change:transform; }
+#lines .coverLeft{
+  width:50%; left:0; border-right:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(90deg, rgba(0,0,0,.22), rgba(255,255,255,.06) 30%, rgba(255,255,255,0) 60%),
+             linear-gradient(180deg, #0f172a, #0c1323);
+  box-shadow:inset -12px 0 24px rgba(0,0,0,.35);
+}
+#lines .coverRight{
+  width:50%; right:0; transform-origin:left center;
+  background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,0)),
+             linear-gradient(180deg, #121b30, #0c1323);
+  box-shadow:inset 12px 0 22px rgba(0,0,0,.35);
+}
+#lines .bookWrap.open #coverRight{
+  transition:transform .9s cubic-bezier(.2,.75,.2,1);
+  transform:rotateY(-160deg); pointer-events:none;
+}
+
+#lines .pages{ position:absolute; inset:0; }
+#lines .page{ position:absolute; top:0; bottom:0; width:50%; }
+#lines .page.left{ left:0; border-right:1px solid rgba(255,255,255,.08); cursor:w-resize; }
+#lines .page.right{ right:0; cursor:e-resize; }
+#lines .pageInner{
+  position:absolute; inset:14px; border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border:1px solid var(--edge); display:grid; place-items:center; text-align:center; padding:20px;
+}
+#lines .quote{
+  font-family:"Satisfy","Caveat",cursive; font-weight:400; line-height:1.5;
+  font-size:clamp(20px,4.8vw,28px); letter-spacing:.2px; color:var(--ink);
+  text-shadow:0 1px 14px rgba(0,0,0,.22); white-space:pre-wrap; word-break:break-word;
+}
+
+/* flipping sheet that goes above pages during turn */
+#lines .flipSheet{
+  position:absolute; right:0; top:0; bottom:0; width:50%;
+  transform-origin:left center; backface-visibility:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+  border-left:1px solid rgba(255,255,255,.08);
+  box-shadow:0 22px 40px rgba(0,0,0,.45);
+  z-index:20; display:none; pointer-events:none;
+}
+#lines .flipSheet.show{ display:block }
+@keyframes turnRightToLeft{
+  0%{ transform:rotateY(0deg);   box-shadow:0 22px 40px rgba(0,0,0,.45); }
+  100%{transform:rotateY(-180deg); box-shadow:-10px 22px 40px rgba(0,0,0,.25); }
+}
+#lines .flipSheet.animating{ animation:turnRightToLeft .9s ease both }
+@keyframes turnLeftToRight{
+  0%{ transform:rotateY(-180deg); box-shadow:-10px 22px 40px rgba(0,0,0,.25); }
+  100%{transform:rotateY(0deg);    box-shadow:0 22px 40px rgba(0,0,0,.45); }
+}
+#lines .flipSheet.reverse{ animation:turnLeftToRight .9s ease both }
+
+/* --- gift ribbon + seal (above book) --- */
+#lines .ribbon{ position:absolute; inset:0; display:grid; place-items:center; z-index:30; }
+#lines .ribbon .r{
+  position:absolute; background:linear-gradient(90deg,#ff9ccc,#c9a7ff);
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,.35)); pointer-events:none;
+  transition:transform .55s cubic-bezier(.2,.75,.2,1), opacity .35s ease;
+  will-change:transform,opacity;
+}
+#lines .ribbon .r.h{ height:10px; left:0; right:0; top:calc(50% - 5px); }
+#lines .ribbon .r.v{ width:10px;  top:0; bottom:0; left:calc(50% - 5px); }
+
+#lines .seal{
+  width:66px; height:66px; border-radius:50%; border:0; cursor:pointer;
+  background: radial-gradient(circle at 30% 30%, #fff6, transparent 60%),
+              radial-gradient(closest-side,#ff6a8e,#ff2f68);
+  box-shadow:0 12px 24px rgba(0,0,0,.35), inset 0 3px 6px rgba(255,255,255,.25);
+  transition:transform .55s cubic-bezier(.2,.75,.2,1), opacity .35s ease;
+  will-change:transform,opacity;
+}
+
+/* when JS adds .unwrap, animate the ribbon away */
+#lines .ribbon.unwrap{ pointer-events:none; }
+#lines .ribbon.unwrap .r.h{ transform:scaleX(0); opacity:0; transform-origin:center; }
+#lines .ribbon.unwrap .r.v{ transform:scaleY(0); opacity:0; transform-origin:center; }
+#lines .ribbon.unwrap .seal{ transform:scale(.7); opacity:0; }
+
+/* dots bar */
+#lines .bookFoot{ width:var(--bookW); text-align:center }
+#lines .dots{ display:flex; gap:6px; justify-content:center }
+#lines .dots i{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.28) }
+#lines .dots i.on{ background:linear-gradient(90deg,#ff9ccc,#c9a7ff) }
+
+/* quill (RIGHT page only) — always on top */
+#quill{
+  position:absolute; width:36px; height:36px;
+  transform:translate(-50%,40%) rotate(-5deg);
+  pointer-events:none; z-index:40; opacity:0;
+  transition:transform .1s linear, opacity .25s ease;
+  background-repeat:no-repeat; background-size:contain;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2264%22 height=%2264%22 viewBox=%220 0 64 64%22><g fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M9 55 C22 40, 36 26, 55 9%22 stroke=%22%2321a886%22 stroke-width=%223%22/><path d=%22M17 48 C30 36, 42 25, 53 16%22 stroke=%22%2385e0c9%22 stroke-width=%222%22/><path d=%22M36 22 c8 -8 18 -8 20 -6 c2 2 2 12 -6 20 c-4 4 -10 6 -14 4 c-4 -2 -4 -10 0 -18z%22 fill=%22%231058aa%22 opacity=%22.8%22/></g></svg>');
+}
+#rightInner{ position:relative; } /* anchor for the quill */
 
 /* Final */
 #fire{position:absolute;inset:0;pointer-events:none}
-#fireEnter{position:fixed;inset:0;pointer-events:none;z-index:9;opacity:0;transition:opacity .4s}
 .final p{font-size:clamp(18px,3.6vw,22px);line-height:1.6}
-@media (max-width:560px){ .polaroids{grid-template-columns:repeat(2,1fr)} }
 
 /* Welcome Gate */
 body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
@@ -158,792 +266,151 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 @keyframes gateFade { from{opacity:0} to{opacity:1} }
 @keyframes gatePop  { from{opacity:0; transform:translateY(10px) scale(.94)} to{opacity:1; transform:none} }
 
-/* Three overlay for ring */
-#ring3d{display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:90; align-items:center; justify-content:center}
-#ring3d .box{width:min(900px,94vw); aspect-ratio:16/9; background:#000; border:1px solid rgba(255,255,255,.18); border-radius:14px; overflow:hidden; position:relative}
-#ring3d .close{position:absolute; right:10px; top:10px}
+@media (max-width:560px){ .polaroids{grid-template-columns:repeat(2,1fr)} }
 
-#three3d{position:fixed; inset:0; pointer-events:none; z-index:-1;}
-
-/* === tiny visual polish pack (safe to append) ===================== */
-/* improves: titles, buttons, cards, balloons, micro-hovers */
-/* DOES NOT change your base palette unless you enable .blush-lite */
-
-/* 1) Headline love — gentle gradient + soft glow */
-.title, h1, h2 {
-  letter-spacing: .2px;
-  text-shadow: 0 2px 22px rgba(201,167,255,.12);
-}
-.title {
-  background: linear-gradient(180deg, #e9edff 0%, #d9dfff 60%, #bfc8ff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* 2) Buttons — pill + glow + crisper focus */
-a.btn, button.btn {
-  border-radius: 999px;
-  padding: 13px 22px;
-  font-weight: 800;
-  letter-spacing: .2px;
-  background: linear-gradient(90deg, var(--accent), #c9a7ff);
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.28),
-    0 0 0 0 rgba(255,143,177,.35);
-  transition: transform .15s ease, box-shadow .25s ease, opacity .25s ease;
-}
-a.btn:hover, button.btn:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 16px 32px rgba(0,0,0,.32),
-    0 0 0 6px rgba(255,143,177,.12);
-}
-a.btn:focus-visible, button.btn:focus-visible {
-  outline: none;
-  box-shadow:
-    0 18px 36px rgba(0,0,0,.34),
-    0 0 0 8px rgba(201,167,255,.22);
-}
-
-/* 3) Cards & dialogs — glassier, a touch more depth */
-.soft, .dialog, .card, .gate-card {
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  border: 1px solid var(--edge);
-  box-shadow:
-    0 18px 44px rgba(0,0,0,.35),
-    inset 0 1px 0 rgba(255,255,255,.05);
-  backdrop-filter: saturate(110%) blur(2px);
-}
-
-/* 4) Balloons — cleaner highlights & subtle specular edge */
-.balloon {
-  border: 1px solid rgba(255,255,255,.25);
-  box-shadow:
-    inset -10px -16px 24px rgba(0,0,0,.18),
-    inset 0 12px 26px rgba(255,255,255,.12),
-    0 10px 30px rgba(0,0,0,.22);
-}
-.balloon span {
-  box-shadow: 0 4px 10px rgba(0,0,0,.08);
-}
-
-/* 5) Polaroids — tiny lift on hover, nothing drastic */
-.pol {
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-.pol:hover {
-  transform: translateY(-2px) rotate(var(--r,0deg));
-  box-shadow: 0 14px 30px rgba(0,0,0,.26);
-}
-
-/* 6) Diya — warmer glow when lit (keeps your timing) */
-.lit .glow {
-  box-shadow:
-    0 0 50px 6px rgba(246,208,110,.16),
-    0 0 120px 12px rgba(246,208,110,.1);
-}
-
-/* 7) Section headings tint */
-h2 {
-  color: var(--accent);
-  text-shadow: 0 6px 26px rgba(255,143,177,.15);
-}
-
-/* 8) Optional: blush-lite mode (only if you add class="blush-lite" on <body>)
-   Keeps contrast, just softens the background and sparkles. */
-body.blush-lite {
-  --bg1: #2b0f23;        /* deep plum so content stays readable */
-  --bg2: #1a0f24;
-  --accent: #ff9ac3;
-}
-body.blush-lite {
-  background:
-    radial-gradient(900px 440px at 50% -12%, rgba(255,153,195,.13), transparent 60%),
-    linear-gradient(180deg, var(--bg1), var(--bg2));
-}
-body.blush-lite .stars {
-  opacity: .9;
-  background:
-    radial-gradient(2px 2px at 18% 28%, #ffd6e9, transparent 60%),
-    radial-gradient(2px 2px at 78% 22%, #ffe1ef, transparent 60%),
-    radial-gradient(1.5px 1.5px at 32% 72%, #fff, transparent 60%),
-    radial-gradient(1.5px 1.5px at 64% 64%, #ffd6e9, transparent 60%),
-    radial-gradient(1.5px 1.5px at 52% 48%, #fff, transparent 60%);
-}
-
-
-/* === Polish: Constellation + Lines area ========================== */
-
-/* make the dotted name glow a bit */
-#nameConstellation{
-  filter: drop-shadow(0 0 6px rgba(255,210,230,.45))
-          drop-shadow(0 0 16px rgba(201,167,255,.22));
-  opacity:.98;
-}
-
-/* keep the section content above the canvas */
-#lines{ position:relative; }
-#lines .carousel{ gap:14px; }
-
-/* glassy quote pill with gentle ambient glow */
-#lines .slide{
-  background: linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.04));
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:18px;
-  padding:18px 20px;
-  color:var(--ink);
-  box-shadow:0 12px 34px rgba(0,0,0,.35);
-  position:relative;
-  overflow:hidden;
-}
-#lines .slide::before{
-  content:"";
-  position:absolute; inset:0; pointer-events:none;
-  background:
-    radial-gradient(1200px 300px at 50% 0, rgba(201,167,255,.08), transparent 60%),
-    radial-gradient(400px 140px at 10% 120%, rgba(255,143,177,.12), transparent 60%),
-    radial-gradient(400px 140px at 90% 120%, rgba(255,214,110,.10), transparent 60%);
-  animation:driftGlow 18s ease-in-out infinite alternate;
-}
-@keyframes driftGlow{ 0%{transform:translateY(-2%);opacity:.75} 100%{transform:translateY(2%);opacity:1} }
-#slideText{ font-size:clamp(18px,4.6vw,22px); letter-spacing:.2px; }
-
-/* round arrow pills (prev/next) with soft pulse */
-#lines .nav .btn{
-  width:60px; height:60px; border-radius:50%;
-  display:inline-grid; place-items:center;
-  font-size:22px;
-  background:linear-gradient(135deg,var(--accent),#c9a7ff);
-  box-shadow:0 12px 24px rgba(0,0,0,.28),0 0 0 0 rgba(201,167,255,0);
-  transition:transform .15s ease, box-shadow .25s ease, filter .25s ease;
-  position:relative; isolation:isolate;
-  animation:ringPulse 2.8s ease-out infinite;
-}
-#lines .nav .btn+.btn{ animation-delay:.9s; }
-#lines .nav .btn::before{
-  content:""; position:absolute; inset:-6px; border-radius:inherit;
-  background:radial-gradient(closest-side,rgba(255,255,255,.22),transparent);
-  filter:blur(10px); opacity:0; transition:opacity .25s ease;
-}
-#lines .nav .btn:hover{ transform:translateY(-2px);
-  box-shadow:0 18px 32px rgba(0,0,0,.35),0 0 0 8px rgba(201,167,255,.18) }
-#lines .nav .btn:hover::before{ opacity:.9; }
-@keyframes ringPulse{
-  0%{ box-shadow:0 0 0 0 rgba(255,143,177,0) }
-  70%{ box-shadow:0 0 0 10px rgba(255,143,177,.16) }
-  100%{ box-shadow:0 0 0 0 rgba(255,143,177,0) }
-}
-
-/* main “Next →” button — a touch more hero energy */
-#lines .cta .btn{
-  font-size:16px; padding:12px 22px; border-radius:999px;
-  box-shadow:0 12px 26px rgba(0,0,0,.30),0 0 0 0 rgba(255,143,177,0);
-}
-#lines .cta .btn:hover{ transform:translateY(-1px);
-  box-shadow:0 18px 36px rgba(0,0,0,.34),0 0 0 8px rgba(255,143,177,.12) }
-
-/* gentle halo behind this whole zone to make stars pop */
-#lines::before{
-  content:""; position:absolute; left:0; right:0; top:-10vh; height:50vh; z-index:0; pointer-events:none;
-  background:radial-gradient(600px 160px at 50% 20%, rgba(255,210,230,.15), transparent 70%);
-}
-#lines .carousel, #lines .cta{ position:relative; z-index:1; }
-
-/* tiny size tweaks for very small screens */
-@media (max-width:480px){
-  #lines .nav .btn{ width:54px; height:54px; font-size:20px; }
-}
-
-/* === 3D foldable greeting card ======================================= */
-.book3d{
-  max-width:760px; margin:0 auto;
-  padding:18px; border-radius:18px;
-  position:relative; isolation:isolate;
-}
-.book-stage{
-  position:relative; height:220px; /* card height */
-  perspective:1400px; overflow:visible;
-}
-.page.flip{
-  position:absolute; inset:0;
-  transform-style:preserve-3d;
-  transform-origin:left center;
-  transition:transform .7s cubic-bezier(.2,.7,.2,1), box-shadow .7s;
-  box-shadow:0 18px 44px rgba(0,0,0,.35);
-}
-.page.flip.turn{ transform:rotateY(-180deg); }
-
-.page-face{
-  position:absolute; inset:0; backface-visibility:hidden;
-  border-radius:14px; border:1px solid var(--edge);
-  display:grid; place-items:center; padding:18px;
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-}
-.page-face.back{
-  transform:rotateY(180deg);
-  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.05));
-}
-
-/* crease & light gloss */
-.book-stage::before{
-  content:""; position:absolute; inset:-4% -2%;
-  background:
-    radial-gradient(60% 120% at 0% 50%, rgba(255,255,255,.12), transparent 60%),
-    radial-gradient(20% 100% at 100% 50%, rgba(0,0,0,.12), transparent 70%);
-  pointer-events:none; border-radius:16px;
-}
-
-.pgtext{
-  font-size:clamp(18px,4.6vw,22px);
-  line-height:1.55; letter-spacing:.15px; max-width:680px;
-}
-
-.book-controls{ display:flex; gap:10px; justify-content:center; margin-top:12px; }
-.btn.tiny{ padding:8px 12px; border-radius:12px; font-weight:700; }
-
-/* reduced motion: fade between lines instead of rotate */
-@media (prefers-reduced-motion: reduce){
-  .page.flip{ transition:none !important; transform:none !important; }
-  .page-face{ transition:opacity .2s ease; }
-}
-
-/* === 3D Greeting Card ================================================== */
-.cardDeck{display:grid;gap:10px;justify-items:center}
-
-.greetCard{
-  width:min(92vw,520px);
-  height:clamp(200px,46vw,320px);
-  perspective:1100px;
-  position:relative;
-}
-.greetInner{
-  position:absolute; inset:0;
-  transform-style:preserve-3d;
-  transition:transform .7s cubic-bezier(.2,.7,.2,1);
-}
-.greetCard.open .greetInner{ transform:rotateY(180deg); }
-
-.greetFace{
-  position:absolute; inset:0; border-radius:18px;
-  backface-visibility:hidden;
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  border:1px solid var(--edge);
-  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.04);
-  overflow:hidden;
-}
-.greetFace.back{ transform:rotateY(180deg); }
-
-/* gentle “paper shine” sweep */
-.shine{
-  position:absolute; inset:-20%;
-  background: radial-gradient(120% 60% at -10% 0%, rgba(255,255,255,.14), transparent 30%),
-              radial-gradient(120% 60% at 110% 100%, rgba(255,255,255,.10), transparent 30%);
-  pointer-events:none;
-}
-
-/* fake spine at the fold */
-.spine{
-  position:absolute; top:8px; bottom:8px; left:calc(50% - 1px); width:2px;
-  background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(255,255,255,.12));
-  border-radius:2px;
-  filter:blur(.2px);
-  pointer-events:none;
-}
-
-#greetFront,#greetBack{
-  margin:0; padding:22px 18px;
-  font-size:clamp(18px,4.8vw,22px);
-  line-height:1.6; text-wrap:balance;
-}
-
-/* dots */
-.deckDots{display:flex;gap:6px;justify-content:center}
-.deckDots button{
-  width:8px;height:8px;border-radius:50%;border:0;cursor:pointer;
-  background:#ffffff44
-}
-.deckDots button.active{ background:#ff9cccee; box-shadow:0 0 0 4px #ff9ccc33 }
-
-/* subtle page-curl gloss on flip */
-.greetCard.flip .greetFace.front::after,
-.greetCard.flip .greetFace.back::after{
-  content:""; position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
-  animation:gloss .7s ease;
-}
-@keyframes gloss{from{opacity:0}50%{opacity:1}to{opacity:0}}
-
-@media (prefers-reduced-motion:reduce){
-  .greetInner{transition:none}
-}
-
-/* === Realistic 3D Gift Card (stable + hidden text until open) ===== */
-.cardStage{
-  max-width: 620px;
-  margin: 0 auto;
-  padding: 6px 8px;
-  /* reserve space so layout doesn't jump when opening */
-  min-height: clamp(360px, 46vw, 420px);
-}
-
-.gift3d{
-  width: min(92vw, 560px);
-  height: clamp(260px, 42vw, 340px);
+/* ---------- 3D Paper for Final message ---------- */
+#final .paper3d{
+  perspective: 1400px;
+  width: min(980px, 94vw);
   margin-inline: auto;
   position: relative;
-  perspective: 1600px;
-  transform-style: preserve-3d;
-  animation: floaty 8s ease-in-out infinite;
-  user-select: none;
-}
-@keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
-
-/* localized flower shower container */
-.flowers{
-  position:absolute; inset:-8% -6%;
-  pointer-events:none; z-index:7;
-  overflow:visible;
+  z-index: 2;               /* above fireworks canvas */
+  display: grid;
+  place-items: center;
 }
 
-.book3d{
-  position:absolute; inset:0;
-  transform-style:preserve-3d;
-  filter: drop-shadow(0 26px 42px rgba(0,0,0,.40));
+/* --- 3D paper: use the original dark / glass look --- */
+#final .paper{
+  /* colors back to theme */
+  color: var(--ink);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); /* same as .soft */
+  border: 1px solid var(--edge);
+  box-shadow: 0 26px 60px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.04);
 }
 
-/* Cover (leather + foil) */
-.cover3d{
-  position:absolute; inset:0; border-radius:18px;
-  background:
-    radial-gradient(80% 120% at 10% 10%, rgba(255,255,255,.08), transparent 32%),
-    linear-gradient(145deg, #151c2f 0%, #0f172b 45%, #0c1323 100%);
-  border: 1px solid rgba(255,255,255,.14);
-  backface-visibility:hidden;
-  transform-origin: left center;
-}
-.foilStamp{
-  position:absolute; inset:0; display:grid; place-items:center;
-  font-family:"Playfair Display", serif;
-  letter-spacing:.14em; text-transform:uppercase;
-  font-size: clamp(18px, 4.6vw, 24px);
-  background: linear-gradient(90deg,#b68b2e,#f6d06e,#fff2b7,#b68b2e);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  text-shadow: 0 1px 0 rgba(0,0,0,.3);
+#final .paper::before{            /* darker inner vignette */
+  box-shadow: inset 0 14px 26px rgba(0,0,0,.22),
+              inset 0 -14px 26px rgba(0,0,0,.18);
 }
 
-/* Paper */
-.pages3d, .page3d{ position:absolute; inset:0; border-radius:16px; }
-.pages3d{
-  transform: translateZ(-2px);
-  background: linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
-}
-.page3d{
-  background:
-    radial-gradient(120% 140% at 10% 5%, rgba(255,255,255,.14), transparent 30%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 2px, rgba(255,255,255,0) 2px 6px);
-}
-.page3d p{
-  margin:0; padding:24px 20px;
-  font-size: clamp(18px,4.8vw,22px);
-  line-height:1.6; text-wrap:balance;
-  transition: opacity .35s ease;
-}
-/* hide message until the cover opens */
-.gift3d:not(.open) .page3d p{ opacity:0 }
-
-/* Spine & edges */
-.spine3d{ position:absolute; top:10px; bottom:10px; left:0; width:16px; border-radius:12px;
-  background: linear-gradient(180deg, rgba(0,0,0,.6), rgba(255,255,255,.1)); transform: translateZ(1px); opacity:.6 }
-.edge{ position:absolute; left:12px; right:12px; height:10px }
-.edge.top{ top:-5px; background:linear-gradient(180deg, rgba(0,0,0,.35), transparent) }
-.edge.bottom{ bottom:-6px; background:linear-gradient(0deg, rgba(0,0,0,.35), transparent) }
-.edge.right{ left:auto; right:-6px; top:12px; bottom:12px; width:10px; height:auto;
-  background:linear-gradient(90deg, rgba(0,0,0,.35), transparent); border-radius:10px }
-
-/* Ribbons + wax */
-.ribbon{
-  position:absolute; z-index:4;
-  background:
-    repeating-linear-gradient(90deg, #ffffff66 0 6px, #ffffff22 6px 12px),
-    linear-gradient(90deg,#ff8fb1,#caa7ff);
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,.35));
-  pointer-events:none;
-}
-.ribbon.h{ height:18px; width:100%; top:50%; transform:translateY(-50%) }
-.ribbon.v{ width:18px; height:100%; left:50%; transform:translateX(-50%) }
-
-.wax{
-  position:absolute; left:50%; top:50%; z-index:6;
-  width:64px; height:64px; border-radius:50%;
-  transform:translate(-50%,-50%) rotate(-6deg);
-  background: radial-gradient(60% 60% at 35% 30%, #ffdfef, #ffb7d1 60%, #ff86b3 100%);
-  box-shadow: inset 0 8px 14px rgba(255,255,255,.35), inset 0 -10px 18px rgba(0,0,0,.2), 0 16px 30px rgba(0,0,0,.45);
-  border:1px solid rgba(0,0,0,.25); display:grid; place-items:center;
-}
-.wax span{ font-size:22px; color:#842d4b; filter:drop-shadow(0 1px 0 #fff6) }
-
-.gift3d.unsealed .ribbon.h{ animation:rOutX .6s ease forwards }
-.gift3d.unsealed .ribbon.v{ animation:rOutY .6s ease .05s forwards }
-.gift3d.unsealed .wax{ animation:waxPop .55s ease forwards }
-@keyframes rOutX{ to{ transform:translateY(-50%) translateX(120%); opacity:0 } }
-@keyframes rOutY{ to{ transform:translateX(-50%) translateY(-120%); opacity:0 } }
-@keyframes waxPop{ 40%{ transform:translate(-50%,-50%) rotate(-2deg) scale(1.15) } 100%{ transform:translate(-50%,-170%) rotate(-18deg); opacity:0 } }
-
-/* open */
-.gift3d.open .cover3d{ transform: rotateY(-168deg); transition: transform .8s cubic-bezier(.2,.8,.2,1) }
-
-/* tilt */
-.gift3d.tilt .book3d{ transition: transform .18s ease; transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) }
-
-/* footer keeps space even before open */
-.cardFoot{ min-height: 58px }
-.cardFoot .dots{ display:flex; gap:6px; justify-content:center; align-items:center; height:14px; margin:10px 0 6px }
-.cardFoot .dots button{ width:8px;height:8px;border-radius:50%;border:0;background:#ffffff33;cursor:pointer }
-.cardFoot .dots button.active{ background:#ff9cccee; box-shadow:0 0 0 4px #ff9ccc33 }
-.cardFoot .hint{ margin:0; font-size:12px; opacity:.65 }
-
-/* enable stronger visuals only after open (no layout change though) */
-.gift3d.open ~ .cardFoot .dots button{ background:#ffffff55 }
-.gift3d.open ~ .cardFoot .hint{ opacity:1 }
-
-/* reduced motion */
-@media (prefers-reduced-motion:reduce){
-  .gift3d{ animation:none }
-  .gift3d.open .cover3d{ transition:none }
+#final .paper::after{             /* faint paper texture, subtle + dark */
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.05) 30%, transparent 31%),
+    radial-gradient(1px 1px at 72% 82%, rgba(255,255,255,.04) 30%, transparent 31%);
+  opacity:.15;
+  mix-blend-mode: screen;
 }
 
-
-/* === Teacher’s Day theme + chalk writing === */
-body.teachers{
-  --bg1:#0f1b14; --bg2:#0a1410;        /* chalkboard dark green */
-  --accent:#ffd166;                     /* warm chalk yellow */
-  --ink:#f4ffe9; --muted:#e0f6d2; --petal:#eaffea;
-}
-
-.badge-teacher{
-  margin-left:.5rem; padding:.15rem .5rem; border-radius:999px;
-  font-size:12px; color:#0f1b14; background:#ffd166;
-  box-shadow:0 8px 18px rgba(0,0,0,.22);
-}
-
-/* Book pages feel like chalkboard when teachers mode is on */
-body.teachers #lines .pageInner{
-  background:
-    radial-gradient(120% 180% at 20% -20%, rgba(255,255,255,.08), transparent 45%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 14px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 14px),
-    linear-gradient(180deg, #11241a, #0b1a13);
-  border-color: rgba(255,255,255,.14);
-}
-
-/* Handwritten feel for the book quotes (keeps your loaded fonts) */
-#lines .quote{
-  font-family: "Caveat", "Satisfy", cursive;
-  font-size: clamp(22px, 5.2vw, 26px);
-  letter-spacing:.15px;
-}
-
-/* pen + tiny chalk sparks while writing */
-.pen{
-  position:absolute; font-size:22px; line-height:1;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,.35));
-  transform: translate(0,0);
-  transition: transform .08s linear;
-}
-.spark{
-  position:absolute; font-size:10px; line-height:1; opacity:0; pointer-events:none;
-  animation: spark .5s ease forwards;
-}
-@keyframes spark{
-  from{opacity:1; transform:scale(.6)}
-  to{opacity:0; transform:scale(1.6) translateY(-6px)}
-}
-.ch{ white-space:pre; }  /* keep spaces/newlines while writing */
+/* heading colors back to “night” theme */
+#final .paper h2{ color: var(--ink); }
+#final .paper h2 span{ color: var(--accent); }
 
 
-/* === 3D Book Card (no layout shift) === */
-#lines .bookStage{
-  --bookW: min(92vw, 560px);
-  --bookH: clamp(320px, 56vw, 420px); /* responsive but fixed for the section */
-  display:grid;
-  grid-template-rows: var(--bookH) auto;
-  row-gap: 12px;
-  justify-items:center;
-}
+/* keep the buttons under the paper nicely spaced */
+#final .cta{ margin-top: 18px; }
 
-#lines .bookWrap{
-  position:relative;
-  width:var(--bookW);
-  height:var(--bookH);
-  perspective:1400px;
-  transform-style:preserve-3d;
-  will-change:transform;
+/* reduce motion: freeze the tilt */
+@media (prefers-reduced-motion: reduce){
+  #final .paper{ transform: none !important; }
 }
-
-#lines .book3d{
-  position:absolute; inset:0;
-  border-radius:18px;
-  transform:translateZ(0);
-  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-}
-
-
-/* Book structure */
-#lines .book{
-  position:absolute; inset:0;
-  border-radius:18px;
-  overflow:hidden;
-  transform-style:preserve-3d;
-}
-#lines .pages,
-#lines .cover{ position:absolute; inset:0; }
-
-#lines .cover{ border-radius:18px; backface-visibility:hidden; }
-#lines .coverLeft{
-  width:50%; left:0; border-right:1px solid rgba(255,255,255,.08);
-  background:
-    linear-gradient(90deg, rgba(0,0,0,.22), rgba(255,255,255,.06) 30%, rgba(255,255,255,0) 60%),
-    linear-gradient(180deg, #0f172a, #0c1323);
-  box-shadow:inset -12px 0 24px rgba(0,0,0,.35);
-}
-#lines .coverRight{
-  width:50%; right:0; transform-origin:left center;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,0)),
-    linear-gradient(180deg, #121b30, #0c1323);
-  box-shadow:inset 12px 0 22px rgba(0,0,0,.35);
-}
-
-/* Pages */
-#lines .page{ position:absolute; top:0; bottom:0; width:50%; }
-#lines .page.left{ left:0; border-right:1px solid rgba(255,255,255,.08); }
-#lines .page.right{ right:0; }
-#lines .pageInner{
-  position:absolute; inset:14px;
-  border-radius:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  border:1px solid var(--edge, rgba(255,255,255,.12));
-  display:grid; place-items:center; text-align:center;
-  padding:20px;
-}
-#lines .quote{
-  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  font-weight:500; line-height:1.45;
-  color:var(--ink,#eaf2ff);
-}
-
-/* Flipping sheet */
-#lines .flipSheet{
-  position:absolute; right:0; top:0; bottom:0; width:50%;
-  transform-origin:left center;
-  background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
-  border-left:1px solid rgba(255,255,255,.08);
-  box-shadow:0 22px 40px rgba(0,0,0,.45);
-  backface-visibility:hidden;
-  display:none;
-}
-#lines .flipSheet.show{ display:block; }
-
-/* Ribbon + wax seal */
-#lines .ribbon{ position:absolute; inset:0; display:grid; place-items:center; z-index:6; }
-#lines .ribbon .r{
-  position:absolute; background:linear-gradient(90deg,#ff9ccc,#c9a7ff);
-  filter:drop-shadow(0 6px 12px rgba(0,0,0,.35));
-}
-#lines .ribbon .r.h{ height:10px; left:0; right:0; top:calc(50% - 5px); }
-#lines .ribbon .r.v{ width:10px; top:0; bottom:0; left:calc(50% - 5px); }
-#lines .seal{
-  width:66px; height:66px; border-radius:50%; border:0; cursor:pointer;
-  background:
-    radial-gradient(circle at 30% 30%, #fff6, transparent 60%),
-    radial-gradient(closest-side,#ff6a8e,#ff2f68);
-  box-shadow:0 12px 24px rgba(0,0,0,.35), inset 0 3px 6px rgba(255,255,255,.25);
-}
-
-/* Opening states */
-#lines .bookWrap.opening .ribbon{ animation:unwrap .6s ease forwards; }
-#lines .bookWrap.open .ribbon{ display:none; }
-#lines .bookWrap.open #coverRight{
-  transition:transform .9s cubic-bezier(.2,.75,.2,1);
-  transform:rotateY(-160deg);
-  pointer-events:none;
-}
-
-/* Page turn animation uses flipSheet */
-@keyframes turnRightToLeft{
-  0%{ transform:rotateY(0deg); box-shadow:0 22px 40px rgba(0,0,0,.45); }
-  100%{ transform:rotateY(-180deg); box-shadow: -10px 22px 40px rgba(0,0,0,.25);}
-}
-#lines .flipSheet.animating{ animation:turnRightToLeft .9s ease both; }
-
-/* Ribbon unwrap */
-@keyframes unwrap{
-  0%{ opacity:1; transform:none }
-  100%{ opacity:0; transform:scale(1.04) rotate(2deg) }
-}
-
-#lines .bookFoot{ width:var(--bookW); text-align:center; }
-#lines .dots{ display:flex; gap:6px; justify-content:center; }
-#lines .dots i{
-  width:8px; height:8px; border-radius:50%;
-  background:rgba(255,255,255,.28);
-}
-#lines .dots i.on{ background:linear-gradient(90deg,#ff9ccc,#c9a7ff); }
-
-/* Petal shower emitted on first open */
-#lines .petal{
-  position:absolute; top:-24px; font-size:20px; pointer-events:none;
-  filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));
-}
-
-/* hotfix: make sure the ribbon/seal are on top & clickable */
-#lines .book3d{ z-index:5; }
-#lines .ribbon{ z-index:8; }
-#lines .ribbon .r{ pointer-events:none; }  /* the tapes won't steal clicks */
-#lines .seal{ pointer-events:auto; }       /* the seal *will* get the click */
-
-/* === Book layout polish + ink canvas ================================== */
-/* keep the stage size fixed so layout never shifts */
-#lines .bookStage{
-  --bookW: min(92vw, 560px);
-  --bookH: clamp(320px, 56vw, 420px);
-  display:grid; grid-template-rows: var(--bookH) auto;
-  row-gap: 12px; justify-items:center;
-}
-
-#lines .bookWrap{ width:var(--bookW); height:var(--bookH); perspective:1400px; position:relative; }
-
-#lines .book3d{
-  position:absolute; inset:0; border-radius:18px; overflow:hidden;
-  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-}
-
-/* book internals */
-#lines .book{ position:absolute; inset:0; border-radius:18px; transform-style:preserve-3d; overflow:hidden; }
-#lines .pages{ position:absolute; inset:0; }
-#lines .page{ position:absolute; top:0; bottom:0; width:50%; }
-#lines .page.left{ left:0; border-right:1px solid rgba(255,255,255,.08); }
-#lines .page.right{ right:0; }
-
-#lines .pageInner{
-  position:absolute; inset:14px; border-radius:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  border:1px solid var(--edge, rgba(255,255,255,.12));
-  display:grid; place-items:center; text-align:center; padding:20px;
-}
-
-#lines .cover{ position:absolute; inset:0; border-radius:18px; backface-visibility:hidden; }
-#lines .coverLeft{
-  width:50%; left:0;
-  border-right:1px solid rgba(255,255,255,.08);
-  background:
-    linear-gradient(90deg, rgba(0,0,0,.22), rgba(255,255,255,.06) 30%, rgba(255,255,255,0) 60%),
-    linear-gradient(180deg, #0f172a, #0c1323);
-  box-shadow:inset -12px 0 24px rgba(0,0,0,.35);
-}
-#lines .coverRight{
-  width:50%; right:0; transform-origin:left center;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,0)),
-    linear-gradient(180deg, #121b30, #0c1323);
-  box-shadow:inset 12px 0 22px rgba(0,0,0,.35);
-}
-
-/* handwriting look for both pages */
-#lines .quote,
-#lines .hand{ 
-  font-family: "Satisfy","Caveat",cursive;
-  font-weight:500;
-  letter-spacing:.5px;
-  color:var(--ink);
-}
-
-/* the animated ink layer */
-#lines .inkCanvas{
-  position:absolute; inset:14px; border-radius:14px; pointer-events:none;
-}
-
-/* moving quill */
-#lines .quill{
-  position:absolute; font-size:22px; line-height:1; pointer-events:none;
-  transform: translate(0,0);
-  opacity:.95; filter: drop-shadow(0 2px 4px rgba(0,0,0,.4));
-}
-
 
 </style>
 </head>
 
 <body class="gated">
 
-<!-- Local background song (starts on gate enter) -->
+<!-- Background song (starts on gate enter) -->
 <audio id="bgSong" preload="auto" loop>
   <source src="assets/zara-sa.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Entry fireworks canvas -->
-<canvas id="fireEnter"></canvas>
-
 <!-- Welcome Gate -->
-<div class="gate" id="gate" aria-modal="true" role="dialog">
+<div class="gate" id="gate" role="dialog" aria-modal="true">
   <div class="gate-card soft">
-    <h1>Happy Birthday, Laadli Madamji 🎀🎂</h1>
-    <p>Only pure and warm wishes for you today 🤌🏻✨: Hope your smile stays constant while you read this.</p>
+    <h1>Happy Birthday, Dear Laadli Madamji 🎀🎂</h1>
+    <p>Only pure and warm wishes for you today 🤌✨: Hope your smile stays constant while you read this.</p>
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
     <div class="gate-actions">
-      <button class="btn" id="toggleSongBtn" type="button" onclick="enterGate()">Enter the little night → 🎵</button>
+      <button class="btn" id="enterBtn" type="button" onclick="window.__GateClick && window.__GateClick(event)">
+        Enter the little night → 🎵
+      </button>
+      
     </div>
-    <p class="hint">Ignore karogi toh bhi theek hai — I’m that silly boy who would never stops trying 🫠.</p>
+    <p class="hint">Ignore karogi toh bhi theek hai — main wohi silly boy hoon jo giving-up ke mood me nahi hota 🫠.</p>
   </div>
 </div>
-<!-- place this immediately after the Gate markup -->
 <script>
-(function () {
-  const url = new URL(location.href);
-  if (url.searchParams.get('skip') === '1') {
-    const g = document.getElementById('gate');
-    if (g) {
-      g.classList.add('hide');
+  /* Bullet-proof gate: works on iOS/Android/desktop + in-app browsers */
+  (function gateWiring(){
+    const gate = document.getElementById('gate');
+    const btn  = document.getElementById('enterBtn');
+    if (!gate || !btn) return;
+  
+    let entered = false;
+  
+    function hideGate(){
+      if (gate.classList.contains('hide')) return;
+      gate.classList.add('hide');
       document.body.classList.remove('gated');
-      setTimeout(()=> g.remove(), 10);
+      try { localStorage.setItem('gateEntered','1'); } catch {}
+      setTimeout(()=>{ try{ gate.remove(); }catch{} }, 450);
     }
-    // honor the anchor (e.g., #spotlight) after the gate disappears
-    if (location.hash) {
-      setTimeout(() => {
-        const target = document.querySelector(location.hash);
-        target && target.scrollIntoView({behavior: 'smooth', block:'start'});
-      }, 30);
+  
+    async function go(e){
+      try { e?.preventDefault?.(); e?.stopPropagation?.(); } catch {}
+      if (entered) return;
+      entered = true;
+  
+      // Kick off audio/ambience, but *never* let it block the UI
+      const enterP = (typeof window.enterGate === 'function'
+        ? Promise.resolve(window.enterGate())
+        : (async () => { try{ window.playBgSongFadeIn?.(); }catch{} try{ window.startAmbience?.(); }catch{} })()
+      );
+      hideGate();
+      enterP.catch(()=>{}); // swallow autoplay errors etc.
     }
-  }
-})();
-</script>
+  
+    // Inline fallback target (used by onclick on the button)
+    window.__GateClick = go;
+  
+    // Primary bindings (broad coverage)
+    const opts = { passive:false };
+    ['click','pointerup','pointerdown','touchend','touchstart'].forEach(ev => btn.addEventListener(ev, go, opts));
+    btn.addEventListener('keydown', e => { if (e.key==='Enter' || e.key===' ') go(e); });
+  
+    // Tap outside card also enters
+    gate.addEventListener('click', e => { if (e.target === gate) go(e); }, { passive:true });
+  
+    // Last-resort: first interaction anywhere enters (covers odd in-app browsers)
+    const once = () => { document.removeEventListener('touchstart', once, true); document.removeEventListener('mousedown', once, true); go(); };
+    document.addEventListener('touchstart', once, true);
+    document.addEventListener('mousedown', once, true);
+  })();
+  </script>
+  
+   
 
 <!-- Top chrome -->
-<div class="sig"> I made this with <b>pure efforts</b> & <b>care.</b><b> So please dont judge!</b></div>
-<div class="mood">
-  <button class="n" title="Night"  onclick="setMood('night')"></button>
-<button class="g" title="Rose" onclick="setMood('rose')"></button>
-  <button class="d" title="Denim"  onclick="setMood('denim')"></button>
-  <button class="t3d" id="toggle3D" title="Toggle 3D">3D</button>
+<div class="sig"> I made this with <b>pure efforts</b> & <b>care.</b><b> So please dont judge!😅</b></div>
+<div class="mood" role="toolbar" aria-label="Theme">
+  <button class="night" title="Night"  onclick="setMood('night')"></button>
+  <button class="spring" title="Spring" onclick="setMood('spring')"></button>
+  <button class="gulabi" title="Gulabi" onclick="setMood('gulabi')"></button>
+  <button class="denim"  title="Denim"  onclick="setMood('denim')"></button>
+  <button class="dusk"   title="Dusk"   onclick="setMood('dusk')"></button>
 </div>
 
 <!-- Sky layers -->
 <canvas id="trail" aria-hidden="true"></canvas>
 <canvas id="nameConstellation" aria-hidden="true"></canvas>
 <div class="stars" aria-hidden="true"></div>
-<canvas id="three3d" aria-hidden="true"></canvas>
 <div id="petals" aria-hidden="true"></div>
 
 <!-- 1) Landing -->
 <section class="section" id="home">
   <div class="container center">
     <h1 class="title">On this small night, the universe plays its sweetest tune…</h1>
-    <p class="lead muted">…because it’s your day, Shruti. (Madamji, Laadliji—haan, dono tum ho.)</p>
+    <p class="lead muted">…because it’s your day, Madamji😋</p>
     <div class="cta">
       <a class="btn" href="#spark" id="walkBtn"> Wanna walk with me ? →</a>
     </div>
@@ -956,17 +423,17 @@ body.teachers #lines .pageInner{
     <div class="diya soft" id="diya" title="Long-press me">
       <div class="bowl"></div><div class="oil"></div><div class="flame"></div><div class="glow"></div>
     </div>
-    <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px"> Laadliji, the diya is lit for you here, little flame and big faith. If the world gets loud, come sit by this calm and Kanhaji will cover you with his grace✨ </p>
+    <p id="assureLine" class="muted" style="max-width:740px;margin:16px auto 6px"></p>
     <div class="cta"><a class="btn" href="#blessings">Next →</a></div>
   </div>
 </section>
 
 <!-- 3) Blessings -->
 <section class="section" id="blessings">
-  <div class="container" style="width:min(100%,960px)">
+  <div class="container" style="width:min(90%,800px)">
     <h2 class="center" style="margin-bottom:14px;color:var(--accent)">Playful Aashirwad</h2>
     <div class="balloon-area" id="balloonArea" aria-label="Blessing balloons"></div>
-    <p class="hint center">Tap a balloon to pop it. Jai bolo baba ki aur blessings lapetlo.</p>
+    <p class="hint center">Tap a balloon to pop it. Ramji ka naam lo blessings lapetlo.</p>
     <div class="center" style="margin-top:30px"><a class="btn" href="#cards">Next →</a></div>
   </div>
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -978,7 +445,7 @@ body.teachers #lines .pageInner{
   </div>
 </section>
 
-<!-- 4) Greeting Cards (flip) -->
+<!-- 4) Greeting Cards -->
 <section class="section" id="cards">
   <div class="container center">
     <h2 style="margin:.2rem 0 .6rem;color:var(--accent)">Small Birthday Cards</h2>
@@ -988,7 +455,7 @@ body.teachers #lines .pageInner{
   </div>
 </section>
 
-<!-- 5) Spotlight — ONLY her photos -->
+<!-- 5) Spotlight -->
 <section class="section" id="spotlight">
   <div class="container">
     <div class="gallery">
@@ -1006,44 +473,40 @@ body.teachers #lines .pageInner{
   </div>
 </section>
 
-<!-- 6) Inside lines — Realistic 3D Gift-Wrapped Card (stable layout) -->
+<!-- 6) 3D Book with quill (right side only) -->
 <section class="section" id="lines">
   <div class="container">
     <div class="bookStage" aria-live="polite">
       <div class="bookWrap" id="bookWrap">
-        <!-- Ribbon + seal (visible while closed) -->
+        <!-- Ribbon + seal -->
         <div class="ribbon" id="ribbon">
           <span class="r h"></span>
           <span class="r v"></span>
-          <button class="seal" id="sealBtn" type="button" onclick="unwrapCard()" aria-label="Open the gift"></button>
+          <button class="seal" id="sealBtn" type="button" aria-label="Open the gift"></button>
         </div>
 
-        <!-- Book (hidden behind ribbon until opened) -->
+        <!-- Book -->
         <div class="book3d" id="book3d" aria-hidden="true">
           <div class="book">
-            <!-- fixed left cover (spine) -->
             <div class="cover coverLeft"></div>
-            <!-- animated right cover (opens on unwrap) -->
             <div class="cover coverRight" id="coverRight"></div>
-          
-            
-            
-            <!-- pages -->
+
             <div class="pages">
-              <div class="page left">
+              <div class="page left" id="leftPage">
                 <div class="pageInner">
-                  <p class="quote" id="leftText">Hi 👋</p>
+                  <p class="quote" id="leftText"></p>
                 </div>
               </div>
 
               <div class="page right" id="rightPage">
-                <div class="pageInner">
+                <div class="pageInner" id="rightInner">
                   <p class="quote" id="rightText">Tap the seal to open.</p>
+                  <!-- SINGLE quill element anchored here -->
+                  <span id="quill" aria-hidden="true"></span>
                 </div>
               </div>
             </div>
 
-            <!-- temporary flipping sheet we re-use for turns -->
             <div class="flipSheet" id="flipSheet"></div>
           </div>
         </div>
@@ -1051,9 +514,7 @@ body.teachers #lines .pageInner{
 
       <div class="bookFoot">
         <div class="dots" id="dots"></div>
-        <div class="hint muted" id="bookHint" >
-          Tap the seal to unwrap. Tap the right page to turn.
-        </div>
+        <div class="hint muted" id="bookHint">Tap the seal to unwrap. Tap the right page to turn.</div>
       </div>
     </div>
 
@@ -1063,14 +524,13 @@ body.teachers #lines .pageInner{
   </div>
 </section>
 
-
 <!-- 7) Divine blessing -->
 <section class="section" id="divine">
   <div class="container center soft" style="padding:50px">
-    <h2 style="margin:.4rem 0;color:var(--accent)">A small prayer</h2>
+    <h2 style="margin:.10rem 0;color:var(--accent)">A small prayer </h2>
     <p class="muted" style="max-width:740px;margin:6px auto 0">
       May Kanhaji always keep mischief in your smile and peace in your steps, and may Bajrangbali cover you with courage on your every step.
-      May your days be soft where you need softness and strong where you need strength.
+      May your days be soft where you need softness and strong where you need strength 🙇🙏.
     </p>
     <div style="margin-top:30px"><a class="btn" href="#final">Final page →</a></div>
   </div>
@@ -1080,286 +540,143 @@ body.teachers #lines .pageInner{
 <section class="section final" id="final" style="overflow:hidden">
   <canvas id="fire" aria-hidden="true"></canvas>
   <div class="container center">
-    <h2 style="margin:0 0 8px">Happy Birthday, <span id="herName">Shruti</span>!</h2>
-    <p id="promiseLine">Is saal appko bohot zyada success mile, aur uske saath dher saari khushiyaan. Main, yahi...sideline se chup chaap cheer karta rahunga roz, zarurat pade toh bula lena</p>
-    <div class="cta">
-      <button class="btn" id="gift">Shower of cute things 🎁</button>
-      <button class="btn" id="savePNG">Save this promise (PNG)</button>
-    </div>
-  </div>
+    <div class="paper3d">
+      <article class="paper soft" id="finalPaper" aria-label="Promise note">
+        <h2>Happy Birthday, <span id="herName">SHRUTI 💗 </span>!</h2>
+        <p id="promiseLine">
+          Happy Birthday once again, Madamji!✨
+
+          Today I just want to make one clear promise: I won’t rush, I won’t pull — your pace will always be mine too.
+          If ever I irritate you, just tell me straight — I’ll listen.
+          
+          You’ll always be in my prayers. If joy comes, share it with me; if tension comes, share that too. Respect, care, and prayers — these three things you’ll always have from me, daily, guaranteed.
+          
+          Baaki, I’ll keep showing up quietly with the same energy… you just keep smiling. 🙂
+    </p>
+  </article>
+</div>
+
+<div class="cta">
+  <button class="btn" id="gift">Shower of cute things 🎁</button>
+  <button class="btn" id="savePNG">Save this promise (PNG)</button>
+</div>
+</div>
 </section>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lb"><img id="lbImg" alt=""><button class="btn x" onclick="closeLB()">Close ✖</button></div>
 
-<!-- 3D Photo Ring overlay -->
-<div id="ring3d">
-  <div class="box">
+<!-- 3D Photo Ring overlay (Three.js module import kept only for this) -->
+<div id="ring3d" style="display:none; position:fixed; inset:0; background:#000a; z-index:90; align-items:center; justify-content:center">
+  <div style="width:min(900px,94vw); aspect-ratio:16/9; background:#000; border:1px solid rgba(255,255,255,.18); border-radius:14px; overflow:hidden; position:relative">
     <canvas id="ringCanvas"></canvas>
-    <button class="btn close" onclick="closeRing3D()">Close ✖</button>
+    <button class="btn" style="position:absolute; right:10px; top:10px" onclick="closeRing3D()">Close ✖</button>
   </div>
 </div>
 
-<!-- Three.js (module) -->
+<!-- Three.js (only for the ring overlay) -->
 <script type="module">
   import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
   window.THREE = THREE;
 </script>
 
 <script>
-
-/* restore constellation dots to original soft-pink glow */
-window.nameConstellation = function(name){
-  const cvs=document.getElementById('nameConstellation'), ctx=cvs.getContext('2d');
-  cvs.width=innerWidth; cvs.height=innerHeight;
-  const fam='Poppins, ui-sans-serif, system-ui';
-  function lines(t){ t=(t||'You').trim().replace(/\s+/g,' ');
-    if(t.length<=14) return [t];
-    const mid=Math.floor(t.length/2); let s=t.lastIndexOf(' ',mid);
-    if(s<6||t.length-s<6) s=t.indexOf(' ',mid);
-    return s>0?[t.slice(0,s),t.slice(s+1)]:[t];
-  }
-  function targets(ls,density=22){
-    const off=document.createElement('canvas'), o=off.getContext('2d');
-    off.width=cvs.width; off.height=cvs.height;
-    let fs=Math.min(200,Math.max(70,off.width*0.16)), maxW=off.width*.84;
-    function w(t){o.font=`800 ${fs}px ${fam}`; return o.measureText(t).width}
-    while(Math.max(...ls.map(w))>maxW&&fs>36) fs-=2;
-    o.textAlign='center'; o.textBaseline='middle'; o.fillStyle='#fff';
-    o.font=`800 ${fs}px ${fam}`;
-    const midY=off.height*.42, gap=fs*1.2;
-    ls.forEach((t,i)=>o.fillText(t,off.width/2,midY+(i-(ls.length-1)/2)*gap));
-    const data=o.getImageData(0,0,off.width,off.height).data, arr=[], step=Math.max(1,Math.floor(fs/density));
-    for(let y=0;y<off.height;y+=step) for(let x=0;x<off.width;x+=step)
-      if(data[(y*off.width+x)*4+3]>128) arr.push({x,y});
-    return arr;
-  }
-  const cloud=targets(lines(name)); const N=Math.min(520,Math.max(200,Math.floor(cloud.length*.55)));
-  const pts=[]; for(let i=0;i<N;i++){ const t=cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height};
-    pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1, tx:t.x, ty:t.y});
-  }
-  let phase='in', t0=performance.now();
-  (function frame(t){
-    ctx.clearRect(0,0,cvs.width,cvs.height);
-    for(const p of pts){
-      p.x+=(p.tx-p.x)*0.08; p.y+=(p.ty-p.y)*0.08;
-      ctx.fillStyle='rgba(255,210,230,.95)';   // ← original glow
-      ctx.fillRect(p.x,p.y,2,2);
-    }
-    if(phase==='in' && t-t0>3800){ phase='out'; pts.forEach(p=>{ p.tx=Math.random()*cvs.width; p.ty=Math.random()*cvs.height*0.8+cvs.height*0.1; }); }
-    if(phase==='out' && !pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)){ ctx.clearRect(0,0,cvs.width,cvs.height); return; }
-    requestAnimationFrame(frame);
-  })(t0);
-};
-
-
-/* ---------- helpers ---------- */
+/* =============== helpers & theme =============== */
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const prefersReduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-/* ---------- mood with memory ---------- */
 function setMood(m){
-  document.body.classList.remove('gulabi','denim','rose'); // include 'rose' here
-  if(m==='gulabi') document.body.classList.add('gulabi');
-  if(m==='denim')  document.body.classList.add('denim');
-  if(m==='rose')   document.body.classList.add('rose');    // new
-  localStorage.setItem('mood',m);
+  document.body.className = document.body.className.replace(/\b(gulabi|denim|spring|dusk)\b/g,'').trim();
+  if(m && m!=='night') document.body.classList.add(m);
+  localStorage.setItem('mood',m||'night');
 }
-(function initMood(){ setMood(localStorage.getItem('mood')||'rose'); })();
+(function initMood(){ setMood(localStorage.getItem('mood')||'night'); })();
 
+/* palette for fireworks/stardust per theme */
+function themePalette(){
+  const b=document.body;
+  if(b.classList.contains('spring')) return ['82,214,160','255,216,110','255,183,197','200,228,255'];
+  if(b.classList.contains('gulabi')) return ['255,150,200','255,200,221','201,167,255','246,208,110'];
+  if(b.classList.contains('denim'))  return ['133,169,255','200,220,255','255,200,221','180,220,255'];
+  if(b.classList.contains('dusk'))   return ['188,162,255','255,210,230','150,200,255','255,186,120'];
+  return ['255,200,221','255,168,194','201,167,255','246,208,110']; // night default
+}
 
-// --- Teacher’s Day mode (auto on 5 Sep, or ?teacher=1) ---
-(function teacherMode(){
-  const url = new URL(location.href);
-  const force = url.searchParams.get('teacher') === '1';
-  const today = new Date();
-  const isTeachersDay = (today.getMonth()===8 && today.getDate()===5); // 5 Sept
-  if (force || isTeachersDay) {
-    document.body.classList.add('teachers');
-    document.getElementById('tdBadge')?.removeAttribute('hidden');
-  }
-})();
-
-
-/* ---------- petals ---------- */
+/* =============== stars, petals, constellation =============== */
 (function petals(){
   const wrap = $('#petals');
   for(let i=0;i<(prefersReduced?8:22);i++){
     const p=document.createElement('div'); p.className='petal';
     p.style.left=(Math.random()*100)+'vw';
     const dur=11000+Math.random()*9000, delay=Math.random()*4000, drift=(Math.random()<.5?-1:1)*(8+Math.random()*10);
-    p.animate([{transform:'translate(0,0) rotate(0deg)',top:'-40px'},
-               {transform:`translate(${drift}vw,110vh) rotate(${Math.random()*360}deg)`,top:'110vh'}],
+    p.animate([{transform:'translate(0,0) rotate(0deg)',top:'-40px'},{transform:`translate(${drift}vw,110vh) rotate(${Math.random()*360}deg)`,top:'110vh'}],
               {duration:dur,delay,iterations:Infinity,easing:'ease-in'});
     wrap.appendChild(p);
   }
 })();
-
-/* ---------- star trail + full-name constellation ---------- */
 (function starTrail(){
   const c=$('#trail'), ctx=c.getContext('2d'); let W,H; const parts=[];
-  function fit(){ W=c.width=innerWidth; H=c.height=innerHeight } fit(); addEventListener('resize',fit);
+  function fit(){ c.width=innerWidth; c.height=innerHeight } fit(); addEventListener('resize',fit,{passive:true});
   function spawn(x,y){ parts.push({x,y,vx:(Math.random()-0.5)*1.2,vy:(Math.random()-0.5)*1.2,life:40}); }
-  function draw(){ ctx.clearRect(0,0,W,H); for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.life--; ctx.fillStyle=`rgba(255,210,230,${p.life/40})`; ctx.fillRect(p.x,p.y,2,2); if(p.life<=0) parts.splice(i,1); } requestAnimationFrame(draw) } draw();
+  function draw(){ ctx.clearRect(0,0,W=c.width,H=c.height); for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.life--; ctx.fillStyle=`rgba(255,210,230,${p.life/40})`; ctx.fillRect(p.x,p.y,2,2); if(p.life<=0) parts.splice(i,1); } requestAnimationFrame(draw) } draw();
   let timer=null;
   function touch(e){ const t=e.touches?e.touches[0]:e; spawn(t.clientX,t.clientY); if(timer) clearTimeout(timer); timer=setTimeout(()=> nameConstellation($('#herName').textContent||'Shruti'), 1400); }
-  addEventListener('mousemove',touch); addEventListener('touchmove',touch,{passive:true});
+  addEventListener('mousemove',touch,{passive:true}); addEventListener('touchmove',touch,{passive:true});
 })();
 function nameConstellation(name){
   const cvs=$('#nameConstellation'), ctx=cvs.getContext('2d'); cvs.width=innerWidth; cvs.height=innerHeight;
-  let pts=[]; const fam='Poppins, ui-sans-serif, system-ui';
-  function lines(text){ const t=(text||'You').trim().replace(/\s+/g,' '); if(t.length<=14) return [t]; const mid=Math.floor(t.length/2); let s=t.lastIndexOf(' ',mid); if(s<6||t.length-s<6) s=t.indexOf(' ',mid); return s>0?[t.slice(0,s),t.slice(s+1)]:[t]; }
+  const fam='Quicksand, ui-sans-serif, system-ui';
+  function lines(t){ t=(t||'You').trim().replace(/\s+/g,' '); if(t.length<=14) return [t]; const mid=Math.floor(t.length/2); let s=t.lastIndexOf(' ',mid); if(s<6||t.length-s<6) s=t.indexOf(' ',mid); return s>0?[t.slice(0,s),t.slice(s+1)]:[t]; }
   function targets(ls,density=22){
     const off=document.createElement('canvas'), o=off.getContext('2d'); off.width=cvs.width; off.height=cvs.height;
-    let fs=Math.min(200,Math.max(70,off.width*0.16)); const maxW=off.width*.84;
-    function w(t){o.font=`800 ${fs}px ${fam}`;return o.measureText(t).width} while(Math.max(...ls.map(w))>maxW&&fs>36) fs-=2;
+    let fs=Math.min(220,Math.max(84,off.width*0.18)), maxW=off.width*.84; function w(t){o.font=`800 ${fs}px ${fam}`; return o.measureText(t).width}
+    while(Math.max(...ls.map(w))>maxW&&fs>36) fs-=2;
     o.textAlign='center'; o.textBaseline='middle'; o.fillStyle='#fff'; o.font=`800 ${fs}px ${fam}`;
-    const midY=off.height*.42, gap=fs*1.2; ls.forEach((t,i)=>o.fillText(t,off.width/2,midY+(i-(ls.length-1)/2)*gap));
+    const midY=off.height*.42, gap=fs*1.18; ls.forEach((t,i)=>o.fillText(t,off.width/2,midY+(i-(ls.length-1)/2)*gap));
     const data=o.getImageData(0,0,off.width,off.height).data, arr=[], step=Math.max(1,Math.floor(fs/density));
     for(let y=0;y<off.height;y+=step) for(let x=0;x<off.width;x+=step) if(data[(y*off.width+x)*4+3]>128) arr.push({x,y});
     return arr;
   }
-  const cloud = targets(lines(name)); const N=Math.min(520,Math.max(200,Math.floor(cloud.length*.55)));
-  for(let i=0;i<N;i++){ const t=cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height};
-    pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1, tx:t.x, ty:t.y}); }
+  const cloud=targets(lines(name)); const N=Math.min(560,Math.max(220,Math.floor(cloud.length*.55)));
+  const pts=[]; for(let i=0;i<N;i++){ const t=cloud[Math.floor(i*(cloud.length/N))]||{x:Math.random()*cvs.width,y:Math.random()*cvs.height}; pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height*0.8+cvs.height*0.1, tx:t.x, ty:t.y}); }
   let phase='in', t0=performance.now();
   (function frame(t){
     ctx.clearRect(0,0,cvs.width,cvs.height);
     for(const p of pts){ p.x+=(p.tx-p.x)*0.08; p.y+=(p.ty-p.y)*0.08; ctx.fillStyle='rgba(255,210,230,.95)'; ctx.fillRect(p.x,p.y,2,2); }
     if(phase==='in' && t-t0>3800){ phase='out'; pts.forEach(p=>{ p.tx=Math.random()*cvs.width; p.ty=Math.random()*cvs.height*0.8+cvs.height*0.1; }); }
-    if(phase==='out' && !pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)) { ctx.clearRect(0,0,cvs.width,cvs.height); return; }
+    if(phase==='out' && !pts.some(p=>Math.hypot(p.tx-p.x,p.ty-p.y)>0.6)){ ctx.clearRect(0,0,cvs.width,cvs.height); return; }
     requestAnimationFrame(frame);
   })(t0);
 }
 
-/* ---------- diya + typed assurance + long-press note ---------- */
-const sparkIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeAssure(); } }); },{threshold:.45});
+/* =============== Diya (fixed typed text) =============== */
+const ASSURE_TEXT = "Laadliji, the diya is lit for you here—little flame, big faith. If the world gets loud, come sit by this calm; Kanhaji will cover you with His grace. ✨";
+const sparkIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ $('#diya').classList.add('lit'); typeAssure(); sparkIO.unobserve($('#spark')); } }); },{threshold:.45});
 sparkIO.observe($('#spark'));
-function typeAssure(){ const el=$('#assureLine'); const t=el.textContent.trim(); el.textContent=''; let i=0; const id=setInterval(()=>{ el.textContent+=t.charAt(i++); if(i>=t.length) clearInterval(id); },26); }
+function typeAssure(){ const el=$('#assureLine'); el.textContent=''; let i=0; const id=setInterval(()=>{ el.textContent+=ASSURE_TEXT.charAt(i++); if(i>=ASSURE_TEXT.length) clearInterval(id); },26); }
 (function longPress(){
   const el=$('#diya'); let timer=null;
   const open=()=>showModal('A small note','Space chahiye toh milegi. Main bas background me diya jala ke rakhoonga.');
-  el.addEventListener('pointerdown',()=>{ timer=setTimeout(open,650); });
-  ['pointerup','pointerleave','pointercancel'].forEach(ev=> el.addEventListener(ev,()=>clearTimeout(timer)));
+  el.addEventListener('pointerdown',()=>{ timer=setTimeout(open,650); },{passive:true});
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=> el.addEventListener(ev,()=>clearTimeout(timer),{passive:true}));
 })();
 
-/* ---------- blessings balloons (aligned columns, slower, no overlap) ---------- */
-const blessings = [
-  {
-    word: 'Peace',
-    color: '#ff9ccc',
-    msg: 'Let the noise fall away. May your nights be soft, your mornings unhurried, and your mind find its quiet corner.'
-  },
-  {
-    word: 'Courage',
-    color: '#9bd3ff',
-    msg: 'When it feels heavy, text or don’t—either way I’m in your corner. Tiny steps still count; we’ll move the day gently.'
-  },
-  {
-    word: 'Trust',
-    color: '#c9a7ff',
-    msg: 'No speeches, no drama—just showing up the same way, every day. You can lean on that rhythm whenever you want.'
-  },
-  {
-    word: 'Joy',
-    color: '#7ee6c9',
-    msg: 'More random giggles, more little wins, more songs stuck in your head. If the day is dull, I’ll add color, not pressure.'
-  },
-  {
-    word: 'Health',
-    color: '#ffd86e',
-    msg: 'Deep sleep, easy breath, light body. May your energy refill quietly and stay with you longer than deadlines do.'
-  },
-  {
-    word: 'Grace',
-    color: '#ffb6a3',
-    msg: 'A soft shield around you and doors opening at the right time. May kindness follow you home and stay forever.'
-  },
-];
-
+/* =============== Blessings =============== */
+const blessings=[{word:'Peace',color:'#ff9ccc',msg:'Let the noise fall away. May your nights be soft, your mornings unhurried, and your mind find its quiet corner.'},{word:'Courage',color:'#9bd3ff',msg:'When it feels heavy, text or don’t—either way I’m in your corner. Tiny steps still count; we’ll move the day gently.'},{word:'Trust',color:'#c9a7ff',msg:'No speeches, no drama—just showing up the same way, every day. You can lean on that rhythm whenever you want.'},{word:'Joy',color:'#7ee6c9',msg:'More random giggles, more little wins, more songs stuck in your head. If the day is dull, I’ll add color, not pressure.'},{word:'Health',color:'#ffd86e',msg:'Deep sleep, easy breath, light body. May your energy refill quietly and stay with you longer than deadlines do.'},{word:'Grace',color:'#ffb6a3',msg:'A soft shield around you and doors opening at the right time. May kindness follow you home and stay forever.'}];
 let balloonsInit=false;
-function spawnBalloons(){
-  if(balloonsInit) return; balloonsInit=true;
-  const area=$('#balloonArea');
-  const cols=[8,24,40,56,72,88]; // fixed columns to prevent overlap
-  blessings.forEach((b,i)=>{
-    const d=document.createElement('button'); d.className='balloon';
-    d.style.setProperty('--c',b.color);
-    d.style.setProperty('--x', cols[i % cols.length]);
-    d.style.setProperty('--delay', i*3); // staggered
-    d.innerHTML=`<span>${b.word}</span>`;
-    d.addEventListener('click',()=>{ popBlessing(d,b); });
-    area.appendChild(d);
-  });
-}
-function popBlessing(el,b){
-  try{ navigator.vibrate && navigator.vibrate(12);}catch{}
-  el.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260,easing:'ease-in'});
-  setTimeout(()=>el.remove(),220);
-  playChime(); showModal(b.word,b.msg);
-}
+function spawnBalloons(){ if(balloonsInit) return; balloonsInit=true; const area=$('#balloonArea'); const cols=[8,24,40,56,72,88];
+  blessings.forEach((b,i)=>{ const d=document.createElement('button'); d.className='balloon'; d.style.setProperty('--c',b.color); d.style.setProperty('--x', cols[i%cols.length]); d.style.setProperty('--delay', i*3); d.innerHTML=`<span>${b.word}</span>`; d.addEventListener('click',()=>{ popBlessing(d,b); },{passive:true}); area.appendChild(d); });}
+function popBlessing(el,b){ try{navigator.vibrate&&navigator.vibrate(12);}catch{} el.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260,easing:'ease-in'}); setTimeout(()=>el.remove(),220); playChime(); showModal(b.word,b.msg); }
 function showModal(title,msg){ $('#modalTitle').textContent=title; $('#modalMsg').textContent=msg; $('#modal').classList.add('show'); }
 $('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
-const blessIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) spawnBalloons(); }); },{threshold:.4});
-blessIO.observe($('#blessings'));
+new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&spawnBalloons()),{threshold:.4}).observe($('#blessings'));
 
-/* ---------- greeting cards (flip) ---------- */
-const greetingCards = [
-  {
-    title: 'Nazar Na Lage 🧿',
-    text: 'May jealous eyes just slide off from you. May Kanhaji holds the roof, I’ll hold the door. Walk light, consider yourself covered.'
-  },
-  {
-    title: 'Food + Calm ☕️',
-    text: 'Morning breakfast or midnight munchings — whatever you crave, I’ll sort it. Ask if you want, or don’t; I’ll read the vibe.'
-  },
-  {
-    title: 'Calendar Bless 📅',
-    text: 'Gentler Mondays, kinder deadlines, and random mid-week pauses. May meetings end early and kids trouble you less in school.'
-  },
-  {
-    title: 'Inbox of Joy 📫',
-    text: 'More “good news” pings, fewer “urgent” ones. Spam blocked (except me haha), hope delivered. DMs get sunshine, not noise.'
-  },
-  {
-    title: 'Health & Glow ✨',
-    text: 'Good Exercise, Deep sleep, easy breath, steady energy. May your body feel like home and your face keep that soft glow forever.'
-  },
-  {
-    title: 'Safe Roads 🚦',
-    text: 'Every route clear, timing right, people kind. Text back is optional — arriving safe is the only update I might need.'
-  }
-];
+/* =============== Greeting cards =============== */
+const greetingCards=[{title:'Nazar Na Lage 🧿',text:'May jealous eyes just slide off from you. May Kanhaji holds the roof, I’ll hold the door. Walk light, consider yourself covered.'},{title:'Food + Calm ☕️',text:'Morning breakfast or midnight munchings — whatever you crave, I’ll sort it. Ask if you want, or don’t; I’ll read the vibe.'},{title:'Calendar Bless 📅',text:'Gentler Mondays, kinder deadlines, and random mid-week pauses. May meetings end early and kids trouble you less in school.'},{title:'Inbox of Joy 📫',text:'More “good news” pings, fewer “urgent” ones. Spam blocked (except me haha), hope delivered. DMs get sunshine, not noise.'},{title:'Health & Glow ✨',text:'Good Exercise, Deep sleep, easy breath, steady energy. May your body feel like home and your face keep that soft glow forever.'},{title:'Safe Roads 🚦',text:'Every route clear, timing right, people kind. Text back is optional — arriving safe is the only update I might need.'}];
+(function buildCards(){ const wrap=$('#cardsWrap'); greetingCards.forEach(c=>{ const card=document.createElement('article'); card.className='flip-card'; card.innerHTML=`<div class="flip-inner"><div class="face front"><h3>${c.title}</h3><p class="muted">Tap to open</p></div><div class="face back"><p>${c.text}</p><div class="openHint">Tap to close</div></div></div>`; card.addEventListener('click',()=>{ card.classList.toggle('open'); playChime(); }); wrap.appendChild(card); }); })();
 
-greetingCards.unshift({
-  title: 'For the Teacher in You 🍎',
-  text: 'Guiding without grabbing the mic—classy. May your patience multiply, your wins stack up, and your silly guard (me) keep the corridor clear.'
-});
-
-(function buildCards(){
-  const wrap=$('#cardsWrap');
-  greetingCards.forEach((c)=>{
-    const card=document.createElement('article'); card.className='flip-card';
-    card.innerHTML=`
-      <div class="flip-inner">
-        <div class="face front">
-          <h3>${c.title}</h3>
-          <p class="muted">Tap to open</p>
-        </div>
-        <div class="face back">
-          <p>${c.text}</p>
-          <div class="openHint">Tap to close</div>
-        </div>
-      </div>`;
-    card.addEventListener('click',()=>{ card.classList.toggle('open'); playChime(); });
-    wrap.appendChild(card);
-  });
-})();
-
-/* ---------- spotlight photos (replace later) ---------- */
-const PHOTOS = [
-  // later: {src:'images/shruti-01.jpg'},
-];
+/* =============== Spotlight photos (demo placeholder) =============== */
+const PHOTOS=[]; // add your images later
 (function gallery(){
   const hero=$('#hero'), grid=$('#polaroids');
   if(PHOTOS.length===0){
@@ -1367,25 +684,15 @@ const PHOTOS = [
     grid.innerHTML='<div class="muted" style="grid-column:1/-1;text-align:center">Add her photos in <code>PHOTOS</code> later.</div>';
   } else {
     let cur=0; hero.src=PHOTOS[0].src;
-    PHOTOS.forEach((p,i)=>{
-      const d=document.createElement('div'); d.className='pol'; d.style.setProperty('--r', (Math.random()*6-3)+'deg');
-      d.innerHTML=`<img src="${p.src}" alt="her ${i+1}">`;
-      d.addEventListener('click',()=>{ cur=i; hero.src=p.src; $$('.pol').forEach(x=>x.classList.remove('active')); d.classList.add('active'); });
-      let dragging=false,sx=0,sy=0; d.addEventListener('pointerdown',e=>{ dragging=true; d.setPointerCapture(e.pointerId); sx=e.clientX; sy=e.clientY; d.style.transition='none'; });
-      d.addEventListener('pointermove',e=>{ if(!dragging) return; const dx=e.clientX-sx, dy=e.clientY-sy; d.style.transform=`translate(${dx}px,${dy}px) rotate(var(--r))`; });
-      d.addEventListener('pointerup',()=>{ dragging=false; d.style.transition='transform .2s'; d.style.transform='rotate(var(--r))'; });
-      d.addEventListener('dblclick',()=>openLB(p.src));
-      grid.appendChild(d);
-    });
+    PHOTOS.forEach((p,i)=>{ const d=document.createElement('div'); d.className='pol'; d.style.setProperty('--r',(Math.random()*6-3)+'deg'); d.innerHTML=`<img src="${p.src}" alt="her ${i+1}">`; d.addEventListener('click',()=>{ cur=i; hero.src=p.src; $$('.pol').forEach(x=>x.classList.remove('active')); d.classList.add('active'); }); let drag=false,sx=0,sy=0; d.addEventListener('pointerdown',e=>{drag=true; d.setPointerCapture(e.pointerId); sx=e.clientX; sy=e.clientY; d.style.transition='none';}); d.addEventListener('pointermove',e=>{ if(!drag) return; const dx=e.clientX-sx,dy=e.clientY-sy; d.style.transform=`translate(${dx}px,${dy}px) rotate(var(--r))`; }); d.addEventListener('pointerup',()=>{drag=false; d.style.transition='transform .18s'; d.style.transform='rotate(var(--r))';}); d.addEventListener('dblclick',()=>openLB(p.src)); grid.appendChild(d); });
     hero.addEventListener('click',()=>openLB(PHOTOS[cur]?.src||hero.src));
   }
-  // Stardust over hero
-  initStardust('images/SHRUTI_STARDUST.jpg'); // <<< replace with your image path later
+
+  initStardust('https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1600&q=80&auto=format&fit=crop');
 })();
 function openLB(src){ $('#lbImg').src=src; $('#lb').style.display='flex'; }
 function closeLB(){ $('#lb').style.display='none'; }
 
-/* ---------- stardust reveal (clearer image) ---------- */
 function initStardust(src){
   const cvs = $('#stardust'); if(!cvs) return;
   const hero = cvs.parentElement;
@@ -1466,310 +773,298 @@ function initStardust(src){
   };
 }
 
-(function(){
-  function initBook(){
-    const wrap     = document.getElementById('bookWrap');
-    const ribbon   = document.getElementById('ribbon');
-    const sealBtn  = document.getElementById('sealBtn');
-    const book3d   = document.getElementById('book3d');
-    const coverR   = document.getElementById('coverRight');
-    const rightPg  = document.getElementById('rightPage');
-    const leftTxt  = document.getElementById('leftText');
-    const rightTxt = document.getElementById('rightText');
-    const dotsBox  = document.getElementById('dots');
-    const flip     = document.getElementById('flipSheet');
-    const hint     = document.getElementById('bookHint');
+/* =============== 3D Book logic =============== */
+(() => {
+  function $(s){ return document.querySelector(s); }
 
-    if(!wrap || !sealBtn || !coverR || !rightPg){ return; }
+  function initBook3D(){
+    const wrap       = $('#bookWrap');
+    const book3d     = $('#book3d');
+    const ribbon     = $('#ribbon');
+    const sealBtn    = $('#sealBtn');
+    const coverRight = $('#coverRight');
 
-    // Lines (your vibe)
+    const leftPg     = $('#leftPage');
+    const rightPg    = $('#rightPage');
+    const rightInner = $('#rightInner');
+    const rightText  = $('#rightText');
+    const leftText   = $('#leftText');
+    const flip       = $('#flipSheet');
+    const dotsBox    = $('#dots');
+    const hint       = $('#bookHint');
+    const quill      = $('#quill');
+
+    if (!wrap || !ribbon || !sealBtn || !coverRight || !leftPg || !rightPg ||
+        !rightInner || !rightText || !flip || !dotsBox || !hint || !quill) return;
+
+    // --- the lines that are written on the right page ---
     const LINES = [
-      "No expectations — just good wishes, every day. 🌙✨",
-      "If you need distance, take it; I’ll still be quietly in your corner. 🕯️",
-      "Consistency over drama — I’ll be here, same energy. 🔁",
-      "Madamji, keep the smile; the rest will sort itself. 🙂",
-      "Even a 1% chance? I’ll show up with 100% effort, no noise. 💪",
-      "Tea + calm on standby — say the word or don’t; I’ll read the vibe. ☕😌",
-      "Your pace, your rules; I’m not in a rush. 🐢",
+      'No expectations —\njust good wishes,\nevery day. 🌙✨',
+      'If you need distance, take it;\nI’ll still be quietly in your corner. 🕯️',
+      'Consistency over drama —\nI’ll be here, same energy. 🔁',
+      'Madamji, keep the smile;\nthe rest will sort itself. 🙂',
+      'Even a 1% chance?\nI’ll show up with 100% effort,\nno noise. 💪',
+      'Tea + calm on standby —\nsay the word or don’t;\nI’ll read the vibe. ☕😌',
+      'Your pace, your rules;\nI’m not in a rush. 🐢'
     ];
 
-    // ---- Feather writes the line on a canvas over the right page ----
-function writeWithFeather(targetP, text, opts={duration:2600}){
-  const pageInner = targetP.closest('.pageInner');
-  if(!pageInner) return;
-
-  // ensure a canvas + quill exist
-  let cvs = pageInner.querySelector('canvas.inkCanvas');
-  if(!cvs){
-    cvs = document.createElement('canvas');
-    cvs.className = 'inkCanvas';
-    pageInner.appendChild(cvs);
-  }
-  let quill = pageInner.querySelector('.quill');
-  if(!quill){
-    quill = document.createElement('span');
-    quill.className = 'quill';
-    quill.textContent = '🪶';
-    pageInner.appendChild(quill);
-  }
-
-  // size canvas to the inner card
-  function size(){
-    const r = pageInner.getBoundingClientRect();
-    cvs.width = Math.max(10, Math.floor(r.width - 28));
-    cvs.height = Math.max(10, Math.floor(r.height - 28));
-  }
-  size();
-
-  const ctx = cvs.getContext('2d');
-  const css = getComputedStyle(document.body);
-  const ink = css.getPropertyValue('--ink').trim() || '#eaf2ff';
-
-  // responsive script size
-  const base = Math.max(18, Math.min(30, cvs.width/14));
-  const lineHeight = base*1.35;
-  ctx.font = `700 ${base}px "Satisfy","Caveat",cursive`;
-  ctx.fillStyle = ink;
-  ctx.textBaseline = 'alphabetic';
-
-  // word-wrap into lines
-  function wrap(text, maxW){
-    const words = text.split(/\s+/), lines=[]; let line='';
-    for(const w of words){
-      const test = line ? line + ' ' + w : w;
-      if(ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
-      else { line = test; }
-    }
-    if(line) lines.push(line);
-    return lines;
-  }
-
-  const padX = 22;
-  const maxW = cvs.width - padX*2;
-  const lines = wrap(text, maxW);
-  const widths = lines.map(l => ctx.measureText(l).width);
-  const totalW = widths.reduce((a,b)=>a+b, 0);
-
-  // vertical centering
-  const top = Math.max(lineHeight, (cvs.height - lines.length*lineHeight)/2 + base);
-
-  // hide the DOM text (we keep it for accessibility)
-  targetP.style.opacity = 0;
-  targetP.classList.add('hand');
-
-  // animate a revealing clip, moving the quill to the current endpoint
-  let t0=null;
-  function frame(t){
-    if(!t0) t0=t;
-    let k = Math.min(1, (t - t0)/opts.duration);
-    // ease a bit
-    k = k<.5 ? 2*k*k : 1 - Math.pow(-2*k+2,2)/2;
-
-    ctx.clearRect(0,0,cvs.width,cvs.height);
-
-    let progress = totalW * k;
-    let cum = 0, qx = padX, qy = top - base*0.25;
-
-    for(let i=0; i<lines.length; i++){
-      const y = top + i*lineHeight;
-      const w = widths[i];
-      const drawW = Math.max(0, Math.min(progress - cum, w));
-      if(drawW > 0){
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(padX, y - base, drawW, base*1.25);
-        ctx.clip();
-        ctx.fillText(lines[i], padX, y);
-        ctx.restore();
-
-        qx = padX + drawW;
-        qy = y - base*0.25;
-      }
-      cum += w;
-    }
-
-    quill.style.transform = `translate(${qx}px, ${qy}px)`;
-
-    if(k < 1) requestAnimationFrame(frame);
-    else {
-      // leave the text fully drawn; tiny settle of the quill
-      quill.style.transform = `translate(${qx+6}px, ${qy}px)`;
-    }
-  }
-  requestAnimationFrame(frame);
-}
-
-    // Dots
+    // dots under the book
     dotsBox.innerHTML = '';
-    LINES.forEach((_,i)=> {
-      const d=document.createElement('i');
+    LINES.forEach((_,i)=>{
+      const d = document.createElement('i');
       if(i===0) d.classList.add('on');
       dotsBox.appendChild(d);
     });
-    const setDots = i => [...dotsBox.children].forEach((d,k)=> d.classList.toggle('on', k===i));
+    const setDots = i => [...dotsBox.children].forEach((d,k)=>d.classList.toggle('on', k===i));
 
-    // Initial text
+    // typewriter with moving quill (RIGHT page only)
+    function writeWithQuill(containerEl, textEl, text, speed=22){
+      return new Promise(resolve=>{
+        textEl.textContent = '';
+        quill.style.opacity = '1';
+
+        // split by chars but keep linebreaks
+        const chars = [...text];
+        let i = 0;
+
+        function step(){
+          if(i>=chars.length){
+            quill.style.opacity = '0';
+            resolve();
+            return;
+          }
+          const ch = chars[i++];
+          const span = document.createElement('span');
+          span.textContent = ch;
+          textEl.appendChild(span);
+
+          // position the quill to the caret
+          const sRect = span.getBoundingClientRect();
+          const cRect = containerEl.getBoundingClientRect();
+          const x = sRect.right - cRect.left;
+          const y = sRect.bottom - cRect.top;
+
+          requestAnimationFrame(()=>{
+            quill.style.transform = `translate(${x}px, ${y-18}px) rotate(-16deg)`;
+          });
+
+          setTimeout(step, (ch===' ' || ch==='\n') ? speed*0.6 : speed);
+        }
+        step();
+      });
+    }
+
+    function clearRight(){ rightText.textContent=''; quill.style.opacity='0'; }
+    function clearLeft(){  leftText && (leftText.textContent=''); }
+
     let idx=0, opened=false, turning=false;
-    leftTxt.textContent  = "";
-chalkWrite(rightTxt, LINES[0]);   // handwriting instead of instant text
 
+    async function showIndex(i){
+      setDots(i);
+      clearLeft();
+      rightText.textContent='';
+      await writeWithQuill(rightInner, rightText, LINES[i], 22);
+    }
+
+    // flower shower for fun
     function flowerShower(){
       const emojis = ['🌸','🌼','💮','🌷','💐'];
-      const N = 28;
+      const N = 26;
       for(let i=0;i<N;i++){
         const s = document.createElement('span');
-        s.className='petal';
-        s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        s.textContent = emojis[(Math.random()*emojis.length)|0];
+        s.style.position='absolute';
         s.style.left = (Math.random()*wrap.clientWidth)+'px';
         s.style.top = '-24px';
+        s.style.fontSize = '20px';
+        s.style.filter='drop-shadow(0 6px 10px rgba(0,0,0,.35))';
         wrap.appendChild(s);
-        const drift = (Math.random()*2-1)*80;
-        const dur = 2400 + Math.random()*1800;
+        const drift = (Math.random()*2-1)*80, dur = 2200 + Math.random()*1600;
         s.animate(
           [{transform:'translate(0,-24px)',opacity:.95},
            {transform:`translate(${drift}px, ${wrap.clientHeight+40}px) rotate(${Math.random()*120-60}deg)`,opacity:.1}],
           {duration:dur, easing:'ease-in'}
-        ).finished.then(()=>s.remove()).catch(()=>s.remove());
+        ).finished.finally(()=>s.remove());
       }
     }
 
-    function openCard(){
+    // unwrap ribbon → open cover → write first line
+    async function openBook(){
       if(opened || wrap.classList.contains('opening')) return;
       wrap.classList.add('opening');
+      try{ navigator.vibrate && navigator.vibrate(10); }catch{}
+      try{ window.playChime && playChime(); }catch{}
+
+      // 1) animate ribbon away
+      ribbon.classList.add('unwrap');
+      await new Promise(r => setTimeout(r, 600)); // match CSS .55s
+      ribbon.remove();
+
+      // 2) swing the right cover (CSS handles transform when .open is on wrap)
+      wrap.classList.add('open');
+      book3d?.setAttribute('aria-hidden','false');
+
+      // 3) hint + first page
+      opened = true;
       wrap.classList.remove('opening');
-        wrap.classList.add('open');
-        book3d.setAttribute('aria-hidden','false');
-
-        requestAnimationFrame(()=>{ coverR.style.transform='rotateY(-160deg)'; });
-
-        opened = true;
-        hint.textContent = "Tap the right page to turn.";
-        flowerShower();
-
-        // first spread: left blank, right writes the first line
-        leftTxt.textContent = "";
-        leftTxt.classList.add('hand');
-        rightTxt.textContent = LINES[idx];
-        writeWithFeather(rightTxt, LINES[idx], {duration: 2600});
-
+      hint.textContent = 'Tap right page for next, left page to go back.';
+      flowerShower();
+      await showIndex(idx);
     }
 
-    // expose for inline fallback
-    window.unwrapCard = openCard;
+    // seal – pointer + click + keyboard
+    function triggerOpen(){ openBook(); }
+    ['click','pointerup','touchend'].forEach(ev=>{
+      sealBtn.addEventListener(ev, triggerOpen, {passive:false});
+    });
+    sealBtn.addEventListener('keydown', e=>{
+      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); triggerOpen(); }
+    });
 
-    // bind click (in case inline is stripped by sanitizer/CDN)
-    sealBtn.addEventListener('click', openCard);
-
-    // Page turn
+    // turn FORWARD (right page)
     rightPg.addEventListener('click', ()=>{
       if(!opened || turning) return;
       turning = true;
-      // prepare flipsheet content (clone current right page)
-      flip.classList.add('show');
-      flip.innerHTML = rightPg.querySelector('.pageInner').outerHTML;
-      requestAnimationFrame(()=> flip.classList.add('animating'));
-      flip.addEventListener('animationend', ()=>{
-  // the right page we just read becomes the static left page
-  leftTxt.textContent = LINES[idx];
-idx = (idx+1) % LINES.length;
-chalkWrite(rightTxt, LINES[idx]);  // write next line with moving pen
-setDots(idx);
 
-  flip.classList.remove('animating','show');
-  turning=false;
-}, {once:true});
-});
+      const snap = rightPg.querySelector('.pageInner').cloneNode(true);
+      snap.querySelector('#quill')?.remove();
+      flip.innerHTML = '';
+      flip.appendChild(snap);
+      flip.classList.remove('reverse');
+      flip.classList.add('show');
+
+      clearRight();
+      requestAnimationFrame(()=> flip.classList.add('animating')); // → left
+
+      flip.addEventListener('animationend', async ()=>{
+        idx = (idx+1) % LINES.length;
+        flip.classList.remove('animating','show');
+        await showIndex(idx);
+        turning = false;
+      }, {once:true});
+    }, {passive:true});
+
+    // turn BACK (left page)
+    leftPg.addEventListener('click', ()=>{
+      if(!opened || turning) return;
+      turning = true;
+
+      const snap = rightPg.querySelector('.pageInner').cloneNode(true);
+      snap.querySelector('#quill')?.remove();
+      flip.innerHTML = '';
+      flip.appendChild(snap);
+      flip.classList.add('show','reverse'); // reverse keyframes
+
+      clearRight();
+      void flip.offsetWidth; // reflow to ensure reverse animation runs
+
+      flip.addEventListener('animationend', async ()=>{
+        idx = (idx-1+LINES.length) % LINES.length;
+        flip.classList.remove('reverse','show');
+        await showIndex(idx);
+        turning = false;
+      }, {once:true});
+    }, {passive:true});
   }
 
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', initBook);
+  // boot
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBook3D, {once:true});
   } else {
-    initBook();
+    initBook3D();
   }
 })();
-
-
-// --- Chalk writing effect: types text and moves a pen to the last glyph ---
-function chalkWrite(targetEl, text, speed=22){
-  if(!targetEl) return;
-  targetEl.style.position = 'relative';
-  targetEl.innerHTML = '';                     // clear previous
-  const pen = document.createElement('span');  // the writing pen/feather
-  pen.className = 'pen';
-  pen.textContent = '🪶';
-  targetEl.appendChild(pen);
-
-  let i = 0;
-  function step(){
-    if(i > text.length){
-      pen.remove();
-      return;
-    }
-    const span = document.createElement('span');
-    span.className = 'ch';
-    span.textContent = text.charAt(i++) || '';
-    targetEl.appendChild(span);
-
-    // move pen to the last character
-    const box = targetEl.getBoundingClientRect();
-    const r   = span.getBoundingClientRect();
-    const x   = r.left - box.left;
-    const y   = r.top  - box.top;
-    pen.style.transform = `translate(${x}px, ${y}px)`;
-
-    // tiny chalk spark near the tip
-    const s = document.createElement('span');
-    s.className = 'spark';
-    s.textContent = '✧';
-    s.style.left = x + 'px';
-    s.style.top  = y + 'px';
-    targetEl.appendChild(s);
-    setTimeout(()=> s.remove(), 480);
-
-    setTimeout(step, speed);
-  }
-  step();
-}
-
-
 /* ---------- fireworks (final + entry burst) ---------- */
 function fireworksOnCanvas(cId, duration=12000, quick=false){
-  const c=$(cId), a=c.getContext('2d'); function fit(){ c.width=innerWidth; c.height=innerHeight } fit(); addEventListener('resize',fit);
-  const ps=[]; function add(x,y,vx,vy,col){ ps.push({x,y,vx,vy,col,life:70+Math.random()*30}) }
+  const c=$(cId), a=c.getContext('2d');
+  function fit(){ c.width=innerWidth; c.height=innerHeight } fit(); addEventListener('resize',fit);
+  const ps=[];
+  function add(x,y,vx,vy,col){ ps.push({x,y,vx,vy,col,life:70+Math.random()*30}); }
   function hv(t){ const x=16*Math.sin(t)**3, y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); return {x, y:-y}; }
-  function burst(x,y,col,heart=true){ const n=heart?140:90; for(let i=0;i<n;i++){ if(heart){ const t=i/n*Math.PI*2, v=hv(t), m=Math.hypot(v.x,v.y)||1, s=2.2+Math.random()*2.4; add(x,y,(v.x/m)*s,(v.y/m)*s,col); } else { const ang=Math.PI*2*i/n, s=2+Math.random()*3; add(x,y,Math.cos(ang)*s,Math.sin(ang)*s,col); } } }
-  function tick(){ a.clearRect(0,0,c.width,c.height); for(let i=ps.length-1;i>=0;i--){ const p=ps[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--; a.fillStyle=`rgba(${p.col},${Math.max(0,p.life/100)})`; a.fillRect(p.x,p.y,2,2); if(p.life<=0) ps.splice(i,1); } req=requestAnimationFrame(tick) } let req; tick();
-  function boom(){ const x=Math.random()*c.width*.9+c.width*.05, y=Math.random()*c.height*.4+c.height*.1; const cols=['255,200,221','255,168,194','201,167,255','246,208,110']; burst(x,y,cols[Math.floor(Math.random()*cols.length)],Math.random()<.7); }
+  function burst(x,y,col,heart=true){
+    const n=heart?140:90;
+    for(let i=0;i<n;i++){
+      if(heart){
+        const t=i/n*Math.PI*2, v=hv(t), m=Math.hypot(v.x,v.y)||1, s=2.2+Math.random()*2.4;
+        add(x,y,(v.x/m)*s,(v.y/m)*s,col);
+      } else {
+        const ang=Math.PI*2*i/n, s=2+Math.random()*3;
+        add(x,y,Math.cos(ang)*s,Math.sin(ang)*s,col);
+      }
+    }
+  }
+  let req;
+  (function tick(){
+    a.clearRect(0,0,c.width,c.height);
+    for(let i=ps.length-1;i>=0;i--){
+      const p=ps[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--;
+      a.fillStyle=`rgba(${p.col},${Math.max(0,p.life/100)})`; a.fillRect(p.x,p.y,2,2);
+      if(p.life<=0) ps.splice(i,1);
+    }
+    req=requestAnimationFrame(tick);
+  })();
+  function boom(){
+    const x=Math.random()*c.width*.9+c.width*.05, y=Math.random()*c.height*.4+c.height*.1;
+    const cols=['255,200,221','255,168,194','201,167,255','246,208,110'];
+    burst(x,y,cols[(Math.random()*cols.length)|0],Math.random()<.7);
+  }
   if(quick){ for(let i=0;i<4;i++) setTimeout(boom,i*300); }
-  const iv=setInterval(boom,1300); setTimeout(()=>{ clearInterval(iv); cancelAnimationFrame(req); a.clearRect(0,0,c.width,c.height); }, duration);
+  const iv=setInterval(boom,1300);
+  setTimeout(()=>{ clearInterval(iv); cancelAnimationFrame(req); a.clearRect(0,0,c.width,c.height); }, duration);
 }
 let fwStarted=false;
-const fwIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && !fwStarted){ fwStarted=true; fireworksOnCanvas('#fire'); } }); },{threshold:.42});
-fwIO.observe($('#final'));
+new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting && !fwStarted){ fwStarted=true; fireworksOnCanvas('#fire'); }
+  });
+},{threshold:.42}).observe($('#final'));
 
 /* ---------- gift rain ---------- */
-$('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibrate(14);}catch{} const const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔','🧿','🌼','🍎','📚','✏️','🧑‍🏫'];
-  const D=5200,t0=performance.now(); (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
-    s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
-    const drift=(Math.random()*2-1)*80,time=2400+Math.random()*1800; s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'});
-    setTimeout(()=>s.remove(),time+60); requestAnimationFrame(drop) })();
+$('#gift')?.addEventListener('click',()=>{
+  try{navigator.vibrate&&navigator.vibrate(14);}catch{}
+  const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔','🧿','🌼'];
+  const D=5200,t0=performance.now();
+  (function drop(){
+    if(performance.now()-t0>D) return;
+    const s=document.createElement('span');
+    s.textContent=icons[(Math.random()*icons.length)|0];
+    s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px';
+    s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
+    const drift=(Math.random()*2-1)*80,time=2400+Math.random()*1800;
+    s.animate(
+      [{transform:'translate(0,-40px)',opacity:.95},
+       {transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],
+      {duration:time,easing:'ease-in'}
+    );
+    setTimeout(()=>s.remove(),time+60);
+    requestAnimationFrame(drop);
+  })();
 });
 
 /* ---------- save final promise as PNG ---------- */
-$('#savePNG').addEventListener('click',()=>{
-  const name=$('#herName').textContent||'You'; const text=$('#promiseLine').textContent||'With love.';
-  const w=1200,h=630, cn=document.createElement('canvas'); cn.width=w; cn.height=h; const ctx=cn.getContext('2d');
-  const grad=ctx.createLinearGradient(0,0,0,h); grad.addColorStop(0,'#0c1022'); grad.addColorStop(1,'#14102e'); ctx.fillStyle=grad; ctx.fillRect(0,0,w,h);
+$('#savePNG')?.addEventListener('click',()=>{
+  const name=$('#herName')?.textContent||'You';
+  const text=$('#promiseLine')?.textContent||'With love.';
+  const w=1200,h=630, cn=document.createElement('canvas');
+  cn.width=w; cn.height=h; const ctx=cn.getContext('2d');
+  const grad=ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,getComputedStyle(document.body).getPropertyValue('--bg1')||'#0c1022');
+  grad.addColorStop(1,getComputedStyle(document.body).getPropertyValue('--bg2')||'#14102e');
+  ctx.fillStyle=grad; ctx.fillRect(0,0,w,h);
   ctx.fillStyle='rgba(255,255,255,.08)'; for(let i=0;i<200;i++){ ctx.fillRect(Math.random()*w,Math.random()*h,2,2); }
-  ctx.fillStyle='#ff9ccc'; ctx.font='700 44px "Playfair Display", serif'; ctx.textAlign='center'; ctx.fillText('Happy Birthday, '+name, w/2, h/2-20);
-  ctx.fillStyle='#e8edff'; ctx.font='400 28px Poppins, sans-serif'; wrapText(ctx, text, w/2, h/2+28, 900, 36);
+  ctx.fillStyle=getComputedStyle(document.body).getPropertyValue('--accent')||'#ff9ccc';
+  ctx.font='700 44px "Fraunces", "Playfair Display", serif'; ctx.textAlign='center';
+  ctx.fillText('Happy Birthday, '+name, w/2, h/2-20);
+  ctx.fillStyle=getComputedStyle(document.body).getPropertyValue('--ink')||'#eaf2ff';
+  ctx.font='400 28px Quicksand, Poppins, system-ui, sans-serif';
+  function wrapText(text, maxWidth, lineHeight, y){
+    const words=text.split(' '); let line=''; for(let n=0;n<words.length;n++){ const test=line+words[n]+' '; const mw=ctx.measureText(test).width;
+      if(mw>maxWidth && n>0){ ctx.fillText(line, w/2, y); line=words[n]+' '; y+=lineHeight; } else line=test; }
+    ctx.fillText(line, w/2, y);
+  }
+  wrapText(text, 900, 36, h/2+28);
   const a=document.createElement('a'); a.href=cn.toDataURL('image/png'); a.download=`Promise-${name}.png`; a.click();
 });
-function wrapText(ctx, text, x, y, maxWidth, lineHeight){
-  const words=text.split(' '); let line=''; for(let n=0;n<words.length;n++){ const test=line+words[n]+' '; const w=ctx.measureText(test).width;
-    if(w>maxWidth && n>0){ ctx.fillText(line, x, y); line=words[n]+' '; y+=lineHeight; } else { line=test; } }
-  ctx.fillText(line, x, y);
-}
 
 /* ---------- ambience (tiny chimes) ---------- */
 let ac, master;
@@ -1781,12 +1076,15 @@ function startAmbience(){
     function flute(freq, t0, dur){
       const o=ac.createOscillator(); o.type='sine'; o.frequency.value=freq;
       const v=ac.createOscillator(); v.frequency.value=5; const vGain=ac.createGain(); vGain.gain.value=2; v.connect(vGain); vGain.connect(o.frequency);
-      const eg=ac.createGain(); eg.gain.setValueAtTime(0.0001,t0); eg.gain.linearRampToValueAtTime(0.10,t0+.4); eg.gain.linearRampToValueAtTime(0.05,t0+.8); eg.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+      const eg=ac.createGain(); eg.gain.setValueAtTime(0.0001,t0);
+      eg.gain.linearRampToValueAtTime(0.10,t0+.4); eg.gain.linearRampToValueAtTime(0.05,t0+.8); eg.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
       o.connect(eg); eg.connect(g); o.start(t0); v.start(t0); o.stop(t0+dur+.05); v.stop(t0+dur+.05);
     }
     function bell(t){
-      [1,2.01,2.98,4.2].forEach((m,i)=>{ const o=ac.createOscillator(); o.frequency.value=660*m; const eg=ac.createGain(); eg.gain.setValueAtTime(0.0001,t);
-        eg.gain.exponentialRampToValueAtTime(0.06/(i+1),t+.02); eg.gain.exponentialRampToValueAtTime(0.0001,t+1.2+i*0.2); o.connect(eg); eg.connect(g); o.start(t); o.stop(t+1.6+i*0.2); });
+      [1,2.01,2.98,4.2].forEach((m,i)=>{ const o=ac.createOscillator(); o.frequency.value=660*m; const eg=ac.createGain();
+        eg.gain.setValueAtTime(0.0001,t); eg.gain.exponentialRampToValueAtTime(0.06/(i+1),t+.02); eg.gain.exponentialRampToValueAtTime(0.0001,t+1.2+i*0.2);
+        o.connect(eg); eg.connect(g); o.start(t); o.stop(t+1.6+i*0.2);
+      });
     }
     const start=ac.currentTime+.1; const phrase=t=>{[440,494,523,587,523,494,440].forEach((f,i)=>flute(f/2,t+i*.9,1.2)); bell(t+2.7);};
     phrase(start); setInterval(()=>phrase(ac.currentTime+.1),5000);
@@ -1811,39 +1109,44 @@ function pauseBgSongFadeOut(){
   const a=$('#bgSong'); if(!a) return;
   let v=a.volume, step=0.04; const id=setInterval(()=>{ v-=step; a.volume=Math.max(0,v); if(v<=0){ clearInterval(id); a.pause(); } },60);
 }
-function toggleSong(){
-  const a=$('#bgSong'); if(!a) return;
-  if(a.paused) playBgSongFadeIn(); else pauseBgSongFadeOut();
-}
-$('#toggleSongBtn').addEventListener('click', toggleSong);
-$('#toggleSongBtn2').addEventListener('click', toggleSong);
-$('#toggleSongBtn3').addEventListener('click', toggleSong);
+function toggleSong(){ const a=$('#bgSong'); if(!a) return; if(a.paused) playBgSongFadeIn(); else pauseBgSongFadeOut(); }
+document.getElementById('toggleSongBtn')?.addEventListener('click', toggleSong);
 
 /* ---------- Welcome Gate ---------- */
-function hideGate(){
-  const gate=document.getElementById('gate'); if(!gate) return;
-  gate.classList.add('hide'); document.body.classList.remove('gated');
-  setTimeout(()=>gate.remove(),500);
-  try{ document.getElementById('home')?.scrollIntoView({behavior:'smooth'}); }catch{}
-}
-async function enterGate(){
-  // start MP3 + small entry fireworks
-  await playBgSongFadeIn();
-  startAmbience();
-  const fe = $('#fireEnter'); fe.style.opacity='1'; fireworksOnCanvas('#fireEnter', 5000, true); // quick burst
-  setTimeout(()=>{ fe.style.opacity='0'; }, 5200);
-  hideGate();
-}
-window.enterGate = enterGate;
-document.addEventListener('click', (e)=>{ const btn = e.target.closest('#enterBtn'); if(btn && document.getElementById('gate')) enterGate(); });
-document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (e.key==='Enter'||e.key===' ')) enterGate(); });
 
-/* ===================== 3D MODE (beefed up) ===================== */
+let __enteredGate = false;
+async function enterGate(){
+  if (__enteredGate) return;
+  __enteredGate = true;
+
+  try { await (window.playBgSongFadeIn?.() || Promise.resolve()); } catch {}
+  try { window.startAmbience?.(); } catch {}
+
+  // quick entry fireworks if present
+  try {
+    const fe = document.getElementById('fireEnter');
+    if (fe) {
+      fe.style.opacity = '1';
+      window.fireworksOnCanvas && fireworksOnCanvas('#fireEnter', 5000, true);
+      setTimeout(()=>{ fe.style.opacity = '0'; }, 5200);
+    }
+  } catch {}
+
+  // finally hide gate (guaranteed)
+  const gate = document.getElementById('gate');
+  if (gate) {
+    gate.classList.add('hide');
+    document.body.classList.remove('gated');
+    setTimeout(()=>{ try{ gate.remove(); }catch{} }, 500);
+  }
+}
+
+/* ===================== 3D MODE (background) ===================== */
 (() => {
   if(!window.THREE) return;
   const btn = document.getElementById('toggle3D');
   const canvas = document.getElementById('three3d');
-  let renderer, scene, camera, stars, rafId, hearts = [], clock, extras=[];
+  let renderer, scene, camera, stars, rafId, hearts=[], clock, extras=[];
 
   function init3D(){
     if(renderer) return;
@@ -1855,89 +1158,75 @@ document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (
     camera.position.set(0,0,28);
     clock = new THREE.Clock();
 
-    // star points
+    // star field
     const starGeo = new THREE.BufferGeometry();
-    const N = 1400;
-    const pos = new Float32Array(N*3);
-    for(let i=0;i<N;i++){
-      pos[i*3+0] = (Math.random()-0.5)*200;
-      pos[i*3+1] = (Math.random()-0.5)*140;
-      pos[i*3+2] = (Math.random()-0.5)*200;
-    }
+    const N = 1400; const pos = new Float32Array(N*3);
+    for(let i=0;i<N;i++){ pos[i*3]=(Math.random()-0.5)*200; pos[i*3+1]=(Math.random()-0.5)*140; pos[i*3+2]=(Math.random()-0.5)*200; }
     starGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
     const starMat = new THREE.PointsMaterial({ size:1.3, color: new THREE.Color('#ffd2ea'), transparent:true, opacity:0.9 });
-    stars = new THREE.Points(starGeo, starMat);
-    scene.add(stars);
+    stars = new THREE.Points(starGeo, starMat); scene.add(stars);
 
-    // creative extras: slow torus knots + sparkle sprites
+    // extras
     const knotMat = new THREE.MeshBasicMaterial({ color:0xffb3d7, wireframe:true, transparent:true, opacity:0.22 });
     for(let i=0;i<3;i++){
       const g = new THREE.TorusKnotGeometry(2.2+i*0.5, 0.5, 120, 18);
       const m = new THREE.Mesh(g, knotMat.clone());
-      m.position.set((i-1)*4, (i%2?-2:2), -4-i*2);
-      scene.add(m); extras.push(m);
+      m.position.set((i-1)*4, (i%2?-2:2), -4-i*2); scene.add(m); extras.push(m);
     }
     const sparkleGeo = new THREE.BufferGeometry();
-    const S = 400; const spos = new Float32Array(S*3);
+    const S=400, spos=new Float32Array(S*3);
     for(let i=0;i<S;i++){ spos[i*3]=(Math.random()-0.5)*30; spos[i*3+1]=(Math.random()-0.5)*20; spos[i*3+2]=(Math.random()-0.5)*30; }
     sparkleGeo.setAttribute('position', new THREE.BufferAttribute(spos,3));
     const sparkle = new THREE.Points(sparkleGeo, new THREE.PointsMaterial({ size:0.6, color:0xffffff, transparent:true, opacity:0.8 }));
     scene.add(sparkle); extras.push(sparkle);
 
-    const fog = new THREE.FogExp2(0x0e1022, 0.006); scene.fog = fog;
+    scene.fog = new THREE.FogExp2(0x0e1022, 0.006);
 
-    let mx=0,my=0;
-    window.addEventListener('mousemove', e=>{ mx=(e.clientX/innerWidth - .5)*2; my=(e.clientY/innerHeight - .5)*2; });
+    let mx=0,my=0; window.addEventListener('mousemove', e=>{ mx=(e.clientX/innerWidth-.5)*2; my=(e.clientY/innerHeight-.5)*2; });
 
-    const animate = () => {
-      const t = clock.getElapsedTime();
-      stars.rotation.y = t*0.02;
+    const animate=()=>{
+      const t=clock.getElapsedTime();
+      stars.rotation.y=t*0.02;
       extras.forEach((m,i)=>{ m.rotation.x += 0.002*(i+1); m.rotation.y += 0.003*(i+1); });
       camera.position.x += (mx*4 - camera.position.x)*0.02;
       camera.position.y += (-my*2 - camera.position.y)*0.02;
 
       for(let i=hearts.length-1;i>=0;i--){
-        const p = hearts[i];
-        p.v.add(p.g); p.m.position.add(p.v); p.life--;
+        const p=hearts[i]; p.v.add(p.g); p.m.position.add(p.v); p.life--;
         p.m.material.opacity = Math.max(0, p.life/120);
         if(p.life<=0){ scene.remove(p.m); p.m.geometry.dispose(); p.m.material.dispose(); hearts.splice(i,1); }
       }
-      renderer.render(scene,camera);
-      rafId = requestAnimationFrame(animate);
+      renderer.render(scene,camera); rafId=requestAnimationFrame(animate);
     };
-    animate();
-    window.addEventListener('resize', resize);
+    animate(); window.addEventListener('resize', resize);
   }
-
   function resize(){
     if(!renderer) return;
     renderer.setSize(innerWidth, innerHeight, false);
-    if(camera){ camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix(); }
+    camera && (camera.aspect=innerWidth/innerHeight, camera.updateProjectionMatrix());
   }
-
   function burstHearts(col='#ff8fb1'){
     if(!renderer) return;
-    const count = 120;
+    const count=120;
     for(let i=0;i<count;i++){
-      const geo = new THREE.PlaneGeometry(0.8,0.8);
-      const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(col), transparent:true, opacity:1, side:THREE.DoubleSide });
-      const m = new THREE.Mesh(geo, mat);
-      const t = (i/count)*Math.PI*2;
-      const x = 1.6*Math.pow(Math.sin(t),3);
-      const y = 1.3*Math.cos(t) - 0.5*Math.cos(2*t) - 0.2*Math.cos(3*t) - 0.1*Math.cos(4*t);
+      const geo=new THREE.PlaneGeometry(0.8,0.8);
+      const mat=new THREE.MeshBasicMaterial({ color:new THREE.Color(col), transparent:true, opacity:1, side:THREE.DoubleSide });
+      const m=new THREE.Mesh(geo,mat);
+      const t=(i/count)*Math.PI*2;
+      const x=1.6*Math.pow(Math.sin(t),3);
+      const y=1.3*Math.cos(t)-0.5*Math.cos(2*t)-0.2*Math.cos(3*t)-0.1*Math.cos(4*t);
       m.position.set(x*4, y*4, (Math.random()-0.5)*4);
       scene.add(m);
-      const v = new THREE.Vector3(x, y, (Math.random()-0.5)).normalize().multiplyScalar(0.08 + Math.random()*0.14);
-      hearts.push({ m, v, g:new THREE.Vector3(0,-0.001,0), life: 120+Math.random()*30 });
+      const v=new THREE.Vector3(x, y, (Math.random()-0.5)).normalize().multiplyScalar(0.08+Math.random()*0.14);
+      hearts.push({ m, v, g:new THREE.Vector3(0,-0.001,0), life:120+Math.random()*30 });
     }
   }
-
   document.getElementById('gift')?.addEventListener('click', ()=> burstHearts('#ffd86e'));
 
   function enable3D(){
     if(prefersReduced){ alert('3D mode respects reduced-motion and is off.'); return; }
     btn.classList.add('active'); localStorage.setItem('threeEnabled','1');
-    init3D(); burstHearts(); setTimeout(()=>burstHearts('#c9a7ff'), 2200);
+    init3D(); burstHearts(); setTimeout(()=>burstHearts('#c9a7ff'),2200);
   }
   function disable3D(){
     btn.classList.remove('active'); localStorage.removeItem('threeEnabled');
@@ -1949,14 +1238,15 @@ document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (
     if(scene){
       scene.traverse(o=>{
         if(o.geometry) o.geometry.dispose?.();
-        if(o.material){ if(Array.isArray(o.material)) o.material.forEach(m=>m.dispose?.()); else o.material.dispose?.(); }
+        if(o.material){ (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>m.dispose?.()); }
       });
     }
     renderer=scene=camera=stars=clock=null; hearts=[]; extras=[];
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl'); gl && gl.getExtension('WEBGL_lose_context')?.loseContext();
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    gl && gl.getExtension('WEBGL_lose_context')?.loseContext();
   }
 
-  btn.addEventListener('click', ()=> (renderer ? disable3D() : enable3D()));
+  btn?.addEventListener('click', ()=> (renderer ? disable3D() : enable3D()));
   if(localStorage.getItem('threeEnabled')==='1' && !prefersReduced) enable3D();
 })();
 
@@ -1983,7 +1273,7 @@ document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (
     if(scene){
       scene.traverse(o=>{
         if(o.geometry) o.geometry.dispose?.();
-        if(o.material){ if(Array.isArray(o.material)) o.material.forEach(m=>m.dispose?.()); else o.material.dispose?.(); }
+        if(o.material){ (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>m.dispose?.()); }
         if(o.texture) o.texture.dispose?.();
       });
     }
@@ -2005,8 +1295,7 @@ document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (
     const loader = new THREE.TextureLoader(); loader.crossOrigin = 'anonymous';
     const R = 10, n = Math.min(12, PHOTOS.length);
     for(let i=0;i<n;i++){
-      const tex = loader.load(PHOTOS[i].src);
-      tex.minFilter = THREE.LinearFilter;
+      const tex = loader.load(PHOTOS[i].src); tex.minFilter = THREE.LinearFilter;
       const mat = new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide });
       const geo = new THREE.PlaneGeometry(6, 9);
       const mesh = new THREE.Mesh(geo, mat);
@@ -2018,8 +1307,7 @@ document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (
 
     canvas.addEventListener('pointerdown', e=>{ dragging=true; lastX=e.clientX; });
     canvas.addEventListener('pointermove', e=>{
-      if(!dragging) return;
-      const dx = (e.clientX - lastX); lastX = e.clientX; ringGroup.rotation.y += dx * 0.005;
+      if(!dragging) return; const dx = (e.clientX - lastX); lastX = e.clientX; ringGroup.rotation.y += dx * 0.005;
     });
     window.addEventListener('pointerup', ()=> dragging=false);
 
@@ -2041,6 +1329,38 @@ document.addEventListener('keydown',e=>{ if(document.getElementById('gate') && (
 
   btnOpen?.addEventListener('click', openRing3D);
 })();
+
+/* 3D paper tilt (works on mouse + touch) */
+(() => {
+  const paper = document.getElementById('finalPaper');
+  if(!paper) return;
+
+  const max = 10; // degrees
+  let rect;
+
+  function setTilt(clientX, clientY){
+    rect = rect || paper.getBoundingClientRect();
+    const x = (clientX - (rect.left + rect.width/2)) / (rect.width/2);
+    const y = (clientY - (rect.top  + rect.height/2)) / (rect.height/2);
+    paper.style.setProperty('--ry', `${x*max}deg`);
+    paper.style.setProperty('--rx', `${-y*max}deg`);
+  }
+
+  function resetTilt(){ paper.style.setProperty('--rx','0deg'); paper.style.setProperty('--ry','0deg'); rect=null; }
+
+  paper.addEventListener('mousemove', e => setTilt(e.clientX, e.clientY), {passive:true});
+  paper.addEventListener('mouseleave', resetTilt, {passive:true});
+
+  // touch support
+  paper.addEventListener('touchmove', e => {
+    const t = e.touches[0]; if(t) setTilt(t.clientX, t.clientY);
+  }, {passive:true});
+  paper.addEventListener('touchend', resetTilt, {passive:true});
+})();
+
 </script>
 </body>
 </html>
+
+
+
