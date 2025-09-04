@@ -325,7 +325,8 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 <body class="gated">
 
 <!-- Background song (starts on gate enter) -->
-<audio id="bgSong" preload="auto" loop playsinline src="public/audio/zara_sa.mp3">
+<audio id="bgSong" preload="auto" loop playsinline>
+  <source src="public/audio/zara_sa.mp3?v=5" type="audio/mpeg">
 </audio>
 
 <!-- Welcome Gate -->
@@ -334,63 +335,83 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
     <h1>Happy Birthday, Dear Laadli Madamji 🎀🎂</h1>
     <p>Only pure and warm wishes for you today 🤌✨: Hope your smile stays constant while you read this.</p>
     <p class="muted">I’ll stay in the background — no demands, just your quiet cheer squad 👀.</p>
+
     <div class="gate-actions">
       <button class="btn" id="enterBtn" type="button" onclick="window.__GateClick && window.__GateClick(event)">
         Enter the little night → 🎵
       </button>
-      
     </div>
+
     <p class="hint">Ignore karogi toh bhi theek hai — main wohi silly boy hoon jo giving-up ke mood me nahi hota 🫠.</p>
   </div>
 </div>
+
 <script>
-  /* Bullet-proof gate: works on iOS/Android/desktop + in-app browsers */
-  (function gateWiring(){
-    const gate = document.getElementById('gate');
-    const btn  = document.getElementById('enterBtn');
-    if (!gate || !btn) return;
-  
-    let entered = false;
-  
-    function hideGate(){
-      if (gate.classList.contains('hide')) return;
-      gate.classList.add('hide');
-      document.body.classList.remove('gated');
-      try { localStorage.setItem('gateEntered','1'); } catch {}
-      setTimeout(()=>{ try{ gate.remove(); }catch{} }, 450);
+/* Bullet-proof gate: works on iOS/Android/desktop + in-app browsers */
+(function gateWiring(){
+  const gate = document.getElementById('gate');
+  const btn  = document.getElementById('enterBtn');
+  if (!gate || !btn) return;
+
+  let entered = false;
+
+  function hideGate(){
+    if (gate.classList.contains('hide')) return;
+    gate.classList.add('hide');
+    document.body.classList.remove('gated');
+    try { localStorage.setItem('gateEntered','1'); } catch {}
+    setTimeout(()=>{ try{ gate.remove(); }catch{} }, 450);
+  }
+
+  async function playMusicDirect(){
+    const a = document.getElementById('bgSong');
+    if (!a) return;
+    // ensure correct src (cache-bust ok)
+    const want = 'public/audio/zara_sa.mp3?v=5';
+    const cur  = a.querySelector('source');
+    if (cur && cur.getAttribute('src') !== want) {
+      cur.setAttribute('src', want);
+      a.load();
     }
-  
-    async function go(e){
-      try { e?.preventDefault?.(); e?.stopPropagation?.(); } catch {}
-      if (entered) return;
-      entered = true;
-  
-      // Kick off audio/ambience, but *never* let it block the UI
-      const enterP = (typeof window.enterGate === 'function'
-        ? Promise.resolve(window.enterGate())
-        : (async () => { try{ window.playBgSongFadeIn?.(); }catch{} try{ window.startAmbience?.(); }catch{} })()
-      );
-      hideGate();
-      enterP.catch(()=>{}); // swallow autoplay errors etc.
-    }
-  
-    // Inline fallback target (used by onclick on the button)
-    window.__GateClick = go;
-  
-    // Primary bindings (broad coverage)
-    const opts = { passive:false };
-    ['click','pointerup','pointerdown','touchend','touchstart'].forEach(ev => btn.addEventListener(ev, go, opts));
-    btn.addEventListener('keydown', e => { if (e.key==='Enter' || e.key===' ') go(e); });
-  
-    // Tap outside card also enters
-    gate.addEventListener('click', e => { if (e.target === gate) go(e); }, { passive:true });
-  
-    // Last-resort: first interaction anywhere enters (covers odd in-app browsers)
-    const once = () => { document.removeEventListener('touchstart', once, true); document.removeEventListener('mousedown', once, true); go(); };
-    document.addEventListener('touchstart', once, true);
-    document.addEventListener('mousedown', once, true);
-  })();
-  </script>
+    a.muted = false;
+    a.currentTime = 0;
+    await a.play().catch(()=>{});
+    // fade in
+    let v=0, target=0.85, step=0.04;
+    const id = setInterval(()=>{ v+=step; a.volume=Math.min(v,target); if(v>=target) clearInterval(id); }, 80);
+  }
+
+  async function go(e){
+    try { e?.preventDefault?.(); e?.stopPropagation?.(); } catch {}
+    if (entered) return;
+    entered = true;
+
+    // Prefer user-defined enterGate if present, else play music directly
+    const p = (typeof window.enterGate === 'function')
+      ? Promise.resolve(window.enterGate())
+      : playMusicDirect();
+
+    hideGate();
+    p.catch(()=>{}); // never block UI
+  }
+
+  // Inline fallback used by onclick on the button
+  window.__GateClick = go;
+
+  // Primary bindings
+  const opts = { passive:false };
+  ['click','pointerup','touchend'].forEach(ev => btn.addEventListener(ev, go, opts));
+  btn.addEventListener('keydown', e => { if (e.key==='Enter' || e.key===' ') go(e); });
+
+  // Tap outside card also enters
+  gate.addEventListener('click', e => { if (e.target === gate) go(e); }, { passive:true });
+
+  // Last-resort: first interaction anywhere enters (covers odd in-app browsers)
+  const once = () => { document.removeEventListener('touchstart', once, true); document.removeEventListener('mousedown', once, true); go(); };
+  document.addEventListener('touchstart', once, true);
+  document.addEventListener('mousedown', once, true);
+})();
+</script>
   
    
 
@@ -1176,36 +1197,18 @@ $('#savePNG')?.addEventListener('click',()=>{
 
 
 /* ---------- Welcome Gate ---------- */
-let __enteredGate = false;
+
 async function enterGate(){
-  if (__enteredGate) return;
-  __enteredGate = true;
-
-  const a = document.getElementById('bgSong');
-  if (!a) return;
-
+  // If you need extra effects, keep them here. Music will already start via gate.
+  // Example: fireworks, class toggles, etc.
   try {
-    a.currentTime = 0;   // restart from beginning
-    a.muted = false;
-    await a.play();      // user gesture => allowed
-    // smooth fade-in
-    let v = 0, target = 0.85, step = 0.03;
-    const id = setInterval(()=>{
-      v += step;
-      a.volume = Math.min(v, target);
-      if(v>=target) clearInterval(id);
-    }, 80);
-  } catch(err){
-    console.log("Audio play blocked:", err);
-  }
-
-  // fireworks + hide gate code
-  const gate = document.getElementById('gate');
-  if (gate) {
-    gate.classList.add('hide');
-    document.body.classList.remove('gated');
-    setTimeout(()=>{ try{ gate.remove(); }catch{} }, 500);
-  }
+    const fe = document.getElementById('fireEnter');
+    if (fe && window.fireworksOnCanvas) {
+      fe.style.opacity = '1';
+      fireworksOnCanvas('#fireEnter', 5000, true);
+      setTimeout(()=>{ fe.style.opacity = '0'; }, 5200);
+    }
+  } catch {}
 }
 
 
