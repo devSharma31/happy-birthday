@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Postcard + QR (for Shruti)</title>
+
+<!-- cute + readable fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800&family=Quicksand:wght@400;600;700&family=Satisfy&display=swap" rel="stylesheet">
+<!-- tiny QR lib -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+:root{
+  --bg1:#0c1022; --bg2:#14102e; --ink:#eaf2ff; --muted:#cdd5f9; --accent:#ff9ccc; --edge:rgba(255,255,255,.14);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--ink);
+  background:
+    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  font-family: Quicksand, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  display:grid; place-items:center; padding:24px;
+}
+.wrap{
+  width:min(980px,94vw);
+  border:1px solid var(--edge);
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  box-shadow:0 22px 48px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
+  padding:18px;
+}
+h1{
+  font-family: "Fraunces", serif;
+  margin:0 0 4px;
+  font-weight:800; letter-spacing:.2px;
+  background: linear-gradient(180deg, #e9edff 0%, #d9dfff 60%, #bfc8ff 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.small{color:var(--muted); margin:0 0 12px}
+.grid{
+  display:grid; gap:14px;
+  grid-template-columns: 1fr;
+}
+.panel{
+  display:grid; gap:10px;
+}
+label{font-size:13px; color:var(--muted)}
+input[type="text"], textarea, select{
+  width:100%; color:var(--ink);
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--edge);
+  border-radius:12px; padding:10px 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+textarea{min-height:96px; resize:vertical}
+.btns{display:flex; gap:10px; flex-wrap:wrap}
+button{
+  appearance:none; border:0; cursor:pointer; font-weight:800; letter-spacing:.2px;
+  color:#0c0f17; padding:12px 18px; border-radius:999px;
+  background:linear-gradient(90deg,var(--accent),#c9a7ff);
+  box-shadow:0 12px 24px rgba(0,0,0,.28);
+}
+button:active{transform:translateY(1px) scale(.99)}
+canvas{
+  width:100%; height:auto; display:block;
+  border-radius:16px; border:1px solid var(--edge);
+  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+}
+.hr{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent)}
+.note{font-size:12px; color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Postcard + QR</h1>
+    <p class="small">Make a postcard PNG you can send on Snapchat. Scanning opens your surprise page.</p>
+
+    <div class="grid">
+      <div class="panel">
+        <label>Message (handwritten on the card)</label>
+        <textarea id="msg">Today the world feels brighter, because it carries your light. Happy Birthday to the one who makes learning and living equally beautiful.</textarea>
+
+        <label>Footer (tiny line)</label>
+        <input id="footer" type="text" value="From Dev, with a silly grin and a lot of care 🤍"/>
+
+        <label>Link to open (QR target)</label>
+        <input id="url" type="text" value="https://devsharma31.github.io/happy-birthday/"/>
+
+        <label>Format</label>
+        <select id="fmt">
+          <option value="card">Landscape Card — 1200 × 720 (nice share)</option>
+          <option value="story">Vertical Story — 1080 × 1920 (Snap-friendly)</option>
+          <option value="square">Square — 1080 × 1080</option>
+        </select>
+
+        <div class="btns">
+          <button id="render">Generate / Refresh</button>
+          <button id="download">Download PNG</button>
+        </div>
+        <p class="note">Tip: tweak text, hit “Generate”, then “Download”.</p>
+      </div>
+
+      <div class="hr"></div>
+
+      <canvas id="card" width="1200" height="720" aria-label="Postcard preview"></canvas>
+    </div>
+
+    <!-- hidden QR render target -->
+    <div id="qrTmp" style="position:absolute;left:-9999px;top:-9999px"></div>
+  </div>
+
+<script>
+const $ = s => document.querySelector(s);
+
+const FONTS_READY = document.fonts ? document.fonts.ready : Promise.resolve();
+
+document.getElementById('render').addEventListener('click', draw);
+document.getElementById('download').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.href = $('#card').toDataURL('image/png');
+  a.download = 'Postcard-for-Shruti.png';
+  a.click();
+});
+
+window.addEventListener('load', async () => { await FONTS_READY; draw(); });
+
+function draw(){
+  const fmt = $('#fmt').value;
+  const message = $('#msg').value.trim();
+  const footer  = $('#footer').value.trim();
+  const url     = $('#url').value.trim();
+
+  // sizes
+  const cvs = $('#card');
+  if(fmt === 'story'){ cvs.width = 1080; cvs.height = 1920; }
+  else if(fmt === 'square'){ cvs.width = 1080; cvs.height = 1080; }
+  else { cvs.width = 1200; cvs.height = 720; } // card
+
+  const ctx = cvs.getContext('2d');
+  const W = cvs.width, H = cvs.height;
+
+  // bg
+  const g = ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#0c1022'); g.addColorStop(1,'#14102e');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+  // stars
+  ctx.fillStyle = 'rgba(255,255,255,.08)';
+  for(let i=0;i< (fmt==='story'?280:180); i++){
+    ctx.fillRect(Math.random()*W, Math.random()*H, 2, 2);
+  }
+
+  // frame
+  roundRect(ctx, 40, 40, W-80, H-80, 24, 'rgba(255,255,255,.06)', true, 'rgba(255,255,255,.14)');
+
+  // layout switch
+  if(fmt === 'story') drawStory(ctx, W, H, message, footer, url);
+  else if(fmt === 'square') drawSquare(ctx, W, H, message, footer, url);
+  else drawCard(ctx, W, H, message, footer, url); // landscape
+}
+
+/* ===== Layouts ===== */
+
+function drawCard(ctx, W, H, message, footer, url){
+  // title
+  ctx.fillStyle = '#ff9ccc';
+  ctx.font = '800 44px "Fraunces", serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('For Shruti — scan to open ✨', 80, 130);
+
+  // message (left)
+  ctx.fillStyle = '#e8edff';
+  ctx.font = '400 30px "Satisfy", "Caveat", cursive';
+  wrapText(ctx, message, 80, 200, 580, 42);
+
+  // footer
+  ctx.font = '600 18px "Quicksand", system-ui';
+  ctx.fillStyle = 'rgba(205,213,249,.9)';
+  ctx.fillText(footer, 80, H-80);
+
+  // QR panel (right)
+  const panelX = W-80-420, panelY = 160, panelW = 420, panelH = 420;
+  roundRect(ctx, panelX, panelY, panelW, panelH, 18, 'rgba(255,255,255,.10)', true, 'rgba(255,255,255,.18)');
+  drawQR(ctx, url, panelX + (panelW-360)/2, panelY + (panelH-360)/2, 360);
+
+  // url text
+  ctx.font = '600 18px "Quicksand", system-ui';
+  ctx.fillStyle = '#cdd5f9';
+  ctx.textAlign = 'center';
+  ctx.fillText(cleanUrl(url), panelX+panelW/2, panelY+panelH+30);
+}
+
+function drawStory(ctx, W, H, message, footer, url){
+  // title
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#ff9ccc';
+  ctx.font = '800 56px "Fraunces", serif';
+  ctx.fillText('Happy Birthday, Shruti ✨', W/2, 140);
+
+  // message (center block)
+  ctx.fillStyle = '#e8edff';
+  ctx.font = '400 44px "Satisfy", "Caveat", cursive';
+  wrapText(ctx, message, W/2 - 440, 260, 880, 56);
+
+  // QR (big, bottom)
+  const size = 720;
+  const qx = (W - size)/2, qy = H - size - 160;
+  roundRect(ctx, qx-24, qy-24, size+48, size+48, 22, 'rgba(255,255,255,.10)', true, 'rgba(255,255,255,.18)');
+  drawQR(ctx, url, qx, qy, size);
+
+  // footer + url
+  ctx.font = '600 26px "Quicksand", system-ui';
+  ctx.fillStyle = '#cdd5f9';
+  ctx.fillText(footer, W/2, H-80);
+  ctx.fillText(cleanUrl(url), W/2, H-44);
+}
+
+function drawSquare(ctx, W, H, message, footer, url){
+  // title
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#ff9ccc';
+  ctx.font = '800 42px "Fraunces", serif';
+  ctx.fillText('A small postcard for you', W/2, 110);
+
+  // message
+  ctx.fillStyle = '#e8edff';
+  ctx.font = '400 34px "Satisfy", "Caveat", cursive';
+  wrapText(ctx, message, 80, 170, W-160, 48);
+
+  // QR
+  const size = 560;
+  const qx = (W - size)/2, qy = H - size - 160;
+  roundRect(ctx, qx-18, qy-18, size+36, size+36, 18, 'rgba(255,255,255,.10)', true, 'rgba(255,255,255,.18)');
+  drawQR(ctx, url, qx, qy, size);
+
+  // footer + url
+  ctx.font = '600 20px "Quicksand", system-ui';
+  ctx.fillStyle = '#cdd5f9';
+  ctx.fillText(footer, W/2, H-80);
+  ctx.fillText(cleanUrl(url), W/2, H-48);
+}
+
+/* ===== Helpers ===== */
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+  ctx.textAlign = 'left';
+  const words = (text||'').split(' ');
+  let line = '';
+  for(let n=0;n<words.length;n++){
+    const test = line + words[n] + ' ';
+    if(ctx.measureText(test).width > maxWidth && n>0){
+      ctx.fillText(line, x, y);
+      line = words[n] + ' ';
+      y += lineHeight;
+    } else line = test;
+  }
+  ctx.fillText(line, x, y);
+}
+
+function roundRect(ctx, x, y, w, h, r, fill='#fff', doFill=true, stroke=null){
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y,   x+w, y+h, r);
+  ctx.arcTo(x+w, y+h, x,   y+h, r);
+  ctx.arcTo(x,   y+h, x,   y,   r);
+  ctx.arcTo(x,   y,   x+w, y,   r);
+  ctx.closePath();
+  if(doFill){ ctx.fillStyle = fill; ctx.fill(); }
+  if(stroke){ ctx.lineWidth=1; ctx.strokeStyle = stroke; ctx.stroke(); }
+}
+
+function drawQR(ctx, url, x, y, size){
+  const tmp = document.getElementById('qrTmp');
+  tmp.innerHTML = '';
+  const qr = new QRCode(tmp, {
+    text: url,
+    width: size,
+    height: size,
+    colorDark : "#0c0e1a",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.M
+  });
+  // Slight delay to let lib render
+  const node = tmp.querySelector('canvas') || tmp.querySelector('img');
+  if(node){
+    try{ ctx.drawImage(node, x, y, size, size); }catch(e){}
+  }else{
+    setTimeout(()=> {
+      const n2 = tmp.querySelector('canvas') || tmp.querySelector('img');
+      n2 && ctx.drawImage(n2, x, y, size, size);
+    }, 30);
+  }
+}
+
+function cleanUrl(u){ return u.replace(/^https?:\/\//,''); }
+</script>
+</body>
+</html>
