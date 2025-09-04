@@ -1,266 +1,177 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Postcard + QR (for Shruti)</title>
-
-<!-- cute + readable fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800&family=Quicksand:wght@400;600;700&family=Satisfy&display=swap" rel="stylesheet">
-<!-- tiny QR lib -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<style>
-:root{
-  --bg1:#0c1022; --bg2:#14102e; --ink:#eaf2ff; --muted:#cdd5f9; --accent:#ff9ccc; --edge:rgba(255,255,255,.14);
+/* ---------- QR helper (theme-aware) ---------- */
+function makeQRCanvas(text, size=260){
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  return new Promise((resolve,reject)=>{
+    // keep standard black QR on white for scan reliability
+    QRCode.toCanvas(
+      c, text || location.href,
+      { width:size, margin:1, errorCorrectionLevel:'Q', color:{ dark:'#111', light:'#fff' } },
+      err => err ? reject(err) : resolve(c)
+    );
+  });
 }
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; color:var(--ink);
-  background:
-    radial-gradient(900px 440px at 50% -12%, rgba(155,211,255,.14), transparent 60%),
-    linear-gradient(180deg,var(--bg1),var(--bg2));
-  font-family: Quicksand, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  display:grid; place-items:center; padding:24px;
+
+/* ---------- text helpers ---------- */
+function wrapLines(ctx, text, maxW){
+  const words = (text||'').split(/\s+/); const lines=[]; let line='';
+  for(let i=0;i<words.length;i++){
+    const test=line+words[i]+' ';
+    if(ctx.measureText(test).width>maxW && line){ lines.push(line.trim()); line=words[i]+' '; }
+    else line=test;
+  }
+  if(line) lines.push(line.trim());
+  return lines;
 }
-.wrap{
-  width:min(980px,94vw);
-  border:1px solid var(--edge);
-  border-radius:18px;
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  box-shadow:0 22px 48px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
-  padding:18px;
+
+/* ---------- stickers (cute but subtle) ---------- */
+function drawStickers(ctx, W, H, type){
+  ctx.save();
+  if(type==='hearts'){
+    const colors=['#ff9ac3','#ffd6e9','#fff0f6'];
+    for(let i=0;i<14;i++){
+      ctx.fillStyle = colors[i%colors.length];
+      const x = Math.random()*W, y = Math.random()*H*0.35 + 10;
+      ctx.globalAlpha = 0.18 + Math.random()*0.18;
+      ctx.beginPath();
+      ctx.moveTo(x,y);
+      ctx.arc(x-6,y,6,0,Math.PI,true);
+      ctx.arc(x+6,y,6,0,Math.PI,true);
+      ctx.lineTo(x,y+10); ctx.closePath(); ctx.fill();
+    }
+  } else if(type==='daisies'){
+    const petal = (x,y,r,c)=>{ ctx.fillStyle=c; for(let k=0;k<6;k++){ ctx.beginPath(); ctx.ellipse(x,y,r*0.55,r, k*Math.PI/3,0,Math.PI*2); ctx.fill(); } ctx.beginPath(); ctx.fillStyle='#ffd86e'; ctx.arc(x,y,r*0.35,0,Math.PI*2); ctx.fill(); };
+    for(let i=0;i<10;i++){ const x= 40+Math.random()*(W-80), y= 30+Math.random()*80; ctx.globalAlpha=.22; petal(x,y,8,['#fff','#fff','#fdfdfd'][i%3]); }
+  } else if(type==='ribbons'){
+    ctx.globalAlpha=.12; ctx.fillStyle='#b68b2e';
+    ctx.fillRect(32,24,120,10); ctx.fillRect(W-160,18,120,10);
+  } else if(type==='stars'){
+    const dots=160; ctx.globalAlpha=.2; ctx.fillStyle='#ffffff';
+    for(let i=0;i<dots;i++){ ctx.fillRect(Math.random()*W, Math.random()*H*0.5, 2, 2); }
+  }
+  ctx.restore();
 }
-h1{
-  font-family: "Fraunces", serif;
-  margin:0 0 4px;
-  font-weight:800; letter-spacing:.2px;
-  background: linear-gradient(180deg, #e9edff 0%, #d9dfff 60%, #bfc8ff 100%);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-}
-.small{color:var(--muted); margin:0 0 12px}
-.grid{
-  display:grid; gap:14px;
-  grid-template-columns: 1fr;
-}
-.panel{
-  display:grid; gap:10px;
-}
-label{font-size:13px; color:var(--muted)}
-input[type="text"], textarea, select{
-  width:100%; color:var(--ink);
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--edge);
-  border-radius:12px; padding:10px 12px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-}
-textarea{min-height:96px; resize:vertical}
-.btns{display:flex; gap:10px; flex-wrap:wrap}
-button{
-  appearance:none; border:0; cursor:pointer; font-weight:800; letter-spacing:.2px;
-  color:#0c0f17; padding:12px 18px; border-radius:999px;
-  background:linear-gradient(90deg,var(--accent),#c9a7ff);
-  box-shadow:0 12px 24px rgba(0,0,0,.28);
-}
-button:active{transform:translateY(1px) scale(.99)}
-canvas{
-  width:100%; height:auto; display:block;
-  border-radius:16px; border:1px solid var(--edge);
-  box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
-  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
-}
-.hr{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent)}
-.note{font-size:12px; color:var(--muted)}
-</style>
-</head>
-<body>
-  <div class="wrap">
-    <h1>Postcard + QR</h1>
-    <p class="small">Make a postcard PNG you can send on Snapchat. Scanning opens your surprise page.</p>
 
-    <div class="grid">
-      <div class="panel">
-        <label>Message (handwritten on the card)</label>
-        <textarea id="msg">Today the world feels brighter, because it carries your light. Happy Birthday to the one who makes learning and living equally beautiful.</textarea>
+/* ---------- main painter ---------- */
+async function drawPostcard(opts){
+  const {
+    themeKey='classic',
+    title='A little note for you',
+    message='',
+    url=location.href,
+    footer='',
+    fontMode='auto',
+    format='card'     // card | story | square
+  } = opts;
 
-        <label>Footer (tiny line)</label>
-        <input id="footer" type="text" value="From Dev, with a silly grin and a lot of care 🤍"/>
+  const theme = THEMES[themeKey] || THEMES.classic;
+  const canvas = document.getElementById('pcCanvas') || document.getElementById('card');
+  const ctx = canvas.getContext('2d');
 
-        <label>Link to open (QR target)</label>
-        <input id="url" type="text" value="https://devsharma31.github.io/happy-birthday/"/>
+  // Sizes
+  let W=1200, H=720;
+  if(format==='story'){ W=1080; H=1920; }
+  if(format==='square'){ W=1080; H=1080; }
+  canvas.width=W; canvas.height=H;
+  const k = W/1200;                       // scale factor
 
-        <label>Format</label>
-        <select id="fmt">
-          <option value="card">Landscape Card — 1200 × 720 (nice share)</option>
-          <option value="story">Vertical Story — 1080 × 1920 (Snap-friendly)</option>
-          <option value="square">Square — 1080 × 1080</option>
-        </select>
+  // Background gradient
+  const bg = ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0, theme.bgStops[0]); bg.addColorStop(1, theme.bgStops[1]);
+  ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
 
-        <div class="btns">
-          <button id="render">Generate / Refresh</button>
-          <button id="download">Download PNG</button>
-        </div>
-        <p class="note">Tip: tweak text, hit “Generate”, then “Download”.</p>
-      </div>
+  // Confetti/bokeh
+  theme.confetti.forEach(col=>{
+    ctx.fillStyle = col;
+    for(let i=0;i<60;i++){
+      const r = Math.random()*2 + 1;
+      ctx.globalAlpha = 0.12 + Math.random()*0.15;
+      ctx.beginPath();
+      ctx.arc(Math.random()*W, Math.random()*H, r, 0, Math.PI*2);
+      ctx.fill();
+    }
+  });
+  ctx.globalAlpha = 1;
 
-      <div class="hr"></div>
+  // Panel
+  const PAD = Math.round(40*k), R = Math.round(22*k), innerPadX = Math.round(26*k);
+  const panelX = PAD, panelY = PAD, panelW = W-PAD*2, panelH = H-PAD*2;
 
-      <canvas id="card" width="1200" height="720" aria-label="Postcard preview"></canvas>
-    </div>
+  // shadow
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,.28)'; ctx.shadowBlur = 36*k; ctx.shadowOffsetY = 12*k;
+  roundRect(ctx, panelX, panelY, panelW, panelH, R, true, false);
+  ctx.restore();
 
-    <!-- hidden QR render target -->
-    <div id="qrTmp" style="position:absolute;left:-9999px;top:-9999px"></div>
-  </div>
+  // actual fill + stroke
+  ctx.fillStyle = theme.panelBg;
+  roundRect(ctx, panelX, panelY, panelW, panelH, R, true, false);
+  ctx.strokeStyle = theme.panelStroke; ctx.lineWidth = Math.max(1,2*k);
+  roundRect(ctx, panelX, panelY, panelW, panelH, R, false, true);
 
-<script>
-const $ = s => document.querySelector(s);
+  // stickers floating in upper half
+  drawStickers(ctx, W, Math.min(panelH, H*0.55), theme.stickers);
 
-const FONTS_READY = document.fonts ? document.fonts.ready : Promise.resolve();
+  // Title (gradient fill)
+  const tg = ctx.createLinearGradient(panelX,0,panelX+panelW,0);
+  (theme.titleGrad||[theme.accent]).forEach((c,i,a)=> tg.addColorStop(i/(a.length-1||1), c));
+  ctx.fillStyle = tg;
+  ctx.textAlign='left'; ctx.textBaseline='top';
+  ctx.font = `800 ${Math.round(46*k)}px "Fraunces","Playfair Display",serif`;
+  ctx.fillText(title, panelX+innerPadX, panelY+Math.round(28*k));
 
-document.getElementById('render').addEventListener('click', draw);
-document.getElementById('download').addEventListener('click', () => {
-  const a = document.createElement('a');
-  a.href = $('#card').toDataURL('image/png');
-  a.download = 'Postcard-for-Shruti.png';
-  a.click();
-});
+  // divider line
+  ctx.strokeStyle = theme.accent; ctx.lineWidth = Math.max(1.5,2*k);
+  line(ctx, panelX+innerPadX, panelY+Math.round(82*k), panelX+panelW-innerPadX, panelY+Math.round(82*k));
 
-window.addEventListener('load', async () => { await FONTS_READY; draw(); });
+  // Message font selection
+  const mode = (fontMode==='auto') ? (theme.defaultFont||'clean') : fontMode;
+  let msgFont;
+  if(mode==='clean')   msgFont = `600 ${Math.round(28*k)}px "Quicksand","Poppins",system-ui`;
+  if(mode==='cursive') msgFont = `400 ${Math.round(36*k)}px "Pacifico","Satisfy",cursive`;
+  if(mode==='elegant') msgFont = `400 ${Math.round(40*k)}px "Great Vibes","Sacramento",cursive`;
 
-function draw(){
-  const fmt = $('#fmt').value;
-  const message = $('#msg').value.trim();
-  const footer  = $('#footer').value.trim();
-  const url     = $('#url').value.trim();
+  // Message block
+  ctx.fillStyle = theme.ink; ctx.font = msgFont; ctx.textAlign = 'left';
+  const textX = panelX+innerPadX;
+  const textTop = panelY+Math.round(110*k);
+  const textMax = panelW - innerPadX*2 - Math.round(320*k);
 
-  // sizes
-  const cvs = $('#card');
-  if(fmt === 'story'){ cvs.width = 1080; cvs.height = 1920; }
-  else if(fmt === 'square'){ cvs.width = 1080; cvs.height = 1080; }
-  else { cvs.width = 1200; cvs.height = 720; } // card
+  // soft heart glyph between text lines (cute, optional)
+  const lines = wrapLines(ctx, message, textMax);
+  let yy = textTop, lh = (mode==='clean'? 40*k : 46*k);
+  lines.forEach((l,i)=>{ ctx.fillText(l, textX, yy); yy += lh; });
 
-  const ctx = cvs.getContext('2d');
-  const W = cvs.width, H = cvs.height;
-
-  // bg
-  const g = ctx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,'#0c1022'); g.addColorStop(1,'#14102e');
-  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-
-  // stars
-  ctx.fillStyle = 'rgba(255,255,255,.08)';
-  for(let i=0;i< (fmt==='story'?280:180); i++){
-    ctx.fillRect(Math.random()*W, Math.random()*H, 2, 2);
+  // Footer anchored to bottom inside panel
+  if(footer){
+    ctx.fillStyle = theme.sub;
+    ctx.font = `600 ${Math.round(22*k)}px "Quicksand",sans-serif`;
+    const fLines = wrapLines(ctx, footer, panelW - innerPadX*2);
+    const fLH = Math.round(34*k);
+    const total = fLines.length * fLH;
+    let fy = panelY + panelH - innerPadX - total;
+    fLines.forEach(l => { ctx.fillText(l, panelX+innerPadX, fy); fy += fLH; });
   }
 
-  // frame
-  roundRect(ctx, 40, 40, W-80, H-80, 24, 'rgba(255,255,255,.06)', true, 'rgba(255,255,255,.14)');
+  // QR area (right)
+  const qr = await makeQRCanvas(url, Math.round(280*k));
+  const qrX = panelX + panelW - innerPadX - qr.width;
+  const qrY = panelY + Math.round(110*k);
 
-  // layout switch
-  if(fmt === 'story') drawStory(ctx, W, H, message, footer, url);
-  else if(fmt === 'square') drawSquare(ctx, W, H, message, footer, url);
-  else drawCard(ctx, W, H, message, footer, url); // landscape
-}
+  // QR white tile with rounded corners
+  ctx.fillStyle = '#fff';
+  roundRect(ctx, qrX-12, qrY-12, qr.width+24, qr.height+24, 12*k, true, false);
+  ctx.drawImage(qr, qrX, qrY);
 
-/* ===== Layouts ===== */
-
-function drawCard(ctx, W, H, message, footer, url){
-  // title
-  ctx.fillStyle = '#ff9ccc';
-  ctx.font = '800 44px "Fraunces", serif';
-  ctx.textAlign = 'left';
-  ctx.fillText('For Shruti — scan to open ✨', 80, 130);
-
-  // message (left)
-  ctx.fillStyle = '#e8edff';
-  ctx.font = '400 30px "Satisfy", "Caveat", cursive';
-  wrapText(ctx, message, 80, 200, 580, 42);
-
-  // footer
-  ctx.font = '600 18px "Quicksand", system-ui';
-  ctx.fillStyle = 'rgba(205,213,249,.9)';
-  ctx.fillText(footer, 80, H-80);
-
-  // QR panel (right)
-  const panelX = W-80-420, panelY = 160, panelW = 420, panelH = 420;
-  roundRect(ctx, panelX, panelY, panelW, panelH, 18, 'rgba(255,255,255,.10)', true, 'rgba(255,255,255,.18)');
-  drawQR(ctx, url, panelX + (panelW-360)/2, panelY + (panelH-360)/2, 360);
-
-  // url text
-  ctx.font = '600 18px "Quicksand", system-ui';
-  ctx.fillStyle = '#cdd5f9';
+  // QR caption
+  ctx.fillStyle = theme.sub;
+  ctx.font = `600 ${Math.round(18*k)}px "Quicksand",sans-serif`;
   ctx.textAlign = 'center';
-  ctx.fillText(cleanUrl(url), panelX+panelW/2, panelY+panelH+30);
+  ctx.fillText('Scan to open', qrX + qr.width/2, qrY + qr.height + Math.round(26*k));
 }
 
-function drawStory(ctx, W, H, message, footer, url){
-  // title
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#ff9ccc';
-  ctx.font = '800 56px "Fraunces", serif';
-  ctx.fillText('Happy Birthday, Shruti ✨', W/2, 140);
-
-  // message (center block)
-  ctx.fillStyle = '#e8edff';
-  ctx.font = '400 44px "Satisfy", "Caveat", cursive';
-  wrapText(ctx, message, W/2 - 440, 260, 880, 56);
-
-  // QR (big, bottom)
-  const size = 720;
-  const qx = (W - size)/2, qy = H - size - 160;
-  roundRect(ctx, qx-24, qy-24, size+48, size+48, 22, 'rgba(255,255,255,.10)', true, 'rgba(255,255,255,.18)');
-  drawQR(ctx, url, qx, qy, size);
-
-  // footer + url
-  ctx.font = '600 26px "Quicksand", system-ui';
-  ctx.fillStyle = '#cdd5f9';
-  ctx.fillText(footer, W/2, H-80);
-  ctx.fillText(cleanUrl(url), W/2, H-44);
-}
-
-function drawSquare(ctx, W, H, message, footer, url){
-  // title
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#ff9ccc';
-  ctx.font = '800 42px "Fraunces", serif';
-  ctx.fillText('A small postcard for you', W/2, 110);
-
-  // message
-  ctx.fillStyle = '#e8edff';
-  ctx.font = '400 34px "Satisfy", "Caveat", cursive';
-  wrapText(ctx, message, 80, 170, W-160, 48);
-
-  // QR
-  const size = 560;
-  const qx = (W - size)/2, qy = H - size - 160;
-  roundRect(ctx, qx-18, qy-18, size+36, size+36, 18, 'rgba(255,255,255,.10)', true, 'rgba(255,255,255,.18)');
-  drawQR(ctx, url, qx, qy, size);
-
-  // footer + url
-  ctx.font = '600 20px "Quicksand", system-ui';
-  ctx.fillStyle = '#cdd5f9';
-  ctx.fillText(footer, W/2, H-80);
-  ctx.fillText(cleanUrl(url), W/2, H-48);
-}
-
-/* ===== Helpers ===== */
-function wrapText(ctx, text, x, y, maxWidth, lineHeight){
-  ctx.textAlign = 'left';
-  const words = (text||'').split(' ');
-  let line = '';
-  for(let n=0;n<words.length;n++){
-    const test = line + words[n] + ' ';
-    if(ctx.measureText(test).width > maxWidth && n>0){
-      ctx.fillText(line, x, y);
-      line = words[n] + ' ';
-      y += lineHeight;
-    } else line = test;
-  }
-  ctx.fillText(line, x, y);
-}
-
-function roundRect(ctx, x, y, w, h, r, fill='#fff', doFill=true, stroke=null){
+/* ----- basic helpers ----- */
+function roundRect(ctx, x, y, w, h, r, fill, stroke){
+  if (w < 2 * r) r = w / 2; if (h < 2 * r) r = h / 2;
   ctx.beginPath();
   ctx.moveTo(x+r, y);
   ctx.arcTo(x+w, y,   x+w, y+h, r);
@@ -268,34 +179,29 @@ function roundRect(ctx, x, y, w, h, r, fill='#fff', doFill=true, stroke=null){
   ctx.arcTo(x,   y+h, x,   y,   r);
   ctx.arcTo(x,   y,   x+w, y,   r);
   ctx.closePath();
-  if(doFill){ ctx.fillStyle = fill; ctx.fill(); }
-  if(stroke){ ctx.lineWidth=1; ctx.strokeStyle = stroke; ctx.stroke(); }
+  if (fill) ctx.fill();
+  if (stroke) ctx.stroke();
 }
+function line(ctx, x1,y1,x2,y2){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); }
 
-function drawQR(ctx, url, x, y, size){
-  const tmp = document.getElementById('qrTmp');
-  tmp.innerHTML = '';
-  const qr = new QRCode(tmp, {
-    text: url,
-    width: size,
-    height: size,
-    colorDark : "#0c0e1a",
-    colorLight : "#ffffff",
-    correctLevel : QRCode.CorrectLevel.M
-  });
-  // Slight delay to let lib render
-  const node = tmp.querySelector('canvas') || tmp.querySelector('img');
-  if(node){
-    try{ ctx.drawImage(node, x, y, size, size); }catch(e){}
-  }else{
-    setTimeout(()=> {
-      const n2 = tmp.querySelector('canvas') || tmp.querySelector('img');
-      n2 && ctx.drawImage(n2, x, y, size, size);
-    }, 30);
-  }
+/* ---------- wire buttons ---------- */
+async function generatePostcard(){
+  const themeKey = (document.getElementById('pcTheme') || {}).value || 'classic';
+  const fontMode = (document.getElementById('pcFont')  || {}).value || 'auto';
+  const title    = (document.getElementById('title')   || {}).value || 'A little note for you';
+  const message  = (document.getElementById('msg')     || {}).value || '';
+  const url      = (document.getElementById('url')     || {}).value || location.href;
+  const footer   = (document.getElementById('footer')  || {}).value || '';
+  const format   = (document.getElementById('fmt')     || {}).value || 'card';
+
+  await drawPostcard({ themeKey, title, message, url, footer, fontMode, format });
 }
+function downloadPNG(){
+  const c = document.getElementById('pcCanvas') || document.getElementById('card');
+  const a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'postcard.png'; a.click();
+}
+(document.getElementById('render')   || document.getElementById('pcGenerate'))?.addEventListener('click', generatePostcard);
+(document.getElementById('download') || document.getElementById('pcDownload'))?.addEventListener('click', downloadPNG);
 
-function cleanUrl(u){ return u.replace(/^https?:\/\//,''); }
-</script>
-</body>
-</html>
+/* initial render */
+generatePostcard();
