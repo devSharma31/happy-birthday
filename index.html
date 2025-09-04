@@ -314,6 +314,11 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
   #final .paper{ transform: none !important; }
 }
 
+
+#ring{position:relative;width:100%;height:100%;transform-style:preserve-3d;animation:spin 22s linear infinite}
+#ring img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:36%;max-width:340px;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
+@keyframes spin{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+
 </style>
 </head>
 
@@ -472,6 +477,16 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
     </div>
   </div>
 </section>
+
+
+<!-- 3D Photo Ring overlay -->
+<div id="ring3d" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:90;align-items:center;justify-content:center">
+  <div id="ringWrap" style="width:min(900px,94vw);aspect-ratio:16/9;background:#000;border:1px solid rgba(255,255,255,.18);border-radius:14px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;perspective:1000px">
+    <div id="ring"></div>
+    <button id="closeRing" class="btn" style="position:absolute;right:10px;top:10px">✕</button>
+  </div>
+</div>
+
 
 <!-- 6) 3D Book with quill (right side only) -->
 <section class="section" id="lines">
@@ -748,6 +763,38 @@ const PHOTOS = USER_PHOTOS.map(src => ({ src }));
   // IMPORTANT: build stardust from the actual hero image (no remote CORS)
   hero.addEventListener('load', () => initStardust(hero.src), { once: true });
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const openBtn = document.getElementById('openRing3D');
+  const overlay = document.getElementById('ring3d');
+  const ringEl  = document.getElementById('ring');
+  const closeBtn= document.getElementById('closeRing');
+
+  function openRing(){
+    if(!ringEl) return;
+    ringEl.innerHTML = '';
+
+    const list = (typeof PHOTOS !== 'undefined' && PHOTOS.length) ? PHOTOS : [{src: document.getElementById('hero').src}];
+    const n = list.length;
+    const radius = Math.min(420, Math.max(260, (ringEl.clientWidth || 900) * 0.42)); // responsive depth
+
+    list.forEach((p,i)=>{
+      const img = new Image();
+      img.src = p.src; img.alt = `her ${i+1}`;
+      const angle = 360/n * i;
+      img.style.transform = `translate(-50%,-50%) rotateY(${angle}deg) translateZ(${radius}px)`;
+      ringEl.appendChild(img);
+    });
+
+    overlay.style.display = 'flex';
+  }
+
+  function closeRing(){ overlay.style.display = 'none'; }
+
+  openBtn && openBtn.addEventListener('click', openRing);
+  closeBtn && closeBtn.addEventListener('click', closeRing);
+  overlay && overlay.addEventListener('click', (e)=>{ if(e.target.id==='ring3d') closeRing(); });
+});
 
 function openLB(src) { document.getElementById('lbImg').src = src; document.getElementById('lb').style.display = 'flex'; }
 function closeLB() { document.getElementById('lb').style.display = 'none'; }
