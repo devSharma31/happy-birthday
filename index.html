@@ -615,6 +615,55 @@ body.blush-lite .stars {
   .gift3d.open .cover3d{ transition:none }
 }
 
+
+/* === Teacher’s Day theme + chalk writing === */
+body.teachers{
+  --bg1:#0f1b14; --bg2:#0a1410;        /* chalkboard dark green */
+  --accent:#ffd166;                     /* warm chalk yellow */
+  --ink:#f4ffe9; --muted:#e0f6d2; --petal:#eaffea;
+}
+
+.badge-teacher{
+  margin-left:.5rem; padding:.15rem .5rem; border-radius:999px;
+  font-size:12px; color:#0f1b14; background:#ffd166;
+  box-shadow:0 8px 18px rgba(0,0,0,.22);
+}
+
+/* Book pages feel like chalkboard when teachers mode is on */
+body.teachers #lines .pageInner{
+  background:
+    radial-gradient(120% 180% at 20% -20%, rgba(255,255,255,.08), transparent 45%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 14px),
+    linear-gradient(180deg, #11241a, #0b1a13);
+  border-color: rgba(255,255,255,.14);
+}
+
+/* Handwritten feel for the book quotes (keeps your loaded fonts) */
+#lines .quote{
+  font-family: "Caveat", "Satisfy", cursive;
+  font-size: clamp(22px, 5.2vw, 26px);
+  letter-spacing:.15px;
+}
+
+/* pen + tiny chalk sparks while writing */
+.pen{
+  position:absolute; font-size:22px; line-height:1;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.35));
+  transform: translate(0,0);
+  transition: transform .08s linear;
+}
+.spark{
+  position:absolute; font-size:10px; line-height:1; opacity:0; pointer-events:none;
+  animation: spark .5s ease forwards;
+}
+@keyframes spark{
+  from{opacity:1; transform:scale(.6)}
+  to{opacity:0; transform:scale(1.6) translateY(-6px)}
+}
+.ch{ white-space:pre; }  /* keep spaces/newlines while writing */
+
+
 /* === 3D Book Card (no layout shift) === */
 #lines .bookStage{
   --bookW: min(92vw, 560px);
@@ -1118,6 +1167,20 @@ function setMood(m){
 }
 (function initMood(){ setMood(localStorage.getItem('mood')||'rose'); })();
 
+
+// --- Teacher’s Day mode (auto on 5 Sep, or ?teacher=1) ---
+(function teacherMode(){
+  const url = new URL(location.href);
+  const force = url.searchParams.get('teacher') === '1';
+  const today = new Date();
+  const isTeachersDay = (today.getMonth()===8 && today.getDate()===5); // 5 Sept
+  if (force || isTeachersDay) {
+    document.body.classList.add('teachers');
+    document.getElementById('tdBadge')?.removeAttribute('hidden');
+  }
+})();
+
+
 /* ---------- petals ---------- */
 (function petals(){
   const wrap = $('#petals');
@@ -1267,6 +1330,11 @@ const greetingCards = [
     text: 'Every route clear, timing right, people kind. Text back is optional — arriving safe is the only update I might need.'
   }
 ];
+
+greetingCards.unshift({
+  title: 'For the Teacher in You 🍎',
+  text: 'Guiding without grabbing the mic—classy. May your patience multiply, your wins stack up, and your silly guard (me) keep the corridor clear.'
+});
 
 (function buildCards(){
   const wrap=$('#cardsWrap');
@@ -1543,7 +1611,7 @@ function writeWithFeather(targetP, text, opts={duration:2600}){
     // Initial text
     let idx=0, opened=false, turning=false;
     leftTxt.textContent  = "";
-    rightTxt.textContent = LINES[0];
+chalkWrite(rightTxt, LINES[0]);   // handwriting instead of instant text
 
     function flowerShower(){
       const emojis = ['🌸','🌼','💮','🌷','💐'];
@@ -1603,13 +1671,9 @@ function writeWithFeather(targetP, text, opts={duration:2600}){
       flip.addEventListener('animationend', ()=>{
   // the right page we just read becomes the static left page
   leftTxt.textContent = LINES[idx];
-  leftTxt.classList.add('hand');
-
-  // advance and write the new right page with the feather
-  idx = (idx+1) % LINES.length;
-  rightTxt.textContent = LINES[idx];
-  setDots(idx);
-  writeWithFeather(rightTxt, LINES[idx], {duration: 2400});
+idx = (idx+1) % LINES.length;
+chalkWrite(rightTxt, LINES[idx]);  // write next line with moving pen
+setDots(idx);
 
   flip.classList.remove('animating','show');
   turning=false;
@@ -1624,6 +1688,48 @@ function writeWithFeather(targetP, text, opts={duration:2600}){
   }
 })();
 
+
+// --- Chalk writing effect: types text and moves a pen to the last glyph ---
+function chalkWrite(targetEl, text, speed=22){
+  if(!targetEl) return;
+  targetEl.style.position = 'relative';
+  targetEl.innerHTML = '';                     // clear previous
+  const pen = document.createElement('span');  // the writing pen/feather
+  pen.className = 'pen';
+  pen.textContent = '🪶';
+  targetEl.appendChild(pen);
+
+  let i = 0;
+  function step(){
+    if(i > text.length){
+      pen.remove();
+      return;
+    }
+    const span = document.createElement('span');
+    span.className = 'ch';
+    span.textContent = text.charAt(i++) || '';
+    targetEl.appendChild(span);
+
+    // move pen to the last character
+    const box = targetEl.getBoundingClientRect();
+    const r   = span.getBoundingClientRect();
+    const x   = r.left - box.left;
+    const y   = r.top  - box.top;
+    pen.style.transform = `translate(${x}px, ${y}px)`;
+
+    // tiny chalk spark near the tip
+    const s = document.createElement('span');
+    s.className = 'spark';
+    s.textContent = '✧';
+    s.style.left = x + 'px';
+    s.style.top  = y + 'px';
+    targetEl.appendChild(s);
+    setTimeout(()=> s.remove(), 480);
+
+    setTimeout(step, speed);
+  }
+  step();
+}
 
 
 /* ---------- fireworks (final + entry burst) ---------- */
@@ -1642,7 +1748,7 @@ const fwIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting &&
 fwIO.observe($('#final'));
 
 /* ---------- gift rain ---------- */
-$('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibrate(14);}catch{} const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔','🧿','🌼'];
+$('#gift').addEventListener('click',()=>{ try{navigator.vibrate&&navigator.vibrate(14);}catch{} const const icons=['🧸','🍫','💗','💞','✨','🌸','🍬','🪔','🧿','🌼','🍎','📚','✏️','🧑‍🏫'];
   const D=5200,t0=performance.now(); (function drop(){ if(performance.now()-t0>D) return; const s=document.createElement('span'); s.textContent=icons[Math.floor(Math.random()*icons.length)];
     s.style.position='fixed'; s.style.top='-40px'; s.style.left=(Math.random()*innerWidth)+'px'; s.style.fontSize='32px'; s.style.zIndex='60'; document.body.appendChild(s);
     const drift=(Math.random()*2-1)*80,time=2400+Math.random()*1800; s.animate([{transform:'translate(0,-40px)',opacity:.95},{transform:`translate(${drift}px, ${innerHeight+60}px)`,opacity:.1}],{duration:time,easing:'ease-in'});
