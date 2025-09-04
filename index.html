@@ -675,98 +675,156 @@ new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&spawnBalloons()),{t
 const greetingCards=[{title:'Nazar Na Lage 🧿',text:'May jealous eyes just slide off from you. May Kanhaji holds the roof, I’ll hold the door. Walk light, consider yourself covered.'},{title:'Food + Calm ☕️',text:'Morning breakfast or midnight munchings — whatever you crave, I’ll sort it. Ask if you want, or don’t; I’ll read the vibe.'},{title:'Calendar Bless 📅',text:'Gentler Mondays, kinder deadlines, and random mid-week pauses. May meetings end early and kids trouble you less in school.'},{title:'Inbox of Joy 📫',text:'More “good news” pings, fewer “urgent” ones. Spam blocked (except me haha), hope delivered. DMs get sunshine, not noise.'},{title:'Health & Glow ✨',text:'Good Exercise, Deep sleep, easy breath, steady energy. May your body feel like home and your face keep that soft glow forever.'},{title:'Safe Roads 🚦',text:'Every route clear, timing right, people kind. Text back is optional — arriving safe is the only update I might need.'}];
 (function buildCards(){ const wrap=$('#cardsWrap'); greetingCards.forEach(c=>{ const card=document.createElement('article'); card.className='flip-card'; card.innerHTML=`<div class="flip-inner"><div class="face front"><h3>${c.title}</h3><p class="muted">Tap to open</p></div><div class="face back"><p>${c.text}</p><div class="openHint">Tap to close</div></div></div>`; card.addEventListener('click',()=>{ card.classList.toggle('open'); playChime(); }); wrap.appendChild(card); }); })();
 
-/* =============== Spotlight photos (demo placeholder) =============== */
-const PHOTOS=[]; // add your images later
-(function gallery(){
-  const hero=$('#hero'), grid=$('#polaroids');
-  if(PHOTOS.length===0){
-    hero.src='https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1600&q=80&auto=format&fit=crop';
-    grid.innerHTML='<div class="muted" style="grid-column:1/-1;text-align:center">Add her photos in <code>PHOTOS</code> later.</div>';
-  } else {
-    let cur=0; hero.src=PHOTOS[0].src;
-    PHOTOS.forEach((p,i)=>{ const d=document.createElement('div'); d.className='pol'; d.style.setProperty('--r',(Math.random()*6-3)+'deg'); d.innerHTML=`<img src="${p.src}" alt="her ${i+1}">`; d.addEventListener('click',()=>{ cur=i; hero.src=p.src; $$('.pol').forEach(x=>x.classList.remove('active')); d.classList.add('active'); }); let drag=false,sx=0,sy=0; d.addEventListener('pointerdown',e=>{drag=true; d.setPointerCapture(e.pointerId); sx=e.clientX; sy=e.clientY; d.style.transition='none';}); d.addEventListener('pointermove',e=>{ if(!drag) return; const dx=e.clientX-sx,dy=e.clientY-sy; d.style.transform=`translate(${dx}px,${dy}px) rotate(var(--r))`; }); d.addEventListener('pointerup',()=>{drag=false; d.style.transition='transform .18s'; d.style.transform='rotate(var(--r))';}); d.addEventListener('dblclick',()=>openLB(p.src)); grid.appendChild(d); });
-    hero.addEventListener('click',()=>openLB(PHOTOS[cur]?.src||hero.src));
+/* =============== Spotlight photos (your uploads) =============== */
+/* EDIT HERE: list your image files exactly as they are in /public/images */
+const USER_PHOTOS = [
+  // e.g. 'public/images/madamji1.jpg',
+  //      'public/images/madamji2.jpg',
+  //      'public/images/madamji3.jpg',
+          'public/images/madamji4.jpg',
+          'public/images/madamji4.jpg',
+];
+
+/* Build PHOTOS object array from your list */
+const PHOTOS = USER_PHOTOS.map(src => ({ src }));
+
+(function gallery () {
+  const hero = document.getElementById('hero');
+  const grid = document.getElementById('polaroids');
+
+  // nothing uploaded yet?
+  if (PHOTOS.length === 0) {
+    // keep your current local hero src or a tiny message
+    // (you can set a default local placeholder if you like)
+    grid.innerHTML = `
+      <div class="muted" style="grid-column:1/-1;text-align:center">
+        Upload photos to <code>public/images/</code> and list them in <code>USER_PHOTOS</code> above.
+      </div>`;
+    // initialize stardust using whatever hero currently has
+    initStardust(hero.getAttribute('src'));
+    return;
   }
 
-  initStardust('https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1600&q=80&auto=format&fit=crop');
-})();
-function openLB(src){ $('#lbImg').src=src; $('#lb').style.display='flex'; }
-function closeLB(){ $('#lb').style.display='none'; }
+  // set hero to your first photo and build grid
+  let cur = 0;
+  hero.src = PHOTOS[0].src;
 
-function initStardust(src){
-  const cvs = $('#stardust'); if(!cvs) return;
-  const hero = cvs.parentElement;
-  function size(){ cvs.width = hero.clientWidth; cvs.height = hero.clientHeight; }
+  grid.innerHTML = ''; // clear any placeholder
+  PHOTOS.forEach((p, i) => {
+    const d = document.createElement('div');
+    d.className = 'pol';
+    d.style.setProperty('--r', (Math.random() * 6 - 3) + 'deg');
+    d.innerHTML = `<img src="${p.src}" alt="her ${i + 1}">`;
+
+    d.addEventListener('click', () => {
+      cur = i;
+      hero.src = p.src;
+      document.querySelectorAll('.pol').forEach(x => x.classList.remove('active'));
+      d.classList.add('active');
+    });
+
+    // small drag play
+    let drag = false, sx = 0, sy = 0;
+    d.addEventListener('pointerdown', e => {
+      drag = true; d.setPointerCapture(e.pointerId);
+      sx = e.clientX; sy = e.clientY; d.style.transition = 'none';
+    });
+    d.addEventListener('pointermove', e => {
+      if (!drag) return;
+      const dx = e.clientX - sx, dy = e.clientY - sy;
+      d.style.transform = `translate(${dx}px,${dy}px) rotate(var(--r))`;
+    });
+    d.addEventListener('pointerup', () => {
+      drag = false; d.style.transition = 'transform .18s';
+      d.style.transform = 'rotate(var(--r))';
+    });
+
+    d.addEventListener('dblclick', () => openLB(p.src));
+    grid.appendChild(d);
+  });
+
+  hero.addEventListener('click', () => openLB(PHOTOS[cur]?.src || hero.src));
+
+  // IMPORTANT: build stardust from the actual hero image (no remote CORS)
+  hero.addEventListener('load', () => initStardust(hero.src), { once: true });
+})();
+
+function openLB(src) { document.getElementById('lbImg').src = src; document.getElementById('lb').style.display = 'flex'; }
+function closeLB() { document.getElementById('lb').style.display = 'none'; }
+
+/* =============== Stardust uses your local hero image =============== */
+function initStardust(src) {
+  const cvs = document.getElementById('stardust'); if (!cvs) return;
+  const heroWrap = cvs.parentElement;
+
+  function size() {
+    cvs.width = heroWrap.clientWidth;
+    cvs.height = heroWrap.clientHeight;
+  }
   size(); addEventListener('resize', size);
 
   const ctx = cvs.getContext('2d');
-  const img = new Image(); img.src = src; img.crossOrigin = 'anonymous';
+  const img = new Image();
+  img.src = src; // local same-origin path (no crossOrigin needed)
+
   img.onload = () => {
-    // draw faint base image for clarity
-    const scale = Math.min(cvs.width/img.width, cvs.height/img.height);
-    const w = img.width*scale, h = img.height*scale;
-    const x = (cvs.width - w)/2, y = (cvs.height - h)/2;
+    const scale = Math.min(cvs.width / img.width, cvs.height / img.height);
+    const w = img.width * scale, h = img.height * scale;
+    const x = (cvs.width - w) / 2, y = (cvs.height - h) / 2;
 
-    // sample points
-    const off = document.createElement('canvas'); off.width = w; off.height = h; const octx = off.getContext('2d');
-    octx.drawImage(img, 0, 0, w, h);
-    const data = octx.getImageData(0,0,w,h).data;
+    const off = document.createElement('canvas'); off.width = w; off.height = h;
+    const octx = off.getContext('2d'); octx.drawImage(img, 0, 0, w, h);
+    const data = octx.getImageData(0, 0, w, h).data;
 
-    const pts=[];
-    const step = Math.max(2, Math.floor(w/240)); // density
-    for(let yy=0; yy<h; yy+=step){
-      for(let xx=0; xx<w; xx+=step){
-        const i = ((yy|0)*w + (xx|0))*4;
-        const a = data[i+3];
-        if(a>130){ // visible
-          pts.push({
-            x: Math.random()*cvs.width, y: Math.random()*cvs.height,
-            tx: x+xx, ty: y+yy,
-            life: 0
-          });
-        }
+    const pts = [];
+    const step = Math.max(2, Math.floor(w / 240)); // density
+    for (let yy = 0; yy < h; yy += step) {
+      for (let xx = 0; xx < w; xx += step) {
+        const i = ((yy | 0) * w + (xx | 0)) * 4;
+        const a = data[i + 3];
+        if (a > 130) pts.push({
+          x: Math.random() * cvs.width, y: Math.random() * cvs.height,
+          tx: x + xx, ty: y + yy, life: 0
+        });
       }
     }
 
-    let t0=null;
-    function frame(t){
-      if(!t0) t0=t;
-      const k = Math.min(1,(t-t0)/1600); // ease-in
-      ctx.clearRect(0,0,cvs.width,cvs.height);
+    let t0 = null;
+    function frame(t) {
+      if (!t0) t0 = t;
+      ctx.clearRect(0, 0, cvs.width, cvs.height);
 
-      // base faint image
+      // faint base image
       ctx.globalAlpha = 0.18;
       ctx.drawImage(img, x, y, w, h);
       ctx.globalAlpha = 1;
 
-      for(const p of pts){
-        p.x += (p.tx-p.x)*0.08;
-        p.y += (p.ty-p.y)*0.08;
-        // soft glow
+      for (const p of pts) {
+        p.x += (p.tx - p.x) * 0.08;
+        p.y += (p.ty - p.y) * 0.08;
         ctx.fillStyle = 'rgba(255,220,240,.9)';
         ctx.fillRect(p.x, p.y, 2, 2);
       }
-      if(k<1) requestAnimationFrame(frame);
+      if ((t - t0) < 1600) requestAnimationFrame(frame);
       else shimmer();
     }
     requestAnimationFrame(frame);
 
-    function shimmer(){
-      // gentle micro-move
-      let t=0;
-      (function loop(){
-        ctx.clearRect(0,0,cvs.width,cvs.height);
+    function shimmer() {
+      let t = 0;
+      (function loop() {
+        ctx.clearRect(0, 0, cvs.width, cvs.height);
         ctx.globalAlpha = 0.18;
         ctx.drawImage(img, x, y, w, h);
         ctx.globalAlpha = 1;
 
-        for(const p of pts){
-          const nx = Math.sin((p.tx+p.ty+t)*0.002)*0.6;
-          const ny = Math.cos((p.tx-p.ty-t)*0.002)*0.6;
+        for (const p of pts) {
+          const nx = Math.sin((p.tx + p.ty + t) * 0.002) * 0.6;
+          const ny = Math.cos((p.tx - p.ty - t) * 0.002) * 0.6;
           ctx.fillStyle = 'rgba(255,210,230,.95)';
-          ctx.fillRect(p.tx+nx, p.ty+ny, 2, 2);
+          ctx.fillRect(p.tx + nx, p.ty + ny, 2, 2);
         }
-        t+=1.2;
+        t += 1.2;
         requestAnimationFrame(loop);
       })();
     }
