@@ -349,81 +349,69 @@ body.gated { overflow:hidden; overscroll-behavior:contain; touch-action:none; }
 </div>
 
 <script>
-/* Final, click-safe audio start with cache-bust + hard diagnostics */
-const MUSIC_SRC = 'public/audio/zara_sa.mp3?v=5';  // <-- your file (v=5 busts cache)
+/* ---- Audio helpers (single source of truth) ---- */
+const MUSIC_PATH = 'public/audio/zara_sa.mp3';
 
-function log(...args){ try{ console.log('[AUDIO]', ...args); }catch{} }
-
-async function startSongNow() {
+async function playBgSongFadeIn(forceReload=true){
   const a = document.getElementById('bgSong');
-  if (!a) { alert('Audio tag #bgSong missing'); return; }
+  if (!a) return;
 
-  // Force fresh source each time to avoid stale cache
-  if (a.src.indexOf('zara_sa.mp3') === -1 || !a.src.includes('v=5')) {
-    a.src = MUSIC_SRC;
-    a.load();
+  // Always make sure correct src is set; add cache-buster to avoid stale buffer
+  if (forceReload) {
+    const ver = 'v=' + Date.now(); // fresh each tap
+    const url = MUSIC_PATH + (MUSIC_PATH.includes('?') ? '&' : '?') + ver;
+    // update both <audio> and <source> for stubborn browsers
+    const srcEl = a.querySelector('source');
+    if (srcEl) srcEl.setAttribute('src', url);
+    a.setAttribute('src', url);
+    try { a.load(); } catch {}
   }
 
   a.muted = false;
   a.volume = 0.0;
 
-  // Try to play immediately inside the user gesture tick
-  try {
-    await a.play();
-    log('play() resolved');
-  } catch (err) {
-    log('play() blocked', err);
-    // Show manual fallback button
-    const pf = document.getElementById('playFallback');
-    if (pf) pf.style.display = 'inline-block';
-    throw err;
-  }
+  // Try to play inside user gesture
+  await a.play().catch(() => { /* if blocked, a fallback button could be shown */ });
 
-  // Smooth fade-in to target vol
+  // Smooth fade-in
   let v = 0, target = 0.85, step = 0.05;
-  const id = setInterval(() => {
+  const id = setInterval(()=>{
     v += step;
     a.volume = Math.min(target, v);
     if (v >= target) clearInterval(id);
   }, 80);
 }
 
-function resumeAudio(){
-  const a = document.getElementById('bgSong');
-  if (!a) return;
-  a.muted = false;
-  a.play().then(()=>{
-    document.getElementById('playFallback').style.display = 'none';
-  }).catch(err=>{
-    alert('Please tap the ▶️ button again to allow audio.');
-    console.warn(err);
-  });
+/* Optional: global pause helper (if you use any toggle elsewhere) */
+function pauseBgSongFadeOut(){
+  const a = document.getElementById('bgSong'); if (!a) return;
+  let v = a.volume, step = 0.05;
+  const id = setInterval(()=>{
+    v -= step;
+    a.volume = Math.max(0, v);
+    if (v <= 0) { clearInterval(id); try{ a.pause(); }catch{} }
+  }, 70);
 }
 
-/* KILL any other audio elements just in case */
-function stopOthers(){
-  document.querySelectorAll('audio').forEach(x=>{
-    if (x.id !== 'bgSong') {
-      try { x.pause(); } catch {}
-      x.removeAttribute('src');
-      try { x.load(); } catch {}
-    }
-  });
-}
-
-/* Simple, robust enter handler */
+/* ---- FINAL enterGate: music -> balloons -> fireworks -> hide ---- */
 let __enteredGate = false;
-async function enterGate(){
+async function enterGate(ev){
+  try { ev && ev.preventDefault && ev.preventDefault(); } catch {}
   if (__enteredGate) return;
   __enteredGate = true;
 
-  // 🎵 audio start
-  try { await playBgSongFadeIn(); } catch {}
+  // 1) Make sure no other <audio> interferes
+  document.querySelectorAll('audio').forEach(x=>{
+    if (x.id !== 'bgSong'){ try{ x.pause(); }catch{} x.removeAttribute('src'); try{ x.load(); }catch{} }
+  });
 
-  // 🎈 balloons start
+  // 2) Start your MP3 (force reload to beat any stale state)
+  try { await playBgSongFadeIn(true); } catch {}
+
+  // 3) Start balloons (safe if already started)
   try { window.startBalloons && window.startBalloons(); } catch {}
 
-  // ✨ fireworks
+  // 4) Fireworks (if present)
   try {
     const fe = document.getElementById('fireEnter');
     if (fe) {
@@ -433,14 +421,15 @@ async function enterGate(){
     }
   } catch {}
 
-  // 🚪 hide gate
+  // 5) Hide/remove gate
   const gate = document.getElementById('gate');
   if (gate) {
     gate.classList.add('hide');
     document.body.classList.remove('gated');
-    setTimeout(()=>{ try{ gate.remove(); }catch{} }, 500);
+    setTimeout(()=>{ try{ gate.remove(); }catch{} }, 450);
   }
 }
+window.enterGate = enterGate;  // ensure global for inline onclick
 </script>
   
    
