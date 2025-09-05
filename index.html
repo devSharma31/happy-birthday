@@ -413,23 +413,34 @@ function stopOthers(){
 
 /* Simple, robust enter handler */
 let __enteredGate = false;
-async function enterGate(ev){
-  try { ev && ev.preventDefault && ev.preventDefault(); } catch {}
+async function enterGate(){
   if (__enteredGate) return;
   __enteredGate = true;
 
-  stopOthers();          // no flute, no duplicates
-  await startSongNow();  // start your MP3 (or show fallback button)
+  // 🎵 audio start
+  try { await playBgSongFadeIn(); } catch {}
 
-  // Hide gate
+  // 🎈 balloons start
+  try { window.startBalloons && window.startBalloons(); } catch {}
+
+  // ✨ fireworks
+  try {
+    const fe = document.getElementById('fireEnter');
+    if (fe) {
+      fe.style.opacity = '1';
+      window.fireworksOnCanvas && fireworksOnCanvas('#fireEnter', 5000, true);
+      setTimeout(()=>{ fe.style.opacity = '0'; }, 5200);
+    }
+  } catch {}
+
+  // 🚪 hide gate
   const gate = document.getElementById('gate');
-  if (gate){
+  if (gate) {
     gate.classList.add('hide');
     document.body.classList.remove('gated');
-    setTimeout(()=>{ try{ gate.remove(); }catch{} }, 400);
+    setTimeout(()=>{ try{ gate.remove(); }catch{} }, 500);
   }
 }
-window.enterGate = enterGate; // ensure global for onclick
 </script>
   
    
@@ -716,14 +727,95 @@ function typeAssure(){ const el=$('#assureLine'); el.textContent=''; let i=0; co
 })();
 
 /* =============== Blessings =============== */
-const blessings=[{word:'Peace',color:'#ff9ccc',msg:'Let the noise fall away. May your nights be soft, your mornings unhurried, and your mind find its quiet corner.'},{word:'Courage',color:'#9bd3ff',msg:'When it feels heavy, text or don’t—either way I’m in your corner. Tiny steps still count; we’ll move the day gently.'},{word:'Trust',color:'#c9a7ff',msg:'No speeches, no drama—just showing up the same way, every day. You can lean on that rhythm whenever you want.'},{word:'Joy',color:'#7ee6c9',msg:'More random giggles, more little wins, more songs stuck in your head. If the day is dull, I’ll add color, not pressure.'},{word:'Health',color:'#ffd86e',msg:'Deep sleep, easy breath, light body. May your energy refill quietly and stay with you longer than deadlines do.'},{word:'Grace',color:'#ffb6a3',msg:'A soft shield around you and doors opening at the right time. May kindness follow you home and stay forever.'}];
-let balloonsInit=false;
-function spawnBalloons(){ if(balloonsInit) return; balloonsInit=true; const area=$('#balloonArea'); const cols=[8,24,40,56,72,88];
-  blessings.forEach((b,i)=>{ const d=document.createElement('button'); d.className='balloon'; d.style.setProperty('--c',b.color); d.style.setProperty('--x', cols[i%cols.length]); d.style.setProperty('--delay', i*3); d.innerHTML=`<span>${b.word}</span>`; d.addEventListener('click',()=>{ popBlessing(d,b); },{passive:true}); area.appendChild(d); });}
-function popBlessing(el,b){ try{navigator.vibrate&&navigator.vibrate(12);}catch{} el.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],{duration:260,easing:'ease-in'}); setTimeout(()=>el.remove(),220); playChime(); showModal(b.word,b.msg); }
-function showModal(title,msg){ $('#modalTitle').textContent=title; $('#modalMsg').textContent=msg; $('#modal').classList.add('show'); }
-$('#modal').addEventListener('click',(e)=>{ if(e.target.id==='modal'||e.target.id==='modalClose') $('#modal').classList.remove('show'); });
-new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&spawnBalloons()),{threshold:.4}).observe($('#blessings'));
+(function(){
+  // Edit your lines here
+  const BLESSINGS = [
+    {word:'Peace',  color:'#ff9ccc', msg:'Let the noise fall away. May your nights be soft, your mornings unhurried, and your mind find its quiet corner.'},
+    {word:'Courage',color:'#9bd3ff', msg:'When it feels heavy, text or don’t—either way I’m in your corner. Tiny steps still count; we’ll move the day gently.'},
+    {word:'Trust',  color:'#c9a7ff', msg:'No speeches, no drama—just showing up the same way, every day. You can lean on that rhythm whenever you want.'},
+    {word:'Joy',    color:'#7ee6c9', msg:'More random giggles, more little wins, more songs stuck in your head. If the day is dull, I’ll add color, not pressure.'},
+    {word:'Health', color:'#ffd86e', msg:'Deep sleep, easy breath, light body. May your energy refill quietly and stay with you longer than deadlines do.'},
+    {word:'Grace',  color:'#ffb6a3', msg:'A soft shield around you and doors opening at the right time. May kindness follow you home and stay forever.'}
+  ];
+
+  let balloonsInit = false;
+  function spawnBalloons(){
+    if (balloonsInit) return;
+    const area = document.getElementById('balloonArea');
+    if (!area) return;
+    balloonsInit = true;
+
+    const cols = [8,24,40,56,72,88];
+    BLESSINGS.forEach((b,i)=>{
+      const d = document.createElement('button');
+      d.className = 'balloon';
+      d.style.setProperty('--c', b.color);
+      d.style.setProperty('--x', cols[i % cols.length]);
+      d.style.setProperty('--delay', i * 3);
+      d.innerHTML = `<span>${b.word}</span>`;
+
+      d.addEventListener('click', ()=>{
+        // tiny pop
+        d.animate(
+          [{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(0)'}],
+          {duration:260,easing:'ease-in'}
+        );
+        setTimeout(()=>{ try{ d.remove(); }catch{} }, 220);
+        showModal(b.word, b.msg);
+        // optional chime if you kept it:
+        try{ if (typeof window.playChime === 'function') window.playChime(); }catch{}
+      }, {passive:true});
+
+      area.appendChild(d);
+    });
+  }
+
+  function showModal(title, msg){
+    const modal = document.getElementById('modal');
+    if (!modal) return;
+    const mt = document.getElementById('modalTitle');
+    const mm = document.getElementById('modalMsg');
+    if (mt) mt.textContent = title;
+    if (mm) mm.textContent = msg;
+    modal.classList.add('show');
+  }
+
+  function wireModalClose(){
+    const modal = document.getElementById('modal');
+    if (!modal) return;
+    modal.addEventListener('click', (e)=>{
+      if (e.target.id === 'modal' || e.target.id === 'modalClose'){
+        modal.classList.remove('show');
+      }
+    });
+  }
+
+  function observeAndStart(){
+    const sec = document.getElementById('blessings');
+    if (sec && 'IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{
+          if (en.isIntersecting){
+            spawnBalloons();
+            io.disconnect();
+          }
+        });
+      }, {threshold:0.25, rootMargin:'0px 0px -20% 0px'});
+      io.observe(sec);
+    } else {
+      // Fallback if IO not available
+      spawnBalloons();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    wireModalClose();
+    observeAndStart();
+  });
+
+  // Manual trigger you can call after the welcome gate
+  window.startBalloons = function(){ spawnBalloons(); };
+})();
 
 /* =============== Greeting cards =============== */
 const greetingCards=[{title:'Nazar Na Lage 🧿',text:'May jealous eyes just slide off from you. May Kanhaji holds the roof, I’ll hold the door. Walk light, consider yourself covered.'},{title:'Food + Calm ☕️',text:'Morning breakfast or midnight munchings — whatever you crave, I’ll sort it. Ask if you want, or don’t; I’ll read the vibe.'},{title:'Calendar Bless 📅',text:'Gentler Mondays, kinder deadlines, and random mid-week pauses. May meetings end early and kids trouble you less in school.'},{title:'Inbox of Joy 📫',text:'More “good news” pings, fewer “urgent” ones. Spam blocked (except me haha), hope delivered. DMs get sunshine, not noise.'},{title:'Health & Glow ✨',text:'Good Exercise, Deep sleep, easy breath, steady energy. May your body feel like home and your face keep that soft glow forever.'},{title:'Safe Roads 🚦',text:'Every route clear, timing right, people kind. Text back is optional — arriving safe is the only update I might need.'}];
